@@ -25,7 +25,7 @@ export const focusReview = (name, editing, reviewEditFocusOnHeaders) => {
       scrollToElement(scrollName);
       const pageWrap = scrollElement.nextElementSibling;
 
-      const focusOnFirstFocusableElement = () => {
+      const focusOnFirstFocusableElement = (options = {}) => {
         const [target] = getFocusableElements(pageWrap, {
           returnWebComponent: true,
           focusableWebComponents: focusableWebComponentList,
@@ -47,7 +47,7 @@ export const focusReview = (name, editing, reviewEditFocusOnHeaders) => {
               .split(' ')
               .join('.')}`;
           }
-          focusOnChange(name, fixSelector(selector), shadowSelector);
+          focusOnChange(name, fixSelector(selector), shadowSelector, options);
         }
       };
 
@@ -80,7 +80,7 @@ export const focusReview = (name, editing, reviewEditFocusOnHeaders) => {
           }
         }, 250);
       } else {
-        focusOnFirstFocusableElement();
+        focusOnFirstFocusableElement({ focusNativeFormInput: true });
       }
     }
   }, 100);

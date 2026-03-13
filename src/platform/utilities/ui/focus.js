@@ -12,6 +12,7 @@ export const defaultFocusSelector =
  * @type {Object}
  * @property {Boolean} preventScroll - if true, no scrolling will occur
  * @property {Boolean} focusVisible - experimental: if true it will force a
+ * @property {Boolean} focusNativeFormInput - if true, set focus on a native form input inside the target element
  *  visible focus indicator to be seen
  */
 /**
@@ -51,7 +52,7 @@ export function focusElement(selectorOrElement, options = {}, root) {
   }
 
   if (isWebComponent(root) || isWebComponent(selectorOrElement, root)) {
-    querySelectorWithShadowRoot(selectorOrElement, root).then(
+    querySelectorWithShadowRoot(selectorOrElement, root, options).then(
       elWithShadowRoot => applyFocus(elWithShadowRoot), // async code
     );
   } else {

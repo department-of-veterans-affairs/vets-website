@@ -23,7 +23,8 @@ export const FOCUSABLE_ELEMENTS = [
   'button',
   'details',
   'input:not([type="hidden"])',
-  'select',
+  /* don't retrieve hidden select in va-combo-box */
+  'select:not(.usa-sr-only)',
   'textarea',
   /* focusable, but not tabbable */
   '[tabindex]:not([tabindex="-1"])',
