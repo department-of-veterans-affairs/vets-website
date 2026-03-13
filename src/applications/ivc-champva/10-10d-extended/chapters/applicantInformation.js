@@ -22,7 +22,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import ApplicantRelationshipPage from '../../shared/components/applicantLists/ApplicantRelationshipPage';
-import { applicantWording, nameWording } from '../../shared/utilities';
+import { applicantWording } from '../../shared/utilities';
 
 import { ApplicantRelOriginPage } from './ApplicantRelOriginPage';
 import { ApplicantGenderPage } from './ApplicantGenderPage';
@@ -46,6 +46,7 @@ import dependentStatus from './applicantInformation/dependentStatus';
 import schoolEnrollmentProof from './applicantInformation/schoolEnrollmentProof';
 import marriageDate from './applicantInformation/marriageDate';
 import stepchildMarriageProof from './applicantInformation/stepchildMarriageProof';
+import birthCertificate from './applicantInformation/birthCertificate';
 import ApplicantSummaryCard from '../components/FormDescriptions/ApplicantSummaryCard';
 import FileUploadDescription from '../components/FormDescriptions/FileUploadDescription';
 
@@ -234,52 +235,6 @@ const applicantRelationshipOriginPage = {
   },
 };
 
-const applicantBirthCertUploadPage = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      'Upload birth certificate',
-      ({ formData, formContext }) => {
-        const index = +formContext?.pagePerItemIndex; // NaN if not present
-        // since we don't have the standard access to full form data here,
-        // make use of the previously added `view:certifierRole` property.
-        const tmpFormData = {
-          ...formData,
-          /*
-          If idx is 0, we want to take certifier role into account. Otherwise not
-          because we consistently assume that if the certifier is an applicant
-          then they will be the first applicant. All other cases we should use 
-          third person addressing.
-          */
-          certifierRole: index === 0 ? formData?.['view:certifierRole'] : '',
-        };
-        const posessiveName = (
-          <span className="dd-privacy-hidden">
-            {nameWording(tmpFormData, true, false)}
-          </span>
-        );
-
-        return (
-          <p>
-            You’ll need to submit a copy of {posessiveName} birth certificate.
-          </p>
-        );
-      },
-    ),
-    ...descriptionUI(FileUploadDescription),
-    applicantBirthCertOrSocialSecCard: attachmentUI({
-      label: 'Upload copy of birth certificate',
-      attachmentId: 'Birth certificate',
-    }),
-  },
-  schema: {
-    type: 'object',
-    required: ['applicantBirthCertOrSocialSecCard'],
-    properties: {
-      applicantBirthCertOrSocialSecCard: attachmentSchema,
-    },
-  },
-};
-
 const applicantAdoptionUploadPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
@@ -429,7 +384,7 @@ export const applicantPages = arrayBuilderPages(
       path: 'applicant-birth-certificate/:index',
       title: 'Applicant birth certificate',
       depends: requireBirthCertificate,
-      ...applicantBirthCertUploadPage,
+      ...birthCertificate,
     }),
     page18d: pageBuilder.itemPage({
       path: 'applicant-adoption-documents/:index',
