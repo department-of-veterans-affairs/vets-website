@@ -51,10 +51,21 @@ const DISALLOWED_SPECS_IN_CHANGED_APPS = DISALLOWED_SPECS.filter(
     fs.existsSync(specPath),
 );
 
+const FORM_CONFIG_VALIDATOR_TEST =
+  'src/platform/forms/tests/forms-config-validator.unit.spec.jsx';
+const hasFormConfigChanges = CHANGED_FILES.some(
+  filePath =>
+    filePath.includes('/config/form.js') &&
+    filePath.startsWith('src/applications/'),
+);
+
 const TESTS_TO_STRESS_TEST = Array.from(
   new Set([
     ...CHANGED_SPEC_FILES.filter(filePath => fs.existsSync(filePath)),
     ...DISALLOWED_SPECS_IN_CHANGED_APPS,
+    ...(hasFormConfigChanges && fs.existsSync(FORM_CONFIG_VALIDATOR_TEST)
+      ? [FORM_CONFIG_VALIDATOR_TEST]
+      : []),
   ]),
 );
 
