@@ -29,6 +29,26 @@ export default {
 
       const capitalize = str =>
         str ? str.charAt(0).toUpperCase() + str.slice(1) : str;
+      const buildExpenseKey = (expense, index) => {
+        const provider = expense?.provider;
+        const type = expense?.expenseType;
+        const amount = expense?.amount;
+        const parts = [provider, type, amount].filter(Boolean);
+        if (parts.length) {
+          return `exp-${parts.join('-')}`;
+        }
+        return `exp-idx-${index}`;
+      };
+      const buildDebtKey = (debt, index) => {
+        const type = debt?.debtType;
+        const amount = debt?.debtAmount;
+        const creditor = debt?.creditorName;
+        const parts = [type, amount, creditor].filter(Boolean);
+        if (parts.length) {
+          return `debt-${parts.join('-')}`;
+        }
+        return `debt-idx-${index}`;
+      };
 
       return (
         <div>
@@ -50,7 +70,7 @@ export default {
                       ? `$${parseFloat(expense.amount).toFixed(2)}`
                       : '';
                     return (
-                      <li key={`exp-msg-${i}`}>
+                      <li key={buildExpenseKey(expense, i)}>
                         {type} from {provider}
                         {amount && ` — ${amount}`}
                       </li>
@@ -72,7 +92,7 @@ export default {
                       : '';
                     const creditor = debt?.creditorName;
                     return (
-                      <li key={`debt-msg-${i}`}>
+                      <li key={buildDebtKey(debt, i)}>
                         {type}
                         {creditor && ` owed to ${creditor}`}
                         {amount && ` — ${amount}`}
