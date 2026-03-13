@@ -18,7 +18,7 @@ describe('<BenefitCard>', () => {
     expect(container.querySelector('h3')).to.contain.text(benefit.name);
     expect(
       container.querySelector(
-        'p.vads-u-margin-y--0.vads-u-margin-bottom--neg0p5',
+        'p.vads-u-margin-y--0.vads-u-margin-bottom--neg1p5',
       ),
     ).to.contain.text(benefit.description);
     expect(container.querySelectorAll('va-link')).to.have.lengthOf(1);
