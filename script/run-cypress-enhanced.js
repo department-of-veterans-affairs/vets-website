@@ -5,22 +5,23 @@
 /**
  * Enhanced Cypress runner for vets-website.
  *
- * Improves on `yarn cy:run` for both humans and AI agents:
+ * Drop-in replacement for `cypress run` with additional features:
  *   - Resolves spec path → entryName automatically
  *   - Optionally starts its own dev server on a random port (--serve)
- *   - No retries (fail fast via cypress-ai.config.js)
- *   - No video recording
  *   - Full Cypress sidebar command log printed to terminal on failure
  *   - Hard process-level timeout with process-group kill
  *   - Structured summary at the end with errors, screenshots, diagnostics
  *
  * Usage:
- *   yarn cy:run:ai --spec "src/applications/.../test.cypress.spec.js"
- *   yarn cy:run:ai --spec "..." --serve       (start+stop dev server automatically)
- *   yarn cy:run:ai --spec "..." --timeout 120
- *   yarn cy:run:ai --spec "..." --quiet       (summary only, no Cypress output)
+ *   yarn cy:run --spec "src/applications/.../test.cypress.spec.js"
+ *   yarn cy:run --spec "..." --serve          (start+stop dev server automatically)
+ *   yarn cy:run --spec "..." --no-retry       (disable retries, fail fast)
+ *   yarn cy:run --spec "..." --no-video       (skip video recording)
+ *   yarn cy:run --spec "..." --timeout 120    (hard process timeout in seconds)
+ *   yarn cy:run --spec "..." --no-timeout     (disable hard timeout)
+ *   yarn cy:run --spec "..." --summary-only   (summary only, no Cypress output)
  *
- * All extra args (except --timeout, --quiet, --serve) are forwarded to `cypress run`.
+ * All extra args (except the above) are forwarded to `cypress run`.
  */
 
 const { spawn } = require('child_process');
@@ -31,7 +32,7 @@ const http = require('http');
 
 const DEFAULT_TIMEOUT_SECONDS = 180;
 const SERVE_COMPILE_TIMEOUT_MS = 120000; // 2 minutes to wait for webpack
-const AI_CONFIG = path.resolve(__dirname, '../config/cypress-ai.config.js');
+const DEFAULT_CONFIG = path.resolve(__dirname, '../config/cypress.config.js');
 const MANIFEST_CATALOG = path.resolve(
   __dirname,
   '../src/applications/manifest-catalog.json',
@@ -56,7 +57,7 @@ function stripAnsi(str) {
 // ---------------------------------------------------------------------------
 
 /**
- * Extract command log blocks printed by ai-support.js.
+ * Extract command log blocks printed by the enhanced support file.
  * Delimited by: --- FAILED: <title> ---\n...\n---
  */
 function extractCommandLogs(text) {
@@ -365,6 +366,9 @@ const rawArgs = process.argv.slice(2);
 let timeoutSeconds = DEFAULT_TIMEOUT_SECONDS;
 let quiet = false;
 let serve = false;
+let noRetry = false;
+let noVideo = false;
+let noTimeout = false;
 let specPath = null;
 
 const filteredArgs = [];
@@ -372,10 +376,16 @@ for (let i = 0; i < rawArgs.length; i++) {
   if (rawArgs[i] === '--timeout' && rawArgs[i + 1]) {
     timeoutSeconds = parseInt(rawArgs[i + 1], 10) || DEFAULT_TIMEOUT_SECONDS;
     i++;
-  } else if (rawArgs[i] === '--quiet') {
+  } else if (rawArgs[i] === '--summary-only') {
     quiet = true;
   } else if (rawArgs[i] === '--serve') {
     serve = true;
+  } else if (rawArgs[i] === '--no-retry') {
+    noRetry = true;
+  } else if (rawArgs[i] === '--no-video') {
+    noVideo = true;
+  } else if (rawArgs[i] === '--no-timeout') {
+    noTimeout = true;
   } else {
     if (rawArgs[i] === '--spec' && rawArgs[i + 1]) {
       specPath = rawArgs[i + 1];
@@ -530,15 +540,21 @@ function buildSummary({
 function runCypress({ port, entryName }) {
   return new Promise(resolve => {
     const baseUrl = `http://127.0.0.1:${port}`;
+
+    // Build dynamic config overrides
+    const configOverrides = [`baseUrl=${baseUrl}`];
+    if (noRetry) configOverrides.push('retries=0');
+    if (noVideo) configOverrides.push('video=false');
+
     const cypressArgs = [
       'run',
       '--config-file',
-      AI_CONFIG,
+      DEFAULT_CONFIG,
       '--browser',
       'chrome',
       '--headless',
       '--config',
-      `baseUrl=${baseUrl}`,
+      configOverrides.join(','),
       ...filteredArgs,
     ];
 
@@ -552,6 +568,7 @@ function runCypress({ port, entryName }) {
       env: {
         ...process.env,
         CYPRESS_EVERY_NTH_FRAME: '1',
+        CYPRESS_ENHANCED_RUNNER: '1',
         NO_COLOR: '1',
         FORCE_COLOR: '0',
       },
@@ -570,21 +587,23 @@ function runCypress({ port, entryName }) {
     });
 
     let hardTimeoutFired = false;
-    const hardTimeout = setTimeout(() => {
-      hardTimeoutFired = true;
-      process.stderr.write(
-        `\nHARD TIMEOUT: Cypress exceeded ${timeoutSeconds}s — killing process tree.\n` +
-          'Tip: increase with --timeout <seconds>\n',
-      );
-      try {
-        process.kill(-child.pid, 'SIGKILL');
-      } catch (e) {
-        child.kill('SIGKILL');
-      }
-    }, timeoutSeconds * 1000);
+    const hardTimeout = noTimeout
+      ? null
+      : setTimeout(() => {
+          hardTimeoutFired = true;
+          process.stderr.write(
+            `\nHARD TIMEOUT: Cypress exceeded ${timeoutSeconds}s — killing process tree.\n` +
+              'Tip: increase with --timeout <seconds> or disable with --no-timeout\n',
+          );
+          try {
+            process.kill(-child.pid, 'SIGKILL');
+          } catch (e) {
+            child.kill('SIGKILL');
+          }
+        }, timeoutSeconds * 1000);
 
     child.on('close', code => {
-      clearTimeout(hardTimeout);
+      if (hardTimeout) clearTimeout(hardTimeout);
       const totalTime = ((Date.now() - startTime) / 1000).toFixed(1);
       const clean = stripAnsi(rawOutput);
 
@@ -605,7 +624,7 @@ function runCypress({ port, entryName }) {
     });
 
     child.on('error', err => {
-      clearTimeout(hardTimeout);
+      if (hardTimeout) clearTimeout(hardTimeout);
       console.error(`\nFailed to start Cypress: ${err.message}`);
       resolve(1);
     });
@@ -622,8 +641,12 @@ async function main() {
   const appName = resolved ? resolved.appName : null;
 
   // Print header
-  const headerParts = ['no retries', 'no video', `${timeoutSeconds}s timeout`];
-  if (entryName) headerParts.unshift(`entry: ${entryName}`);
+  const headerParts = [];
+  if (entryName) headerParts.push(`entry: ${entryName}`);
+  if (noRetry) headerParts.push('no retries');
+  if (noVideo) headerParts.push('no video');
+  if (noTimeout) headerParts.push('no timeout');
+  else headerParts.push(`${timeoutSeconds}s timeout`);
   if (serve) headerParts.push('managed server');
 
   // --serve mode: start our own dev server on a free port
@@ -637,7 +660,7 @@ async function main() {
       process.exit(1);
     }
 
-    console.log(`\n--- Cypress AI Runner (${headerParts.join(', ')}) ---\n`);
+    console.log(`\n--- Cypress Enhanced Runner (${headerParts.join(', ')}) ---\n`);
 
     let server;
     try {
@@ -686,7 +709,7 @@ async function main() {
     console.error(`    ${watchCmd}`);
     console.error('');
     console.error('  Or use --serve to start one automatically:');
-    console.error(`    yarn cy:run:ai --serve --spec "..."`);
+    console.error(`    yarn cy:run --serve --spec "..."`);
     console.error('');
     console.error('='.repeat(72));
     console.error('');
@@ -694,7 +717,7 @@ async function main() {
   }
 
   process.stdout.write(
-    `\n--- Cypress AI Runner (${headerParts.join(', ')}) ---\n\n`,
+    `\n--- Cypress Enhanced Runner (${headerParts.join(', ')}) ---\n\n`,
   );
 
   const exitCode = await runCypress({ port: 3001, entryName });

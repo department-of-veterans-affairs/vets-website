@@ -22,7 +22,7 @@ let status = null;
 
 if (batch !== '') {
   status = runCommandSync(
-    `CYPRESS_EVERY_NTH_FRAME=1 yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.js" --spec '${batch}' --env app_url=${appUrl}`,
+    `CYPRESS_EVERY_NTH_FRAME=1 yarn cy:run:ci --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.js" --spec '${batch}' --env app_url=${appUrl}`,
   );
 } else {
   process.exit(0);

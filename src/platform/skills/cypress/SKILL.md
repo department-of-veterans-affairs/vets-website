@@ -37,7 +37,7 @@ If multiple specs match, list them and ask the user which to run (unless they sa
 Use `--serve` mode, which starts a dev server on a free port, runs the test, and tears it down:
 
 ```bash
-yarn cy:run:ai --serve --spec "<spec-path>" --quiet
+yarn cy:run --serve --no-retry --no-video --spec "<spec-path>" --summary-only
 ```
 
 This handles everything: resolves entryName, finds a free port, starts `yarn watch`, waits for compilation, runs Cypress, and cleans up after.
@@ -45,7 +45,7 @@ This handles everything: resolves entryName, finds a free port, starts `yarn wat
 **Fast mode:** If the user already has a dev server running on port 3001 (check with `curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:3001`), you can skip `--serve` for faster iteration (~5s vs ~60s):
 
 ```bash
-yarn cy:run:ai --spec "<spec-path>" --quiet
+yarn cy:run --no-retry --no-video --spec "<spec-path>" --summary-only
 ```
 
 ### 3. Handle results

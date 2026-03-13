@@ -1,17 +1,17 @@
 /**
- * AI-enhanced Cypress support file.
+ * Enhanced Cypress support: command log and console error capture on failure.
  *
- * Wraps the standard support/index.js and adds:
+ * Adds to the standard support/index.js:
  *   1. Command log capture — the full Cypress sidebar as text on failure
  *   2. Browser console error capture — JS errors that prevent rendering
  *   3. Screenshot path prediction — co-located with the command log output
  *
  * This bridges the gap between the rich browser-side state and the lossy
  * CLI error output that Cypress reporters provide.
+ *
+ * Loaded by the standard support/index.js when the enhanced runner is active
+ * (detected via CYPRESS_ENHANCED_RUNNER env var).
  */
-
-// Load the standard support file (all commands, hooks, intercepts)
-import './index';
 
 // ---------------------------------------------------------------------------
 // Command log capture
