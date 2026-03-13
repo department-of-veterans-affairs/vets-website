@@ -11,9 +11,9 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import StatementTable from '../../components/StatementTable';
-import { showVHAPaymentHistory } from '../../../combined/utils/helpers';
+import { useLighthouseCopays } from '../../../combined/utils/selectors';
 import StatementCharges from '../../components/StatementCharges';
-import mockstatements from '../../../combined/utils/mocks/mockStatements.json';
+import mockCopays from '../../../combined/utils/mocks/mockCopays.json';
 
 const createCharges = count => {
   return Array.from({ length: count }, (_, i) => ({
@@ -41,7 +41,7 @@ const createMockStore = (featureToggleValue = false) => {
   return createStore(() => ({
     featureToggles: {
       loading: false,
-      [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: featureToggleValue,
+      [FEATURE_FLAG_NAMES.useLighthouseCopays]: featureToggleValue,
     },
   }));
 };
@@ -51,10 +51,10 @@ describe('Feature Toggle Data Confirmation', () => {
     cleanup();
   });
 
-  it('showVHAPaymentHistory is true', () => {
+  it('useLighthouseCopays is true', () => {
     const mockState = {
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+        [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
       },
     };
 
@@ -75,7 +75,7 @@ describe('Feature Toggle Data Confirmation', () => {
 
     const firstRow = rows[1];
 
-    const result = showVHAPaymentHistory(mockState);
+    const result = useLighthouseCopays(mockState);
     expect(result).to.be.true;
 
     expect(firstRow).to.exist;
@@ -224,21 +224,19 @@ describe('Feature Toggle Data Confirmation', () => {
   });
 
   // TODO: to be removed once toggle is fully enabled
-  it('showVHAPaymentHistory is false', () => {
+  it('useLighthouseCopays is false', () => {
     const mockState = {
       featureToggles: {
         [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
       },
     };
 
-    const { container } = render(
-      <StatementCharges copay={mockstatements[2]} />,
-    );
+    const { container } = render(<StatementCharges copay={mockCopays[2]} />);
 
     // Query the custom elements directly
     const firstRow = container.querySelectorAll('va-table-row')[1];
 
-    const result = showVHAPaymentHistory(mockState);
+    const result = useLighthouseCopays(mockState);
     expect(result).to.be.false;
 
     expect(firstRow).to.exist;

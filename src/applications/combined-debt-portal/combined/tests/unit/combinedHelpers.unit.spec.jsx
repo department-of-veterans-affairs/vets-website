@@ -9,26 +9,31 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import MockDate from 'mockdate';
+import { APP_TYPES, ALERT_TYPES, API_RESPONSES } from '../../utils/constants';
 import {
-  APP_TYPES,
-  ALERT_TYPES,
-  API_RESPONSES,
-  selectLoadingFeatureFlags,
-  currency,
+  formatCurrency,
   formatTableData,
   titleCase,
   verifyCurrentBalance,
   transform,
   setPageFocus,
   formatDate,
+  formatISODateToMMDDYYYY,
   calcDueDate,
-  sortStatementsByDate,
+  sortCopaysByDate,
+  getCopayCharge,
+  getSortedDate,
+  isAnyElementFocused,
+  focusElement,
+} from '../../utils/helpers';
+import {
+  selectLoadingFeatureFlags,
   combinedPortalAccess,
   debtLettersShowLettersVBMS,
   showPaymentHistory,
   cdpAccessToggle,
-  showVHAPaymentHistory,
-} from '../../utils/helpers';
+  useLighthouseCopays,
+} from '../../utils/selectors';
 import OverviewPage from '../../containers/OverviewPage';
 
 describe('Helper Functions', () => {
@@ -81,10 +86,10 @@ describe('Helper Functions', () => {
     });
   });
 
-  describe('currency', () => {
+  describe('formatCurrency', () => {
     it('should format currency correctly', () => {
-      expect(currency(1234.56)).to.equal('$1,234.56');
-      expect(currency('1000')).to.equal('$1,000.00');
+      expect(formatCurrency(1234.56)).to.equal('$1,234.56');
+      expect(formatCurrency('1000')).to.equal('$1,000.00');
     });
   });
 
@@ -214,7 +219,7 @@ describe('Helper Functions', () => {
       expect(output[0].station.city).to.equal('Chicago');
     });
 
-    it('should preserve other statement properties', () => {
+    it('should preserve other copay properties', () => {
       const input = [
         {
           id: 'test-id',
@@ -234,6 +239,102 @@ describe('Helper Functions', () => {
       expect(output[0].station.state).to.equal('FL');
     });
   });
+  describe('getCopayCharge', () => {
+    it('should return details filtered to exclude &nbsp; description rows', () => {
+      const copay = {
+        details: [
+          { pDTransDescOutput: 'Valid charge', pDTransAmt: 100 },
+          { pDTransDescOutput: '&nbsp;Spacer row', pDTransAmt: 0 },
+          { pDTransDescOutput: 'Another charge', pDTransAmt: 50 },
+        ],
+      };
+      const result = getCopayCharge(copay);
+      expect(result).to.have.lengthOf(2);
+      expect(result[0].pDTransDescOutput).to.equal('Valid charge');
+      expect(result[1].pDTransDescOutput).to.equal('Another charge');
+    });
+
+    it('should return undefined when copay has no details', () => {
+      expect(getCopayCharge({})).to.be.undefined;
+      expect(getCopayCharge({ details: null })).to.be.undefined;
+    });
+
+    it('should return empty array when all details are &nbsp; rows', () => {
+      const copay = {
+        details: [{ pDTransDescOutput: '&nbsp;Spacer', pDTransAmt: 0 }],
+      };
+      const result = getCopayCharge(copay);
+      expect(result).to.deep.equal([]);
+    });
+
+    it('should handle no argument', () => {
+      expect(getCopayCharge()).to.be.undefined;
+    });
+  });
+
+  describe('getSortedDate', () => {
+    it('should return most recent date formatted as MM/dd/yyyy', () => {
+      const data = {
+        debtHistory: [
+          { date: '2023-01-15T12:00:00.000Z' },
+          { date: '2023-03-20T12:00:00.000Z' },
+          { date: '2023-02-10T12:00:00.000Z' },
+        ],
+      };
+      const result = getSortedDate(data);
+      expect(result).to.match(/^\d{2}\/\d{2}\/\d{4}$/);
+      expect(result).to.equal('03/20/2023');
+    });
+
+    it('should use custom key and dateField', () => {
+      const data = {
+        payments: [
+          { postedAt: '2024-06-01T12:00:00.000Z' },
+          { postedAt: '2024-05-15T12:00:00.000Z' },
+        ],
+      };
+      const result = getSortedDate(data, 'payments', 'postedAt');
+      expect(result).to.match(/^\d{2}\/\d{2}\/\d{4}$/);
+      expect(result).to.equal('06/01/2024');
+    });
+
+    it('should return empty string when data is empty or invalid', () => {
+      expect(getSortedDate(null)).to.equal('');
+      expect(getSortedDate(undefined)).to.equal('');
+      expect(getSortedDate({})).to.equal('');
+      expect(getSortedDate({ debtHistory: [] })).to.equal('');
+    });
+  });
+
+  describe('isAnyElementFocused', () => {
+    it('should return false when body has focus', () => {
+      document.body.focus();
+      expect(isAnyElementFocused()).to.be.false;
+    });
+
+    it('should return true when an input has focus', () => {
+      document.body.innerHTML = '<input id="test-input" />';
+      const input = document.getElementById('test-input');
+      input.focus();
+      expect(isAnyElementFocused()).to.be.true;
+    });
+  });
+
+  describe('focusElement', () => {
+    it('should set tabIndex -1 and focus the element', () => {
+      document.body.innerHTML = '<div id="target">Focus me</div>';
+      const el = document.getElementById('target');
+      focusElement(el);
+      expect(el.getAttribute('tabIndex')).to.equal('-1');
+      expect(document.activeElement).to.equal(el);
+    });
+
+    it('should do nothing when given null or undefined', () => {
+      expect(() => focusElement(null)).to.not.throw();
+      expect(() => focusElement(undefined)).to.not.throw();
+    });
+  });
+
   describe('setPageFocus', () => {
     it('should set focus on the correct element', () => {
       document.body.innerHTML = '<div id="main"><h1></h1></div>';
@@ -303,49 +404,49 @@ describe('Helper Functions', () => {
     });
   });
 
-  describe('sortStatementsByDate', () => {
-    it('should sort statements by date in descending order', () => {
-      const statements = [
+  describe('sortCopaysByDate', () => {
+    it('should sort copays by date in descending order', () => {
+      const copays = [
         { pSStatementDateOutput: '2023-01-01' },
         { pSStatementDateOutput: '2023-03-01' },
         { pSStatementDateOutput: '2023-02-01' },
       ];
-      const sorted = sortStatementsByDate(statements);
+      const sorted = sortCopaysByDate(copays);
       expect(sorted[0].pSStatementDateOutput).to.equal('2023-03-01');
       expect(sorted[1].pSStatementDateOutput).to.equal('2023-02-01');
       expect(sorted[2].pSStatementDateOutput).to.equal('2023-01-01');
     });
 
     it('should handle empty array', () => {
-      const statements = [];
-      const sorted = sortStatementsByDate(statements);
+      const copays = [];
+      const sorted = sortCopaysByDate(copays);
       expect(sorted).to.deep.equal([]);
     });
 
     it('should handle single statement', () => {
-      const statements = [{ pSStatementDateOutput: '2023-01-01' }];
-      const sorted = sortStatementsByDate(statements);
+      const copays = [{ pSStatementDateOutput: '2023-01-01' }];
+      const sorted = sortCopaysByDate(copays);
       expect(sorted.length).to.equal(1);
       expect(sorted[0].pSStatementDateOutput).to.equal('2023-01-01');
     });
 
     it('should handle identical dates', () => {
-      const statements = [
+      const copays = [
         { pSStatementDateOutput: '2023-01-01', id: 1 },
         { pSStatementDateOutput: '2023-01-01', id: 2 },
         { pSStatementDateOutput: '2023-01-01', id: 3 },
       ];
-      const sorted = sortStatementsByDate(statements);
+      const sorted = sortCopaysByDate(copays);
       expect(sorted.length).to.equal(3);
       expect(sorted[0].pSStatementDateOutput).to.equal('2023-01-01');
     });
 
     it('should preserve other properties', () => {
-      const statements = [
+      const copays = [
         { pSStatementDateOutput: '2023-01-01', amount: 100, type: 'debt' },
         { pSStatementDateOutput: '2023-02-01', amount: 200, type: 'copay' },
       ];
-      const sorted = sortStatementsByDate(statements);
+      const sorted = sortCopaysByDate(copays);
       expect(sorted[0].amount).to.equal(200);
       expect(sorted[0].type).to.equal('copay');
       expect(sorted[1].amount).to.equal(100);
@@ -353,12 +454,12 @@ describe('Helper Functions', () => {
     });
 
     it('should handle date strings with time', () => {
-      const statements = [
+      const copays = [
         { pSStatementDateOutput: '2023-01-01T10:00:00' },
         { pSStatementDateOutput: '2023-01-01T15:00:00' },
         { pSStatementDateOutput: '2023-01-01T08:00:00' },
       ];
-      const sorted = sortStatementsByDate(statements);
+      const sorted = sortCopaysByDate(copays);
       expect(sorted[0].pSStatementDateOutput).to.equal('2023-01-01T15:00:00');
       expect(sorted[1].pSStatementDateOutput).to.equal('2023-01-01T10:00:00');
       expect(sorted[2].pSStatementDateOutput).to.equal('2023-01-01T08:00:00');
@@ -387,21 +488,38 @@ describe('Helper Functions', () => {
     });
   });
 
-  describe('currency edge cases', () => {
+  describe('formatISODateToMMDDYYYY', () => {
+    it('should format ISO date string to MM/DD/YYYY', () => {
+      expect(formatISODateToMMDDYYYY('2023-05-15')).to.equal('05/15/2023');
+      expect(formatISODateToMMDDYYYY('2024-01-01')).to.equal('01/01/2024');
+    });
+
+    it('should pad single-digit month and day with zero', () => {
+      expect(formatISODateToMMDDYYYY('2023-06-05')).to.equal('06/05/2023');
+    });
+
+    it('should handle ISO string with time', () => {
+      expect(formatISODateToMMDDYYYY('2023-12-31T23:59:59.000Z')).to.equal(
+        '12/31/2023',
+      );
+    });
+  });
+
+  describe('formatCurrency edge cases', () => {
     it('should handle zero', () => {
-      expect(currency(0)).to.equal('$0.00');
+      expect(formatCurrency(0)).to.equal('$0.00');
     });
 
     it('should handle negative numbers', () => {
-      expect(currency(-100)).to.equal('-$100.00');
+      expect(formatCurrency(-100)).to.equal('-$100.00');
     });
 
     it('should handle very large numbers', () => {
-      expect(currency(1000000)).to.equal('$1,000,000.00');
+      expect(formatCurrency(1000000)).to.equal('$1,000,000.00');
     });
 
     it('should handle string with decimals', () => {
-      expect(currency('123.456')).to.equal('$123.46');
+      expect(formatCurrency('123.456')).to.equal('$123.46');
     });
   });
 
@@ -601,7 +719,7 @@ describe('Helper Functions', () => {
     });
   });
 
-  describe('OverviewPage sortedStatements and statementsByUniqueFacility', () => {
+  describe('OverviewPage sortedCopays and copaysByUniqueFacility', () => {
     const renderWithStore = (component, initialState) => {
       const store = createStore(
         combineReducers({
@@ -619,7 +737,7 @@ describe('Helper Functions', () => {
       );
     };
 
-    it('should pass mcp.statements.data to Balances when showVHAPaymentHistory is true', () => {
+    it('should pass mcp.copays.data to Balances when useLighthouseCopays is true', () => {
       const mockState = {
         user: {},
         combinedPortal: {
@@ -638,7 +756,7 @@ describe('Helper Functions', () => {
           mcp: {
             pending: false,
             error: null,
-            statements: {
+            copays: {
               data: [
                 {
                   id: '4-1abZUKu7xIvIw6',
@@ -681,7 +799,7 @@ describe('Helper Functions', () => {
           },
         },
         featureToggles: {
-          [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+          [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
           loading: false,
         },
       };
@@ -696,7 +814,7 @@ describe('Helper Functions', () => {
       expect(balanceCards[0].textContent).to.include('$150.25');
     });
 
-    it('should pass sorted statements to Balances when showVHAPaymentHistory is false', () => {
+    it('should pass sorted copays to Balances when useLighthouseCopays is false', () => {
       const mockState = {
         user: {},
         combinedPortal: {
@@ -709,7 +827,7 @@ describe('Helper Functions', () => {
           mcp: {
             pending: false,
             error: null,
-            statements: [
+            copays: [
               {
                 id: '1',
                 pSStatementDateOutput: '2023-01-01',
@@ -734,44 +852,44 @@ describe('Helper Functions', () => {
       const { container } = renderWithStore(<OverviewPage />, mockState);
 
       expect(container).to.exist;
-      // Verify component rendered - OverviewPage should pass sorted statements to Balances
+      // Verify component rendered - OverviewPage should pass sorted copays to Balances
       const balanceCards = container.querySelectorAll('va-card');
       expect(balanceCards.length).to.be.greaterThan(0);
       expect(balanceCards[0].textContent).to.include('$300');
     });
   });
 
-  it('showVHAPaymentHistory should return feature flag value true', () => {
+  it('useLighthouseCopays should return feature flag value true', () => {
     const mockState = {
       featureToggles: {
         [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
       },
     };
 
-    const result = showVHAPaymentHistory(mockState);
+    const result = useLighthouseCopays(mockState);
     expect(result).to.be.true;
   });
 
-  it('showVHAPaymentHistory should return feature flag value false', () => {
+  it('useLighthouseCopays should return feature flag value false', () => {
     const mockState = {
       featureToggles: {
         [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
       },
     };
 
-    const result = showVHAPaymentHistory(mockState);
+    const result = useLighthouseCopays(mockState);
     expect(result).to.be.false;
   });
 
-  describe('sortedStatements logic', () => {
-    it('should use mcp.statements.data when showVHAPaymentHistory is true', () => {
-      const shouldShowVHAPaymentHistory = true;
-      const statements = [
+  describe('sortedCopays logic', () => {
+    it('should use mcp.copays.data when useLighthouseCopays is true', () => {
+      const shouldUseLighthouseCopays = true;
+      const copays = [
         { pSStatementDateOutput: '2023-01-01' },
         { pSStatementDateOutput: '2023-03-01' },
       ];
       const mcp = {
-        statements: {
+        copays: {
           data: [
             { id: '1', attributes: { lastUpdatedAt: '2023-05-01' } },
             { id: '2', attributes: { lastUpdatedAt: '2023-06-01' } },
@@ -779,157 +897,157 @@ describe('Helper Functions', () => {
         },
       };
 
-      const sortedStatements = shouldShowVHAPaymentHistory
-        ? mcp.statements.data ?? []
-        : sortStatementsByDate(statements || []);
+      const sortedCopays = shouldUseLighthouseCopays
+        ? mcp.copays.data ?? []
+        : sortCopaysByDate(copays || []);
 
-      expect(sortedStatements).to.deep.equal(mcp.statements.data);
-      expect(sortedStatements.length).to.equal(2);
-      expect(sortedStatements[0].id).to.equal('1');
+      expect(sortedCopays).to.deep.equal(mcp.copays.data);
+      expect(sortedCopays.length).to.equal(2);
+      expect(sortedCopays[0].id).to.equal('1');
     });
 
-    it('should use sortStatementsByDate when showVHAPaymentHistory is false', () => {
-      const shouldShowVHAPaymentHistory = false;
-      const statements = [
+    it('should use sortCopaysByDate when useLighthouseCopays is false', () => {
+      const shouldUseLighthouseCopays = false;
+      const copays = [
         { pSStatementDateOutput: '2023-01-01' },
         { pSStatementDateOutput: '2023-03-01' },
         { pSStatementDateOutput: '2023-02-01' },
       ];
       const mcp = {
-        statements: {
+        copays: {
           data: [{ id: '1' }, { id: '2' }],
         },
       };
 
-      const sortedStatements = shouldShowVHAPaymentHistory
-        ? mcp.statements.data ?? []
-        : sortStatementsByDate(statements || []);
+      const sortedCopays = shouldUseLighthouseCopays
+        ? mcp.copays.data ?? []
+        : sortCopaysByDate(copays || []);
 
-      expect(sortedStatements.length).to.equal(3);
-      expect(sortedStatements[0].pSStatementDateOutput).to.equal('2023-03-01');
-      expect(sortedStatements[2].pSStatementDateOutput).to.equal('2023-01-01');
+      expect(sortedCopays.length).to.equal(3);
+      expect(sortedCopays[0].pSStatementDateOutput).to.equal('2023-03-01');
+      expect(sortedCopays[2].pSStatementDateOutput).to.equal('2023-01-01');
     });
 
-    it('should handle null statements when showVHAPaymentHistory is false', () => {
-      const shouldShowVHAPaymentHistory = false;
-      const statements = null;
+    it('should handle null copays when useLighthouseCopays is false', () => {
+      const shouldUseLighthouseCopays = false;
+      const copays = null;
       const mcp = {
-        statements: {
+        copays: {
           data: [],
         },
       };
 
-      const sortedStatements = shouldShowVHAPaymentHistory
-        ? mcp.statements.data ?? []
-        : sortStatementsByDate(statements || []);
+      const sortedCopays = shouldUseLighthouseCopays
+        ? mcp.copays.data ?? []
+        : sortCopaysByDate(copays || []);
 
-      expect(sortedStatements).to.deep.equal([]);
+      expect(sortedCopays).to.deep.equal([]);
     });
 
-    it('should use empty array fallback when mcp.statements.data is null and flag is true', () => {
-      const shouldShowVHAPaymentHistory = true;
-      const statements = [{ pSStatementDateOutput: '2023-01-01' }];
+    it('should use empty array fallback when mcp.copays.data is null and flag is true', () => {
+      const shouldUseLighthouseCopays = true;
+      const copays = [{ pSStatementDateOutput: '2023-01-01' }];
       const mcp = {
-        statements: {
+        copays: {
           data: null,
         },
       };
 
-      const sortedStatements = shouldShowVHAPaymentHistory
-        ? mcp.statements.data ?? []
-        : sortStatementsByDate(statements || []);
+      const sortedCopays = shouldUseLighthouseCopays
+        ? mcp.copays.data ?? []
+        : sortCopaysByDate(copays || []);
 
-      expect(sortedStatements).to.deep.equal([]);
+      expect(sortedCopays).to.deep.equal([]);
     });
   });
 
-  describe('statementsByUniqueFacility logic', () => {
-    it('should use facilityId with uniqBy when showVHAPaymentHistory is true', () => {
-      const shouldShowVHAPaymentHistory = true;
-      const mcpStatements = [
+  describe('copaysByUniqueFacility logic', () => {
+    it('should use facilityId with uniqBy when useLighthouseCopays is true', () => {
+      const shouldUseLighthouseCopays = true;
+      const mcpCopays = [
         { id: '1', facilityId: 'FAC123', name: 'First' },
         { id: '2', facilityId: 'FAC123', name: 'Duplicate' },
         { id: '3', facilityId: 'FAC456', name: 'Second' },
       ];
-      const sortedStatements = [
+      const sortedCopays = [
         { id: '1', pSFacilityNum: '789' },
         { id: '2', pSFacilityNum: '789' },
       ];
 
-      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
-        ? uniqBy(mcpStatements, 'facilityId')
-        : uniqBy(sortedStatements, 'pSFacilityNum');
+      const copaysByUniqueFacility = shouldUseLighthouseCopays
+        ? uniqBy(mcpCopays, 'facilityId')
+        : uniqBy(sortedCopays, 'pSFacilityNum');
 
-      expect(statementsByUniqueFacility.length).to.equal(2);
-      expect(statementsByUniqueFacility[0].facilityId).to.equal('FAC123');
-      expect(statementsByUniqueFacility[1].facilityId).to.equal('FAC456');
-      expect(statementsByUniqueFacility[0].name).to.equal('First');
+      expect(copaysByUniqueFacility.length).to.equal(2);
+      expect(copaysByUniqueFacility[0].facilityId).to.equal('FAC123');
+      expect(copaysByUniqueFacility[1].facilityId).to.equal('FAC456');
+      expect(copaysByUniqueFacility[0].name).to.equal('First');
     });
 
-    it('should use pSFacilityNum with uniqBy when showVHAPaymentHistory is false', () => {
-      const shouldShowVHAPaymentHistory = false;
-      const mcpStatements = [
+    it('should use pSFacilityNum with uniqBy when useLighthouseCopays is false', () => {
+      const shouldUseLighthouseCopays = false;
+      const mcpCopays = [
         { id: '1', facilityId: 'FAC123' },
         { id: '2', facilityId: 'FAC456' },
       ];
-      const sortedStatements = [
+      const sortedCopays = [
         { id: '1', pSFacilityNum: '789', city: 'New York' },
         { id: '2', pSFacilityNum: '789', city: 'New York' },
         { id: '3', pSFacilityNum: '456', city: 'Boston' },
       ];
 
-      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
-        ? uniqBy(mcpStatements, 'facilityId')
-        : uniqBy(sortedStatements, 'pSFacilityNum');
+      const copaysByUniqueFacility = shouldUseLighthouseCopays
+        ? uniqBy(mcpCopays, 'facilityId')
+        : uniqBy(sortedCopays, 'pSFacilityNum');
 
-      expect(statementsByUniqueFacility.length).to.equal(2);
-      expect(statementsByUniqueFacility[0].pSFacilityNum).to.equal('789');
-      expect(statementsByUniqueFacility[1].pSFacilityNum).to.equal('456');
-      expect(statementsByUniqueFacility[0].city).to.equal('New York');
+      expect(copaysByUniqueFacility.length).to.equal(2);
+      expect(copaysByUniqueFacility[0].pSFacilityNum).to.equal('789');
+      expect(copaysByUniqueFacility[1].pSFacilityNum).to.equal('456');
+      expect(copaysByUniqueFacility[0].city).to.equal('New York');
     });
 
     it('should handle empty arrays', () => {
-      const shouldShowVHAPaymentHistory = true;
-      const mcpStatements = [];
-      const sortedStatements = [];
+      const shouldUseLighthouseCopays = true;
+      const mcpCopays = [];
+      const sortedCopays = [];
 
-      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
-        ? uniqBy(mcpStatements, 'facilityId')
-        : uniqBy(sortedStatements, 'pSFacilityNum');
+      const copaysByUniqueFacility = shouldUseLighthouseCopays
+        ? uniqBy(mcpCopays, 'facilityId')
+        : uniqBy(sortedCopays, 'pSFacilityNum');
 
-      expect(statementsByUniqueFacility).to.deep.equal([]);
+      expect(copaysByUniqueFacility).to.deep.equal([]);
     });
 
     it('should handle all unique facilities when flag is true', () => {
-      const shouldShowVHAPaymentHistory = true;
-      const mcpStatements = [
+      const shouldUseLighthouseCopays = true;
+      const mcpCopays = [
         { id: '1', facilityId: 'FAC111' },
         { id: '2', facilityId: 'FAC222' },
         { id: '3', facilityId: 'FAC333' },
       ];
-      const sortedStatements = [];
+      const sortedCopays = [];
 
-      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
-        ? uniqBy(mcpStatements, 'facilityId')
-        : uniqBy(sortedStatements, 'pSFacilityNum');
+      const copaysByUniqueFacility = shouldUseLighthouseCopays
+        ? uniqBy(mcpCopays, 'facilityId')
+        : uniqBy(sortedCopays, 'pSFacilityNum');
 
-      expect(statementsByUniqueFacility.length).to.equal(3);
+      expect(copaysByUniqueFacility.length).to.equal(3);
     });
 
     it('should handle all unique facilities when flag is false', () => {
-      const shouldShowVHAPaymentHistory = false;
-      const mcpStatements = [];
-      const sortedStatements = [
+      const shouldUseLighthouseCopays = false;
+      const mcpCopays = [];
+      const sortedCopays = [
         { id: '1', pSFacilityNum: '111' },
         { id: '2', pSFacilityNum: '222' },
         { id: '3', pSFacilityNum: '333' },
       ];
 
-      const statementsByUniqueFacility = shouldShowVHAPaymentHistory
-        ? uniqBy(mcpStatements, 'facilityId')
-        : uniqBy(sortedStatements, 'pSFacilityNum');
+      const copaysByUniqueFacility = shouldUseLighthouseCopays
+        ? uniqBy(mcpCopays, 'facilityId')
+        : uniqBy(sortedCopays, 'pSFacilityNum');
 
-      expect(statementsByUniqueFacility.length).to.equal(3);
+      expect(copaysByUniqueFacility.length).to.equal(3);
     });
   });
 });

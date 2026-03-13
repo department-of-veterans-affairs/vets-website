@@ -6,7 +6,7 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Balances from '../../components/Balances';
-import { showVHAPaymentHistory } from '../../../combined/utils/helpers';
+import { useLighthouseCopays } from '../../../combined/utils/selectors';
 
 /**
  * Helper to render components with a mock Redux store
@@ -29,7 +29,7 @@ const renderWithStore = (component, initialState) => {
 };
 
 describe('Balances', () => {
-  it('showVHAPaymentHistory is true - renders with new data structure', () => {
+  it('useLighthouseCopays is true - renders with new data structure', () => {
     const mockState = {
       user: {},
       combinedPortal: {
@@ -48,7 +48,7 @@ describe('Balances', () => {
         mcp: {
           pending: false,
           error: null,
-          statements: {
+          copays: {
             data: [
               {
                 id: '4-1abZUKu7xIvIw6',
@@ -91,16 +91,16 @@ describe('Balances', () => {
         },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+        [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
         loading: false,
       },
     };
 
     const { container } = renderWithStore(
       <Balances
-        statements={mockState.combinedPortal.mcp.statements.data}
+        copays={mockState.combinedPortal.mcp.copays.data}
         paginationText="TRUE SET"
-        showVHAPaymentHistory
+        useLighthouseCopays
       />,
       mockState,
     );
@@ -143,12 +143,12 @@ describe('Balances', () => {
     expect(resolveLink.text).to.include('Resolve this bill');
 
     // Verify helper function returns true
-    const result = showVHAPaymentHistory(mockState);
+    const result = useLighthouseCopays(mockState);
     expect(result).to.be.true;
   });
 
   // TODO: to be removed once toggle is fully enabled
-  it('showVHAPaymentHistory is false - renders with legacy data structure', () => {
+  it('useLighthouseCopays is false - renders with legacy data structure', () => {
     const mockState = {
       user: {},
       combinedPortal: {
@@ -167,7 +167,7 @@ describe('Balances', () => {
         mcp: {
           pending: false,
           error: null,
-          statements: [
+          copays: [
             {
               id: '1',
               pSStatementDateOutput: '2025-01-05',
@@ -188,9 +188,9 @@ describe('Balances', () => {
 
     const { container } = renderWithStore(
       <Balances
-        statements={mockState.combinedPortal.mcp.statements}
+        copays={mockState.combinedPortal.mcp.copays}
         paginationText="FALSE SET"
-        showVHAPaymentHistory={false}
+        useLighthouseCopays={false}
       />,
       mockState,
     );
@@ -227,7 +227,7 @@ describe('Balances', () => {
     expect(resolveLink.text).to.include('Resolve this bill');
 
     // Verify helper function returns false
-    const result = showVHAPaymentHistory(mockState);
+    const result = useLighthouseCopays(mockState);
     expect(result).to.be.false;
   });
 });

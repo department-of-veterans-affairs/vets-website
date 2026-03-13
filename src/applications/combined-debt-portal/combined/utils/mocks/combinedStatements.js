@@ -1,8 +1,8 @@
-const mockStatements = require('./mockStatements.json');
+const mockCopays = require('./mockCopays.json');
 const mockDebts = require('./mockDebts.json');
 
 const happyPath = {
-  data: { mockStatements, mockDebts },
+  data: { mockCopays, mockDebts },
 };
 
 module.exports = { happyPath };

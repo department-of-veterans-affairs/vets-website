@@ -8,17 +8,14 @@ import {
 import PropTypes from 'prop-types';
 import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import { fetchDebtLetters } from '../actions/debts';
-import {
-  getAllCopayStatements,
-  getCopaySummaryStatements,
-} from '../actions/copays';
+import { getAllCopays, getAllLighthouseCopays } from '../actions/copays';
 import i18nCombinedDebtPortal from '../../i18n';
 import {
   combinedPortalAccess,
-  selectLoadingFeatureFlags,
   debtLettersShowLettersVBMS,
-  showVHAPaymentHistory,
-} from '../utils/helpers';
+  selectLoadingFeatureFlags,
+  useLighthouseCopays,
+} from '../utils/selectors';
 
 const CombinedPortalApp = ({ children }) => {
   const dispatch = useDispatch();
@@ -43,19 +40,17 @@ const CombinedPortalApp = ({ children }) => {
   const { isPending, isPendingVBMS, isProfileUpdating } = debtLetters;
   const isDebtLoading = isPending || isPendingVBMS || isProfileUpdating;
 
-  const shouldUseLightHouseCopayData = showVHAPaymentHistory(
-    useSelector(state => state),
-  );
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
 
   useEffect(
     () => {
       if (!profileLoading && userLoggedIn) {
         fetchDebtLetters(dispatch, debtLettersActive);
 
-        if (shouldUseLightHouseCopayData) {
-          getCopaySummaryStatements(dispatch);
+        if (shouldUseLighthouseCopays) {
+          getAllLighthouseCopays(dispatch);
         } else {
-          getAllCopayStatements(dispatch);
+          getAllCopays(dispatch);
         }
       }
     },
@@ -64,7 +59,7 @@ const CombinedPortalApp = ({ children }) => {
       dispatch,
       profileLoading,
       userLoggedIn,
-      shouldUseLightHouseCopayData,
+      shouldUseLighthouseCopays,
     ],
   );
 

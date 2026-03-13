@@ -25,7 +25,7 @@ const renderWithStore = (component, initialState) => {
           ...state,
           mcp: {
             ...state.mcp,
-            selectedStatement: action.payload,
+            currentCopay: action.payload,
             isCopayDetailLoading: false,
           },
         };
@@ -52,9 +52,9 @@ describe('Resolve Page Tests', () => {
   const initialState = {
     combinedPortal: {
       mcp: {
-        selectedStatement: {},
+        currentCopay: {},
         isCopayDetailLoading: false,
-        statements: [],
+        copays: [],
       },
       debtLetters: { debts: [], errors: [] },
     },
@@ -65,14 +65,14 @@ describe('Resolve Page Tests', () => {
     },
     featureToggles: {
       loading: false,
-      [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+      [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
     },
   };
 
   describe('ResolvePage', () => {
     const match = { params: { id: '4-1abZUKu7xIvIw6' } };
 
-    it('dispatches getCopayDetailStatement exactly once', async () => {
+    it('dispatches getCopayDetail exactly once', async () => {
       const { dispatchSpy } = renderWithStore(
         <ResolvePage match={match} />,
         initialState,

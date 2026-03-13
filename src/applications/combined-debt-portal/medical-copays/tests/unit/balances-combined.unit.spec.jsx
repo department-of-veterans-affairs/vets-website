@@ -6,7 +6,7 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Balances from '../../../combined/components/Balances';
-import { showVHAPaymentHistory } from '../../../combined/utils/helpers';
+import { useLighthouseCopays } from '../../../combined/utils/selectors';
 
 /**
  * Helper to render components with a mock Redux store
@@ -29,7 +29,7 @@ const renderWithStore = (component, initialState) => {
 };
 
 describe('Balances', () => {
-  it('shouldShowVHAPaymentHistory is true - renders with new data structure', () => {
+  it('shouldUseLighthouseCopays is true - renders with new data structure', () => {
     const mockState = {
       user: {},
       combinedPortal: {
@@ -48,7 +48,7 @@ describe('Balances', () => {
         mcp: {
           pending: false,
           error: null,
-          statements: {
+          copays: {
             data: [
               {
                 id: '4-1abZUKu7xIvIw6',
@@ -91,7 +91,7 @@ describe('Balances', () => {
         },
       },
       featureToggles: {
-        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+        [FEATURE_FLAG_NAMES.useLighthouseCopays]: true,
         loading: false,
       },
     };
@@ -116,12 +116,12 @@ describe('Balances', () => {
     expect(cardLink).to.exist;
 
     // Verify helper function returns true
-    const result = showVHAPaymentHistory(mockState);
+    const result = useLighthouseCopays(mockState);
     expect(result).to.be.true;
   });
 
   // TODO: to be removed once toggle is fully enabled
-  it('shouldShowVHAPaymentHistory is false - renders with legacy data structure', () => {
+  it('shouldUseLighthouseCopays is false - renders with legacy data structure', () => {
     const mockState = {
       user: {},
       combinedPortal: {
@@ -140,7 +140,7 @@ describe('Balances', () => {
         mcp: {
           pending: false,
           error: null,
-          statements: [
+          copays: [
             {
               id: '1',
               pSStatementDateOutput: '2025-01-05',
@@ -179,7 +179,7 @@ describe('Balances', () => {
     expect(cardLink).to.exist;
 
     // Verify helper function returns false
-    const result = showVHAPaymentHistory(mockState);
+    const result = useLighthouseCopays(mockState);
     expect(result).to.be.false;
   });
 

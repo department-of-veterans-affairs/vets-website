@@ -2,12 +2,9 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import {
-  setPageFocus,
-  ALERT_TYPES,
-  APP_TYPES,
-  debtLettersShowLettersVBMS,
-} from '../../combined/utils/helpers';
+import { ALERT_TYPES, APP_TYPES } from '../../combined/utils/constants';
+import { setPageFocus } from '../../combined/utils/helpers';
+import { debtLettersShowLettersVBMS } from '../../combined/utils/selectors';
 import DebtCardsList from '../components/DebtCardsList';
 // TODO: OtherVA Update
 import OtherVADebts from '../../combined/components/OtherVADebts';
@@ -16,9 +13,9 @@ import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 import ZeroDebtsCopaysSection from '../../combined/components/ZeroDebtsCopaysSection';
 import NeedHelp from '../components/NeedHelp';
 
-const renderAlert = (alertType, statements) => {
+const renderAlert = (alertType, copayCount) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.DEBT);
-  const showOther = statements > 0;
+  const showOther = copayCount > 0;
   const showVAReturnLink = !showOther && alertType !== ALERT_TYPES.ALL_ERROR;
 
   return alertType === ALERT_TYPES.ALL_ZERO ? (
@@ -84,7 +81,7 @@ const DebtLettersSummary = () => {
     isPendingVBMS,
     isProfileUpdating,
   } = debtLetters;
-  const { statements: mcpStatements, error: mcpError } = mcp;
+  const { copays: mcpCopays, error: mcpError } = mcp;
   const allDebtsEmpty =
     !debtError && debts.length === 0 && debtLinks.length === 0;
   const title = 'Overpayment balances';
@@ -107,18 +104,18 @@ const DebtLettersSummary = () => {
     if (debtError) {
       return renderAlert(
         mcpError ? ALERT_TYPES.ALL_ERROR : ALERT_TYPES.ERROR,
-        mcpStatements?.length,
+        mcpCopays?.length,
       );
     }
 
     if (allDebtsEmpty) {
-      return renderAlert(ALERT_TYPES.ZERO, mcpStatements?.length);
+      return renderAlert(ALERT_TYPES.ZERO, mcpCopays?.length);
     }
 
     return (
       <article className="vads-u-padding-x--0">
         <DebtCardsList />
-        {renderOtherVA(mcpStatements?.length, mcpError)}
+        {renderOtherVA(mcpCopays?.length, mcpError)}
         {showDebtLetterDownload ? (
           <section>
             <h2

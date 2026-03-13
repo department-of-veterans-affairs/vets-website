@@ -3,15 +3,15 @@ import { apiRequest } from 'platform/utilities/api';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import environment from 'platform/utilities/environment';
 
-export const MCP_STATEMENTS_FETCH_INIT = 'MCP_STATEMENTS_FETCH_INIT';
-export const MCP_STATEMENTS_FETCH_SUCCESS = 'MCP_STATEMENTS_FETCH_SUCCESS';
-export const MCP_STATEMENTS_FETCH_FAILURE = 'MCP_STATEMENTS_FETCH_FAILURE';
+export const MCP_COPAYS_FETCH_INIT = 'MCP_COPAYS_FETCH_INIT';
+export const MCP_COPAYS_FETCH_SUCCESS = 'MCP_COPAYS_FETCH_SUCCESS';
+export const MCP_COPAYS_FETCH_FAILURE = 'MCP_COPAYS_FETCH_FAILURE';
 export const MCP_DETAIL_FETCH_SUCCESS = 'MCP_DETAIL_FETCH_SUCCESS';
 export const MCP_DETAIL_FETCH_FAILURE = 'MCP_DETAIL_FETCH_FAILURE';
 export const MCP_DETAIL_FETCH_INIT = 'MCP_DETAIL_FETCH_INIT';
 
-export const mcpStatementsFetchInit = () => ({
-  type: MCP_STATEMENTS_FETCH_INIT,
+export const mcpCopaysFetchInit = () => ({
+  type: MCP_COPAYS_FETCH_INIT,
 });
 
 const titleCase = str => {
@@ -39,26 +39,26 @@ const getTransformedStation = station => {
 };
 
 const transform = data => {
-  return data.map(statement => {
-    if (!statement.station) {
-      return statement;
+  return data.map(copay => {
+    if (!copay.station) {
+      return copay;
     }
     return {
-      ...statement,
-      station: getTransformedStation(statement.station),
+      ...copay,
+      station: getTransformedStation(copay.station),
     };
   });
 };
 
-export const getAllCopayStatements = async dispatch => {
-  dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
+export const getAllCopays = async dispatch => {
+  dispatch({ type: MCP_COPAYS_FETCH_INIT });
 
   const dataUrl = `${environment.API_URL}/v0/medical_copays`;
 
   return apiRequest(dataUrl)
     .then(({ data }) => {
       return dispatch({
-        type: MCP_STATEMENTS_FETCH_SUCCESS,
+        type: MCP_COPAYS_FETCH_SUCCESS,
         response: transform(data),
       });
     })
@@ -69,21 +69,21 @@ export const getAllCopayStatements = async dispatch => {
         Sentry.captureMessage(`medical_copays failed: ${error.detail}`);
       });
       return dispatch({
-        type: MCP_STATEMENTS_FETCH_FAILURE,
+        type: MCP_COPAYS_FETCH_FAILURE,
         error,
       });
     });
 };
 
-export const getCopaySummaryStatements = async dispatch => {
-  dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
+export const getAllLighthouseCopays = async dispatch => {
+  dispatch({ type: MCP_COPAYS_FETCH_INIT });
 
   const dataUrl = `${environment.API_URL}/v1/medical_copays`;
 
   return apiRequest(dataUrl)
     .then(responseData => {
       return dispatch({
-        type: MCP_STATEMENTS_FETCH_SUCCESS,
+        type: MCP_COPAYS_FETCH_SUCCESS,
         response: responseData,
       });
     })
@@ -94,13 +94,13 @@ export const getCopaySummaryStatements = async dispatch => {
         Sentry.captureMessage(`medical_copays failed: ${error.detail}`);
       });
       return dispatch({
-        type: MCP_STATEMENTS_FETCH_FAILURE,
+        type: MCP_COPAYS_FETCH_FAILURE,
         error,
       });
     });
 };
 
-export const getCopayDetailStatement = copayId => async dispatch => {
+export const getCopayDetail = copayId => async dispatch => {
   dispatch({ type: MCP_DETAIL_FETCH_INIT });
 
   const dataUrl = `${environment.API_URL}/v1/medical_copays/${copayId}`;

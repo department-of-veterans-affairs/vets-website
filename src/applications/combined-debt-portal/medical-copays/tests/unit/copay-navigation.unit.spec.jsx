@@ -51,8 +51,8 @@ describe('CDP – Copay Pages (unit)', () => {
   const initialState = {
     combinedPortal: {
       mcp: {
-        statements: [selectedCopay],
-        selectedStatement: selectedCopay,
+        copays: [selectedCopay],
+        currentCopay: selectedCopay,
         error: null,
       },
       debtLetters: {
@@ -67,7 +67,7 @@ describe('CDP – Copay Pages (unit)', () => {
     },
     featureToggles: {
       loading: false,
-      showVHAPaymentHistory: false,
+      useLighthouseCopays: false,
     },
   };
 

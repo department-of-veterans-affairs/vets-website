@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { subDays } from 'date-fns';
 import { formatDate } from '../../combined/utils/helpers';
 
-const StatementCharges = ({ copay, showCurrentStatementHeader = false }) => {
+const StatementCharges = ({ copay, showCurrentCopayHeader = false }) => {
   const initialDate = new Date(copay.pSStatementDateOutput);
   const statementDate = formatDate(initialDate);
   const previousCopayStartDate = formatDate(subDays(initialDate, 30));
@@ -48,7 +48,7 @@ const StatementCharges = ({ copay, showCurrentStatementHeader = false }) => {
         id="statement-charges"
         className="vads-u-margin-bottom--0"
       >
-        {showCurrentStatementHeader
+        {showCurrentCopayHeader
           ? 'Most recent statement charges'
           : 'Statement Charges'}
       </h2>
@@ -72,7 +72,7 @@ const StatementCharges = ({ copay, showCurrentStatementHeader = false }) => {
 
 StatementCharges.propTypes = {
   copay: PropTypes.object,
-  showCurrentStatementHeader: PropTypes.bool,
+  showCurrentCopayHeader: PropTypes.bool,
 };
 
 export default StatementCharges;

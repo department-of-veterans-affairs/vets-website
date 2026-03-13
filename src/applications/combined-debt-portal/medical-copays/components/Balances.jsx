@@ -5,9 +5,9 @@ import BalanceCard from './BalanceCard';
 import { formatISODateToMMDDYYYY } from '../../combined/utils/helpers';
 
 export const Balances = ({
-  statements,
+  copays,
   paginationText,
-  showVHAPaymentHistory = false,
+  useLighthouseCopays = false,
 }) => {
   const single = (
     <>
@@ -27,16 +27,16 @@ export const Balances = ({
 
   return (
     <>
-      {statements?.length === 1 ? single : multiple}
-      {showVHAPaymentHistory ? null : (
+      {copays?.length === 1 ? single : multiple}
+      {useLighthouseCopays ? null : (
         <p>
           Any payments you have made will not be reflected here until our
           systems are updated with your next monthly statement.
         </p>
       )}
       <ul className="no-bullets vads-u-padding-x--0">
-        {statements?.map((balance, idx) => {
-          const facilityName = showVHAPaymentHistory
+        {copays?.map((balance, idx) => {
+          const facilityName = useLighthouseCopays
             ? balance.attributes.facility ||
               getMedicalCenterNameByID(balance.attributes.facility)
             : balance.station.facilityName ||
@@ -47,17 +47,17 @@ export const Balances = ({
               <BalanceCard
                 id={balance.id}
                 amount={
-                  showVHAPaymentHistory
+                  useLighthouseCopays
                     ? balance.attributes.currentBalance
                     : balance.pHAmtDue
                 }
                 date={
-                  showVHAPaymentHistory
+                  useLighthouseCopays
                     ? formatISODateToMMDDYYYY(balance.attributes.lastUpdatedAt)
                     : balance.pSStatementDateOutput
                 }
                 city={
-                  showVHAPaymentHistory
+                  useLighthouseCopays
                     ? balance.attributes?.city
                     : balance.station.city
                 }
@@ -73,9 +73,9 @@ export const Balances = ({
 };
 
 Balances.propTypes = {
+  copays: PropTypes.array,
   paginationText: PropTypes.string,
-  showVHAPaymentHistory: PropTypes.bool,
-  statements: PropTypes.array,
+  useLighthouseCopays: PropTypes.bool,
 };
 
 export default Balances;

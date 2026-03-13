@@ -4,11 +4,11 @@ import * as Sentry from '@sentry/browser';
 import * as apiModule from 'platform/utilities/api';
 import * as medicalCentersModule from 'platform/utilities/medical-centers/medical-centers';
 import {
-  MCP_STATEMENTS_FETCH_INIT,
-  MCP_STATEMENTS_FETCH_SUCCESS,
-  MCP_STATEMENTS_FETCH_FAILURE,
-  mcpStatementsFetchInit,
-  getAllCopayStatements,
+  MCP_COPAYS_FETCH_INIT,
+  MCP_COPAYS_FETCH_SUCCESS,
+  MCP_COPAYS_FETCH_FAILURE,
+  mcpCopaysFetchInit,
+  getAllCopays,
 } from '../../actions/copays';
 
 describe('copays actions', () => {
@@ -39,16 +39,16 @@ describe('copays actions', () => {
     sandbox.restore();
   });
 
-  describe('mcpStatementsFetchInit', () => {
-    it('should create an action to initiate fetching statements', () => {
+  describe('mcpCopaysFetchInit', () => {
+    it('should create an action to initiate fetching copays', () => {
       const expectedAction = {
-        type: MCP_STATEMENTS_FETCH_INIT,
+        type: MCP_COPAYS_FETCH_INIT,
       };
-      expect(mcpStatementsFetchInit()).to.deep.equal(expectedAction);
+      expect(mcpCopaysFetchInit()).to.deep.equal(expectedAction);
     });
   });
 
-  describe('getAllCopayStatements', () => {
+  describe('getAllCopays', () => {
     it('should dispatch FETCH_INIT and FETCH_SUCCESS actions when fetch succeeds', async () => {
       const fakeData = [
         {
@@ -61,13 +61,13 @@ describe('copays actions', () => {
       apiRequestStub.resolves({ data: fakeData });
       getMedicalCenterNameByIDStub.returns('Fake Medical Center');
 
-      await getAllCopayStatements(dispatch);
+      await getAllCopays(dispatch);
 
       expect(dispatch.firstCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_INIT,
+        type: MCP_COPAYS_FETCH_INIT,
       });
       expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_SUCCESS,
+        type: MCP_COPAYS_FETCH_SUCCESS,
         response: [
           {
             station: {
@@ -84,10 +84,10 @@ describe('copays actions', () => {
       const fakeData = [{ id: 1 }]; // Missing station info
       apiRequestStub.resolves({ data: fakeData });
 
-      await getAllCopayStatements(dispatch);
+      await getAllCopays(dispatch);
 
       expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_SUCCESS,
+        type: MCP_COPAYS_FETCH_SUCCESS,
         response: [{ id: 1 }],
       });
     });
@@ -105,10 +105,10 @@ describe('copays actions', () => {
       apiRequestStub.resolves({ data: fakeData });
       getMedicalCenterNameByIDStub.returns(null);
 
-      await getAllCopayStatements(dispatch);
+      await getAllCopays(dispatch);
 
       expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_SUCCESS,
+        type: MCP_COPAYS_FETCH_SUCCESS,
         response: [
           {
             id: 1,
@@ -125,13 +125,13 @@ describe('copays actions', () => {
     it('should handle network errors', async () => {
       apiRequestStub.rejects({ errors: [errors.notFoundError] });
 
-      await getAllCopayStatements(dispatch);
+      await getAllCopays(dispatch);
 
       expect(dispatch.firstCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_INIT,
+        type: MCP_COPAYS_FETCH_INIT,
       });
       expect(dispatch.secondCall.args[0]).to.deep.equal({
-        type: MCP_STATEMENTS_FETCH_FAILURE,
+        type: MCP_COPAYS_FETCH_FAILURE,
         error: errors.notFoundError,
       });
       expect(sentryCaptureMessageStub.calledOnce).to.be.true;
@@ -141,7 +141,7 @@ describe('copays actions', () => {
     });
   });
 
-  describe('getAllCopayStatements with various inputs', () => {
+  describe('getAllCopays with various inputs', () => {
     it('should correctly transform city names', async () => {
       const fakeData = [
         {
@@ -154,7 +154,7 @@ describe('copays actions', () => {
       apiRequestStub.resolves({ data: fakeData });
       getMedicalCenterNameByIDStub.returns('NYC Medical Center');
 
-      await getAllCopayStatements(dispatch);
+      await getAllCopays(dispatch);
 
       expect(dispatch.secondCall.args[0].response[0].station.city).to.equal(
         'New York City',
@@ -173,7 +173,7 @@ describe('copays actions', () => {
       apiRequestStub.resolves({ data: fakeData });
       getMedicalCenterNameByIDStub.returns('Some Medical Center');
 
-      await getAllCopayStatements(dispatch);
+      await getAllCopays(dispatch);
 
       expect(dispatch.secondCall.args[0].response[0].station.city).to.equal('');
     });
@@ -190,7 +190,7 @@ describe('copays actions', () => {
       apiRequestStub.resolves({ data: fakeData });
       getMedicalCenterNameByIDStub.returns('Washington Medical Center');
 
-      await getAllCopayStatements(dispatch);
+      await getAllCopays(dispatch);
 
       expect(dispatch.secondCall.args[0].response[0].station.city).to.equal(
         'Washington',

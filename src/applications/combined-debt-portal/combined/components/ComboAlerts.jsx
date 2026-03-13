@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
+import { ALERT_TYPES } from '../utils/constants';
 import {
-  ALERT_TYPES,
   healthResourceCenterPhoneContent,
   dmcPhoneContent,
 } from '../utils/helpers';

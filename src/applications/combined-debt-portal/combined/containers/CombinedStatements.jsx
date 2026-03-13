@@ -14,12 +14,12 @@ import environment from 'platform/utilities/environment';
 import last from 'lodash/last';
 import { parse, format } from 'date-fns';
 import Modals from '../components/Modals';
+import { APP_TYPES } from '../utils/constants';
 import {
-  currency,
+  formatCurrency,
   setPageFocus,
   handlePdfGeneration,
   formatDate,
-  APP_TYPES,
 } from '../utils/helpers';
 import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
@@ -68,7 +68,7 @@ const CombinedStatements = () => {
   const dataLoading = billsLoading || debtsLoading || isPendingVBMS;
 
   const debts = debtLetters.debts || [];
-  const bills = mcp.statements || [];
+  const bills = mcp.copays || [];
 
   // Pulling veteran contact information from the Redux store
   const mailingAddress = useSelector(selectVAPMailingAddress);
@@ -109,11 +109,11 @@ const CombinedStatements = () => {
     return 'Veteran';
   };
 
-  const getLatestPaymentDateFromCopayForFacility = statement => {
-    let latestPostedDate = last(statement.details)?.pDDatePostedOutput;
+  const getLatestPaymentDateFromCopayForFacility = copay => {
+    let latestPostedDate = last(copay.details)?.pDDatePostedOutput;
 
     if (latestPostedDate === '') {
-      latestPostedDate = statement.pSStatementDateOutput;
+      latestPostedDate = copay.pSStatementDateOutput;
     }
 
     if (!latestPostedDate) {
@@ -166,7 +166,7 @@ const CombinedStatements = () => {
           Total Due:
         </span>
         <span className="vads-u-font-weight--bold">
-          {currency(copay.pHAmtDue, 0)}
+          {formatCurrency(copay.pHAmtDue, 0)}
         </span>
       </va-table-row>
     );
@@ -179,7 +179,7 @@ const CombinedStatements = () => {
       <va-table-row>
         <span>Previous Balance</span>
         <span />
-        <span>{currency(parseFloat(copay.pHPrevBal || 0), 0)}</span>
+        <span>{formatCurrency(parseFloat(copay.pHPrevBal || 0), 0)}</span>
       </va-table-row>
     );
   };
@@ -191,7 +191,7 @@ const CombinedStatements = () => {
       <va-table-row>
         <span>Payments Received</span>
         <span />
-        <span>{currency(parseFloat(copay.pHTotCredits || 0), 0)}</span>
+        <span>{formatCurrency(parseFloat(copay.pHTotCredits || 0), 0)}</span>
       </va-table-row>
     );
   };
@@ -303,21 +303,21 @@ const CombinedStatements = () => {
 
           {/* Copay charges tables */}
           {bills && bills.length > 0 ? (
-            bills.map(statement => (
-              <div key={statement.station.facilityName}>
-                <h3>{statement.station.facilityName}</h3>
+            bills.map(copay => (
+              <div key={copay.station.facilityName}>
+                <h3>{copay.station.facilityName}</h3>
                 <p className="vads-u-margin-bottom--0">
                   Payments made after{' '}
-                  {getLatestPaymentDateFromCopayForFacility(statement)} will not
-                  be reflected here
+                  {getLatestPaymentDateFromCopayForFacility(copay)} will not be
+                  reflected here
                 </p>
 
                 <va-table
                   table-title={`Copay charges for ${
-                    statement.station.facilityName
+                    copay.station.facilityName
                   }`}
                   data-testid={`combined-statements-copay-table-${
-                    statement.station.facilityName
+                    copay.station.facilityName
                   }`}
                   className="vads-u-width--full"
                 >
@@ -326,22 +326,22 @@ const CombinedStatements = () => {
                     <span>Billing reference</span>
                     <span>Amount</span>
                   </va-table-row>
-                  {copayPreviousBalanceRow(statement)}
+                  {copayPreviousBalanceRow(copay)}
 
-                  {statement.details &&
-                    statement.details.map((charge, idx) => (
+                  {copay.details &&
+                    copay.details.map((charge, idx) => (
                       <va-table-row key={idx}>
                         <span>
                           {cleanHtmlEntities(charge.pDTransDescOutput)}
                         </span>
                         <span>{charge.pDRefNo}</span>
-                        <span>{currency(charge.pDTransAmt, 0)}</span>
+                        <span>{formatCurrency(charge.pDTransAmt, 0)}</span>
                       </va-table-row>
                     ))}
 
-                  {statement?.pHTotCredits !== 0 &&
-                    copayTotalPaymentsCreditsRow(statement)}
-                  {copayTotalRow(statement)}
+                  {copay?.pHTotCredits !== 0 &&
+                    copayTotalPaymentsCreditsRow(copay)}
+                  {copayTotalRow(copay)}
                 </va-table>
               </div>
             ))
@@ -422,7 +422,7 @@ const CombinedStatements = () => {
                           'VA Debt'}
                       </strong>
                     </span>
-                    <span>{currency(debtAmount, 0)}</span>
+                    <span>{formatCurrency(debtAmount, 0)}</span>
                   </va-table-row>
                 );
               })}
@@ -433,7 +433,7 @@ const CombinedStatements = () => {
                   Total Due:
                 </span>
                 <span className="vads-u-font-weight--bold">
-                  {currency(
+                  {formatCurrency(
                     debts.reduce(
                       (total, debt) =>
                         total +

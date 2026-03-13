@@ -9,13 +9,13 @@ import {
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
-  currency,
+  formatCurrency,
   calcDueDate,
   formatDate,
   verifyCurrentBalance,
-  showVHAPaymentHistory,
 } from '../../combined/utils/helpers';
-import { getCopayDetailStatement } from '../../combined/actions/copays';
+import { useLighthouseCopays } from '../../combined/utils/selectors';
+import { getCopayDetail } from '../../combined/actions/copays';
 
 const CurrentContent = ({ id, date }) => (
   <p className="vads-u-margin--0">
@@ -43,9 +43,7 @@ PastDueContent.propTypes = {
 };
 
 const BalanceCard = ({ id, amount, facility, city, date }) => {
-  const shouldShowVHAPaymentHistory = showVHAPaymentHistory(
-    useSelector(state => state),
-  );
+  const shouldUseLighthouseCopays = useSelector(useLighthouseCopays);
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -77,7 +75,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         data-testid={`amount-${id}`}
       >
         <span className="vads-u-font-weight--normal">Current balance: </span>
-        <strong>{currency(amount)}</strong>
+        <strong>{formatCurrency(amount)}</strong>
       </p>
       <div className="vads-u-display--flex vads-u-margin-top--0  vads-u-margin-bottom--1p5">
         <va-icon
@@ -99,8 +97,8 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
             data-testid={`detail-link-${id}`}
             onClick={event => {
               event.preventDefault();
-              if (shouldShowVHAPaymentHistory) {
-                dispatch(getCopayDetailStatement(`${id}`));
+              if (shouldUseLighthouseCopays) {
+                dispatch(getCopayDetail(`${id}`));
               }
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
               history.push(`/copay-balances/${id}`);
@@ -117,8 +115,8 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
             data-testid={`resolve-link-${id}`}
             onClick={event => {
               event.preventDefault();
-              if (shouldShowVHAPaymentHistory) {
-                dispatch(getCopayDetailStatement(`${id}`));
+              if (shouldUseLighthouseCopays) {
+                dispatch(getCopayDetail(`${id}`));
               }
               recordEvent({ event: 'cta-link-click-copay-balance-card' });
               history.push(`/copay-balances/${id}/resolve`);

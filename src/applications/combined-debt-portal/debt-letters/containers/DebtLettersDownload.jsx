@@ -2,10 +2,8 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import {
-  setPageFocus,
-  debtLettersShowLettersVBMS,
-} from '../../combined/utils/helpers';
+import { setPageFocus } from '../../combined/utils/helpers';
+import { debtLettersShowLettersVBMS } from '../../combined/utils/selectors';
 import DebtLettersTable from '../components/DebtLettersTable';
 import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 

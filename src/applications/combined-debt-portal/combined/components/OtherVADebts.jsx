@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { APP_TYPES } from '../utils/helpers';
+import { APP_TYPES } from '../utils/constants';
 
 const OtherVADebts = ({ module, subHeading }) => {
   const HeadingTag = subHeading ? 'h3' : 'h2';
