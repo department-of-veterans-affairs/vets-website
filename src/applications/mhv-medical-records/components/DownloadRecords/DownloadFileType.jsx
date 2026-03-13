@@ -97,9 +97,17 @@ const DownloadFileType = props => {
 
   const progressBarRef = useRef(null);
   const noRecordsFoundRef = useRef(null);
+  const isMounted = useRef(true);
 
   useFocusOutline(progressBarRef);
   useFocusOutline(noRecordsFoundRef);
+
+  // Cleanup: track mounted state to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   useEffect(
     () => {
@@ -395,7 +403,10 @@ const DownloadFileType = props => {
         sendDatadogError(error, 'Blue Button report - download_report_pdf');
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       } finally {
-        setIsGenerating(false);
+        // Only update state if component is still mounted
+        if (isMounted.current) {
+          setIsGenerating(false);
+        }
       }
     },
     [
@@ -451,7 +462,10 @@ const DownloadFileType = props => {
         sendDatadogError(error, 'Blue Button report - download_report_txt');
         dispatch(addAlert(ALERT_TYPE_BB_ERROR, error));
       } finally {
-        setIsGenerating(false);
+        // Only update state if component is still mounted
+        if (isMounted.current) {
+          setIsGenerating(false);
+        }
       }
     },
     [
@@ -548,7 +562,7 @@ const DownloadFileType = props => {
         )}
       {isDataFetched &&
         recordCount > 0 && (
-          <form onSubmit={e => handleSubmit(e)}>
+          <form onSubmit={handleSubmit}>
             <fieldset>
               <legend
                 className="vads-u-display--block vads-u-width--full vads-u-font-size--source-sans-normalized vads-u-font-weight--normal vads-u-padding-y--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light"
@@ -586,29 +600,20 @@ const DownloadFileType = props => {
                 <DownloadingRecordsInfo description="Blue Button Report" />
               </div>
             </fieldset>
-
-            <div className="medium-screen:vads-u-display--flex medium-screen:vads-u-flex-direction--row vads-u-align-items--center">
-              <button
-                type="button"
-                className="usa-button-secondary vads-u-margin-y--0p5"
-                onClick={handleBack}
-              >
-                <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center">
-                  <va-icon icon="navigate_far_before" size={2} />
-                  <span className="vads-u-margin-left--0p5">Back</span>
-                </div>
-              </button>
-              <button
-                type="submit"
-                className="vads-u-margin-y--0p5 vads-u-width--auto"
-                data-testid="download-report-button"
-                disabled={isGenerating}
-                aria-disabled={isGenerating || undefined}
-                aria-busy={isGenerating || undefined}
-              >
-                Download report
-              </button>
-            </div>
+            <ul className="mr-button-group">
+              <li className="mr-button-group__item">
+                <va-button back text="Back" secondary onClick={handleBack} />
+              </li>
+              <li className="mr-button-group__item">
+                <va-button
+                  text="Download report"
+                  submit="prevent"
+                  onClick={handleSubmit}
+                  loading={isGenerating}
+                  data-testid="download-report-button"
+                />
+              </li>
+            </ul>
           </form>
         )}
       <NeedHelpSection />
