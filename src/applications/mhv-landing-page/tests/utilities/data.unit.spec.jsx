@@ -118,6 +118,81 @@ describe(manifest.appName, () => {
     });
 
     describe('resolveLandingPageLinks', () => {
+      describe('spotlight links', () => {
+        it('patient spotlight links use eauth URLs and non-patient links use public myhealth.va.gov URLs', () => {
+          const featureToggles = {};
+          const { hubs, nonPatientHubs } = resolveLandingPageLinks(
+            true,
+            featureToggles,
+          );
+
+          // Find spotlight section in patient hubs
+          const patientSpotlight = hubs.find(
+            hub => hub.title === 'In the spotlight',
+          );
+          // Find spotlight section in non-patient hubs
+          const nonPatientSpotlight = nonPatientHubs.find(
+            hub => hub.title === 'In the spotlight',
+          );
+
+          expect(patientSpotlight).to.exist;
+          expect(nonPatientSpotlight).to.exist;
+
+          // Patient spotlight should have the new links
+          expect(patientSpotlight.links).to.have.lengthOf(3);
+          expect(patientSpotlight.links[0].text).to.equal(
+            "Don't miss a message from VA",
+          );
+          expect(patientSpotlight.links[1].text).to.equal(
+            'Travel pay: apply now on your phone',
+          );
+          expect(patientSpotlight.links[2].text).to.equal(
+            'VA mobile apps for a healthy new year',
+          );
+
+          // Patient spotlight links should NOT use public myhealth.va.gov URLs
+          patientSpotlight.links.forEach(link => {
+            expect(link.href).to.not.include('www.myhealth.va.gov');
+          });
+
+          // Non-patient spotlight should have the same new links with public URLs
+          expect(nonPatientSpotlight.links).to.have.lengthOf(3);
+          expect(nonPatientSpotlight.links[0].text).to.equal(
+            "Don't miss a message from VA",
+          );
+          expect(nonPatientSpotlight.links[0].href).to.include(
+            'www.myhealth.va.gov',
+          );
+          expect(nonPatientSpotlight.links[1].text).to.equal(
+            'Travel pay: apply now on your phone',
+          );
+          expect(nonPatientSpotlight.links[1].href).to.include(
+            'www.myhealth.va.gov',
+          );
+          expect(nonPatientSpotlight.links[2].text).to.equal(
+            'VA mobile apps for a healthy new year',
+          );
+          expect(nonPatientSpotlight.links[2].href).to.include(
+            'www.myhealth.va.gov',
+          );
+        });
+
+        it('patient spotlight links use eauth deep-linking', () => {
+          const featureToggles = {};
+          const { hubs } = resolveLandingPageLinks(true, featureToggles);
+
+          const patientSpotlight = hubs.find(
+            hub => hub.title === 'In the spotlight',
+          );
+
+          // All links should contain eauth.va.gov for authenticated users
+          patientSpotlight.links.forEach(link => {
+            expect(link.href).to.include('eauth.va.gov');
+            expect(link.href).to.include('deeplinking=');
+          });
+        });
+      });
+
       describe('paymentsLinks', () => {
         it('includes new appointments link when travelPaySubmitMileageExpense is enabled', () => {
           const featureToggles = {

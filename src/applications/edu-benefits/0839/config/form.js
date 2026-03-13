@@ -6,6 +6,8 @@ import transform from './transform';
 import { TITLE, SUBTITLE, SUBMIT_URL } from '../constants';
 import manifest from '../manifest.json';
 
+import prefillTransform from './prefillTransform';
+
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import PrivacyPolicy from '../components/PrivacyPolicy';
@@ -57,6 +59,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer: prefillTransform,
   preSubmitInfo: {
     statementOfTruth: {
       heading: 'Certification statement',
@@ -265,7 +268,15 @@ const formConfig = {
       },
     },
     pointsOfContactChapter: {
-      title: 'Points of contact',
+      title: () => {
+        const isAdditionalPointsOfContactPath =
+          typeof window !== 'undefined' &&
+          window.location?.pathname?.includes('/additional-points-of-contact');
+
+        return isAdditionalPointsOfContactPath
+          ? 'Point of contact'
+          : 'Points of contact';
+      },
       pages: {
         pointsOfContanct: {
           path: 'points-of-contact',

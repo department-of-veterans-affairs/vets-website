@@ -18,9 +18,8 @@ import {
   downtimeNotificationParams,
   Alerts,
 } from '../../util/constants';
-import { handleHeader, getPageTitle } from '../../util/helpers';
+import { handleHeader, getPageTitle, isCustomFolder } from '../../util/helpers';
 import { submitLaunchMyVaHealthAal } from '../../api/SmApi';
-import ManageFolderButtons from '../ManageFolderButtons';
 import SearchForm from '../Search/SearchForm';
 import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
@@ -180,9 +179,13 @@ const FolderHeader = props => {
             />
           )}
 
-        <>{handleFolderDescription()}</>
+        <>
+          {!(showNoMessages && isCustomFolder(folder.folderId)) &&
+            handleFolderDescription()}
+        </>
         {threadCount === 0 &&
-          showNoMessages && (
+          showNoMessages &&
+          isCustomFolder(folder.folderId) && (
             <div>
               <va-alert
                 background-only="true"
@@ -213,7 +216,6 @@ const FolderHeader = props => {
             threadCount={threadCount}
           />
         )}
-        <ManageFolderButtons folder={folder} />
       </>
     </>
   );

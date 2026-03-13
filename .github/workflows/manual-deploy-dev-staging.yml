@@ -71,14 +71,14 @@ jobs:
 
     env:
       dev: "{
-          \\\"environment\\\": \\\"vagovdev\\\", 
-          \\\"bucket\\\": \\\"dev.va.gov\\\", 
-          \\\"asset_bucket\\\": \\\"dev-va-gov-assets\\\"
+        \\\"environment\\\": \\\"vagovdev\\\",
+        \\\"bucket\\\": \\\"dev.va.gov\\\",
+        \\\"asset_bucket\\\": \\\"dev-va-gov-assets\\\"
         }"
       staging: "{
-          \\\"environment\\\": \\\"vagovstaging\\\", 
-          \\\"bucket\\\": \\\"staging.va.gov\\\", 
-          \\\"asset_bucket\\\": \\\"staging-va-gov-assets\\\"
+        \\\"environment\\\": \\\"vagovstaging\\\",
+        \\\"bucket\\\": \\\"staging.va.gov\\\",
+        \\\"asset_bucket\\\": \\\"staging-va-gov-assets\\\"
         }"
 
     steps:
@@ -97,9 +97,12 @@ jobs:
     name: Build
     runs-on: ubuntu-16-cores-latest
     needs: set-environment
+    permissions:
+      id-token: write
+      contents: read
     strategy:
       matrix: ${{ fromJson(needs.set-environment.outputs.environment) }}
-      
+
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -115,10 +118,57 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
+
+      # This fallback token is not a real token, this portion of a token prevents Mapbox from crashing
+      # when app specific tokens are unavailable for any reason, instead it will provide errors.
+      - name: Set Mapbox Token fallback
+        run: echo "MAPBOX_TOKEN=pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==" >> "$GITHUB_ENV"
+
+      - name: Get Mapbox Token (Facility Locator)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_facility_locator
+          env_variable_name: MAPBOX_TOKEN_FACILITY_LOCATOR
+
+      - name: Get Mapbox Token (Static Pages)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_static_pages
+          env_variable_name: MAPBOX_TOKEN_STATIC_PAGES
+
+      - name: Get Mapbox Token (GI)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_gi
+          env_variable_name: MAPBOX_TOKEN_GI
+
+      - name: Get Mapbox Token (Ask VA)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_ask_va
+          env_variable_name: MAPBOX_TOKEN_ASK_VA
+
+      - name: Get Mapbox Token (Caregivers)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_caregivers
+          env_variable_name: MAPBOX_TOKEN_CAREGIVERS
+
+      - name: Get Mapbox Token (Representative Search)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_representative_search
+          env_variable_name: MAPBOX_TOKEN_REPRESENTATIVE_SEARCH
+
       - name: Build
         run: yarn build --verbose --buildtype=${{ matrix.environment }}
-        timeout-minutes: 30  
-        
+        timeout-minutes: 30
+
       - name: Generate build details
         run: |
           cat > build/${{ matrix.environment }}/BUILD.txt << EOF
@@ -140,7 +190,7 @@ jobs:
         with:
           name: ${{ matrix.environment }}.tar.bz2
           path: ${{ matrix.environment }}.tar.bz2
-          retention-days: 1   
+          retention-days: 1
 
   deploy:
     name: Deploy

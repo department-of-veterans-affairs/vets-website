@@ -1,3 +1,8 @@
+export const ATTACHMENT_IDS = Object.freeze({
+  eob: 'EOB',
+  meddoc: 'MEDDOC',
+});
+
 export const CHAMPVA_FAX_NUMBER = '3033317809';
 export const CHAMPVA_PHONE_NUMBER = '8007338387';
 

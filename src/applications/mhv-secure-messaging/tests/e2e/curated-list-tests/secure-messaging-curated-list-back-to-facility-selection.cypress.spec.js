@@ -41,7 +41,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
       .clear()
       .type(`TEST BODY`);
 
-    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
+    PatientComposePage.clickSelectDifferentCareTeamLink();
 
     PilotEnvPage.selectTriageGroup(2);
 
@@ -78,7 +78,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     PatientMessageDraftsPage.loadDrafts();
     PatientMessageDraftsPage.loadSingleDraft();
 
-    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
+    PatientComposePage.clickSelectDifferentCareTeamLink();
 
     PilotEnvPage.selectTriageGroup(1);
 
@@ -115,7 +115,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     PatientMessageDraftsPage.loadDrafts();
     PatientMessageDraftsPage.loadSingleDraft();
 
-    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
+    PatientComposePage.clickSelectDifferentCareTeamLink();
     cy.findByTestId(`care-system-589`).should(
       `have.attr`,
       `checked`,
@@ -158,7 +158,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     cy.findByTestId(`continue-button`).click();
     PatientComposePage.selectCategory(draftMessage.category);
     PatientComposePage.getMessageSubjectField().type(draftMessage.subject);
-    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
+    PatientComposePage.clickSelectDifferentCareTeamLink();
     cy.findByText(Data.CURATED_LIST.CONTACT_LIST_UPDATE).click();
 
     cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
@@ -188,7 +188,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     );
     cy.wait('@new_draft');
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
+    PatientComposePage.clickSelectDifferentCareTeamLink();
     cy.findByText(Data.CURATED_LIST.CONTACT_LIST_UPDATE).click();
     cy.get(
       'va-modal[modal-title="Do you want to save your changes to this draft?"]',
@@ -226,7 +226,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     PatientComposePage.selectCategory(draftMessage.category);
     PatientComposePage.getMessageSubjectField().type(draftMessage.subject);
 
-    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
+    PatientComposePage.clickSelectDifferentCareTeamLink();
     cy.get('va-modal[modal-title="We can\'t save this message yet"]').should(
       'not.be.visible',
     );
@@ -250,7 +250,7 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     );
     cy.wait('@new_draft');
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
-    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
+    PatientComposePage.clickSelectDifferentCareTeamLink();
     cy.findByTestId(`compose-recipient-combobox`).click();
     PatientComposePage.selectComboBoxRecipient('###ABC_XYZ_TRIAGE_TEAM###');
 
@@ -327,7 +327,7 @@ describe('dynamically updating healthcare system', () => {
       .type(`TEST BODY`);
 
     // cy.findByText(`Select a different care team`).click();
-    cy.findByText(Data.CURATED_LIST.SELECT_CARE_TEAM).click();
+    PatientComposePage.clickSelectDifferentCareTeamLink();
 
     cy.findByTestId(`care-system-589`).should(
       `have.attr`,

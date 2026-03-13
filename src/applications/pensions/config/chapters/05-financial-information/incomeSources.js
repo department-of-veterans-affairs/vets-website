@@ -35,7 +35,7 @@ export default {
   depends: formData =>
     !showMultiplePageResponse() && doesReceiveIncome(formData),
   uiSchema: {
-    ...titleUI('Gross monthly income', IncomeSourceDescription),
+    ...titleUI('Your gross monthly income', IncomeSourceDescription),
     'view:informationAlert': {
       'ui:description': IncomeInformationAlert,
     },

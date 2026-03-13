@@ -1,3 +1,5 @@
+import { SESSION_SELECTED_FILTER_OPTION } from './session';
+
 // Filter keys
 export const ALL_MEDICATIONS_FILTER_KEY = 'ALL_MEDICATIONS';
 export const ACTIVE_FILTER_KEY = 'ACTIVE';
@@ -10,6 +12,32 @@ export const IN_PROGRESS_FILTER_KEY = 'IN_PROGRESS';
 export const SHIPPED_FILTER_KEY = 'SHIPPED';
 export const TRANSFERRED_FILTER_KEY = 'TRANSFERRED';
 export const STATUS_NOT_AVAILABLE_FILTER_KEY = 'STATUS_NOT_AVAILABLE';
+
+/**
+ * Resolve the effective filter option, defaulting to Active when
+ * management-improvements is on and no filter was explicitly chosen.
+ *
+ * @param {string} selectedFilterOption - The currently stored filter key
+ * @param {boolean} isManagementImprovements - Feature flag value
+ * @returns {string} The filter key to use
+ */
+export const getDefaultFilterOption = (
+  selectedFilterOption,
+  isManagementImprovements,
+) => {
+  if (
+    isManagementImprovements &&
+    selectedFilterOption === ALL_MEDICATIONS_FILTER_KEY
+  ) {
+    try {
+      const stored = sessionStorage.getItem(SESSION_SELECTED_FILTER_OPTION);
+      if (!stored) return ACTIVE_FILTER_KEY;
+    } catch {
+      // sessionStorage unavailable
+    }
+  }
+  return selectedFilterOption;
+};
 
 // Legacy filter options (VistA/MHV statuses)
 export const filterOptions = {
@@ -24,7 +52,7 @@ export const filterOptions = {
     name: 'filter option',
     description: 'Active prescriptions and non-VA medications',
     url:
-      '&filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On Hold,Active: Parked,Active: Submitted',
+      'filter[[disp_status][eq]]=Active,Active: Refill in Process,Active: Non-VA,Active: On Hold,Active: Parked,Active: Submitted',
     showingContentDisplayName: ' active',
   },
   [RECENTLY_REQUESTED_FILTER_KEY]: {
@@ -32,7 +60,7 @@ export const filterOptions = {
     name: 'filter option',
     description: 'Refill requests in process or shipped in the last 15 days',
     url:
-      '&filter[[disp_status][eq]]=Active: Refill in Process,Active: Submitted',
+      'filter[[disp_status][eq]]=Active: Refill in Process,Active: Submitted',
     showingContentDisplayName: ' recently requested',
   },
   [RENEWAL_FILTER_KEY]: {
@@ -40,7 +68,7 @@ export const filterOptions = {
     name: 'filter option',
     description:
       'Prescriptions that need renewal (no refills left or expired in last 120 days)',
-    url: '&filter[[disp_status][eq]]=Active,Expired',
+    url: 'filter[[disp_status][eq]]=Active,Expired',
     showingContentDisplayName: ' renewal needed before refill',
   },
   [NON_ACTIVE_FILTER_KEY]: {
@@ -48,7 +76,7 @@ export const filterOptions = {
     name: 'filter option',
     description:
       'Prescriptions that are discontinued, expired, or have an unknown status',
-    url: '&filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
+    url: 'filter[[disp_status][eq]]=Discontinued,Expired,Transferred,Unknown',
     showingContentDisplayName: ' non-active',
   },
 };
@@ -65,7 +93,7 @@ export const filterOptionsV2 = {
     label: 'Active',
     name: 'filter option',
     description: `Includes prescriptions you’re actively taking that have refills or prescriptions you can refill by contacting your provider`,
-    url: '&filter[[disp_status][eq]]=Active',
+    url: 'filter[[disp_status][eq]]=Active',
     showingContentDisplayName: ' active',
   },
   [IN_PROGRESS_FILTER_KEY]: {
@@ -73,21 +101,21 @@ export const filterOptionsV2 = {
     name: 'filter option',
     description:
       'Includes refill requests you submitted and refills the VA pharmacy is processing',
-    url: '&filter[[disp_status][eq]]=In progress',
+    url: 'filter[[disp_status][eq]]=In progress',
     showingContentDisplayName: ' in progress',
   },
   [SHIPPED_FILTER_KEY]: {
     label: 'Shipped',
     name: 'filter option',
     description: 'Includes refills with current tracking information available',
-    url: '&filter[[disp_status][eq]]=Active&filter[[is_trackable][eq]]=true',
+    url: 'filter[[disp_status][eq]]=Active&filter[[is_trackable][eq]]=true',
     showingContentDisplayName: ' shipped',
   },
   [RENEWABLE_FILTER_KEY]: {
     label: 'Renewal needed before refill',
     name: 'filter option',
     description: `Includes prescriptions you’re taking that have no refills left`,
-    url: '&filter[[is_renewable][eq]]=true',
+    url: 'filter[[is_renewable][eq]]=true',
     showingContentDisplayName: ' renewal needed before refill',
   },
   [INACTIVE_FILTER_KEY]: {
@@ -95,21 +123,21 @@ export const filterOptionsV2 = {
     name: 'filter option',
     description:
       'Includes prescriptions you can’t refill without contacting your provider first',
-    url: '&filter[[disp_status][eq]]=Inactive',
+    url: 'filter[[disp_status][eq]]=Inactive',
     showingContentDisplayName: ' inactive',
   },
   [TRANSFERRED_FILTER_KEY]: {
     label: 'Transferred',
     name: 'filter option',
     description: `A prescription moved to VA’s new electronic health record`,
-    url: '&filter[[disp_status][eq]]=Transferred',
+    url: 'filter[[disp_status][eq]]=Transferred',
     showingContentDisplayName: ' transferred',
   },
   [STATUS_NOT_AVAILABLE_FILTER_KEY]: {
     label: 'Status not available',
     name: 'filter option',
     description: '',
-    url: '&filter[[disp_status][eq]]=Status not available',
+    url: 'filter[[disp_status][eq]]=Status not available',
     showingContentDisplayName: ' status not available',
   },
 };

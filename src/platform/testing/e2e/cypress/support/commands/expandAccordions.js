@@ -1,3 +1,23 @@
+const expandCollapsedElement = (el, selector) => {
+  cy.wrap(el)
+    .shadow()
+    .then($shadow => {
+      const $collapsed = $shadow.find(selector);
+      if ($collapsed.length) cy.wrap($collapsed).click({ force: true });
+    });
+};
+
+const waitForAccordionHydration = () => {
+  cy.get('va-accordion-item', { timeout: 5000 })
+    .should('have.length.at.least', 1)
+    .each($item => {
+      cy.wrap($item)
+        .shadow()
+        .find('button', { timeout: 5000 })
+        .should('exist');
+    });
+};
+
 /**
  * Expands all Accordions and AdditionalInfo components.
  * Web Components that require Shadow DOM broken out from React Components
@@ -6,51 +26,27 @@ Cypress.Commands.add('expandAccordions', () => {
   Cypress.log();
 
   cy.get('main').then($main => {
-    // Check if va-accordion-item Web Component exists
     if ($main.find('va-accordion-item').length > 0) {
-      cy.get('va-accordion-item')
-        .shadow()
-        .then(accordion => {
-          // If it exists and Accordions are not already expanded
-          if (accordion.find('button[aria-expanded=false]').length > 0) {
-            cy.get('va-accordion-item')
-              .shadow()
-              .find('button[aria-expanded=false]')
-              .each(button => {
-                // Click to open Accordions
-                cy.wrap(button).click({ force: true });
-              });
-          }
-        });
+      waitForAccordionHydration();
+      cy.get('va-accordion-item').each($item => {
+        expandCollapsedElement($item, 'button[aria-expanded="false"]');
+      });
     }
-    // Check if va-additional-info Web Component exists
+
     if ($main.find('va-additional-info').length > 0) {
-      cy.get('va-additional-info')
-        .shadow()
-        .then(additionalInfo => {
-          // If it exists and Additional Info is not already expanded
-          if (
-            additionalInfo.find('a[role="button"][aria-expanded=false]')
-              .length > 0
-          ) {
-            cy.get('va-additional-info')
-              .shadow()
-              .find('a[role="button"][aria-expanded=false]')
-              .each(button => {
-                // Click to open Additional Info
-                cy.wrap(button).click({ force: true });
-              });
-          }
-        });
+      cy.get('va-additional-info').each($info => {
+        expandCollapsedElement(
+          $info,
+          'a[role="button"][aria-expanded="false"]',
+        );
+      });
     }
-    // Check if AdditionalInfo and/or Accordion React Components exist
-    // Check that the component is not already expanded
-    if ($main.find('button[aria-expanded=false]').length > 0) {
+
+    if ($main.find('button[aria-expanded="false"]').length > 0) {
       cy.get('main')
-        .find('button[aria-expanded=false]')
-        .each(button => {
-          // Click to open Accordion or Additional Info
-          cy.wrap(button).click({ force: true });
+        .find('button[aria-expanded="false"]')
+        .each($button => {
+          cy.wrap($button).click({ force: true });
         });
     }
   });

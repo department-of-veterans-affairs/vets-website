@@ -199,4 +199,29 @@ describe('medallions/utils/helpers', () => {
       expect(errors.addError.called).to.be.false;
     });
   });
+
+  describe('addressConfirmationRenderLine', () => {
+    it('should render line with break when content is provided', () => {
+      const result = helpers.addressConfirmationRenderLine('123 Main St');
+      const wrapper = shallow(<div>{result}</div>);
+      expect(wrapper.text()).to.include('123 Main St');
+      expect(wrapper.find('br')).to.have.lengthOf(1);
+      wrapper.unmount();
+    });
+
+    it('should return null when content is empty', () => {
+      const result = helpers.addressConfirmationRenderLine('');
+      expect(result).to.be.null;
+    });
+
+    it('should return null when content is null', () => {
+      const result = helpers.addressConfirmationRenderLine(null);
+      expect(result).to.be.null;
+    });
+
+    it('should return null when content is undefined', () => {
+      const result = helpers.addressConfirmationRenderLine(undefined);
+      expect(result).to.be.null;
+    });
+  });
 });

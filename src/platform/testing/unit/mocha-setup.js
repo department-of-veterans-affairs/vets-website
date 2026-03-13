@@ -85,6 +85,11 @@ global.__BUILDTYPE__ = process.env.BUILDTYPE || ENVIRONMENTS.VAGOVDEV;
 global.__API__ = null;
 global.__MEGAMENU_CONFIG__ = null;
 global.__REGISTRY__ = [];
+// Format-valid Mapbox placeholder so @mapbox/mapbox-sdk won't throw at
+// import time during unit tests. Real tokens from .env or CI override this.
+if (!process.env.MAPBOX_TOKEN) {
+  process.env.MAPBOX_TOKEN = 'pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==';
+}
 
 chai.use(chaiAsPromised);
 chai.use(chaiDOM);
@@ -152,7 +157,7 @@ function setupJSDom() {
   // Note: global.document is defined as a getter below to ensure modules
   // like axe-core always use the current window's document after beforeEach
   // creates a new JSDOM. See the Object.defineProperty for 'document' below.
-  
+
   // Use defineProperty for navigator since it's read-only in Node 22+
   Object.defineProperty(global, 'navigator', {
     value: { userAgent: 'node.js' },
@@ -160,7 +165,7 @@ function setupJSDom() {
     enumerable: true,
     writable: true,
   });
-  
+
   global.requestAnimationFrame = function(callback) {
     return setTimeout(callback, 0);
   };
@@ -212,7 +217,10 @@ function setupJSDom() {
               )
             ) {
               try {
-                const descriptor = Object.getOwnPropertyDescriptor(newWindow, prop);
+                const descriptor = Object.getOwnPropertyDescriptor(
+                  newWindow,
+                  prop,
+                );
                 if (descriptor) {
                   Object.defineProperty(currentRealWindow, prop, descriptor);
                 }
@@ -248,7 +256,9 @@ function setupJSDom() {
   window.dataLayer = [];
   window.matchMedia = () => ({
     matches: false,
+    addEventListener: f => f,
     addListener: f => f,
+    removeEventListener: f => f,
     removeListener: f => f,
   });
   window.scroll = () => {};
@@ -433,11 +443,13 @@ function wrapTimers() {
 }
 
 function clearPendingTimers() {
-  const { clearTimeout: origClearTimeout, clearInterval: origClearInterval } =
-    global._originalTimers || {
-      clearTimeout: global.clearTimeout,
-      clearInterval: global.clearInterval,
-    };
+  const {
+    clearTimeout: origClearTimeout,
+    clearInterval: origClearInterval,
+  } = global._originalTimers || {
+    clearTimeout: global.clearTimeout,
+    clearInterval: global.clearInterval,
+  };
   pendingTimers.timeouts.forEach(id => origClearTimeout(id));
   pendingTimers.intervals.forEach(id => origClearInterval(id));
   pendingTimers.timeouts.clear();
@@ -517,6 +529,5 @@ export const mochaHooks = {
     if (global.dom && global.dom.window) {
       global.dom.window.close();
     }
-  }
-
+  },
 };

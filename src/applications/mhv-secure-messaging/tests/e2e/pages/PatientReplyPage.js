@@ -11,7 +11,9 @@ class PatientReplyPage {
       }/thread*`,
       mockResponse,
     ).as(`getMessageRequest`);
-    cy.get(Locators.BUTTONS.REPLY).click();
+    cy.findByTestId(Locators.BUTTONS.REPLY)
+      .should('be.visible')
+      .click();
   };
 
   clickSendReplyMessageButton = mockReplyMessage => {
@@ -100,7 +102,8 @@ class PatientReplyPage {
     return cy
       .findByTestId(Locators.FIELDS.MESSAGE_BODY)
       .shadow()
-      .find(`#input-type-textarea`);
+      .find(`#input-type-textarea`)
+      .should('not.be.disabled');
   };
 
   verifySendMessageConfirmationMessageText = () => {

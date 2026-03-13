@@ -250,6 +250,23 @@ describe('blockedTriageGroupUtils', () => {
       expect(result.blockedList).to.have.length(2);
     });
 
+    it('returns null for unassociated current recipient with other blocked when userMessagePostMigration is true', () => {
+      const result = getBlockedTriageAlertConfig({
+        recipients: {
+          ...baseRecipients,
+          allRecipients: [{ id: 1, name: 'Other Team' }],
+          blockedRecipients: [
+            { id: 1, name: 'Blocked Team', stationNumber: '662' },
+          ],
+        },
+        currentRecipient: { recipientId: 999, name: 'Missing Team' },
+        parentComponent: ParentComponent.COMPOSE_FORM,
+        ehrDataByVhaId: {},
+        userMessagePostMigration: true,
+      });
+      expect(result).to.be.null;
+    });
+
     it('returns null for NOT_ASSOCIATED recipient when isOhMessage is true', () => {
       const result = getBlockedTriageAlertConfig({
         recipients: {

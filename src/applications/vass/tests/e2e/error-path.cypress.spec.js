@@ -4,6 +4,7 @@ import DateTimeSelectionPageObject from './page-objects/DateTimeSelectionPageObj
 import TopicSelectionPageObject from './page-objects/TopicSelectionPageObject';
 import ReviewPageObject from './page-objects/ReviewPageObject';
 import CancelAppointmentPageObject from './page-objects/CancelAppointmentPageObject';
+import ConfirmationPageObject from './page-objects/ConfirmationPageObject';
 import AlreadyScheduledPageObject from './page-objects/AlreadyScheduledPageObject';
 import {
   mockRequestOtpApi,
@@ -14,6 +15,7 @@ import {
   mockAppointmentDetailsApi,
   mockCancelAppointmentApi,
   patchCookiesForCI,
+  saveScreenshot,
 } from './vass-e2e-helpers';
 import MockRequestOtpResponse from '../fixtures/MockRequestOtpResponse';
 import MockAuthenticateOtpResponse from '../fixtures/MockAuthenticateOtpResponse';
@@ -50,7 +52,6 @@ describe('VASS Error Paths', () => {
 
         it('should display an error when identity verification fails for the first time', () => {
           VerifyPageObject.assertVerifyPage();
-          cy.injectAxeThenAxeCheck();
 
           VerifyPageObject.enterLastName('WrongName');
           VerifyPageObject.enterDateOfBirth('1990-01-01');
@@ -59,11 +60,12 @@ describe('VASS Error Paths', () => {
           cy.wait('@vass:post:request-otp');
 
           VerifyPageObject.assertInvalidCredentialsErrorAlert();
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_verify_invalidCredentials');
         });
 
         it('should display a verification error alert after 3 failed attempts', () => {
           VerifyPageObject.assertVerifyPage();
-          cy.injectAxeThenAxeCheck();
 
           VerifyPageObject.fillAndSubmitForm();
 
@@ -78,6 +80,8 @@ describe('VASS Error Paths', () => {
           VerifyPageObject.assertInvalidVerificationErrorAlert({
             exist: true,
           });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_verify_3FailedAttempts');
         });
       });
 
@@ -94,7 +98,6 @@ describe('VASS Error Paths', () => {
 
         it('should display a verification error alert', () => {
           VerifyPageObject.assertVerifyPage();
-          cy.injectAxeThenAxeCheck();
 
           VerifyPageObject.fillAndSubmitForm();
 
@@ -103,6 +106,8 @@ describe('VASS Error Paths', () => {
           VerifyPageObject.assertInvalidVerificationErrorAlert({
             exist: true,
           });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_verify_rateLimited');
         });
       });
 
@@ -119,13 +124,14 @@ describe('VASS Error Paths', () => {
 
         it('should display a wrapper error alert', () => {
           VerifyPageObject.assertVerifyPage();
-          cy.injectAxeThenAxeCheck();
 
           VerifyPageObject.fillAndSubmitForm();
 
           cy.wait('@vass:post:request-otp');
 
           VerifyPageObject.assertWrapperErrorAlert({ exist: true });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_verify_serverError500');
         });
       });
 
@@ -142,13 +148,14 @@ describe('VASS Error Paths', () => {
 
         it('should display a wrapper error alert', () => {
           VerifyPageObject.assertVerifyPage();
-          cy.injectAxeThenAxeCheck();
 
           VerifyPageObject.fillAndSubmitForm();
 
           cy.wait('@vass:post:request-otp');
 
           VerifyPageObject.assertWrapperErrorAlert({ exist: true });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_verify_serviceUnavailable503');
         });
       });
     });
@@ -160,20 +167,20 @@ describe('VASS Error Paths', () => {
       describe('when the user leaves the last name input empty', () => {
         it('should not submit the form and display an error when the user submits the form', () => {
           VerifyPageObject.assertVerifyPage();
-          cy.injectAxeThenAxeCheck();
 
           VerifyPageObject.enterLastName('');
           VerifyPageObject.enterDateOfBirth('1990-01-01');
           VerifyPageObject.clickSubmit();
 
           VerifyPageObject.assertLastNameError('Please enter your last name');
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_verify_emptyLastName');
         });
       });
 
       describe('when the user leaves the date of birth input empty', () => {
         it('should not submit the form and display an error when the user submits the form', () => {
           VerifyPageObject.assertVerifyPage();
-          cy.injectAxeThenAxeCheck();
 
           VerifyPageObject.enterLastName('Smith');
           VerifyPageObject.clickSubmit();
@@ -181,6 +188,8 @@ describe('VASS Error Paths', () => {
           VerifyPageObject.assertDateOfBirthError(
             'Please enter your date of birth',
           );
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_verify_emptyDateOfBirth');
         });
       });
     });
@@ -205,7 +214,6 @@ describe('VASS Error Paths', () => {
 
         it('should display an invalid OTP error', () => {
           EnterOTPPageObject.assertEnterOTPPage();
-          cy.injectAxeThenAxeCheck();
 
           EnterOTPPageObject.enterOTP('123456');
           EnterOTPPageObject.clickContinue();
@@ -217,6 +225,8 @@ describe('VASS Error Paths', () => {
             containsText:
               'The one-time verification code you entered doesn’t match the one we sent you. Check your email and try again.',
           });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_otp_invalidCode');
         });
 
         it('should display an invalid OTP error when the user has 1 remaining attempt', () => {
@@ -226,7 +236,6 @@ describe('VASS Error Paths', () => {
           });
 
           EnterOTPPageObject.assertEnterOTPPage();
-          cy.injectAxeThenAxeCheck();
 
           EnterOTPPageObject.enterOTP('123456');
           EnterOTPPageObject.clickContinue();
@@ -238,6 +247,8 @@ describe('VASS Error Paths', () => {
             containsText:
               'The one-time verification code you entered doesn’t match the one we sent you. You have 1 try left. Then you’ll need to wait 15 minutes before trying again.',
           });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_otp_lastAttempt');
         });
       });
 
@@ -251,7 +262,6 @@ describe('VASS Error Paths', () => {
 
         it('should display a verification error alert', () => {
           EnterOTPPageObject.assertEnterOTPPage();
-          cy.injectAxeThenAxeCheck();
 
           EnterOTPPageObject.enterOTP('123456');
           EnterOTPPageObject.clickContinue();
@@ -259,6 +269,8 @@ describe('VASS Error Paths', () => {
           cy.wait('@vass:post:authenticate-otp');
 
           EnterOTPPageObject.assertVerificationErrorPage();
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_otp_accountLocked');
         });
       });
 
@@ -272,14 +284,19 @@ describe('VASS Error Paths', () => {
 
         it('should display an OTP error alert', () => {
           EnterOTPPageObject.assertEnterOTPPage();
-          cy.injectAxeThenAxeCheck();
 
           EnterOTPPageObject.enterOTP('123456');
           EnterOTPPageObject.clickContinue();
 
           cy.wait('@vass:post:authenticate-otp');
 
-          EnterOTPPageObject.assertOTPErrorAlert({ exist: true });
+          EnterOTPPageObject.assertOTPErrorAlert({
+            exist: true,
+            containsText:
+              'The one-time verification code you entered has expired. Select the link in your email to get a new code and schedule a call.',
+          });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_otp_expired');
         });
       });
 
@@ -293,7 +310,6 @@ describe('VASS Error Paths', () => {
 
         it('should display a wrapper error alert', () => {
           EnterOTPPageObject.assertEnterOTPPage();
-          cy.injectAxeThenAxeCheck();
 
           EnterOTPPageObject.enterOTP('123456');
           EnterOTPPageObject.clickContinue();
@@ -301,6 +317,8 @@ describe('VASS Error Paths', () => {
           cy.wait('@vass:post:authenticate-otp');
 
           EnterOTPPageObject.assertWrapperErrorAlert({ exist: true });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_otp_serverError500');
         });
       });
 
@@ -314,7 +332,6 @@ describe('VASS Error Paths', () => {
 
         it('should display a wrapper error alert', () => {
           EnterOTPPageObject.assertEnterOTPPage();
-          cy.injectAxeThenAxeCheck();
 
           EnterOTPPageObject.enterOTP('123456');
           EnterOTPPageObject.clickContinue();
@@ -322,6 +339,8 @@ describe('VASS Error Paths', () => {
           cy.wait('@vass:post:authenticate-otp');
 
           EnterOTPPageObject.assertWrapperErrorAlert({ exist: true });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_otp_serviceUnavailable503');
         });
       });
     });
@@ -330,13 +349,14 @@ describe('VASS Error Paths', () => {
       describe('when the user leaves the OTP input empty', () => {
         it('should not submit the form and display an error when the user submits the form', () => {
           EnterOTPPageObject.assertEnterOTPPage();
-          cy.injectAxeThenAxeCheck();
 
           EnterOTPPageObject.submitEmptyForm();
 
           EnterOTPPageObject.assertOTPError(
             'Please enter your one-time verification code',
           );
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_otp_emptyInput');
         });
       });
 
@@ -344,7 +364,6 @@ describe('VASS Error Paths', () => {
         describe('when the user enters a non-numeric OTP', () => {
           it('should not submit the form and display an error when the user submits the form', () => {
             EnterOTPPageObject.assertEnterOTPPage();
-            cy.injectAxeThenAxeCheck();
 
             EnterOTPPageObject.enterOTP('aaaaaa');
             EnterOTPPageObject.clickContinue();
@@ -352,13 +371,14 @@ describe('VASS Error Paths', () => {
             EnterOTPPageObject.assertOTPError(
               'Your verification code should only contain numbers',
             );
+            cy.injectAxeThenAxeCheck();
+            saveScreenshot('vass_error_otp_nonNumericInput');
           });
         });
 
         describe('when the user enters a less than 6 digits OTP', () => {
           it('should not submit the form and display an error when the user submits the form', () => {
             EnterOTPPageObject.assertEnterOTPPage();
-            cy.injectAxeThenAxeCheck();
 
             EnterOTPPageObject.enterOTP('12345');
             EnterOTPPageObject.clickContinue();
@@ -366,6 +386,8 @@ describe('VASS Error Paths', () => {
             EnterOTPPageObject.assertOTPError(
               'Your verification code should be 6 digits',
             );
+            cy.injectAxeThenAxeCheck();
+            saveScreenshot('vass_error_otp_tooShort');
           });
         });
       });
@@ -399,9 +421,10 @@ describe('VASS Error Paths', () => {
       it('should display a wrapper error alert', () => {
         EnterOTPPageObject.fillAndSubmitOTP();
         cy.wait('@vass:get:appointment-availability');
-        cy.injectAxeThenAxeCheck();
 
         DateTimeSelectionPageObject.assertWrapperErrorAlert({ exist: true });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_availability_notWithinCohort');
       });
     });
 
@@ -426,9 +449,10 @@ describe('VASS Error Paths', () => {
         EnterOTPPageObject.fillAndSubmitOTP();
         cy.wait('@vass:get:appointment-availability');
         cy.wait('@vass:get:appointment-details');
-        cy.injectAxeThenAxeCheck();
 
         AlreadyScheduledPageObject.assertAlreadyScheduledPage();
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_availability_alreadyBooked');
       });
     });
 
@@ -443,9 +467,10 @@ describe('VASS Error Paths', () => {
       it('should display a wrapper error alert', () => {
         EnterOTPPageObject.fillAndSubmitOTP();
         cy.wait('@vass:get:appointment-availability');
-        cy.injectAxeThenAxeCheck();
 
         DateTimeSelectionPageObject.assertWrapperErrorAlert({ exist: true });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_availability_noSlots');
       });
     });
 
@@ -460,9 +485,10 @@ describe('VASS Error Paths', () => {
       it('should display a wrapper error alert', () => {
         EnterOTPPageObject.fillAndSubmitOTP();
         cy.wait('@vass:get:appointment-availability');
-        cy.injectAxeThenAxeCheck();
 
         DateTimeSelectionPageObject.assertWrapperErrorAlert({ exist: true });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_availability_serverError500');
       });
     });
 
@@ -477,9 +503,10 @@ describe('VASS Error Paths', () => {
       it('should display a wrapper error alert', () => {
         EnterOTPPageObject.fillAndSubmitOTP();
         cy.wait('@vass:get:appointment-availability');
-        cy.injectAxeThenAxeCheck();
 
         DateTimeSelectionPageObject.assertWrapperErrorAlert({ exist: true });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_availability_serviceUnavailable503');
       });
     });
   });
@@ -516,9 +543,10 @@ describe('VASS Error Paths', () => {
       it('should display a wrapper error alert', () => {
         DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
         cy.wait('@vass:get:topics');
-        cy.injectAxeThenAxeCheck();
 
         TopicSelectionPageObject.assertWrapperErrorAlert({ exist: true });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_topics_serverError500');
       });
     });
 
@@ -533,9 +561,10 @@ describe('VASS Error Paths', () => {
       it('should display a wrapper error alert', () => {
         DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
         cy.wait('@vass:get:topics');
-        cy.injectAxeThenAxeCheck();
 
         TopicSelectionPageObject.assertWrapperErrorAlert({ exist: true });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_topics_serviceUnavailable503');
       });
     });
   });
@@ -575,9 +604,10 @@ describe('VASS Error Paths', () => {
       it('should display a wrapper error alert', () => {
         ReviewPageObject.clickConfirmAppointment();
         cy.wait('@vass:post:appointment');
-        cy.injectAxeThenAxeCheck();
 
         ReviewPageObject.assertWrapperErrorAlert({ exist: true });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_create_saveFailed');
       });
     });
 
@@ -592,9 +622,10 @@ describe('VASS Error Paths', () => {
       it('should display a wrapper error alert', () => {
         ReviewPageObject.clickConfirmAppointment();
         cy.wait('@vass:post:appointment');
-        cy.injectAxeThenAxeCheck();
 
         ReviewPageObject.assertWrapperErrorAlert({ exist: true });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_create_serverError500');
       });
     });
 
@@ -609,9 +640,10 @@ describe('VASS Error Paths', () => {
       it('should display a wrapper error alert', () => {
         ReviewPageObject.clickConfirmAppointment();
         cy.wait('@vass:post:appointment');
-        cy.injectAxeThenAxeCheck();
 
         ReviewPageObject.assertWrapperErrorAlert({ exist: true });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_create_serviceUnavailable503');
       });
     });
   });
@@ -652,9 +684,10 @@ describe('VASS Error Paths', () => {
       it('should display a wrapper error alert', () => {
         ReviewPageObject.clickConfirmAppointment();
         cy.wait('@vass:post:appointment');
-        cy.injectAxeThenAxeCheck();
 
         ReviewPageObject.assertWrapperErrorAlert({ exist: true });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_details_notFound');
       });
     });
 
@@ -669,9 +702,10 @@ describe('VASS Error Paths', () => {
       it('should display a wrapper error alert', () => {
         ReviewPageObject.clickConfirmAppointment();
         cy.wait('@vass:post:appointment');
-        cy.injectAxeThenAxeCheck();
 
         ReviewPageObject.assertWrapperErrorAlert({ exist: true });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_details_serverError500');
       });
     });
 
@@ -686,9 +720,10 @@ describe('VASS Error Paths', () => {
       it('should display a wrapper error alert', () => {
         ReviewPageObject.clickConfirmAppointment();
         cy.wait('@vass:post:appointment');
-        cy.injectAxeThenAxeCheck();
 
         ReviewPageObject.assertWrapperErrorAlert({ exist: true });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_details_serviceUnavailable503');
       });
     });
   });
@@ -743,12 +778,13 @@ describe('VASS Error Paths', () => {
         cy.wait('@vass:post:authenticate-otp');
         CancelAppointmentPageObject.clickYesCancelAppointment();
         cy.wait('@vass:post:cancel-appointment');
-        cy.injectAxeThenAxeCheck();
 
         CancelAppointmentPageObject.assertWrapperErrorAlert({
           exist: true,
           flowType: FLOW_TYPES.CANCEL,
         });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_cancel_failed');
       });
     });
 
@@ -764,12 +800,13 @@ describe('VASS Error Paths', () => {
         EnterOTPPageObject.fillAndSubmitOTP();
         cy.wait('@vass:post:authenticate-otp');
         cy.wait('@vass:get:appointment-details');
-        cy.injectAxeThenAxeCheck();
 
         CancelAppointmentPageObject.assertWrapperErrorAlert({
           exist: true,
           flowType: FLOW_TYPES.CANCEL,
         });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_cancel_appointmentNotFound');
       });
     });
 
@@ -786,12 +823,13 @@ describe('VASS Error Paths', () => {
         cy.wait('@vass:post:authenticate-otp');
         CancelAppointmentPageObject.clickYesCancelAppointment();
         cy.wait('@vass:post:cancel-appointment');
-        cy.injectAxeThenAxeCheck();
 
         CancelAppointmentPageObject.assertWrapperErrorAlert({
           exist: true,
           flowType: FLOW_TYPES.CANCEL,
         });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_cancel_cancellationNotFound');
       });
     });
 
@@ -808,12 +846,13 @@ describe('VASS Error Paths', () => {
         cy.wait('@vass:post:authenticate-otp');
         CancelAppointmentPageObject.clickYesCancelAppointment();
         cy.wait('@vass:post:cancel-appointment');
-        cy.injectAxeThenAxeCheck();
 
         CancelAppointmentPageObject.assertWrapperErrorAlert({
           exist: true,
           flowType: FLOW_TYPES.CANCEL,
         });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_cancel_serverError500');
       });
     });
 
@@ -830,12 +869,13 @@ describe('VASS Error Paths', () => {
         cy.wait('@vass:post:authenticate-otp');
         CancelAppointmentPageObject.clickYesCancelAppointment();
         cy.wait('@vass:post:cancel-appointment');
-        cy.injectAxeThenAxeCheck();
 
         CancelAppointmentPageObject.assertWrapperErrorAlert({
           exist: true,
           flowType: FLOW_TYPES.CANCEL,
         });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_cancel_serviceUnavailable503');
       });
     });
   });
@@ -864,13 +904,13 @@ describe('VASS Error Paths', () => {
         cy.wait('@vass:post:authenticate-otp');
         cy.wait('@vass:get:appointment-availability');
         DateTimeSelectionPageObject.assertDateTimeSelectionPage();
-        cy.injectAxeThenAxeCheck();
         cy.on('window:confirm', text => {
           expect(text).to.contains(
             'This page is asking you to confirm that you want to leave — information you’ve entered may not be saved',
           );
           return true; // accept
         });
+        cy.injectAxeThenAxeCheck();
         cy.go('back');
       });
     });
@@ -881,9 +921,61 @@ describe('VASS Error Paths', () => {
       });
 
       it('should show the wrapper error alert', () => {
+        VerifyPageObject.assertWrapperErrorAlert({ exist: true });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_navigation_noUuid');
+      });
+    });
+
+    describe('when the user decides not to cancel the appointment', () => {
+      const appointmentId = 'abcdef123456';
+      beforeEach(() => {
+        mockRequestOtpApi();
+        const authenticateOtpResponse = new MockAuthenticateOtpResponse({
+          token: createMockJwt(uuid, expiresIn),
+          expiresIn,
+        }).toJSON();
+        mockAuthenticateOtpApi({
+          response: authenticateOtpResponse,
+          responseCode: 200,
+        });
+        mockAppointmentAvailabilityApi({
+          response: new MockAppointmentAvailabilityResponse({
+            appointmentId,
+            availableSlots: MockAppointmentAvailabilityResponse.createSlots(),
+          }).toJSON(),
+          responseCode: 200,
+        });
+        mockAppointmentDetailsApi({
+          response: new MockAppointmentDetailsResponse({
+            appointmentId,
+          }).toJSON(),
+          responseCode: 200,
+        });
+
+        cy.visit(
+          `/service-member/benefits/solid-start/schedule?uuid=${uuid}&cancel=true`,
+        );
+        VerifyPageObject.fillAndSubmitForm();
+        cy.wait('@vass:post:request-otp');
+      });
+
+      it('should navigate to the appointment details page', () => {
+        EnterOTPPageObject.fillAndSubmitOTP();
+        cy.wait('@vass:post:authenticate-otp');
+        cy.wait('@vass:get:appointment-availability');
+        cy.wait('@vass:get:appointment-details');
+
+        CancelAppointmentPageObject.assertCancelAppointmentPage();
         cy.injectAxeThenAxeCheck();
 
-        VerifyPageObject.assertWrapperErrorAlert({ exist: true });
+        CancelAppointmentPageObject.clickNoDontCancel();
+
+        ConfirmationPageObject.assertDetailsOnlyPage({
+          agentName: 'Agent Smith',
+        });
+        cy.injectAxeThenAxeCheck();
+        saveScreenshot('vass_error_navigation_noCancelAppointment');
       });
     });
   });

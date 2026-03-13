@@ -227,7 +227,9 @@ describe('Folder Thread List View container', () => {
       expect(alert)
         .to.have.attribute('status')
         .to.equal('error');
-      expect(screen.getByText(Alerts.Message.SERVER_ERROR_503)).to.exist;
+      expect(screen.getByTestId('alert-text').textContent).to.equal(
+        Alerts.Message.SERVER_ERROR_503,
+      );
       // sr-only span exists with delayed content (populated after H1 focusin + 1s or 3s fallback)
       const srSpan = screen.getByTestId('sr-only-alert-text');
       expect(srSpan).to.exist;

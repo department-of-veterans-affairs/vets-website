@@ -10,39 +10,26 @@ const NeedHelp = ({ page, headingLevel = 3 }) => {
   );
 
   // Memoize DataDog action names based on page type to prevent recalculation on every render
-  // TODO add handling for in-progress page datadog actions
   const actionNames = useMemo(
     () => {
-      const isListPage = page === pageType.LIST;
+      const pageActionMap = {
+        [pageType.LIST]: dataDogActionNames.medicationsListPage,
+        [pageType.REFILL]: dataDogActionNames.refillPage,
+        [pageType.HISTORY]: dataDogActionNames.medicationsHistoryPage,
+        [pageType.IN_PROGRESS]: dataDogActionNames.inProgressPage,
+      };
+
+      const pageActions = pageActionMap[page] || dataDogActionNames.refillPage;
+
       return {
-        allergiesLink: isListPage
-          ? dataDogActionNames.medicationsListPage
-              .GO_TO_ALLERGIES_AND_REACTIONS_LINK
-          : dataDogActionNames.refillPage.GO_TO_ALLERGIES_AND_REACTIONS_LINK,
-        seiLink: isListPage
-          ? dataDogActionNames.medicationsListPage
-              .GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK
-          : dataDogActionNames.refillPage
-              .GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK,
-        managingMedsLink: isListPage
-          ? dataDogActionNames.medicationsListPage
-              .LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK
-          : dataDogActionNames.refillPage
-              .LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK,
-        messageLink: isListPage
-          ? dataDogActionNames.medicationsListPage.START_A_NEW_MESSAGE_LINK
-          : dataDogActionNames.refillPage.START_A_NEW_MESSAGE_LINK,
-        notificationLink: isListPage
-          ? dataDogActionNames.medicationsListPage
-              .GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK
-          : dataDogActionNames.refillPage
-              .GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK,
-        useMedsLink: isListPage
-          ? dataDogActionNames.medicationsListPage.GO_TO_USE_MEDICATIONS_LINK
-          : dataDogActionNames.refillPage.GO_TO_USE_MEDICATIONS_LINK,
-        composeMessageLink: isListPage
-          ? dataDogActionNames.medicationsListPage.COMPOSE_A_MESSAGE_LINK
-          : dataDogActionNames.refillPage.COMPOSE_A_MESSAGE_LINK,
+        allergiesLink: pageActions.GO_TO_ALLERGIES_AND_REACTIONS_LINK,
+        seiLink: pageActions.GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK,
+        managingMedsLink:
+          pageActions.LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK,
+        messageLink: pageActions.START_A_NEW_MESSAGE_LINK,
+        notificationLink: pageActions.GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK,
+        useMedsLink: pageActions.GO_TO_USE_MEDICATIONS_LINK,
+        composeMessageLink: pageActions.COMPOSE_A_MESSAGE_LINK,
       };
     },
     [page],

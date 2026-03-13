@@ -112,7 +112,7 @@ class PilotEnvPage {
   };
 
   verifyButtons = () => {
-    cy.get(Locators.BUTTONS.REPLY)
+    cy.findByTestId(Locators.BUTTONS.REPLY)
       .should('be.visible')
       .and(`contain`, `Reply`);
     cy.get(Locators.BUTTONS.PRINT)
@@ -228,11 +228,32 @@ class PilotEnvPage {
   };
 
   selectTriageGroup = (index = 0) => {
+    // Clear existing value and open the dropdown by clicking the toggle button.
+    // Use force:true on interactions to avoid shadow DOM actionability race conditions.
+    cy.get('va-combo-box')
+      .shadow()
+      .find('input')
+      .should('not.be.disabled')
+      .as('comboInput');
+
+    cy.get('@comboInput').clear({ force: true });
+
+    // Click the toggle button to open the dropdown, then verify it opened.
+    // If the list is still hidden, click the input to force it open.
     cy.get('va-combo-box')
       .shadow()
       .find('#options')
       .should('be.visible')
       .click({ force: true });
+
+    cy.get('va-combo-box')
+      .shadow()
+      .find('.usa-combo-box__list')
+      .then($list => {
+        if ($list.css('display') === 'none') {
+          cy.get('@comboInput').click({ force: true });
+        }
+      });
 
     cy.get(`.usa-combo-box__list > li`)
       .eq(index)

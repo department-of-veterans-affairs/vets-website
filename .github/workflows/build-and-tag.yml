@@ -39,6 +39,53 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
+
+      # This fallback token is not a real token, this portion of a token prevents Mapbox from crashing
+      # when app specific tokens are unavailable for any reason, instead it will provide errors.
+      - name: Set Mapbox Token fallback
+        run: echo "MAPBOX_TOKEN=pk.eyJ1IjoicGxhY2Vob2xkZXIifQ==" >> "$GITHUB_ENV"
+
+      - name: Get Mapbox Token (Facility Locator)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_facility_locator
+          env_variable_name: MAPBOX_TOKEN_FACILITY_LOCATOR
+
+      - name: Get Mapbox Token (Static Pages)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_static_pages
+          env_variable_name: MAPBOX_TOKEN_STATIC_PAGES
+
+      - name: Get Mapbox Token (GI)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_gi
+          env_variable_name: MAPBOX_TOKEN_GI
+
+      - name: Get Mapbox Token (Ask VA)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_ask_va
+          env_variable_name: MAPBOX_TOKEN_ASK_VA
+
+      - name: Get Mapbox Token (Caregivers)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_caregivers
+          env_variable_name: MAPBOX_TOKEN_CAREGIVERS
+
+      - name: Get Mapbox Token (Representative Search)
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/prod/mapbox_token_representative_search
+          env_variable_name: MAPBOX_TOKEN_REPRESENTATIVE_SEARCH
+
       - name: Build
         run: yarn build --verbose --buildtype=${{ env.BUILD_ENV }}
         timeout-minutes: 30
@@ -58,12 +105,6 @@ jobs:
 
       - name: Compress and archive build
         run: tar -C build/${{ env.BUILD_ENV }} -cjf ${{ env.BUILD_ENV }}.tar.bz2 .
-
-      - name: Configure AWS credentials
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_region: us-gov-west-1
-          role: ${{ vars.AWS_ASSUME_ROLE }}
 
       - name: Upload build
         run: aws s3 cp ${{ env.BUILD_ENV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ env.COMMIT_SHA }}/${{ env.BUILD_ENV }}.tar.bz2 --acl public-read --region us-gov-west-1

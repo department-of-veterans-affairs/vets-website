@@ -97,6 +97,12 @@ export const dataDogActionNames = {
     GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${
       pageType.REFILL
     }`,
+    GO_TO_YOUR_IN_PROGRESS_MEDICATIONS_LINK: `Go To Your In-Progress Medications Link - ${
+      pageType.REFILL
+    }`,
+    GO_TO_REVIEW_AND_PRINT_MEDICATION_HISTORY_LINK: `Go To Review And Print Medication History Link - ${
+      pageType.REFILL
+    }`,
   },
   renewalModal: {
     MODAL_OPEN: 'Rx Renewal Modal Open',
@@ -138,5 +144,48 @@ export const dataDogActionNames = {
     PRINT: 'Print ',
     WHAT_TO_KNOW_BEFORE_YOU_PRINT_OR_DOWNLOAD_BUTTON:
       'What To Know Before You Print Or Download Button - ',
+  },
+  medicationsHistoryPage: {
+    GO_TO_YOUR_IN_PROGRESS_MEDICATIONS_LINK: `Go to your in-progress medications link - ${
+      pageType.HISTORY
+    }`,
+    REFILL_MEDICATIONS_LINK: `Refill medications link - ${pageType.HISTORY}`,
+    GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
+      pageType.HISTORY
+    }`,
+    GO_TO_ALLERGIES_AND_REACTIONS_LINK: `Go to allergies and reactions link - ${
+      pageType.HISTORY
+    }`,
+    LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK: `Learn more about managing medications online link - ${
+      pageType.HISTORY
+    }`,
+    START_A_NEW_MESSAGE_LINK: `Start a new message link - ${pageType.HISTORY}`,
+    GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${
+      pageType.HISTORY
+    }`,
+  },
+  inProgressPage: {
+    GO_TO_REVIEW_AND_PRINT_MEDICATION_HISTORY_LINK: `Review and print list of medications link - ${
+      pageType.IN_PROGRESS
+    }`,
+    REFILL_MEDICATIONS_LINK: `Refill medications link - ${
+      pageType.IN_PROGRESS
+    }`,
+    MEDICATION_NAME_LINK: `Medication name link - ${pageType.IN_PROGRESS}`,
+    GO_TO_SELF_ENTERED_HEALTH_INFORMATION_LINK: `Go to self-entered health information link - ${
+      pageType.IN_PROGRESS
+    }`,
+    GO_TO_ALLERGIES_AND_REACTIONS_LINK: `Go to allergies and reactions link - ${
+      pageType.IN_PROGRESS
+    }`,
+    LEARN_MORE_ABOUT_MANAGING_MEDICATIONS_ONLINE_LINK: `Learn more about managing medications online link - ${
+      pageType.IN_PROGRESS
+    }`,
+    START_A_NEW_MESSAGE_LINK: `Start a new message link - ${
+      pageType.IN_PROGRESS
+    }`,
+    GO_TO_UPDATE_NOTIFICATION_SETTINGS_LINK: `Go to update notification settings link - ${
+      pageType.IN_PROGRESS
+    }`,
   },
 };
