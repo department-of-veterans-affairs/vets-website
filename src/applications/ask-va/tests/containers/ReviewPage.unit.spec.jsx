@@ -96,8 +96,6 @@ describe('<ReviewPage /> container', () => {
   it('should display 503 error alert when submission fails with non-JSON response', async () => {
     stubReviewCollapsibleChapter();
     stubReviewSectionContent();
-    stubFileUpload();
-    stubStorageAdapter();
 
     sandbox
       .stub(formUtils, 'handleFormSubmission')
@@ -149,6 +147,8 @@ describe('<ReviewPage /> container', () => {
     it('should render scroll elements using chapter.name (not chapterTitles with special characters)', async () => {
       stubReviewCollapsibleChapter();
       stubReviewSectionContent();
+      stubFileUpload();
+      stubStorageAdapter();
 
       const store = createMockStore({
         openChapters: ['yourContactInformation'],
@@ -196,6 +196,8 @@ describe('<ReviewPage /> container', () => {
     it('should pass scroll function that calls scrollTo with chapter.name (yourContactInformation)', async () => {
       stubReviewCollapsibleChapter();
       stubReviewSectionContent();
+      stubFileUpload();
+      stubStorageAdapter();
 
       // Capture the props passed to UpdatePageButton
       const capturedProps = [];
