@@ -2,15 +2,15 @@
  * E2E test for keyboard only navigation on 996 form.
  */
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
-import manifest from '../manifest.json';
-import formConfig from '../config/form';
-import { CONTESTABLE_ISSUES_API } from '../constants/apis';
-import mockV2Data from './fixtures/data/maximal-test-v2.json';
-import mockInProgress from './fixtures/mocks/in-progress-forms.json';
-import mockPrefill from './fixtures/mocks/prefill.json';
-import mockSubmit from './fixtures/mocks/application-submit.json';
-import * as h from '../../shared/tests/cypress.helpers';
-import cypressSetup from '../../shared/tests/cypress.setup';
+import manifest from '../../manifest.json';
+import formConfig from '../../config/form';
+import { CONTESTABLE_ISSUES_API } from '../../constants/apis';
+import mockV2Data from '../fixtures/data/maximal-test-v2.json';
+import mockInProgress from '../fixtures/mocks/in-progress-forms.json';
+import mockPrefill from '../fixtures/mocks/prefill.json';
+import mockSubmit from '../fixtures/mocks/application-submit.json';
+import * as h from '../../../shared/tests/cypress.helpers';
+import cypressSetup from '../../../shared/tests/cypress.setup';
 
 const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
 

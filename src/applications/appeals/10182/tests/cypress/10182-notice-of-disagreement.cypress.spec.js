@@ -4,20 +4,20 @@
 import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
-import formConfig from '../config/form';
-import manifest from '../manifest.json';
-import mockInProgress from './fixtures/mocks/in-progress-forms.json';
-import mockPrefill from './fixtures/mocks/prefill.json';
-import mockSubmit from './fixtures/mocks/application-submit.json';
-import mockUpload from './fixtures/mocks/mock-upload.json';
+import formConfig from '../../config/form';
+import manifest from '../../manifest.json';
+import mockInProgress from '../fixtures/mocks/in-progress-forms.json';
+import mockPrefill from '../fixtures/mocks/prefill.json';
+import mockSubmit from '../fixtures/mocks/application-submit.json';
+import mockUpload from '../fixtures/mocks/mock-upload.json';
 import {
   SUBMIT_URL,
   EVIDENCE_UPLOAD_API,
   CONTESTABLE_ISSUES_API,
-} from '../constants/apis';
-import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
-import cypressSetup from '../../shared/tests/cypress.setup';
-import * as h from '../../shared/tests/cypress.helpers';
+} from '../../constants/apis';
+import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../../shared/constants';
+import cypressSetup from '../../../shared/tests/cypress.setup';
+import * as h from '../../../shared/tests/cypress.helpers';
 
 const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
 
@@ -27,8 +27,8 @@ const testConfig = createTestConfig(
     // Rename and modify the test data as needed.
     dataSets: ['no-api-issues', 'minimal-test', 'maximal-test'],
     fixtures: {
-      data: path.join(__dirname, 'fixtures', 'data'),
-      mocks: path.join(__dirname, 'fixtures', 'mocks'),
+      data: path.join(__dirname, '..', 'fixtures', 'data'),
+      mocks: path.join(__dirname, '..', 'fixtures', 'mocks'),
     },
     pageHooks: {
       introduction: ({ afterHook }) => {

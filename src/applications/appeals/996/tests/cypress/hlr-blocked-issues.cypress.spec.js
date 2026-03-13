@@ -7,19 +7,22 @@ import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms
 import testForm from '~/platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import formConfig from '../config/form';
-import manifest from '../manifest.json';
-import mockInProgress from './fixtures/mocks/in-progress-forms.json';
-import mockPrefill from './fixtures/mocks/prefill.json';
-import mockSubmit from './fixtures/mocks/application-submit.json';
+import formConfig from '../../config/form';
+import manifest from '../../manifest.json';
+import mockInProgress from '../fixtures/mocks/in-progress-forms.json';
+import mockPrefill from '../fixtures/mocks/prefill.json';
+import mockSubmit from '../fixtures/mocks/application-submit.json';
 
-import { CONTESTABLE_ISSUES_API, SUBMIT_URL } from '../constants/apis';
+import { CONTESTABLE_ISSUES_API, SUBMIT_URL } from '../../constants/apis';
 
-import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
+import { CONTESTABLE_ISSUES_PATH } from '../../../shared/constants';
 
-import { fixDecisionDates, startApp } from '../../shared/tests/cypress.helpers';
-import { parseDateWithOffset } from '../../shared/utils/dates';
-import cypressSetup from '../../shared/tests/cypress.setup';
+import {
+  fixDecisionDates,
+  startApp,
+} from '../../../shared/tests/cypress.helpers';
+import { parseDateWithOffset } from '../../../shared/utils/dates';
+import cypressSetup from '../../../shared/tests/cypress.setup';
 
 const today = parseDateWithOffset({});
 
@@ -46,8 +49,8 @@ const testConfig = createTestConfig(
     dataSets: ['minimal-test-v2'],
 
     fixtures: {
-      data: path.join(__dirname, 'fixtures', 'data'),
-      mocks: path.join(__dirname, 'fixtures', 'mocks'),
+      data: path.join(__dirname, '..', 'fixtures', 'data'),
+      mocks: path.join(__dirname, '..', 'fixtures', 'mocks'),
     },
 
     pageHooks: {

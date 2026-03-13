@@ -1,15 +1,15 @@
 /**
  * E2E test for keyboard only navigation on 10182 form.
  */
-import manifest from '../manifest.json';
-import formConfig from '../config/form';
-import mockInProgress from './fixtures/mocks/in-progress-forms.json';
-import mockSubmit from './fixtures/mocks/application-submit.json';
-import { CONTESTABLE_ISSUES_API, SUBMIT_URL } from '../constants/apis';
-import mockData from './fixtures/data/maximal-test.json';
-import { CONTACT_INFO_PATH } from '../../shared/constants';
-import * as h from '../../shared/tests/cypress.helpers';
-import cypressSetup from '../../shared/tests/cypress.setup';
+import manifest from '../../manifest.json';
+import formConfig from '../../config/form';
+import mockInProgress from '../fixtures/mocks/in-progress-forms.json';
+import mockSubmit from '../fixtures/mocks/application-submit.json';
+import { CONTESTABLE_ISSUES_API, SUBMIT_URL } from '../../constants/apis';
+import mockData from '../fixtures/data/maximal-test.json';
+import { CONTACT_INFO_PATH } from '../../../shared/constants';
+import * as h from '../../../shared/tests/cypress.helpers';
+import cypressSetup from '../../../shared/tests/cypress.setup';
 
 const verifyUrl = link => h.verifyCorrectUrl(manifest.rootUrl, link);
 

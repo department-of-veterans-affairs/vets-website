@@ -1,8 +1,8 @@
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
-import { BASE_URL, FORM_URL } from '../constants';
+import { BASE_URL, FORM_URL } from '../../constants';
 
-import cypressSetup from '../../shared/tests/cypress.setup';
+import cypressSetup from '../../../shared/tests/cypress.setup';
 
 describe('996 subtask', () => {
   beforeEach(() => {
