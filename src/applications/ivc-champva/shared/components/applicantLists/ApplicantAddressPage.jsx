@@ -17,6 +17,7 @@ export function ApplicantAddressCopyPage(props) {
     goForward,
     pagePerItemIndex,
     updatePage,
+    updatePageAriaLabel,
     onReviewPage,
     customTitle,
     customDescription,
@@ -46,8 +47,12 @@ export function ApplicantAddressCopyPage(props) {
 
   const navButtons = CustomPageNavButtons(props);
 
-  // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
-  const updateButton = <button type="submit">Update page</button>;
+  const updateButton = (
+    // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
+    <button type="submit" aria-label={updatePageAriaLabel || 'Update page'}>
+      Update page
+    </button>
+  );
 
   function fullName(name) {
     return `${name?.first} ${name?.middle || ''} ${name?.last} ${name?.suffix ||
@@ -267,5 +272,6 @@ ApplicantAddressCopyPage.propTypes = {
   positivePrefix: PropTypes.string,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
+  updatePageAriaLabel: PropTypes.string,
   onReviewPage: PropTypes.bool,
 };

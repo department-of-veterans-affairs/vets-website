@@ -15,7 +15,11 @@ users aren't inputting the same SSN for multiple people.
 export function CustomApplicantSSNPage(props) {
   const updateButton = (
     // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
-    <button type="submit" onClick={props.updatePage}>
+    <button
+      type="submit"
+      onClick={props.updatePage}
+      aria-label={props.updatePageAriaLabel || 'Update page'}
+    >
       Update page
     </button>
   );
@@ -97,4 +101,5 @@ CustomApplicantSSNPage.propTypes = {
   title: PropTypes.func,
   trackingPrefix: PropTypes.string,
   updatePage: PropTypes.func,
+  updatePageAriaLabel: PropTypes.string,
 };
