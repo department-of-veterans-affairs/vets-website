@@ -180,10 +180,9 @@ beforeEach(() => {
   /* eslint-enable camelcase */
 });
 
-// Load enhanced support (command log capture, console errors) when running
-// via the enhanced runner (yarn cy:run). This is a no-op for vanilla Cypress.
-if (Cypress.env('ENHANCED_RUNNER')) {
-  require('./failure-log-capture'); // eslint-disable-line global-require
+// Register failure hooks when using the enhanced runner (cy:run:auto)
+if (Cypress.env('FAILURE_HOOKS')) {
+  require('./register-failure-hooks'); // eslint-disable-line global-require
 }
 
 // Assign the video path to the context property for failed tests

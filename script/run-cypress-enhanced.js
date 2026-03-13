@@ -553,7 +553,7 @@ function runCypress({ port, entryName }) {
       env: {
         ...process.env,
         CYPRESS_EVERY_NTH_FRAME: '1',
-        CYPRESS_ENHANCED_RUNNER: '1',
+        CYPRESS_FAILURE_HOOKS: '1',
         NO_COLOR: '1',
         FORCE_COLOR: '0',
       },
