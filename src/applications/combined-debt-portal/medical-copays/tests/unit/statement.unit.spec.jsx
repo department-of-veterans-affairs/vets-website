@@ -3,6 +3,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import AccountSummary from '../../components/AccountSummary';
 import StatementAddresses from '../../components/StatementAddresses';
 import StatementCharges from '../../components/StatementCharges';
@@ -245,6 +246,39 @@ describe('mcp statement view', () => {
         row.textContent.includes('Total Credits'),
       );
       expect(totalCreditsRow).to.not.exist;
+    });
+
+    it('should display billNumber in reference column when showVHAPaymentHistory is true', () => {
+      const vhaCharges = [
+        {
+          datePosted: '2024-05-15',
+          description: 'VHA charge',
+          priceComponents: [{ amount: 50.0 }],
+          providerName: 'Test Provider',
+        },
+      ];
+      const selectedCopayWithBillNumber = {
+        ...mockSelectedCopay,
+        billNumber: 'BILL-98765',
+      };
+
+      const store = createStore(() => ({
+        featureToggles: {
+          loading: false,
+          [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+        },
+      }));
+      const { getByText } = render(
+        <Provider store={store}>
+          <StatementTable
+            charges={vhaCharges}
+            formatCurrency={mockFormatCurrency}
+            selectedCopay={selectedCopayWithBillNumber}
+          />
+        </Provider>,
+      );
+
+      expect(getByText('BILL-98765')).to.exist;
     });
   });
 
