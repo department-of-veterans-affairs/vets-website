@@ -28,7 +28,7 @@ describe('URL Parameter Handling', () => {
     ).as('searchFacilitiesCCP');
   });
 
-  describe('Complete URL Parameters (should auto-search)', () => {
+  describe('Complete URL Parameters (should populate form)', () => {
     it('should populate all form fields and trigger search with complete valid parameters', () => {
       cy.visit(
         '/find-locations?address=Austin%20TX&facilityType=health&serviceType=PrimaryCare',

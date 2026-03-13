@@ -11,70 +11,6 @@ import {
   submitSearchForm,
 } from './helpers';
 
-const healthServices = {
-  All: 'All VA health services',
-  PrimaryCare: 'Primary care',
-  MentalHealth: 'Mental health care',
-  Dental: 'Dental services',
-  UrgentCare: 'Urgent care',
-  EmergencyCare: 'Emergency care',
-  Audiology: 'Audiology',
-  Cardiology: 'Cardiology',
-  Dermatology: 'Dermatology',
-  Gastroenterology: 'Gastroenterology',
-  Gynecology: 'Gynecology',
-  Ophthalmology: 'Ophthalmology',
-  Optometry: 'Optometry',
-  Orthopedics: 'Orthopedics',
-  Urology: 'Urology',
-  WomensHealth: "Women's health",
-  Podiatry: 'Podiatry',
-  Nutrition: 'Nutrition',
-  CaregiverSupport: 'Caregiver support',
-};
-
-Cypress.Commands.add('verifyOptions', () => {
-  // Va facilities have services available
-  selectFacilityTypeInDropdown(FACILITY_TYPES.HEALTH);
-  cy.get('.service-type-dropdown-desktop')
-    .find('select')
-    .should('not.have.attr', 'disabled');
-  const hServices = Object.keys(healthServices);
-
-  for (let i = 0; i < hServices.length; i++) {
-    cy.get('.service-type-dropdown-desktop')
-      .find('select')
-      .children()
-      .eq(i)
-      .then($option => {
-        const value = $option.attr('value');
-        expect(value).to.equal(hServices[i]);
-      });
-  }
-
-  selectFacilityTypeInDropdown(FACILITY_TYPES.URGENT);
-  cy.get('.service-type-dropdown-desktop')
-    .find('select')
-    .should('not.have.attr', 'disabled');
-
-  // Va facilities don't have services available
-  selectFacilityTypeInDropdown(FACILITY_TYPES.VET);
-  cy.get('.service-type-dropdown-desktop').should('not.exist');
-
-  selectFacilityTypeInDropdown(FACILITY_TYPES.CEM);
-
-  selectFacilityTypeInDropdown(FACILITY_TYPES.VBA);
-
-  // CCP care have services available
-  selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PRO);
-  cy.get('#service-type-loading').should('exist');
-  cy.get('#service-typeahead').should('not.have.attr', 'disabled');
-
-  // CCP pharmacies dont have services available
-  selectFacilityTypeInDropdown(FACILITY_TYPES.CC_PHARM);
-  cy.get('#service-typeahead').should('not.exist');
-});
-
 describe('Facility VA search', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
@@ -96,8 +32,6 @@ describe('Facility VA search', () => {
 
     cy.injectAxe();
     cy.axeCheck();
-
-    // cy.verifyOptions();
 
     typeInCityStateInput('Austin, TX');
     selectFacilityTypeInDropdown(FACILITY_TYPES.HEALTH);
