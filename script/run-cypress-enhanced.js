@@ -361,6 +361,28 @@ let noVideo = false;
 let noTimeout = false;
 let specPath = null;
 
+const HELP = `
+Usage:
+  yarn cy:run:auto --spec "src/applications/my-app/tests/e2e/test.cypress.spec.js"
+  node script/run-cypress-enhanced.js --serve --no-retry --spec "..."
+
+Flags:
+  --serve          Start and stop a dev server automatically
+  --no-retry       Disable retries
+  --no-video       Skip video recording
+  --timeout N      Hard process timeout in seconds (default: 180)
+  --no-timeout     Disable hard timeout
+  --verbose        Show full Cypress output (default: summary only)
+  --help           Show this help message
+
+All other flags are forwarded to cypress run.
+`.trim();
+
+if (rawArgs.includes('--help') || rawArgs.includes('-h')) {
+  console.log(HELP);
+  process.exit(0);
+}
+
 const filteredArgs = [];
 for (let i = 0; i < rawArgs.length; i++) {
   if (rawArgs[i] === '--timeout' && rawArgs[i + 1]) {
@@ -382,6 +404,12 @@ for (let i = 0; i < rawArgs.length; i++) {
     }
     filteredArgs.push(rawArgs[i]);
   }
+}
+
+if (!specPath) {
+  console.error('Error: --spec is required\n');
+  console.error(HELP);
+  process.exit(1);
 }
 
 // Build summary output
