@@ -454,7 +454,7 @@ export const renderMedicalRecordInfo = formResponses => {
           href="https://www.archives.gov/st-louis/military-personnel/ompf-background.html"
         >
           Find out how to request your military medical records (opens in a new
-          tab).
+          tab)
         </a>
       );
     } else {
@@ -469,49 +469,45 @@ export const renderMedicalRecordInfo = formResponses => {
     let providerStatement;
     if (reason === RESPONSES.REASON_PTSD) {
       providerStatement = (
-        <li>
-          If you’ve seen a non-VA health care provider for diagnosis or
-          treatment of PTSD or another mental health condition, you should also
-          submit private medical treatment records that can provide information
-          about your condition. You’ll need to contact your provider to request
-          copies of your records.
-        </li>
+        <p>
+          Submit records of any treatment you’ve received for PTSD or other
+          mental health conditions. This includes treatment from non-VA
+          providers. You may need to contact your provider to request copies of
+          your records.
+        </p>
       );
     }
     if (reason === RESPONSES.REASON_TBI) {
       providerStatement = (
-        <li>
-          If you’ve seen a non-VA health care provider for diagnosis or
-          treatment of TBI, you should also submit private medical treatment
-          records that can provide information about your condition. You’ll need
-          to contact your provider to request copies of your records.
-        </li>
+        <p>
+          Submit records of any treatment you’ve received for TBI. This includes
+          treatment from non-VA providers. You may need to contact your provider
+          to request copies of your records.
+        </p>
       );
     }
     if (reason === RESPONSES.REASON_SEXUAL_ASSAULT) {
       providerStatement = (
-        <li>
-          If you’ve seen a non-VA health care provider for for treatment after
-          your assault or harassment, you should also submit records from a
-          non-VA health care provider. You’ll need to contact your provider to
-          request copies of your records.
-        </li>
+        <p>
+          Submit records of any treatment you received for sexual assault. This
+          includes treatment from non-VA providers. You may need to contact your
+          provider to request copies of your records.
+        </p>
       );
     }
 
     return (
-      <li>
+      <>
         <h3>Medical records</h3>
-        <ul>
-          <li>You’ll need to submit copies of your medical records.</li>
-          <li>
+        <>
+          <p>You’ll need to submit copies of your medical records.</p>
+          <p>
             If you need to request copies of your VA medical records, fill out
             and submit a Request for and Authorization to Release Health
             Information (VA Form 10-5345) to your local VA medical center.
-          </li>
-          <li>
-            {requestQuestion}
-            <br />
+          </p>
+          {requestQuestion}
+          <p>
             <a
               href="https://www.va.gov/find-forms/about-form-10-5345/"
               target="_blank"
@@ -519,11 +515,10 @@ export const renderMedicalRecordInfo = formResponses => {
             >
               Get VA Form 10-5345 to download (opens in a new tab)
             </a>
-          </li>
-
+          </p>
           {providerStatement}
-        </ul>
-      </li>
+        </>
+      </>
     );
   }
   return null;

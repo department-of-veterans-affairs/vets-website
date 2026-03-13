@@ -558,7 +558,7 @@ describe('Discharge Wizard helpers', () => {
         .to.exist;
       expect(
         getByText(
-          'If you’ve seen a non-VA health care provider for diagnosis or treatment of PTSD or another mental health condition,',
+          'Submit records of any treatment you’ve received for PTSD or other mental health conditions.',
           { exact: false },
         ),
       ).to.exist;
@@ -573,10 +573,9 @@ describe('Discharge Wizard helpers', () => {
       const { getByText } = render(renderMedicalRecordInfo(formResponses));
 
       expect(
-        getByText(
-          'If you’ve seen a non-VA health care provider for diagnosis or treatment of TBI,',
-          { exact: false },
-        ),
+        getByText('Submit records of any treatment you’ve received for TBI.', {
+          exact: false,
+        }),
       ).to.exist;
     });
 
@@ -590,7 +589,7 @@ describe('Discharge Wizard helpers', () => {
 
       expect(
         getByText(
-          'If you’ve seen a non-VA health care provider for for treatment after your assault or harassment,',
+          'Submit records of any treatment you received for sexual assault.',
           { exact: false },
         ),
       ).to.exist;
