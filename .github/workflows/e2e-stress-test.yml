@@ -191,6 +191,8 @@ jobs:
   cypress-tests-prep:
     name: Prep for Cypress Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: [fetch-e2e-allow-list]
     outputs:
       cypress-tests-to-stress-test: ${{ steps.cypress-tests-to-stress-test.outputs.tests }}

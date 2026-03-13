@@ -24,7 +24,7 @@ describe('Record list item component', () => {
 
     const emptyMessageElement = screen.getByText('None recorded', {
       exact: true,
-      selector: 'p',
+      selector: 'span',
     });
     expect(emptyMessageElement).to.exist;
   });

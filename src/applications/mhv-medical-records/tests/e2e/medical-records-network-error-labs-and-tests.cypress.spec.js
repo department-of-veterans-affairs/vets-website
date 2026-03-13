@@ -11,10 +11,16 @@ describe('Medical Records View Labs and Tests', () => {
     cy.intercept('GET', '/my_health/v1/medical_records/labs_and_tests*', {
       statusCode: 404,
     });
+    cy.intercept('GET', '/my_health/v2/medical_records/labs_and_tests*', {
+      statusCode: 404,
+    });
     cy.intercept('GET', '/my_health/v1/medical_records/radiology*', {
       statusCode: 404,
     });
     cy.intercept('GET', '/my_health/v1/medical_records/imaging*', {
+      statusCode: 404,
+    });
+    cy.intercept('GET', '/my_health/v2/medical_records/imaging*', {
       statusCode: 404,
     });
     cy.visit('my-health/medical-records');
@@ -22,9 +28,7 @@ describe('Medical Records View Labs and Tests', () => {
     cy.wait('@session');
 
     cy.visit('my-health/medical-records/labs-and-tests');
-    cy.get('[data-testid="expired-alert-message"]', {
-      includeShadowDom: true,
-    }).should('be.visible');
+    cy.get('[data-testid="expired-alert-message"]').should('be.visible');
 
     // Axe check
     cy.injectAxe();
