@@ -53,6 +53,7 @@ export const AppointmentCard = ({ appointment }) => {
               'links-list-section-header': 'Health care',
             })
           }
+          data-testid="application-appointment-link"
         />
       </p>
     </>

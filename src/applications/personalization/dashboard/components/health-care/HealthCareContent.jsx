@@ -25,10 +25,31 @@ const HealthCareContent = ({
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
+  const ManageAllAppointmentsLink = () => (
+    <va-link
+      text="Manage all appointments"
+      href="/my-health/appointments"
+      data-testid="manage-all-appointments-link"
+    />
+  );
+
+  const MyHealtheVetLink = () => (
+    <va-link
+      text="Go to My HealtheVet"
+      href="/my-health"
+      data-testid="my-healthevet-link"
+    />
+  );
+
   const NoUpcomingAppointments = () => (
     <va-card data-testid="no-upcoming-appointments-card">
       <h4 className="vads-u-margin-top--0">Upcoming appointments</h4>
       <p>You don’t have any upcoming appointments.</p>
+      <va-link
+        text="Manage health appointments"
+        href="/my-health/appointments"
+        active
+      />
     </va-card>
   );
 
@@ -95,18 +116,6 @@ const HealthCareContent = ({
         later.
       </p>
     </va-alert>
-  );
-
-  const ManageAllAppointmentsLink = () => (
-    <va-link
-      text="Manage all appointments"
-      href="/my-health/appointments"
-      data-testid="manage-all-appointments-link"
-    />
-  );
-
-  const MyHealtheVetLink = () => (
-    <va-link text="Go to My HealtheVet" href="/my-health" />
   );
 
   if (shouldShowLoadingIndicator) {
