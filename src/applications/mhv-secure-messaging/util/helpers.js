@@ -561,19 +561,6 @@ export const buildRxRenewalMessageBody = (rx, rxError) => {
     );
   };
 
-  const getRefillRemainingValue = () => {
-    if (rxError) return '';
-    if (
-      rx?.refillRemaining !== null &&
-      rx?.refillRemaining !== undefined &&
-      rx?.refillRemaining !== '' &&
-      !Number.isNaN(rx.refillRemaining)
-    ) {
-      return rx.refillRemaining;
-    }
-    return 'Number of refills left not available';
-  };
-
   const getDateValue = (date, isDispensedDate = false) => {
     if (rxError) return '';
     if (date) {
@@ -586,18 +573,9 @@ export const buildRxRenewalMessageBody = (rx, rxError) => {
     `Medication name, strength, and form: ${
       rxError ? '' : rx?.prescriptionName || ''
     }`,
-    `Prescription number: ${
-      rxError
-        ? ''
-        : rx?.prescriptionNumber || 'Prescription number not available'
-    }`,
     `Instructions: ${rxError ? '' : rx?.sig || 'Instructions not available'}`,
     `Provider who prescribed it: ${getProviderNameValue()}`,
-    `Number of refills left: ${getRefillRemainingValue()}`,
     `Prescription expiration date: ${getDateValue(rx?.expirationDate)}`,
-    `Reason for use: ${
-      rxError ? '' : rx?.reason || 'Reason for use not available'
-    }`,
     `Last filled on: ${getDateValue(rx?.sortedDispensedDate, true)}`,
     `Quantity: ${rxError ? '' : rx?.quantity || 'Quantity not available'}`,
   ].join('\n');

@@ -1972,13 +1972,10 @@ describe('Compose form component', () => {
         expect(args.body).to.include(
           'Medication name, strength, and form: Test Medication',
         );
-        expect(args.body).to.include('Prescription number: RX123');
         expect(args.body).to.include('Provider who prescribed it: John Doe');
-        expect(args.body).to.include('Number of refills left: 5');
         expect(args.body).to.include(
           'Prescription expiration date: December 31, 2025',
         );
-        expect(args.body).to.include('Reason for use: Chronic condition');
         expect(args.body).to.include('Quantity: 30 tablets');
       });
     });
@@ -2009,11 +2006,8 @@ describe('Compose form component', () => {
         expect(args.subject).to.equal('Renewal Needed');
         expect(args.category).to.equal('MEDICATIONS');
         expect(args.body).to.include('Medication name, strength, and form: ');
-        expect(args.body).to.include('Prescription number: ');
         expect(args.body).to.include('Provider who prescribed it: ');
-        expect(args.body).to.include('Number of refills left: ');
         expect(args.body).to.include('Prescription expiration date: ');
-        expect(args.body).to.include('Reason for use: ');
         expect(args.body).to.include('Quantity: ');
       });
     });
