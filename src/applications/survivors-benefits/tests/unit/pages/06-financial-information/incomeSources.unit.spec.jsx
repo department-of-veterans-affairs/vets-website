@@ -51,4 +51,57 @@ describe('Income sources page', () => {
     });
     expect($$('va-alert-expandable', formDOM).length).to.equal(2);
   });
+
+  describe('incomeAssetStatementFormAlert hideIf (is2025Enabled = true)', () => {
+    const { hideIf } = uiSchema.incomeAssetStatementFormAlert['ui:options'];
+
+    it('hides alert when moreThanFourIncomeSources is ONE_TO_FOUR_SOURCES', () => {
+      expect(
+        hideIf({
+          survivorsBenefitsForm2025VersionEnabled: true,
+          moreThanFourIncomeSources: 'ONE_TO_FOUR_SOURCES',
+        }),
+      ).to.be.true;
+    });
+
+    it('shows alert when moreThanFourIncomeSources is MORE_THAN_FIVE_SOURCES', () => {
+      expect(
+        hideIf({
+          survivorsBenefitsForm2025VersionEnabled: true,
+          moreThanFourIncomeSources: 'MORE_THAN_FIVE_SOURCES',
+        }),
+      ).to.be.false;
+    });
+
+    it('hides alert when moreThanFourIncomeSources is unset', () => {
+      expect(hideIf({ survivorsBenefitsForm2025VersionEnabled: true })).to.be
+        .true;
+    });
+  });
+
+  describe('incomeAssetStatementFormAlert hideIf (is2025Enabled = false)', () => {
+    const { hideIf } = uiSchema.incomeAssetStatementFormAlert['ui:options'];
+
+    it('shows alert when moreThanFourIncomeSources is Yes', () => {
+      expect(
+        hideIf({
+          survivorsBenefitsForm2025VersionEnabled: false,
+          moreThanFourIncomeSources: 'Yes',
+        }),
+      ).to.be.false;
+    });
+
+    it('hides alert when moreThanFourIncomeSources is No', () => {
+      expect(
+        hideIf({
+          survivorsBenefitsForm2025VersionEnabled: false,
+          moreThanFourIncomeSources: 'No',
+        }),
+      ).to.be.true;
+    });
+
+    it('hides alert when moreThanFourIncomeSources is unset', () => {
+      expect(hideIf({})).to.be.true;
+    });
+  });
 });

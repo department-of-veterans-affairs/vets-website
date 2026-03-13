@@ -15,7 +15,14 @@ const uiSchema = {
   incomeAssetStatementFormAlert: {
     'ui:description': IncomeAssetStatementFormAlert,
     'ui:options': {
-      hideIf: formData => !isYes(formData?.moreThanFourIncomeSources),
+      hideIf: formData => {
+        if (formData?.survivorsBenefitsForm2025VersionEnabled) {
+          return !['MORE_THAN_FIVE_SOURCES'].includes(
+            formData?.moreThanFourIncomeSources,
+          );
+        }
+        return !isYes(formData?.moreThanFourIncomeSources);
+      },
       displayEmptyObjectOnReview: true,
     },
   },
