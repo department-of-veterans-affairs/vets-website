@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
@@ -11,6 +11,7 @@ import {
 import {
   setData,
   setEditMode,
+  setFormErrors,
   setViewedPages,
   uploadFile,
 } from '@department-of-veterans-affairs/platform-forms-system/actions';
@@ -19,6 +20,7 @@ import {
   getPageKeys,
 } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
+import { isValidForm } from '@department-of-veterans-affairs/platform-forms-system/validation';
 import {
   isLOA3,
   isLoggedIn,
@@ -40,6 +42,7 @@ import UpdatePageButton from '../components/reviewPage/UpdatePageButton';
 import formConfig from '../config/form';
 import { DownloadLink } from '../config/helpers';
 import { relationshipOptionsSomeoneElse } from '../constants';
+import { reduceErrors } from '../utils/reduceErrors';
 import {
   chapterTitles,
   createPageListByChapterAskVa,
@@ -61,7 +64,13 @@ import {
   maskSocial,
 } from '../utils/reviewPageUtils';
 
+export const getErrorPageKeys = err => {
+  console.log('Err is:', err);
+  return err.pageKeys.map(pageKey => `${pageKey}${err.index ?? ''}`);
+};
+
 const ReviewPage = props => {
+  const errorPageKeys = useRef([]);
   const [showAlert, setShowAlert] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
   const [editSection, setEditSection] = useState([]);
@@ -73,6 +82,17 @@ const ReviewPage = props => {
 
   const scrollToChapter = chapterKey => {
     scrollTo(`chapter${chapterKey}ScrollElement`, getScrollOptions(chapterKey));
+  };
+
+  const sectionHasErrors = (section, pageKeys) => {
+    console.log('HERERERERE, sectionHasErrors', section, pageKeys);
+    const pages = props.routes[1].pageList;
+
+    const newPagesToCheck = pages.filter(page =>
+      pageKeys.includes(page.pageKey),
+    );
+
+    return newPagesToCheck.some(page => page.pageKey === section);
   };
 
   const handleToggleChapter = ({ name, open, pageKeys }) => {
@@ -112,23 +132,46 @@ const ReviewPage = props => {
   };
 
   const handleEdit = (pageKey, editing, index = null) => {
-    if (pageKey === 'question' && props.formData.question.length > 10000) {
-      focusElement('va-textarea');
-    } else {
-      if (pageKey === 'question') {
-        setEditAttachments(editing);
-        getUploadedFiles();
-      }
+    if (pageKey === 'question') {
+      setEditAttachments(editing);
+      getUploadedFiles();
+    }
 
-      const fullPageKey = `${pageKey}${index === null ? '' : index}`;
-      if (editing) {
-        props.setViewedPages([fullPageKey]);
-        dispatch(setUpdatedInReview(''));
-      }
+    const fullPageKey = `${pageKey}${index === null ? '' : index}`;
+    if (editing) {
+      props.setViewedPages([fullPageKey]);
+      dispatch(setUpdatedInReview(''));
+    } else {
+      dispatch(setUpdatedInReview(pageKey));
+    }
+
+    const { pageList } = props.routes[1];
+    const { errors } = isValidForm(props.form, pageList);
+    const cleanedErrors = reduceErrors(errors, pageList);
+    console.log('cleanedErrors are', cleanedErrors);
+    props.setFormErrors({
+      rawErrors: errors,
+      errors: cleanedErrors,
+    });
+
+    const tempErrorPageKeys = [];
+
+    cleanedErrors.forEach(error => {
+      const keys = getErrorPageKeys(error);
+      tempErrorPageKeys.push(...keys);
+    });
+
+    errorPageKeys.current = tempErrorPageKeys;
+
+    const hasErrors = cleanedErrors.some(error => {
+      const errorPages = getErrorPageKeys(error);
+      return errorPages.includes(pageKey);
+    });
+
+    console.log(hasErrors);
+
+    if ((!editing && !hasErrors) || editing) {
       props.setEditMode(pageKey, editing, index);
-      if (!editing) {
-        dispatch(setUpdatedInReview(pageKey));
-      }
     }
   };
 
@@ -142,12 +185,17 @@ const ReviewPage = props => {
     } else {
       pageKeys.forEach(key => handleEdit(key, true, null));
     }
+
+    console.log('edit section is', editSection, title);
     setEditSection([...editSection, title]);
   };
 
   const closeAll = (pageKeys, title) => {
     pageKeys.forEach(key => handleEdit(key, false));
-    const updateViewedList = editSection.filter(section => section !== title);
+    const updateViewedList = editSection.filter(
+      section =>
+        section !== title || !sectionHasErrors(section, errorPageKeys.current),
+    );
     setEditSection(updateViewedList);
   };
 
@@ -389,11 +437,7 @@ const ReviewPage = props => {
               .map(chapter => {
                 return (
                   <React.Fragment key={chapter.name}>
-                    <div
-                      name={`chapter${
-                        chapterTitles.veteransPersonalInformation
-                      }ScrollElement`}
-                    />
+                    <div name={`chapter${chapter.name}ScrollElement`} />
                     {!editSection.includes(
                       chapterTitles.veteransPersonalInformation,
                     ) ? (
@@ -490,7 +534,7 @@ const ReviewPage = props => {
                           closeSection={closeAll}
                           keys={chapter.pageKeys}
                           title={chapterTitles.veteransPersonalInformation}
-                          scroll={scrollToChapter}
+                          scroll={() => scrollToChapter(chapter.name)}
                         />
                       </>
                     )}
@@ -544,11 +588,7 @@ const ReviewPage = props => {
               .map(chapter => {
                 return (
                   <React.Fragment key={chapter.name}>
-                    <div
-                      name={`chapter${
-                        chapterTitles.familyMembersPersonalInformation
-                      }ScrollElement`}
-                    />
+                    <div name={`chapter${chapter.name}ScrollElement`} />
                     {!editSection.includes(
                       chapterTitles.familyMembersPersonalInformation,
                     ) ? (
@@ -625,7 +665,7 @@ const ReviewPage = props => {
                           closeSection={closeAll}
                           keys={chapter.pageKeys}
                           title={chapterTitles.familyMembersPersonalInformation}
-                          scroll={scrollToChapter}
+                          scroll={() => scrollToChapter(chapter.name)}
                         />
                       </>
                     )}
@@ -644,6 +684,7 @@ const ReviewPage = props => {
                     chapterKey={chapter.name}
                     // eslint-disable-next-line react/prop-types
                     form={props.form}
+                    GF
                     // eslint-disable-next-line react/prop-types
                     formContext={props.formContext}
                     onEdit={handleEdit}
@@ -676,11 +717,7 @@ const ReviewPage = props => {
             .map(chapter => {
               return (
                 <React.Fragment key={chapter.name}>
-                  <div
-                    name={`chapter${
-                      chapterTitles.yourInformation
-                    }ScrollElement`}
-                  />
+                  <div name={`chapter${chapter.name}ScrollElement`} />
                   {!editSection.includes(chapterTitles.yourInformation) ? (
                     <ReviewSectionContent
                       title={chapterTitles.yourInformation}
@@ -763,7 +800,7 @@ const ReviewPage = props => {
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourInformation}
-                        scroll={scrollToChapter}
+                        scroll={() => scrollToChapter(chapter.name)}
                       />
                     </>
                   )}
@@ -777,7 +814,7 @@ const ReviewPage = props => {
               return (
                 <React.Fragment key={chapter.name}>
                   <div
-                    name={`chapter${chapterTitles.yourPostalCode}ScrollElement`}
+                    name={`chapter${chapter.name}ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourPostalCode) ? (
@@ -819,7 +856,7 @@ const ReviewPage = props => {
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourPostalCode}
-                        scroll={scrollToChapter}
+                        scroll={() => scrollToChapter(chapter.name)}
                       />
                     </>
                   )}
@@ -832,11 +869,7 @@ const ReviewPage = props => {
             .map(chapter => {
               return (
                 <React.Fragment key={chapter.name}>
-                  <div
-                    name={`chapter${
-                      chapterTitles.yourVAHealthFacility
-                    }ScrollElement`}
-                  />
+                  <div name={`chapter${chapter.name}ScrollElement`} />
                   {!editSection.includes(chapterTitles.yourVAHealthFacility) ? (
                     <ReviewSectionContent
                       title={chapterTitles.yourVAHealthFacility}
@@ -876,7 +909,7 @@ const ReviewPage = props => {
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourVAHealthFacility}
-                        scroll={scrollToChapter}
+                        scroll={() => scrollToChapter(chapter.name)}
                       />
                     </>
                   )}
@@ -889,11 +922,7 @@ const ReviewPage = props => {
             .map(chapter => {
               return (
                 <React.Fragment key={chapter.name}>
-                  <div
-                    name={`chapter${
-                      chapterTitles.stateOfProperty
-                    }ScrollElement`}
-                  />
+                  <div name={`chapter${chapter.name}ScrollElement`} />
                   {!editSection.includes(chapterTitles.stateOfProperty) ? (
                     <ReviewSectionContent
                       title={chapterTitles.stateOfProperty}
@@ -933,7 +962,7 @@ const ReviewPage = props => {
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.stateOfProperty}
-                        scroll={scrollToChapter}
+                        scroll={() => scrollToChapter(chapter.name)}
                       />
                     </>
                   )}
@@ -946,11 +975,7 @@ const ReviewPage = props => {
             .map(chapter => {
               return (
                 <React.Fragment key={chapter.name}>
-                  <div
-                    name={`chapter${
-                      chapterTitles.yourVREInformation
-                    }ScrollElement`}
-                  />
+                  <div name={`chapter${chapter.name}ScrollElement`} />
                   {!editSection.includes(chapterTitles.yourVREInformation) ? (
                     <ReviewSectionContent
                       title={chapterTitles.yourVREInformation}
@@ -998,7 +1023,7 @@ const ReviewPage = props => {
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourVREInformation}
-                        scroll={scrollToChapter}
+                        scroll={() => scrollToChapter(chapter.name)}
                       />
                     </>
                   )}
@@ -1011,11 +1036,7 @@ const ReviewPage = props => {
             .map(chapter => {
               return (
                 <React.Fragment key={chapter.name}>
-                  <div
-                    name={`chapter${
-                      chapterTitles.schoolInformation
-                    }ScrollElement`}
-                  />
+                  <div name={`chapter${chapter.name}ScrollElement`} />
                   {!editSection.includes(chapterTitles.schoolInformation) ? (
                     <ReviewSectionContent
                       title={chapterTitles.schoolInformation}
@@ -1094,9 +1115,7 @@ const ReviewPage = props => {
               return (
                 <React.Fragment key={chapter.name}>
                   <div
-                    name={`chapter${
-                      chapterTitles.yourContactInformation
-                    }ScrollElement`}
+                    name={`chapter${chapter.name}ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(
@@ -1175,7 +1194,7 @@ const ReviewPage = props => {
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourContactInformation}
-                        scroll={scrollToChapter}
+                        scroll={() => scrollToChapter(chapter.name)}
                       />
                     </>
                   )}
@@ -1189,9 +1208,7 @@ const ReviewPage = props => {
               return (
                 <React.Fragment key={chapter.name}>
                   <div
-                    name={`chapter${
-                      chapterTitles.yourMailingAddress
-                    }ScrollElement`}
+                    name={`chapter${chapter.name}ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourMailingAddress) ? (
@@ -1278,7 +1295,7 @@ const ReviewPage = props => {
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourMailingAddress}
-                        scroll={scrollToChapter}
+                        scroll={() => scrollToChapter(chapter.name)}
                       />
                     </>
                   )}
@@ -1301,9 +1318,7 @@ const ReviewPage = props => {
                 className="vads-u-margin-bottom--2"
               >
                 <>
-                  <div
-                    name={`chapter${chapterTitles.yourQuestion}ScrollElement`}
-                  />
+                  <div name={`chapter${chapter.name}ScrollElement`} />
                 </>
                 {!editSection.includes(chapterTitles.yourQuestion) ? (
                   <ReviewSectionContent
@@ -1503,6 +1518,7 @@ ReviewPage.propTypes = {
   loggedIn: PropTypes.bool,
   setData: PropTypes.func,
   setEditMode: PropTypes.func,
+  setFormErrors: PropTypes.func,
   setValid: PropTypes.func,
   setViewedPages: PropTypes.func,
   uploadFile: PropTypes.func,
@@ -1512,6 +1528,7 @@ ReviewPage.propTypes = {
 const mapDispatchToProps = {
   setData,
   setEditMode,
+  setFormErrors,
   setViewedPages,
   uploadFile,
 };
