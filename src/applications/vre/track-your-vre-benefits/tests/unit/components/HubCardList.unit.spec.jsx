@@ -147,6 +147,26 @@ describe('HubCardList', () => {
     );
   });
 
+  it('does not push router history for a non-router VA.gov link', () => {
+    const { container, getByTestId } = render(
+      <Provider store={makeStore()}>
+        <MemoryRouter initialEntries={['/']}>
+          <HubCardList step={1} />
+          <LocationDisplay />
+        </MemoryRouter>
+      </Provider>,
+    );
+    const link = container.querySelector(
+      'va-link[href="https://www.va.gov/careers-employment/vocational-rehabilitation"]',
+    );
+
+    expect(link.hasAttribute('external')).to.equal(false);
+
+    userEvent.click(link);
+
+    expect(getByTestId('location-display').textContent).to.equal('/');
+  });
+
   it('returns null for step 7', () => {
     const { container } = renderWithProviders(<HubCardList step={7} />);
     expect(container.innerHTML.trim()).to.equal('');

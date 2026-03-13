@@ -5,19 +5,17 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 import { useSelector } from 'react-redux';
 
 const programOverviewCard = {
-  title: 'Program Overview',
+  title: 'Learn about the VR&E program',
   body: `Read about how Veteran Readiness and Employment (Chapter 31) can help you address education or training needs.`,
   href: 'https://www.va.gov/careers-employment/vocational-rehabilitation',
-  isExternal: true,
 };
 
 const orientationCard = {
-  title: 'VR&E Support-and-Services Tracks',
+  title: 'Explore VR&E Support-and-Services tracks',
   body:
     'We offer 5 support-and-services tracks to help you get education, training, career planning, and live independently. Explore the different tracks and take charge of your future.',
   href:
     'https://www.va.gov/careers-employment/vocational-rehabilitation/programs/',
-  isExternal: true,
 };
 
 const getCareerPlanningCard = step => {
@@ -32,10 +30,10 @@ const getCareerPlanningCard = step => {
   }
 
   return {
-    title: 'Career Planning',
+    title: 'Explore Career Planning tools and resources',
     body,
     href: '/career-planning',
-    isExternal: false,
+    useRouter: true,
   };
 };
 
@@ -91,13 +89,9 @@ const HubCardList = ({ step, stateList = [] }) => {
 
   if (!cards.length) return null;
 
-  const handleRouteChange = (event, href, isExternal) => {
+  const handleRouteChange = (event, href) => {
     event.preventDefault();
-    if (isExternal) {
-      window.open(href, '_blank', 'noopener,noreferrer');
-    } else {
-      history.push(href);
-    }
+    history.push(href);
   };
 
   return (
@@ -113,19 +107,18 @@ const HubCardList = ({ step, stateList = [] }) => {
               key={card.title}
               className="vads-u-margin-top--2 vads-u-padding-bottom--2"
             >
-              {card.isExternal ? (
-                <VaLink
-                  external
-                  href={card.href}
-                  text={card.title}
-                  className=" vads-u-font-weight--bold"
-                />
-              ) : (
+              {card.useRouter ? (
                 <VaLink
                   active
                   href={card.href}
                   text={card.title}
                   onClick={event => handleRouteChange(event, card.href)}
+                />
+              ) : (
+                <VaLink
+                  href={card.href}
+                  text={card.title}
+                  className=" vads-u-font-weight--bold"
                 />
               )}
               {Array.isArray(card.body) ? (
