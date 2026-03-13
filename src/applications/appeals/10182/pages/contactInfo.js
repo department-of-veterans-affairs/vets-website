@@ -14,6 +14,10 @@ export default profileContactInfo({
   included: allContacts,
   addressKey: 'address',
   mobilePhoneKey: 'phone',
+  // Explicit default ensures getDefaultFormState returns '' instead of undefined,
+  // so lodash merge overwrites the new pages' email object default during
+  // createInitialState (merge skips undefined values).
+  emailSchema: { type: 'string', default: '' },
   contactInfoUiSchema: {
     'ui:options': {
       updateSchema: (formData, schema) =>

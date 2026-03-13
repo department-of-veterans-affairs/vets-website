@@ -1,4 +1,5 @@
 import { errorMessages } from '../content/contactInfo';
+import { newContactPagesActive } from '../utils';
 
 const validateValue = (errors, value, errorMsg) => {
   if (!value) {
@@ -32,7 +33,12 @@ export const contactInfoValidation = (errors = {}, _fieldData, formData) => {
 export const contactInfo995Validation = (errors = {}, _fieldData, formData) => {
   const { veteran = {} } = formData || {};
 
-  validateValue(errors, veteran.email, 'missingEmail');
+  if (!newContactPagesActive(formData)) {
+    validateValue(errors, veteran.email, 'missingEmail');
+  } else {
+    validateValue(errors, veteran?.email?.emailAddress, 'missingEmail');
+  }
+
   validateValue(errors, veteran.homePhone?.phoneNumber, 'missingHomePhone');
   validateValue(errors, veteran.mobilePhone?.phoneNumber, 'missingMobilePhone');
 
