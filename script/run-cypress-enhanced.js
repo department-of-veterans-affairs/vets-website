@@ -309,8 +309,8 @@ function startDevServer(port, entryName) {
     function onData(data) {
       const text = data.toString();
       output += text;
-      // webpack-dev-server prints "Compiled successfully" or "Compiled with warnings"
-      if (!settled && /Compiled\b/.test(stripAnsi(output))) {
+      // Wait for webpack-dev-server to be fully ready (not just webpack compilation)
+      if (!settled && /webpack-dev-server.*Loopback/.test(stripAnsi(output))) {
         settled = true;
         clearTimeout(timeout);
         // Wait for the HTTP server to actually respond before proceeding
