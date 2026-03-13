@@ -9,6 +9,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { asciiValidation } from '../../helpers';
 
 /** @returns {PageSchema} */
 export const studentIncomePage = {
@@ -94,6 +95,7 @@ export const studentAddressPage = {
               errors.addError('Enter a valid city name');
             }
           },
+          asciiValidation,
         ],
       },
     },
