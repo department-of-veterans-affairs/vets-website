@@ -410,103 +410,182 @@ describe('VASS Error Paths', () => {
       VerifyPageObject.fillAndSubmitForm();
       cy.wait('@vass:post:request-otp');
     });
-    describe('when the user is not within the cohort window', () => {
-      beforeEach(() => {
-        mockAppointmentAvailabilityApi({
-          response: MockAppointmentAvailabilityResponse.createNotWithinCohortError(),
-          responseCode: 403,
+
+    describe('API Errors', () => {
+      describe('when the user is not within the cohort window', () => {
+        beforeEach(() => {
+          mockAppointmentAvailabilityApi({
+            response: MockAppointmentAvailabilityResponse.createNotWithinCohortError(),
+            responseCode: 403,
+          });
+        });
+
+        it('should display a wrapper error alert', () => {
+          EnterOTPPageObject.fillAndSubmitOTP();
+          cy.wait('@vass:get:appointment-availability');
+
+          DateTimeSelectionPageObject.assertWrapperErrorAlert({ exist: true });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_availability_notWithinCohort');
         });
       });
 
-      it('should display a wrapper error alert', () => {
-        EnterOTPPageObject.fillAndSubmitOTP();
-        cy.wait('@vass:get:appointment-availability');
+      describe('when the user already has an appointment booked', () => {
+        beforeEach(() => {
+          const appointmentId = 'e61e1a40-1e63-f011-bec2-001dd80351ea';
+          mockAppointmentAvailabilityApi({
+            response: MockAppointmentAvailabilityResponse.createAppointmentAlreadyBookedError(
+              { appointmentId },
+            ),
+            responseCode: 409,
+          });
+          mockAppointmentDetailsApi({
+            response: new MockAppointmentDetailsResponse({
+              appointmentId,
+            }).toJSON(),
+            responseCode: 200,
+          });
+        });
 
-        DateTimeSelectionPageObject.assertWrapperErrorAlert({ exist: true });
-        cy.injectAxeThenAxeCheck();
-        saveScreenshot('vass_error_availability_notWithinCohort');
+        it('should redirect to the already scheduled page', () => {
+          EnterOTPPageObject.fillAndSubmitOTP();
+          cy.wait('@vass:get:appointment-availability');
+          cy.wait('@vass:get:appointment-details');
+
+          AlreadyScheduledPageObject.assertAlreadyScheduledPage();
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_availability_alreadyBooked');
+        });
+      });
+
+      describe('when no slots are available', () => {
+        beforeEach(() => {
+          mockAppointmentAvailabilityApi({
+            response: MockAppointmentAvailabilityResponse.createNoSlotsAvailableError(),
+            responseCode: 404,
+          });
+        });
+
+        it('should display a wrapper error alert', () => {
+          EnterOTPPageObject.fillAndSubmitOTP();
+          cy.wait('@vass:get:appointment-availability');
+
+          DateTimeSelectionPageObject.assertWrapperErrorAlert({ exist: true });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_availability_noSlots');
+        });
+      });
+
+      describe('when the API returns a server error', () => {
+        beforeEach(() => {
+          mockAppointmentAvailabilityApi({
+            response: MockAppointmentAvailabilityResponse.createVassApiError(),
+            responseCode: 500,
+          });
+        });
+
+        it('should display a wrapper error alert', () => {
+          EnterOTPPageObject.fillAndSubmitOTP();
+          cy.wait('@vass:get:appointment-availability');
+
+          DateTimeSelectionPageObject.assertWrapperErrorAlert({ exist: true });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_availability_serverError500');
+        });
+      });
+
+      describe('when the service is unavailable', () => {
+        beforeEach(() => {
+          mockAppointmentAvailabilityApi({
+            response: MockAppointmentAvailabilityResponse.createServiceError(),
+            responseCode: 503,
+          });
+        });
+
+        it('should display a wrapper error alert', () => {
+          EnterOTPPageObject.fillAndSubmitOTP();
+          cy.wait('@vass:get:appointment-availability');
+
+          DateTimeSelectionPageObject.assertWrapperErrorAlert({ exist: true });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_availability_serviceUnavailable503');
+        });
       });
     });
 
-    describe('when the user already has an appointment booked', () => {
+    describe('UI Errors', () => {
+      const appointmentId = 'appointment-id';
       beforeEach(() => {
-        const appointmentId = 'e61e1a40-1e63-f011-bec2-001dd80351ea';
         mockAppointmentAvailabilityApi({
-          response: MockAppointmentAvailabilityResponse.createAppointmentAlreadyBookedError(
-            { appointmentId },
-          ),
-          responseCode: 409,
-        });
-        mockAppointmentDetailsApi({
-          response: new MockAppointmentDetailsResponse({
+          response: new MockAppointmentAvailabilityResponse({
             appointmentId,
+            availableSlots: MockAppointmentAvailabilityResponse.createSlots(),
           }).toJSON(),
           responseCode: 200,
         });
       });
+      describe('when does not select a date and time slot', () => {
+        it('should not submit the form and display an error when the user submits the form', () => {
+          EnterOTPPageObject.assertEnterOTPPage();
 
-      it('should redirect to the already scheduled page', () => {
-        EnterOTPPageObject.fillAndSubmitOTP();
-        cy.wait('@vass:get:appointment-availability');
-        cy.wait('@vass:get:appointment-details');
+          EnterOTPPageObject.fillAndSubmitOTP();
+          cy.wait('@vass:post:authenticate-otp');
+          cy.wait('@vass:get:appointment-availability');
 
-        AlreadyScheduledPageObject.assertAlreadyScheduledPage();
-        cy.injectAxeThenAxeCheck();
-        saveScreenshot('vass_error_availability_alreadyBooked');
-      });
-    });
+          DateTimeSelectionPageObject.assertDateTimeSelectionPage();
+          DateTimeSelectionPageObject.submitWithoutSelection();
 
-    describe('when no slots are available', () => {
-      beforeEach(() => {
-        mockAppointmentAvailabilityApi({
-          response: MockAppointmentAvailabilityResponse.createNoSlotsAvailableError(),
-          responseCode: 404,
+          DateTimeSelectionPageObject.assertValidationError(
+            'Please select a preferred date and time for your appointment.',
+          );
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_dateTime_emptyInput');
         });
       });
 
-      it('should display a wrapper error alert', () => {
-        EnterOTPPageObject.fillAndSubmitOTP();
-        cy.wait('@vass:get:appointment-availability');
+      describe('when the user submits the form without selecting a time slot after selecting a date', () => {
+        it('should not submit the form and display an error when the user submits the form', () => {
+          EnterOTPPageObject.assertEnterOTPPage();
 
-        DateTimeSelectionPageObject.assertWrapperErrorAlert({ exist: true });
-        cy.injectAxeThenAxeCheck();
-        saveScreenshot('vass_error_availability_noSlots');
-      });
-    });
+          EnterOTPPageObject.fillAndSubmitOTP();
+          cy.wait('@vass:post:authenticate-otp');
+          cy.wait('@vass:get:appointment-availability');
 
-    describe('when the API returns a server error', () => {
-      beforeEach(() => {
-        mockAppointmentAvailabilityApi({
-          response: MockAppointmentAvailabilityResponse.createVassApiError(),
-          responseCode: 500,
+          DateTimeSelectionPageObject.assertDateTimeSelectionPage();
+          DateTimeSelectionPageObject.selectFirstAvailableDate();
+          DateTimeSelectionPageObject.clickContinue();
+
+          DateTimeSelectionPageObject.assertValidationError(
+            'Please select a preferred date and time for your appointment.',
+          );
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_dateTime_missingTimeSelection');
         });
       });
 
-      it('should display a wrapper error alert', () => {
-        EnterOTPPageObject.fillAndSubmitOTP();
-        cy.wait('@vass:get:appointment-availability');
+      describe('when the user selects a valid date and time after triggering a validation error', () => {
+        it('should clear the validation error and proceed to topic selection', () => {
+          mockTopicsApi();
 
-        DateTimeSelectionPageObject.assertWrapperErrorAlert({ exist: true });
-        cy.injectAxeThenAxeCheck();
-        saveScreenshot('vass_error_availability_serverError500');
-      });
-    });
+          EnterOTPPageObject.assertEnterOTPPage();
 
-    describe('when the service is unavailable', () => {
-      beforeEach(() => {
-        mockAppointmentAvailabilityApi({
-          response: MockAppointmentAvailabilityResponse.createServiceError(),
-          responseCode: 503,
+          EnterOTPPageObject.fillAndSubmitOTP();
+          cy.wait('@vass:post:authenticate-otp');
+          cy.wait('@vass:get:appointment-availability');
+
+          DateTimeSelectionPageObject.assertDateTimeSelectionPage();
+          DateTimeSelectionPageObject.submitWithoutSelection();
+          DateTimeSelectionPageObject.assertValidationError(
+            'Please select a preferred date and time for your appointment.',
+          );
+
+          DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
+          cy.wait('@vass:get:topics');
+
+          TopicSelectionPageObject.assertTopicSelectionPage();
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_dateTime_validationClearsAfterSelection');
         });
-      });
-
-      it('should display a wrapper error alert', () => {
-        EnterOTPPageObject.fillAndSubmitOTP();
-        cy.wait('@vass:get:appointment-availability');
-
-        DateTimeSelectionPageObject.assertWrapperErrorAlert({ exist: true });
-        cy.injectAxeThenAxeCheck();
-        saveScreenshot('vass_error_availability_serviceUnavailable503');
       });
     });
   });
@@ -532,39 +611,106 @@ describe('VASS Error Paths', () => {
       EnterOTPPageObject.fillAndSubmitOTP();
     });
 
-    describe('when the API returns a server error', () => {
-      beforeEach(() => {
-        mockTopicsApi({
-          response: MockTopicsResponse.createVassApiError(),
-          responseCode: 500,
+    describe('API Errors', () => {
+      describe('when the API returns a server error', () => {
+        beforeEach(() => {
+          mockTopicsApi({
+            response: MockTopicsResponse.createVassApiError(),
+            responseCode: 500,
+          });
+        });
+
+        it('should display a wrapper error alert', () => {
+          DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
+          cy.wait('@vass:get:topics');
+
+          TopicSelectionPageObject.assertWrapperErrorAlert({ exist: true });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_topics_serverError500');
         });
       });
 
-      it('should display a wrapper error alert', () => {
-        DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
-        cy.wait('@vass:get:topics');
+      describe('when the service is unavailable', () => {
+        beforeEach(() => {
+          mockTopicsApi({
+            response: MockTopicsResponse.createServiceError(),
+            responseCode: 503,
+          });
+        });
 
-        TopicSelectionPageObject.assertWrapperErrorAlert({ exist: true });
-        cy.injectAxeThenAxeCheck();
-        saveScreenshot('vass_error_topics_serverError500');
+        it('should display a wrapper error alert', () => {
+          DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
+          cy.wait('@vass:get:topics');
+
+          TopicSelectionPageObject.assertWrapperErrorAlert({ exist: true });
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_topics_serviceUnavailable503');
+        });
       });
     });
 
-    describe('when the service is unavailable', () => {
-      beforeEach(() => {
-        mockTopicsApi({
-          response: MockTopicsResponse.createServiceError(),
-          responseCode: 503,
+    describe('UI Errors', () => {
+      describe('when the user leaves all topic selections empty', () => {
+        it('should not submit the form and display an error when the user submits the form', () => {
+          mockTopicsApi();
+
+          DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
+          cy.wait('@vass:get:topics');
+
+          TopicSelectionPageObject.assertTopicSelectionPage();
+          TopicSelectionPageObject.submitWithoutSelection();
+
+          TopicSelectionPageObject.assertValidationError(
+            'Please choose a topic for your appointment.',
+          );
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_topics_emptySelection');
         });
       });
 
-      it('should display a wrapper error alert', () => {
-        DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
-        cy.wait('@vass:get:topics');
+      describe('when the user unselects all topics after making a selection', () => {
+        it('should not submit the form and display an error when the user submits the form', () => {
+          mockTopicsApi();
 
-        TopicSelectionPageObject.assertWrapperErrorAlert({ exist: true });
-        cy.injectAxeThenAxeCheck();
-        saveScreenshot('vass_error_topics_serviceUnavailable503');
+          DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
+          cy.wait('@vass:get:topics');
+
+          TopicSelectionPageObject.assertTopicSelectionPage();
+          TopicSelectionPageObject.selectTopicByName('General VA benefits');
+          TopicSelectionPageObject.unselectTopicByTestId(
+            'topic-checkbox-general-va-benefits',
+          );
+          TopicSelectionPageObject.clickContinue();
+
+          TopicSelectionPageObject.assertValidationError(
+            'Please choose a topic for your appointment.',
+          );
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_topics_unselectedAfterSelection');
+        });
+      });
+
+      describe('when the user selects a valid topic after triggering a validation error', () => {
+        it('should clear the validation error and proceed to review', () => {
+          mockTopicsApi();
+
+          DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
+          cy.wait('@vass:get:topics');
+
+          TopicSelectionPageObject.assertTopicSelectionPage();
+          TopicSelectionPageObject.submitWithoutSelection();
+          TopicSelectionPageObject.assertValidationError(
+            'Please choose a topic for your appointment.',
+          );
+
+          TopicSelectionPageObject.selectTopicAndContinue(
+            'General VA benefits',
+          );
+
+          ReviewPageObject.assertReviewPage();
+          cy.injectAxeThenAxeCheck();
+          saveScreenshot('vass_error_topics_validationClearsAfterSelection');
+        });
       });
     });
   });
