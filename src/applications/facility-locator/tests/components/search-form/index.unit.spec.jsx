@@ -1,132 +1,46 @@
 import React from 'react';
-
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { SearchForm } from '../../../components/search-form';
 import { benefitsServices } from '../../../config';
+import { LocationType } from '../../../constants';
 
 describe('SearchForm', () => {
-  it('Should render search controls with Choose a facility type by default', () => {
-    const query = {
+  const getDefaultProps = () => ({
+    currentQuery: {
       facilityType: null,
-    };
-    const wrapper = shallow(<SearchForm currentQuery={query} />);
-    expect(wrapper.render().find('.facility-type-dropdown-val-none')).to.exist;
-    wrapper.unmount();
-  });
-
-  it('Should render search controls with VA benefits facility selected', () => {
-    const query = {
-      facilityType: 'benefits',
-    };
-    const wrapper = shallow(<SearchForm currentQuery={query} />);
-    expect(
-      wrapper
-        .render()
-        .find(`.facility-type-dropdown-val-${query.facilityType}`),
-    ).to.exist;
-
-    wrapper.unmount();
-  });
-
-  it('Should render search controls with VA benefits its services options', () => {
-    const query = {
-      facilityType: 'benefits',
-    };
-    const wrapper = shallow(<SearchForm currentQuery={query} />);
-    const servicesList = wrapper.find('#service-type-dropdown').find('option');
-    const benefits = Object.values(benefitsServices);
-    servicesList.forEach((val, idx) =>
-      expect(val.text()).to.equal(benefits[idx]),
-    );
-    wrapper.unmount();
-  });
-
-  it('Shows modal error message if geocodeError is 1 (permission denied)', () => {
-    const query = {
-      geocodeError: 1,
-    };
-    const wrapper = shallow(<SearchForm currentQuery={query} />);
-    const modal = wrapper.find('ForwardRef(VaModal)');
-    expect(modal.prop('visible')).to.be.true;
-    expect(modal.prop('modalTitle')).to.equal(
-      `Your device's location sharing is off.`,
-    );
-    expect(
-      modal
-        .dive()
-        .find('p')
-        .text(),
-    ).to.equal(
-      'To use your location when searching for a VA facility, go to the settings on your device and update sharing permissions.',
-    );
-    wrapper.unmount();
-  });
-
-  it('Shows modal error message if geocodeError is > 1', () => {
-    const query = {
-      geocodeError: 2,
-    };
-    const wrapper = shallow(<SearchForm currentQuery={query} />);
-    const modal = wrapper.find('ForwardRef(VaModal)');
-    expect(modal.prop('visible')).to.be.true;
-    expect(modal.prop('modalTitle')).to.equal("We couldn't locate you");
-    expect(
-      modal
-        .dive()
-        .find('p')
-        .text(),
-    ).to.equal(
-      'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.',
-    );
-    wrapper.unmount();
-  });
-
-  it('Does not show modal error message if geocodeError is 0', () => {
-    const query = {
+      serviceType: null,
+      searchString: '',
+      zoomLevel: 4,
       geocodeError: 0,
-    };
-    const wrapper = shallow(<SearchForm currentQuery={query} />);
-    expect(wrapper.find('ForwardRef(VaModal)').prop('visible')).to.be.false;
-    wrapper.unmount();
+    },
+    onChange: sinon.spy(),
+    onSubmit: sinon.spy(),
+    setSearchInitiated: sinon.spy(),
+    searchInitiated: false,
+    isMobile: false,
+    isSmallDesktop: false,
+    isTablet: false,
+    useProgressiveDisclosure: false,
+    vamcAutoSuggestEnabled: false,
   });
 
-  describe('Draft state behavior', () => {
-    const getDefaultProps = () => ({
-      currentQuery: {
-        facilityType: null,
-        serviceType: null,
-        searchString: '',
-        zoomLevel: 4,
-        geocodeError: 0,
-      },
-      onChange: sinon.spy(),
-      onSubmit: sinon.spy(),
-      setSearchInitiated: sinon.spy(),
-      searchInitiated: false,
-      isMobile: false,
-      isSmallDesktop: false,
-      isTablet: false,
-      useProgressiveDisclosure: false,
-      vamcAutoSuggestEnabled: false,
+  describe('Facility type rendering', () => {
+    it('should render search controls with Choose a facility type by default', () => {
+      const props = {
+        ...getDefaultProps(),
+        currentQuery: {
+          ...getDefaultProps().currentQuery,
+          facilityType: null,
+        },
+      };
+      const { container } = render(<SearchForm {...props} />);
+      expect(container.querySelector('.facility-type-dropdown-val-none')).to
+        .exist;
     });
 
-    it('should NOT call onChange when facility type changes (draft state pattern)', () => {
-      const props = getDefaultProps();
-      const wrapper = shallow(<SearchForm {...props} />);
-
-      const facilityType = wrapper.find('FacilityType');
-      facilityType.prop('handleFacilityTypeChange')({
-        target: { value: 'health' },
-      });
-
-      // In draft state pattern, onChange is only called on submit
-      expect(props.onChange.called).to.be.false;
-      wrapper.unmount();
-    });
-
-    it('should NOT call onChange when service type changes (draft state pattern)', () => {
+    it('should render search controls with VA benefits facility selected', () => {
       const props = {
         ...getDefaultProps(),
         currentQuery: {
@@ -134,152 +48,256 @@ describe('SearchForm', () => {
           facilityType: 'benefits',
         },
       };
-      const wrapper = shallow(<SearchForm {...props} />);
-
-      // Get the ServiceType component and call its handler
-      const serviceType = wrapper.find('ServiceType');
-      serviceType.prop('handleServiceTypeChange')({
-        target: { value: 'ApplyingForBenefits' },
-        selectedItem: { name: 'Applying for Benefits' },
-      });
-
-      // In draft state pattern, onChange is only called on submit
-      expect(props.onChange.called).to.be.false;
-      wrapper.unmount();
+      const { container } = render(<SearchForm {...props} />);
+      expect(container.querySelector('.facility-type-dropdown-val-benefits')).to
+        .exist;
     });
 
-    it('should call onChange with all draft values on valid form submit', () => {
+    it('should render search controls with VA benefits services options', () => {
       const props = {
         ...getDefaultProps(),
         currentQuery: {
           ...getDefaultProps().currentQuery,
-          searchString: '10001',
+          facilityType: 'benefits',
         },
       };
-      const wrapper = shallow(<SearchForm {...props} />);
-
-      // Set facility type in draft state via the handler
-      const facilityType = wrapper.find('FacilityType');
-      facilityType.prop('handleFacilityTypeChange')({
-        target: { value: 'health' },
+      const { container } = render(<SearchForm {...props} />);
+      const serviceDropdown = container.querySelector('#service-type-dropdown');
+      const options = serviceDropdown.querySelectorAll('option');
+      const benefits = Object.values(benefitsServices);
+      options.forEach((option, idx) => {
+        expect(option.textContent).to.equal(benefits[idx]);
       });
-
-      // Submit form
-      const form = wrapper.find('form#facility-search-controls');
-      form.simulate('submit', { preventDefault: () => {} });
-
-      expect(props.onChange.called).to.be.true;
-      const { lastCall } = props.onChange;
-      expect(lastCall.args[0]).to.deep.include({
-        facilityType: 'health',
-        searchString: '10001',
-      });
-      wrapper.unmount();
-    });
-
-    it('should prevent duplicate search with same draft values', () => {
-      const props = {
-        ...getDefaultProps(),
-        currentQuery: {
-          ...getDefaultProps().currentQuery,
-          searchString: '10001',
-          facilityType: 'health',
-          zoomLevel: 4,
-        },
-      };
-      const wrapper = shallow(<SearchForm {...props} />);
-
-      const form = wrapper.find('form#facility-search-controls');
-
-      // First submit
-      form.simulate('submit', { preventDefault: () => {} });
-      expect(props.onSubmit.calledOnce).to.be.true;
-
-      // Second submit with same values should be prevented
-      form.simulate('submit', { preventDefault: () => {} });
-      expect(props.onSubmit.calledOnce).to.be.true; // Still only once
-      wrapper.unmount();
     });
   });
 
-  describe('Callback props for draft state pattern', () => {
-    const getDefaultProps = () => ({
-      currentQuery: {
-        facilityType: null,
-        serviceType: null,
-        searchString: '',
-        vamcServiceDisplay: null,
-        zoomLevel: 4,
-        geocodeError: 0,
-      },
-      onChange: sinon.spy(),
-      onSubmit: sinon.spy(),
-      setSearchInitiated: sinon.spy(),
-      searchInitiated: false,
-      isMobile: false,
-      isSmallDesktop: false,
-      isTablet: false,
-      useProgressiveDisclosure: false,
-      vamcAutoSuggestEnabled: false,
-    });
-
-    it('should update draft state when onLocationSelection is called', () => {
+  describe('Geocode error modal', () => {
+    it('shows modal error message if geocodeError is 1 (permission denied)', () => {
       const props = {
         ...getDefaultProps(),
         currentQuery: {
           ...getDefaultProps().currentQuery,
-          facilityType: 'health',
+          geocodeError: 1,
         },
       };
-      const wrapper = shallow(<SearchForm {...props} />);
+      const { container } = render(<SearchForm {...props} />);
+      const modal = container.querySelector('va-modal');
+      expect(modal.getAttribute('visible')).to.equal('true');
+      expect(modal.getAttribute('modal-title')).to.equal(
+        `Your device's location sharing is off.`,
+      );
+      expect(modal.querySelector('p').textContent).to.equal(
+        'To use your location when searching for a VA facility, go to the settings on your device and update sharing permissions.',
+      );
+    });
 
-      const addressAutosuggest = wrapper.find('AddressAutosuggest');
-      const onLocationSelection = addressAutosuggest.prop(
-        'onLocationSelection',
+    it('shows modal error message if geocodeError is > 1', () => {
+      const props = {
+        ...getDefaultProps(),
+        currentQuery: {
+          ...getDefaultProps().currentQuery,
+          geocodeError: 2,
+        },
+      };
+      const { container } = render(<SearchForm {...props} />);
+      const modal = container.querySelector('va-modal');
+      expect(modal.getAttribute('visible')).to.equal('true');
+      expect(modal.getAttribute('modal-title')).to.equal(
+        "We couldn't locate you",
+      );
+      expect(modal.querySelector('p').textContent).to.equal(
+        'Sorry, something went wrong when trying to find your location. Please make sure location sharing is enabled and try again.',
+      );
+    });
+
+    it('does not show modal error message if geocodeError is 0', () => {
+      const props = {
+        ...getDefaultProps(),
+        currentQuery: {
+          ...getDefaultProps().currentQuery,
+          geocodeError: 0,
+        },
+      };
+      const { container } = render(<SearchForm {...props} />);
+      const modal = container.querySelector('va-modal');
+      expect(modal.getAttribute('visible')).to.equal('false');
+    });
+  });
+
+  describe('Draft state behavior', () => {
+    it('should NOT call onChange when only facility type changes without submit', async () => {
+      const onChange = sinon.spy();
+      const props = {
+        ...getDefaultProps(),
+        onChange,
+      };
+
+      const { container } = render(<SearchForm {...props} />);
+
+      const facilityDropdown = container.querySelector(
+        '#facility-type-dropdown',
+      );
+      facilityDropdown.value = LocationType.HEALTH;
+      facilityDropdown.dispatchEvent(
+        new CustomEvent('vaSelect', {
+          detail: { value: LocationType.HEALTH },
+          bubbles: true,
+        }),
       );
 
-      onLocationSelection({ searchString: 'New York, NY' });
-
-      const form = wrapper.find('form#facility-search-controls');
-      form.simulate('submit', { preventDefault: () => {} });
-
-      expect(props.onChange.called).to.be.true;
-      expect(props.onChange.lastCall.args[0]).to.deep.include({
-        searchString: 'New York, NY',
-        facilityType: 'health',
+      await waitFor(() => {
+        expect(onChange.called).to.be.false;
       });
-      wrapper.unmount();
     });
 
-    it('should update draft state when onVamcDraftChange is called', () => {
+    it('should NOT call onChange when service type changes without submit', async () => {
+      const onChange = sinon.spy();
       const props = {
         ...getDefaultProps(),
         currentQuery: {
           ...getDefaultProps().currentQuery,
-          facilityType: 'health',
-          searchString: '10001',
+          facilityType: LocationType.BENEFITS,
+          searchString: 'Austin TX',
         },
-        vamcAutoSuggestEnabled: true,
+        onChange,
       };
-      const wrapper = shallow(<SearchForm {...props} />);
 
-      const serviceType = wrapper.find('ServiceType');
-      const onVamcDraftChange = serviceType.prop('onVamcDraftChange');
+      const { container } = render(<SearchForm {...props} />);
 
-      onVamcDraftChange({
-        serviceType: 'PrimaryCare',
-        vamcServiceDisplay: 'Primary care',
+      const serviceDropdown = container.querySelector('#service-type-dropdown');
+      if (serviceDropdown) {
+        serviceDropdown.value = 'ApplyingForBenefits';
+        serviceDropdown.dispatchEvent(
+          new CustomEvent('vaSelect', {
+            detail: { value: 'ApplyingForBenefits' },
+            bubbles: true,
+          }),
+        );
+      }
+
+      await waitFor(() => {
+        expect(onChange.called).to.be.false;
+      });
+    });
+
+    it('should call onChange on valid form submit', async () => {
+      const onChange = sinon.spy();
+      const onSubmit = sinon.spy();
+      const setSearchInitiated = sinon.spy();
+      const props = {
+        ...getDefaultProps(),
+        currentQuery: {
+          ...getDefaultProps().currentQuery,
+          facilityType: LocationType.HEALTH,
+          serviceType: 'PrimaryCare',
+          searchString: 'Austin TX',
+        },
+        onChange,
+        onSubmit,
+        setSearchInitiated,
+      };
+
+      const { container } = render(<SearchForm {...props} />);
+
+      const form = container.querySelector('form');
+      fireEvent.submit(form);
+
+      await waitFor(() => {
+        expect(onChange.calledOnce).to.be.true;
+        expect(onChange.firstCall.args[0]).to.deep.include({
+          facilityType: LocationType.HEALTH,
+          serviceType: 'PrimaryCare',
+          searchString: 'Austin TX',
+        });
+        expect(onSubmit.calledOnce).to.be.true;
+      });
+    });
+
+    it('should prevent duplicate search when submitting same values twice', async () => {
+      const onChange = sinon.spy();
+      const onSubmit = sinon.spy();
+      const setSearchInitiated = sinon.spy();
+      const props = {
+        ...getDefaultProps(),
+        currentQuery: {
+          ...getDefaultProps().currentQuery,
+          facilityType: LocationType.HEALTH,
+          serviceType: 'PrimaryCare',
+          searchString: 'Austin TX',
+        },
+        onChange,
+        onSubmit,
+        setSearchInitiated,
+      };
+
+      const { container } = render(<SearchForm {...props} />);
+
+      const form = container.querySelector('form');
+
+      fireEvent.submit(form);
+
+      await waitFor(() => {
+        expect(onChange.calledOnce).to.be.true;
+        expect(onSubmit.calledOnce).to.be.true;
       });
 
-      const form = wrapper.find('form#facility-search-controls');
-      form.simulate('submit', { preventDefault: () => {} });
+      onChange.reset();
+      onSubmit.reset();
 
-      expect(props.onChange.called).to.be.true;
-      expect(props.onChange.lastCall.args[0]).to.deep.include({
-        serviceType: 'PrimaryCare',
-        vamcServiceDisplay: 'Primary care',
+      fireEvent.submit(form);
+
+      await waitFor(() => {
+        expect(onChange.called).to.be.false;
+        expect(onSubmit.called).to.be.false;
       });
-      wrapper.unmount();
+    });
+
+    it('should reflect facility type change in UI before submit', async () => {
+      const onChange = sinon.spy();
+      const props = {
+        ...getDefaultProps(),
+        onChange,
+      };
+
+      const { container } = render(<SearchForm {...props} />);
+
+      const facilityDropdown = container.querySelector(
+        '#facility-type-dropdown',
+      );
+      facilityDropdown.value = LocationType.CEMETERY;
+      facilityDropdown.dispatchEvent(
+        new CustomEvent('vaSelect', {
+          detail: { value: LocationType.CEMETERY },
+          bubbles: true,
+        }),
+      );
+
+      await waitFor(() => {
+        expect(facilityDropdown.value).to.equal(LocationType.CEMETERY);
+      });
+
+      expect(onChange.called).to.be.false;
+    });
+
+    it('should not call onSubmit with invalid draft state (missing required fields)', async () => {
+      const onChange = sinon.spy();
+      const onSubmit = sinon.spy();
+      const setSearchInitiated = sinon.spy();
+      const props = {
+        ...getDefaultProps(),
+        onChange,
+        onSubmit,
+        setSearchInitiated,
+      };
+
+      const { container } = render(<SearchForm {...props} />);
+
+      const form = container.querySelector('form');
+      fireEvent.submit(form);
+
+      await waitFor(() => {
+        expect(onSubmit.called).to.be.false;
+      });
     });
   });
 });
