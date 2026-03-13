@@ -15,7 +15,7 @@ import {
   validateBenefitType,
 } from '../../../shared/utils/start-page';
 
-const content = {
+export const content = {
   groupLabel: 'What type of claim are you filing a Supplemental Claim for?',
   errorMessage: 'You must choose a claim type.',
 };

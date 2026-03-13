@@ -183,9 +183,9 @@ describe('App', () => {
 
     // testing issuesNeedUpdating branch for code coverage
     await waitFor(() => {
-      const [action] = store.getActions();
-      expect(action.type).to.eq(SET_DATA);
-      expect(action.data).to.deep.equal(hasComp);
+      const actions = store.getActions();
+      expect(actions[1].type).to.eq(SET_DATA);
+      expect(actions[1].data).to.deep.equal(hasComp);
     });
   });
 
@@ -244,9 +244,9 @@ describe('App', () => {
 
     // testing issuesNeedUpdating branch for code coverage
     await waitFor(() => {
-      const [action] = store.getActions();
-      expect(action.type).to.eq(SET_DATA);
-      expect(action.data).to.deep.equal({
+      const actions = store.getActions();
+      expect(actions[1].type).to.eq(SET_DATA);
+      expect(actions[1].data).to.deep.equal({
         ...hasComp,
         contestedIssues: [
           {
@@ -295,7 +295,8 @@ describe('App', () => {
     // testing issuesNeedUpdating branch for code coverage
     await waitFor(() => {
       const actions = store.getActions();
-      expect(actions.length).to.eq(0);
+      // the action here is to set the showArrayBuilder key
+      expect(actions.length).to.eq(1);
     });
   });
 
@@ -327,9 +328,9 @@ describe('App', () => {
 
     // testing update evidence (evidenceNeedsUpdating) branch for code coverage
     await waitFor(() => {
-      const [action] = store.getActions();
-      expect(action.type).to.eq(SET_DATA);
-      expect(action.data).to.deep.equal({
+      const actions = store.getActions();
+      expect(actions[1].type).to.eq(SET_DATA);
+      expect(actions[1].data).to.deep.equal({
         ...data.form.data,
         providerFacility: [],
         locations: [{ issues: [] }],

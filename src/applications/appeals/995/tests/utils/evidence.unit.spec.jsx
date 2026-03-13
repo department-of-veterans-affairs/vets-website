@@ -246,23 +246,23 @@ describe('getProviderDetailsTitle', () => {
     describe('edit mode', () => {
       it('should the correct title with spelled out index', () => {
         expect(getProviderDetailsTitle('edit', 1, 'nonVa')).to.contain(
-          'Edit the first provider where you received treatment',
+          'Edit the first location we should request your private provider or VA Vet Center records from',
         );
 
         expect(getProviderDetailsTitle('edit', 3, 'nonVa')).to.contain(
-          'Edit the third provider where you received treatment',
+          'Edit the third location we should request your private provider or VA Vet Center records from',
         );
 
         expect(getProviderDetailsTitle('edit', 20, 'nonVa')).to.contain(
-          'Edit the 20th provider where you received treatment',
+          'Edit the 20th location we should request your private provider or VA Vet Center records from',
         );
 
         expect(getProviderDetailsTitle('edit', 31, 'nonVa')).to.contain(
-          'Edit the 31st provider where you received treatment',
+          'Edit the 31st location we should request your private provider or VA Vet Center records from',
         );
 
         expect(getProviderDetailsTitle('edit', 63, 'nonVa')).to.contain(
-          'Edit the 63rd provider where you received treatment',
+          'Edit the 63rd location we should request your private provider or VA Vet Center records from',
         );
       });
     });

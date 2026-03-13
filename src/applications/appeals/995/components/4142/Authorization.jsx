@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {
   VaCheckbox,
   VaModal,
@@ -12,18 +13,20 @@ import {
 } from 'platform/utilities/ui/focus';
 import recordEvent from 'platform/monitoring/record-event';
 import AuthorizationAlert, { alertTitle } from './AuthorizationAlert';
-import { auth4142Title } from '../../content/evidence/form4142';
 import { AUTHORIZATION_LABEL } from '../../constants';
-import { customPageProps995 } from '../../../shared/props';
 import { PrivacyActStatementContent } from './PrivacyActStatementContent';
 
+export const content = {
+  title: 'Authorize the release of non-VA medical records to VA',
+};
+
 const Authorization = ({
+  contentAfterButtons,
+  contentBeforeButtons,
   data = {},
   goBack,
   goForward,
   setFormData,
-  contentBeforeButtons,
-  contentAfterButtons,
 }) => {
   const [hasError, setHasError] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,6 +34,7 @@ const Authorization = ({
 
   const toggle4142PrivacyModal = buttonId => {
     const wasVisible = modalVisible;
+
     if (!wasVisible && buttonId) {
       setModalOpenedBy(buttonId);
     }
@@ -53,12 +57,15 @@ const Authorization = ({
         if (modalOpenedBy) {
           // Direct focus on the internal button element, not the web component, immediately
           const vaButton = document.getElementById(modalOpenedBy);
+
           if (vaButton?.shadowRoot) {
             const internalButton = vaButton.shadowRoot.querySelector('button');
+
             if (internalButton) {
               internalButton.focus();
             }
           }
+
           setModalOpenedBy(null);
         }
       };
@@ -112,6 +119,7 @@ const Authorization = ({
     },
     onChange: event => {
       const { checked } = event.target;
+
       setFormData({ ...data, privacyAgreementAccepted: checked });
 
       if (checked && hasError) {
@@ -122,10 +130,12 @@ const Authorization = ({
       // Validation ONLY happens on form submission attempt
       if (data.privacyAgreementAccepted) {
         setHasError(false);
+
         goForward(data);
       } else {
         // Show error and move focus ONLY when Continue is clicked without checkbox
         setHasError(true);
+
         focusOnAlert();
       }
     },
@@ -158,6 +168,9 @@ const Authorization = ({
     'privacy-modal-button-2',
   );
 
+  const nextPageText =
+    'You can limit your authorization to specific sources and information on the next page.';
+
   return (
     <>
       <form onSubmit={handlers.onSubmit}>
@@ -167,13 +180,13 @@ const Authorization = ({
             onAnchorClick={handlers.onAnchorClick}
           />
         )}
-        <h3>{auth4142Title}</h3>
+        <h3>{content.title}</h3>
         <p>
-          Only provide this authorization if you want us to obtain your medical
-          records from private health care providers on your behalf. If you
-          already provided these records or plan to get them yourself, you don’t
-          need to fill out this authorization. Doing so will lengthen your claim
-          processing time.
+          Only provide this authorization if you want The Department of Veterans
+          Affairs (VA) to obtain non-VA medical records on your behalf. If
+          you’ve already provided these records or intend to get them yourself,
+          there’s no need to fill out this authorization. Doing so will lengthen
+          your claim processing time.
         </p>
         <va-accordion>
           <va-accordion-item
@@ -241,10 +254,7 @@ const Authorization = ({
                 friends, public officials)
               </li>
             </ul>
-            <p>
-              You’ll have the option on the next page to limit your
-              authorization of types of sources and/or types of information.
-            </p>
+            <p>{nextPageText}</p>
           </va-accordion-item>
           <va-accordion-item header="3. Costs for records" level="4" open>
             <p className="vads-u-margin-top--0">
@@ -468,10 +478,7 @@ const Authorization = ({
               the types of sources listed.
             </li>
           </ul>
-          <p className="vads-u-margin-bottom--0">
-            You’ll have the option on the next page to limit your authorization
-            to types of sources and/or types of information.
-          </p>
+          <p className="vads-u-margin-bottom--0">{nextPageText}</p>
           <VaCheckbox
             className="vads-u-font-weight--bold vads-u-margin-top--3"
             id="privacy-agreement"
@@ -481,16 +488,8 @@ const Authorization = ({
             onVaChange={handlers.onChange}
             required
             enable-analytics
-          >
-            {/* https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/4219
-          This empty slot is required for now due to a DST defect where a
-          "description" slot is required in order for the analytics to work */}
-            <div slot="description" className="vads-u-display--none">
-              <p />
-            </div>
-          </VaCheckbox>
+          />
         </div>
-
         <div className="vads-u-margin-top--5">
           {contentBeforeButtons}
           <FormNavButtons
@@ -513,6 +512,13 @@ const Authorization = ({
   );
 };
 
-Authorization.propTypes = customPageProps995;
+Authorization.propTypes = {
+  contentAfterButtons: PropTypes.element,
+  contentBeforeButtons: PropTypes.element,
+  data: PropTypes.shape(),
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  setFormData: PropTypes.func,
+};
 
 export default Authorization;
