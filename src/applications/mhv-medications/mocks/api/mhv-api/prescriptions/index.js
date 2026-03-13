@@ -16,6 +16,7 @@ const dispStatusObj = {
   INACTIVE: 'Inactive',
   INPROGRESS: 'In progress',
   STATUSNOTAVAILABLE: 'Status not available',
+  SHIPPED: 'Active: Shipped',
 };
 function mockPrescription(n = 0, attrs = {}, isV2 = false) {
   // Generate some refillable, some not

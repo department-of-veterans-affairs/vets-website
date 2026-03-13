@@ -12,6 +12,7 @@ export const dispStatusObj = {
   nonVA: ACTIVE_NON_VA,
   onHold: 'Active: On Hold',
   activeParked: 'Active: Parked',
+  shipped: 'Active: Shipped',
 };
 
 // New VA.gov statuses (OH)

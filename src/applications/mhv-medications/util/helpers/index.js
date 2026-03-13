@@ -23,6 +23,7 @@ export { getMostRecentRxRefill } from './getMostRecentRxRefill';
 export { getRefillHistory } from './getRefillHistory';
 export { getRxStatus } from './getRxStatus';
 export { getShowRefillHistory } from './getShowRefillHistory';
+export { getTrackingUrl, getCarrierLabel } from './getTrackingInfo';
 export { hasCmopNdcNumber } from './hasCmopNdcNumber';
 export { isArrayAndHasItems } from './isArrayAndHasItems';
 export { isOracleHealthPrescription } from './isOracleHealthPrescription';

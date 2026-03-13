@@ -337,6 +337,143 @@ describe('Medication card component', () => {
       const { queryByTestId } = setup(rx, managementImprovementsState);
       expect(queryByTestId('fill-in-progress-alert')).to.be.null;
     });
+
+    it('shows shipped alert with external tracking link for known carrier', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Shipped',
+        isRefillable: false,
+        isTrackable: true,
+        trackingList: [
+          {
+            completeDateTime: new Date().toISOString(),
+            carrier: 'USPS',
+            trackingNumber: '12345678901234',
+          },
+        ],
+      };
+      const { getByTestId, getByText } = setup(rx, managementImprovementsState);
+      expect(getByTestId('shipped-alert')).to.exist;
+      const link = getByText('Get tracking info');
+      expect(link).to.have.attribute(
+        'href',
+        `https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1=12345678901234`,
+      );
+    });
+
+    it('shows shipped alert with detail page link for unknown carrier', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Shipped',
+        isRefillable: false,
+        isTrackable: true,
+        trackingList: [
+          {
+            completeDateTime: new Date().toISOString(),
+            carrier: 'OTHER',
+            trackingNumber: 'ABC123',
+          },
+        ],
+      };
+      const { getByTestId, getByText } = setup(rx, managementImprovementsState);
+      expect(getByTestId('shipped-alert')).to.exist;
+      const link = getByText('Get tracking info');
+      expect(link.getAttribute('href')).to.include(
+        `/prescription/${prescriptionsListItem.prescriptionId}`,
+      );
+    });
+
+    it('shows "Refills left" for recently shipped prescription', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Shipped',
+        isRefillable: false,
+        isTrackable: true,
+        refillRemaining: 3,
+        trackingList: [
+          {
+            completeDateTime: new Date().toISOString(),
+            carrier: 'USPS',
+            trackingNumber: '12345678901234',
+          },
+        ],
+      };
+      const { getByTestId } = setup(rx, managementImprovementsState);
+      expect(getByTestId('rx-refill-remaining')).to.have.text(
+        'Refills left: 3',
+      );
+    });
+
+    it('hides old "Shipped on" block for recently shipped prescription', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Shipped',
+        isRefillable: false,
+        isTrackable: true,
+        trackingList: [
+          {
+            completeDateTime: new Date().toISOString(),
+            carrier: 'USPS',
+            trackingNumber: '12345678901234',
+          },
+        ],
+      };
+      const { queryByTestId } = setup(rx, managementImprovementsState);
+      expect(queryByTestId('rx-card-details--shipped-on')).to.be.null;
+    });
+
+    it('hides ExtraDetails for recently shipped prescription', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Shipped',
+        isRefillable: false,
+        isTrackable: true,
+        trackingList: [
+          {
+            completeDateTime: new Date().toISOString(),
+            carrier: 'USPS',
+            trackingNumber: '12345678901234',
+          },
+        ],
+      };
+      const { container } = setup(rx, managementImprovementsState);
+      expect(container.querySelector('.shipping-info')).to.be.null;
+    });
+
+    it('does not show shipped alert when isTrackable is false', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Shipped',
+        isRefillable: true,
+        isTrackable: false,
+        trackingList: [
+          {
+            completeDateTime: new Date().toISOString(),
+            carrier: 'USPS',
+            trackingNumber: '12345678901234',
+          },
+        ],
+      };
+      const { queryByTestId } = setup(rx, managementImprovementsState);
+      expect(queryByTestId('shipped-alert')).to.be.null;
+    });
+
+    it('does not show shipped alert when tracking has no completeDateTime', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Shipped',
+        isRefillable: true,
+        isTrackable: true,
+        trackingList: [
+          {
+            carrier: 'USPS',
+            trackingNumber: '12345678901234',
+          },
+        ],
+      };
+      const { queryByTestId } = setup(rx, managementImprovementsState);
+      expect(queryByTestId('shipped-alert')).to.be.null;
+    });
   });
 
   describe('when mhvMedicationsManagementImprovements flag is disabled', () => {
