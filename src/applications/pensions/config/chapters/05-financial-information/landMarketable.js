@@ -22,7 +22,7 @@ export default {
   path: 'financial/land-marketable',
   depends: isHomeAcreageMoreThanTwo,
   uiSchema: {
-    ...titleUI('Income and assets'),
+    ...titleUI('Additional land'),
     'ui:description': LandMarketableDescription,
     landMarketable: yesNoUI({
       title: 'Is the additional land marketable?',

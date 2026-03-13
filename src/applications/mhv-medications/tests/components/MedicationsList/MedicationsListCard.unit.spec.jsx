@@ -6,6 +6,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import prescriptionsListItem from '../../fixtures/prescriptionsListItem.json';
 import MedicationsListCard from '../../../components/MedicationsList/MedicationsListCard';
 import reducers from '../../../reducers';
+import { medicationsUrls } from '../../../util/constants';
 
 describe('Medication card component', () => {
   const FLAG_COMBINATIONS = [
@@ -184,6 +185,172 @@ describe('Medication card component', () => {
       };
       const { queryByTestId } = setup(rx, managementImprovementsState);
       expect(queryByTestId('rxStatus')).to.be.null;
+    });
+
+    it('shows refill-in-progress alert for "Active: Refill in Process" status', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+      };
+      const { getByTestId, getByText } = setup(rx, managementImprovementsState);
+      expect(getByTestId('fill-in-progress-alert')).to.exist;
+      const link = getByText('Go to in-progress medications');
+      expect(link).to.have.attribute(
+        'href',
+        medicationsUrls.MEDICATIONS_IN_PROGRESS,
+      );
+    });
+
+    it('shows refill-in-progress alert for "Active: Submitted" status', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Submitted',
+        isRefillable: false,
+      };
+      const { getByTestId, getByText } = setup(rx, managementImprovementsState);
+      expect(getByTestId('fill-in-progress-alert')).to.exist;
+      const link = getByText('Go to in-progress medications');
+      expect(link).to.have.attribute(
+        'href',
+        medicationsUrls.MEDICATIONS_IN_PROGRESS,
+      );
+    });
+
+    it('shows "Refills left" for refill-in-progress even when isRefillable is false', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+        refillRemaining: 3,
+      };
+      const { getByTestId } = setup(rx, managementImprovementsState);
+      expect(getByTestId('rx-refill-remaining')).to.have.text(
+        'Refills left: 3',
+      );
+    });
+
+    it('shows "Fill in progress" text for initial fill with "Active: Refill in Process"', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+        sortedDispensedDate: null,
+      };
+      const { getByTestId, getByText } = setup(rx, managementImprovementsState);
+      expect(getByTestId('fill-in-progress-alert')).to.exist;
+      expect(getByText(/Fill in progress\./)).to.exist;
+      const link = getByText('Go to in-progress medications');
+      expect(link).to.have.attribute(
+        'href',
+        medicationsUrls.MEDICATIONS_IN_PROGRESS,
+      );
+    });
+
+    it('shows "Fill in progress" text for initial fill with "Active: Submitted"', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Submitted',
+        isRefillable: false,
+        sortedDispensedDate: null,
+      };
+      const { getByTestId, getByText } = setup(rx, managementImprovementsState);
+      expect(getByTestId('fill-in-progress-alert')).to.exist;
+      expect(getByText(/Fill in progress\./)).to.exist;
+      const link = getByText('Go to in-progress medications');
+      expect(link).to.have.attribute(
+        'href',
+        medicationsUrls.MEDICATIONS_IN_PROGRESS,
+      );
+    });
+
+    it('shows "Not filled yet" for initial fill in progress', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+        sortedDispensedDate: null,
+        refillRemaining: 3,
+      };
+      const { getByTestId, getByText } = setup(rx, managementImprovementsState);
+      expect(getByText(/Fill in progress\./)).to.exist;
+      expect(getByTestId('active-not-filled-rx')).to.have.text(
+        'Not filled yet',
+      );
+    });
+
+    it('shows "Refills left" for initial fill in progress', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Submitted',
+        isRefillable: false,
+        sortedDispensedDate: null,
+        refillRemaining: 3,
+      };
+      const { getByTestId } = setup(rx, managementImprovementsState);
+      expect(getByTestId('rx-refill-remaining')).to.have.text(
+        'Refills left: 3',
+      );
+    });
+
+    it('shows "Refill in progress" (not "Fill") when previously dispensed', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+        sortedDispensedDate: '2026-01-05T05:00:00.000Z',
+      };
+      const { getByTestId, getByText } = setup(rx, managementImprovementsState);
+      expect(getByTestId('fill-in-progress-alert')).to.exist;
+      expect(getByText(/Refill in progress\./)).to.exist;
+    });
+
+    it('shows "Last filled on" date for refill in progress', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+        sortedDispensedDate: '2026-01-05T05:00:00.000Z',
+        refillRemaining: 3,
+      };
+      const { getByTestId, getByText } = setup(rx, managementImprovementsState);
+      expect(getByText(/Refill in progress\./)).to.exist;
+      expect(getByTestId('rx-last-filled-date')).to.exist;
+    });
+
+    it('hides ExtraDetails for refill-in-progress prescriptions', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+      };
+      const { container } = setup(rx, managementImprovementsState);
+      expect(container.querySelector('.shipping-info')).to.be.null;
+    });
+
+    it('does not show fill-in-progress alert for Active status', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        isRefillable: true,
+        dispStatus: 'Active',
+      };
+      const { queryByTestId } = setup(rx, managementImprovementsState);
+      expect(queryByTestId('fill-in-progress-alert')).to.be.null;
+    });
+  });
+
+  describe('when mhvMedicationsManagementImprovements flag is disabled', () => {
+    it('does not show fill-in-progress alert and shows original layout', () => {
+      const rx = {
+        ...prescriptionsListItem,
+        dispStatus: 'Active: Refill in Process',
+        isRefillable: false,
+        prescriptionNumber: '12345',
+      };
+      const { queryByTestId, getByTestId } = setup(rx);
+      expect(queryByTestId('fill-in-progress-alert')).to.be.null;
+      expect(getByTestId('rx-number')).to.exist;
+      expect(getByTestId('rxStatus')).to.exist;
     });
   });
 

@@ -1,13 +1,13 @@
 import {
   checkboxGroupUI,
   checkboxGroupSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { allowanceLabels } from '../../../utils/labels';
-import { generateTitle } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Type of burial allowance'),
+    ...titleUI('Type of burial allowance'),
     burialAllowanceRequested: {
       ...checkboxGroupUI({
         title:

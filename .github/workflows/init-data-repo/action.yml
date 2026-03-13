@@ -4,6 +4,11 @@ description: Check out repo and install dependencies
 runs:
   using: composite
   steps:
+    - name: Save caller Node version
+      id: save-caller-node
+      shell: bash
+      run: echo NODE_VERSION=$(node -v | sed 's/^v//') >> $GITHUB_OUTPUT
+
     - name: Checkout Testing Tools Team Dashboard Data repo
       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
       with:
@@ -43,3 +48,8 @@ runs:
       env:
         YARN_CACHE_FOLDER: .cache/yarn
       working-directory: qa-standards-dashboard-data
+
+    - name: Restore caller Node version
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ steps.save-caller-node.outputs.NODE_VERSION }}

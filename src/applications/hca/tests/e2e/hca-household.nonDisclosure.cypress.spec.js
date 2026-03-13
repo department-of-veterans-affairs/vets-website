@@ -24,7 +24,7 @@ describe('HCA-Household: Non-disclosure', () => {
 
     goToNextPage('/household-information/share-financial-information-confirm');
     goToNextPage('/household-information/marital-status');
-    cy.get('[name="root_maritalStatus"]').select(testData.maritalStatus);
+    cy.selectVaSelect('root_maritalStatus', testData.maritalStatus);
 
     advanceFromHouseholdToSubmit(testData, { disclosureAssertionValue: false });
     cy.injectAxeThenAxeCheck();
@@ -36,7 +36,7 @@ describe('HCA-Household: Non-disclosure', () => {
 
     goToNextPage('/household-information/financial-information-needed');
     goToNextPage('/household-information/marital-status');
-    cy.get('[name="root_maritalStatus"]').select('Never Married');
+    cy.selectVaSelect('root_maritalStatus', 'Never Married');
 
     goToNextPage('/household-information/your-dependents');
     goToNextPage('/household-information/dependents');

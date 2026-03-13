@@ -27,6 +27,11 @@ export const Paths = {
   ROOT_URL: manifest.rootUrl,
 };
 
+export const ExternalLinks = {
+  MHV_ON_VAGOV_WHAT_TO_KNOW:
+    'https://www.va.gov/resources/my-healthevet-on-vagov-what-to-know/',
+};
+
 export const DefaultFolders = {
   INBOX: {
     id: 0,

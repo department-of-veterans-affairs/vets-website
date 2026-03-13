@@ -4,13 +4,13 @@ import {
   radioSchema,
   textUI,
   textSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { restingPlaceLabels } from '../../../utils/labels';
-import { generateTitle } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('Final resting place'),
+    ...titleUI('Final resting place'),
     finalRestingPlace: {
       location: radioUI({
         title:

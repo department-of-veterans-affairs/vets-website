@@ -33,7 +33,7 @@ const SearchControls = props => {
     geolocationInProgress,
     isErrorEmptyInput,
     searchArea,
-    organizationFilter,
+    organization,
   } = currentQuery;
 
   const onlySpaces = str => /^\s+$/.test(str);
@@ -58,40 +58,23 @@ const SearchControls = props => {
     ),
   );
 
-  const organizationSelectOptions = organizations.map(organization => (
-    <option key={organization} value={organization}>
-      {organization}
+  const organizationSelectOptions = organizations.map(org => (
+    <option key={org} value={org}>
+      {org}
     </option>
   ));
 
+  const handleChange = name => e => {
+    onChange({
+      [name]: onlySpaces(e.target.value)
+        ? e.target.value.trim()
+        : e.target.value,
+    });
+  };
+
   const handleLocationChange = e => {
-    onChange({
-      locationInputString: onlySpaces(e.target.value)
-        ? e.target.value.trim()
-        : e.target.value,
-    });
+    handleChange('locationInputString')(e);
     clearError(ErrorTypes.geocodeError);
-  };
-  const handleSearchAreaChange = e => {
-    onChange({
-      searchArea: onlySpaces(e.target.value)
-        ? e.target.value.trim()
-        : e.target.value,
-    });
-  };
-  const handleOrganizationChange = e => {
-    onChange({
-      organizationFilter: onlySpaces(e.target.value)
-        ? e.target.value.trim()
-        : e.target.value,
-    });
-  };
-  const handleRepresentativeChange = e => {
-    onChange({
-      representativeInputString: onlySpaces(e.target.value)
-        ? e.target.value.trim()
-        : e.target.value,
-    });
   };
 
   const handleGeolocationButtonClick = e => {
@@ -107,9 +90,12 @@ const SearchControls = props => {
     focusElement(`#street-city-state-zip`);
   };
 
-  useEffect(() => {
-    dispatch(fetchOrganizations);
-  }, []);
+  useEffect(
+    () => {
+      if (organizationFilterEnabled) dispatch(fetchOrganizations);
+    },
+    [dispatch, organizationFilterEnabled],
+  );
 
   return (
     <div className="search-controls-container clearfix vads-u-margin-bottom--neg2">
@@ -212,32 +198,19 @@ const SearchControls = props => {
               name="area"
               value={searchArea || '50'}
               label="Search area"
-              onVaSelect={handleSearchAreaChange}
+              onVaSelect={handleChange('searchArea')}
               uswds
             >
               {searchAreaSelectOptions}
             </VaSelect>
           </div>
-          {organizationFilterEnabled &&
-            representativeType === 'veteran_service_officer' && (
-              <div className="organization-select">
-                <VaComboBox
-                  name="organization"
-                  value={organizationFilter}
-                  label="Veterans Service Organization (VSO)"
-                  onVaSelect={handleOrganizationChange}
-                >
-                  {organizationSelectOptions}
-                </VaComboBox>
-              </div>
-            )}
           <div className="representative-name-input vads-u-margin-top--4">
             <va-text-input
               hint={null}
               label="Name of accredited representative"
               name="Name of accredited representative"
-              onChange={handleRepresentativeChange}
-              onInput={handleRepresentativeChange}
+              onChange={handleChange('representativeInputString')}
+              onInput={handleChange('representativeInputString')}
               onKeyPress={e => {
                 if (e.key === 'Enter') onSubmit();
               }}
@@ -245,6 +218,20 @@ const SearchControls = props => {
               uswds
             />
           </div>
+          {organizationFilterEnabled &&
+            representativeType === 'veteran_service_officer' && (
+              <div className="organization-select">
+                <VaComboBox
+                  name="organization"
+                  value={organization}
+                  label="Veterans Service Organization (VSO)"
+                  onVaSelect={handleChange('organization')}
+                  data-testid="vso-org-filter"
+                >
+                  {organizationSelectOptions}
+                </VaComboBox>
+              </div>
+            )}
         </div>
 
         <div className="vads-u-margin-top--5 vads-u-margin-bottom--4">

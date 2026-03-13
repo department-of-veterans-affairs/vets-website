@@ -2,9 +2,11 @@
 import {
   titleUI,
   yesNoUI,
-  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
+
+const { isEnrolledMedicarePartA } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -20,7 +22,7 @@ export default {
     type: 'object',
     required: ['isEnrolledMedicarePartA'],
     properties: {
-      isEnrolledMedicarePartA: yesNoSchema,
+      isEnrolledMedicarePartA,
     },
   },
 };

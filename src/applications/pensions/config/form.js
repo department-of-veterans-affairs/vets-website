@@ -2,6 +2,7 @@ import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import { minimalHeaderFormConfigOptions } from 'platform/forms-system/src/js/patterns/minimal-header';
 import GetFormHelp from '../components/GetFormHelp';
 import FormSavedPage from '../components/FormSavedPage';
 import { submit } from './submit';
@@ -34,6 +35,22 @@ const formConfig = {
   downtime: {
     dependencies: [externalServices.icmhs],
   },
+  ...minimalHeaderFormConfigOptions({
+    breadcrumbList: [
+      {
+        href: '/',
+        label: 'VA.gov home',
+      },
+      {
+        href: '/pension',
+        label: 'Pension benefits',
+      },
+      {
+        href: '/pension/apply-for-veteran-pension-form-21p-527ez',
+        label: 'Apply for Veterans Pension benefits"',
+      },
+    ],
+  }),
   useCustomScrollAndFocus: false,
   defaultDefinitions,
   title: 'Apply for Veterans Pension benefits',

@@ -2,30 +2,26 @@
 import {
   titleUI,
   radioUI,
-  radioSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { genderLabels } from 'platform/static-data/labels';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
-// Filter genderLabels to only include values that match the schema enum (F, M only)
-const birthSexLabels = {
-  F: genderLabels.F,
-  M: genderLabels.M,
-};
+const { gender } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
     ...titleUI(content['vet-info--birth-sex-title']),
     gender: radioUI({
       title: content['vet-info--birth-sex-label'],
-      labels: birthSexLabels,
+      labels: genderLabels,
     }),
   },
   schema: {
     type: 'object',
     required: ['gender'],
     properties: {
-      gender: radioSchema(['F', 'M']),
+      gender,
     },
   },
 };

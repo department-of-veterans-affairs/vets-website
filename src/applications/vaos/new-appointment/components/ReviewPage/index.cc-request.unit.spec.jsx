@@ -187,6 +187,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
           },
         },
       ],
+      systemType: 'hsrm',
     });
   });
 

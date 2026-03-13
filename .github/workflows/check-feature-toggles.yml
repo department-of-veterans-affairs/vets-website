@@ -7,6 +7,8 @@ jobs:
   search:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       # Check out vets-website
       - name: Check out vets-website
