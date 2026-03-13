@@ -403,6 +403,7 @@ describe('Medications Prescriptions container', () => {
           'api-status': 'successful',
         });
       });
+
       // Check that datadogRum.addAction was called
       await waitFor(() => {
         expect(addActionSpy.called).to.be.true;
