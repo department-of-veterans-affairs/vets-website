@@ -8,6 +8,13 @@ class BaseDetailsPage {
       .should('be.visible')
       .and('not.be.disabled')
       .click();
+    cy.get('[data-testid="print-download-menu"]', { timeout: 10000 })
+      .should('have.attr', 'aria-expanded')
+      .then(expanded => {
+        if (expanded !== 'true') {
+          cy.get('[data-testid="print-download-menu"]').click();
+        }
+      });
     cy.get('[data-testid="print-download-menu"]', { timeout: 10000 }).should(
       'have.attr',
       'aria-expanded',

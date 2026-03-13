@@ -178,8 +178,8 @@ export const fileInputMultipleUI = options => {
 
           if (
             uiOptions.additionalInputRequired &&
-            (data.length === 0 ||
-              data.some(file => isEmpty(file.additionalData)))
+            data.length > 0 &&
+            data.some(file => isEmpty(file.additionalData))
           ) {
             // add a placeholder error to force re-render
             errors.addError(`${Math.random()}`);
