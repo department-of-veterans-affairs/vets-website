@@ -6,6 +6,7 @@ import NeedHelp from '../components/shared/NeedHelp';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import useFetchPrescriptionsInProgress from '../hooks/PrescriptionsInProgress/useFetchPrescriptionsInProgress';
 import { pageType, dataDogActionNames } from '../util/dataDogConstants';
+import InProgressMedicationsEmptyView from '../components/PrescriptionsInProgress/InProgressMedicationsEmptyView';
 
 const PrescriptionsInProgress = () => {
   const {
@@ -34,7 +35,15 @@ const PrescriptionsInProgress = () => {
       return <ApiErrorNotification errorType="access" content="medications" />;
     }
 
-    // TODO: Implement empty state design for when there are no in-progress medications
+    if (
+      inProgress.length === 0 &&
+      shipped.length === 0 &&
+      submitted.length === 0 &&
+      tooEarly.length === 0
+    ) {
+      return <InProgressMedicationsEmptyView />;
+    }
+
     return (
       <InProgressMedicationsProcessList
         inProgress={inProgress}
