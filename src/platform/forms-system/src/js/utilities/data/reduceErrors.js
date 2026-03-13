@@ -140,6 +140,7 @@ const ignoreKeys = [
  *   page object if the name is not found on any page
  */
 export const getPropertyInfo = (pageList = [], name, instance = '') => {
+  console.log(pageList, name, instance);
   const findPageIndex = (
     obj,
     insideInstance = instance === '' || instance === name,
@@ -159,7 +160,7 @@ export const getPropertyInfo = (pageList = [], name, instance = '') => {
     }
     return -1;
   };
-  return pageList.find(page => findPageIndex(page) > -1) || {};
+  return pageList.filter(page => findPageIndex(page) > -1) || {};
 };
 
 /**
@@ -268,6 +269,10 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
             getPropertyInfo(pageList, name);
           const { chapterKey = '', pageKey = '', navigationType = 'edit' } =
             overrideResult || {};
+
+          console.log('KEY DE PAGINA:', overrideResult);
+          const pageKeys = overrideResult.map(obj => obj.pageKey);
+          console.log('PAGE KEYS:', pageKeys);
           // `message` can be null if a reviewErrors function explicitly returns null
           // to suppress the error link. This is useful when multiple related errors
           // exist and only one link should be displayed.
@@ -279,7 +284,7 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
               message:
                 message || err.__errors.map(e => formatErrors(e)).join('. '),
               chapterKey,
-              pageKey,
+              pageKeys,
               navigationType,
             });
           }
@@ -324,8 +329,10 @@ export const reduceErrors = (errors, pageList, reviewErrors = {}) =>
                 // full path to the error
                 property,
               );
+              console.log('HELP:', argument, property);
             const { chapterKey = '', pageKey = '', navigationType = 'edit' } =
               overrideResult || {};
+            console.log('pageKey', pageKey);
             processedErrors.push({
               // property name
               name: propertyName,

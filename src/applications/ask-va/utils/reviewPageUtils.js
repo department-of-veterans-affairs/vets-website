@@ -216,6 +216,7 @@ export const handleFormSubmission = async ({
 };
 
 export const handleDataUpdate = (setData, args, onSetData) => {
+  console.log('here');
   setData(...args);
   onSetData?.();
 };

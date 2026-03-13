@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
@@ -11,6 +11,7 @@ import {
 import {
   setData,
   setEditMode,
+  setFormErrors,
   setViewedPages,
   uploadFile,
 } from '@department-of-veterans-affairs/platform-forms-system/actions';
@@ -25,6 +26,8 @@ import {
 } from '@department-of-veterans-affairs/platform-user/selectors';
 import { scrollTo, getScrollOptions } from 'platform/utilities/scroll';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { isValidForm } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import { reduceErrors } from '~/platform/forms-system/src/js/utilities/data/reduceErrors';
 
 import {
   closeReviewChapter,
@@ -61,7 +64,12 @@ import {
   maskSocial,
 } from '../utils/reviewPageUtils';
 
+export const getErrorPageKeys = err => {
+  return err.pageKeys.map(pageKey => `${pageKey}${err.index ?? ''}`);
+};
+
 const ReviewPage = props => {
+  const errorPageKeys = useRef([]);
   const [showAlert, setShowAlert] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
   const [editSection, setEditSection] = useState([]);
@@ -70,6 +78,17 @@ const ReviewPage = props => {
   const [show503Alert, setShow503Alert] = useState(false);
 
   const dispatch = useDispatch();
+
+  const sectionHasErrors = (section, pageKeys) => {
+    console.log('HERERERERE, sectionHasErrors', section, pageKeys);
+    const pages = props.routes[1].pageList;
+
+    const newPagesToCheck = pages.filter(page =>
+      pageKeys.includes(page.pageKey),
+    );
+
+    return newPagesToCheck.some(page => page.pageKey === section);
+  };
 
   const scrollToChapter = chapterKey => {
     scrollTo(`chapter${chapterKey}ScrollElement`, getScrollOptions(chapterKey));
@@ -112,6 +131,7 @@ const ReviewPage = props => {
   };
 
   const handleEdit = (pageKey, editing, index = null) => {
+    console.log('enteredHandleEdit', pageKey, editing);
     if (pageKey === 'question' && props.formData.question.length > 10000) {
       focusElement('va-textarea');
     } else {
@@ -124,15 +144,47 @@ const ReviewPage = props => {
       if (editing) {
         props.setViewedPages([fullPageKey]);
         dispatch(setUpdatedInReview(''));
-      }
-      props.setEditMode(pageKey, editing, index);
-      if (!editing) {
+      } else {
         dispatch(setUpdatedInReview(pageKey));
+      }
+
+      console.log('formData', props.form, props.routes[1].pageList);
+      const { errors } = isValidForm(props.form, props.routes[1].pageList);
+      const cleanedErrors = reduceErrors(errors, props.routes[1].pageList);
+      props.setFormErrors({
+        rawErrors: errors,
+        errors: cleanedErrors,
+      });
+
+      const tempErrorPageKeys = [];
+
+      cleanedErrors.forEach(error => {
+        const keys = getErrorPageKeys(error);
+        tempErrorPageKeys.push(...keys);
+      });
+
+      errorPageKeys.current = tempErrorPageKeys;
+
+      const hasErrors = cleanedErrors.some(error => {
+        const errorPages = getErrorPageKeys(error);
+        return errorPages.includes(pageKey);
+      });
+
+      console.log('hasErrors', hasErrors, pageKey);
+      console.log('editing', editing);
+      console.log(
+        'wish me luck',
+        !editing && !hasErrors,
+        (!editing && !hasErrors) || editing,
+      );
+      if ((!editing && !hasErrors) || editing) {
+        props.setEditMode(pageKey, editing, index);
       }
     }
   };
 
   const editAll = (pageKeys, title) => {
+    console.log(pageKeys);
     if (
       title === chapterTitles.yourContactInformation ||
       title === chapterTitles.yourInformation ||
@@ -146,8 +198,13 @@ const ReviewPage = props => {
   };
 
   const closeAll = (pageKeys, title) => {
+    console.log('EHRERERERERERERERERERERERERERERRERRER');
     pageKeys.forEach(key => handleEdit(key, false));
-    const updateViewedList = editSection.filter(section => section !== title);
+    console.log('editSection before', editSection, title);
+    const updateViewedList = editSection.filter(
+      section =>
+        section !== title || !sectionHasErrors(section, errorPageKeys.current),
+    );
     setEditSection(updateViewedList);
   };
 
@@ -751,7 +808,7 @@ const ReviewPage = props => {
                         showButtons={false}
                         open={chapter.open}
                         pageKeys={chapter.pageKeys}
-                        pageList={getPageKeysForReview(formConfig)}
+                        pageList={props.routes[1].pageList}
                         setData={(...args) => handleSetData(...args)}
                         setValid={props.setValid}
                         toggleButtonClicked={() => handleToggleChapter(chapter)}
@@ -1163,7 +1220,7 @@ const ReviewPage = props => {
                         showButtons={false}
                         open={chapter.open}
                         pageKeys={chapter.pageKeys.filter(key => key)}
-                        pageList={getPageKeysForReview(formConfig)}
+                        pageList={props.routes[1].pageList}
                         setData={(...args) => handleSetData(...args)}
                         setValid={props.setValid}
                         toggleButtonClicked={() => handleToggleChapter(chapter)}
@@ -1512,6 +1569,7 @@ ReviewPage.propTypes = {
 const mapDispatchToProps = {
   setData,
   setEditMode,
+  setFormErrors,
   setViewedPages,
   uploadFile,
 };

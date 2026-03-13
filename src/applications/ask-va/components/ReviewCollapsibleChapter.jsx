@@ -20,6 +20,8 @@ import {
   focusOnChange,
   getFocusableElements,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { isValidForm } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import { reduceErrors } from '~/platform/forms-system/src/js/utilities/data/reduceErrors';
 
 import { removeDuplicatesByChapterAndPageKey } from '../utils/reviewPageHelper';
 import ArrayField from './ArrayField';
@@ -33,10 +35,12 @@ class ReviewCollapsibleChapter extends React.Component {
   constructor(props) {
     super(props);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleSave = this.handleSave.bind(this);
     this.id = uniqueId();
   }
 
   handleEdit(key, editing, index = null) {
+    console.log('ReviewCollapsibleChapter handleEdit');
     this.props.onEdit(key, editing, index);
     this.scrollToPage(key);
     if (editing) {
@@ -46,15 +50,21 @@ class ReviewCollapsibleChapter extends React.Component {
     }
   }
 
-  onChange(formData, path = null, index = null) {
-    let newData = formData;
-    if (path) {
-      newData = set([path, index], formData, this.props.form.data);
-    }
-    this.props.setData(newData);
-  }
+  handleSave = key => {
+    console.log('ReviewCollapsibleChapter handleSave');
+    const { pageList, form, reviewErrors } = this.props;
+    // Update form errors & rawErrors in redux state
+    const { errors } = isValidForm(form, pageList);
+    const cleanedErrors = reduceErrors(errors, pageList, reviewErrors);
+    this.props.setFormErrors({
+      rawErrors: errors,
+      errors: cleanedErrors,
+    });
+    focusOnChange(key);
+  };
 
   handleSubmit = (formData, key, path = null, index = null) => {
+    console.log('ReviewCollapsibleChapter handleSubmit');
     // This makes sure defaulted data on a page with no changes is saved
     // Probably safe to do this for regular pages, too, but it hasn’t been necessary
     if (path) {
@@ -62,8 +72,31 @@ class ReviewCollapsibleChapter extends React.Component {
       this.props.setData(newData);
     }
 
+    // const { errors } = isValidForm(this.props.form, this.props.pageList);
+    console.log(errors);
+
     this.handleEdit(key, false, index);
   };
+
+  onChange(formData, path = null, index = null) {
+    console.log('ReviewCollapsibleChapter onChange');
+    let newData = formData;
+    if (path) {
+      newData = set([path, index], formData, this.props.form.data);
+    }
+
+    // const newForm = { ...this.props.form, data: newData };
+
+    // console.log('formData', newForm, this.props.form.pages);
+    // const { errors } = isValidForm(newForm, this.props.pageList);
+
+    // this.props.setFormErrors({
+    //   rawErrors: errors,
+    //   errors,
+    // });
+    // console.log('errors', errors);
+    this.props.setData(newData);
+  }
 
   shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
     expandedPages.length === 1 &&
@@ -222,13 +255,13 @@ class ReviewCollapsibleChapter extends React.Component {
                   // update page button - needed to dynamically update
                   // accordion headers
                   // this.checkValidation();
-                  focusOnChange(
+                  this.handleSave(
                     `${page.pageKey}${
                       typeof page.index === 'number' ? page.index : ''
                     }`,
                   );
                 }}
-                buttonText="Save"
+                buttonText="Save2"
                 buttonClass="usa-button-primary vads-u-width--auto"
                 ariaLabel={ariaLabel}
               />

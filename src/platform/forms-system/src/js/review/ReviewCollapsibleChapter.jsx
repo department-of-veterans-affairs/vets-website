@@ -95,6 +95,7 @@ class ReviewCollapsibleChapter extends React.Component {
     const scrollElementKey = `${key}${index ?? ''}`;
 
     // Update form errors & rawErrors in redux state
+    console.log('pageList', pageList);
     const { errors } = isValidForm(form, pageList);
     const cleanedErrors = reduceErrors(errors, pageList, reviewErrors);
     this.props.setFormErrors({

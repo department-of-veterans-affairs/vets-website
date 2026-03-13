@@ -9,6 +9,7 @@ const ReviewSectionContent = ({
   items = [],
 }) => {
   const removeNullitems = items.filter(item => item.data);
+  console.log('KEYS:', keys);
   const reviewListKeys = removeNullitems
     .map(item => keys.filter(key => key.split('_')[0] === item.key)[0])
     .filter(key => key !== undefined && key !== null);
