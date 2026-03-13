@@ -31,7 +31,9 @@ const DebtDetails = () => {
   const currentDebt = getCurrentDebt(selectedDebt, debts, location);
 
   const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
-  const dateUpdated = last(currentDebt.debtHistory)?.date;
+  const dateUpdated =
+    head(currentDebt.fiscalTransactionData)?.transactionDate ||
+    last(currentDebt.debtHistory)?.date;
 
   const filteredHistory = currentDebt.debtHistory
     ?.filter(history => approvedLetterCodes.includes(history.letterCode))
