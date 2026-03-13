@@ -26,14 +26,16 @@ export const verifyElement = (selector, index = 0) =>
 
 export const verifyUrl = linkUrl => cy.url().should('contain', linkUrl);
 
-export const clearInput = selector =>
-  cy
-    .get(selector)
+export const clearInput = selector => {
+  cy.get(selector)
     .shadow()
     .get('input')
     .first()
-    .focus()
-    .clear();
+    .as('selectorInput');
+
+  cy.get('@selectorInput').focus();
+  cy.get('@selectorInput').clear();
+};
 
 export const verifyResult = (
   selector,
@@ -70,15 +72,17 @@ export const closeSearchMenu = () => cy.get('va-icon[icon="remove"]').click();
 export const verifyElementNotVisible = selector =>
   cy.get(selector).should('not.be.visible');
 
-export const typeInInput = (selector, value) =>
-  cy
-    .get(selector)
+export const typeInInput = (selector, value) => {
+  cy.get(selector)
     .shadow()
     .get('input')
     .first()
-    .click()
-    .type(value, { force: true });
+    .as('selectorInput');
 
+  cy.get('@selectorInput').click();
+
+  cy.get('@selectorInput').type(value, { force: true });
+};
 export const goToNextPage = () => {
   cy.get('va-pagination')
     .should('exist')

@@ -4,13 +4,14 @@ import * as h from './helpers';
 
 describe('Resources & Support (Desktop)', () => {
   beforeEach(() => {
-    cy.intercept('/resources/search/articles.json', articles);
+    cy.intercept('/resources/search/articles.json', articles).as('getArticles');
   });
 
   it('shows the appropriate elements for the desktop view and searching', () => {
     // Setup with search term
     cy.viewport(1000, 2000);
     cy.visit('/resources/search/?query=benefits');
+    cy.wait('@getArticles');
     cy.injectAxeThenAxeCheck();
 
     // Check header
