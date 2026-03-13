@@ -35,8 +35,8 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - Use `yarn test:unit --coverage` to run tests with coverage
 - Use `yarn test:coverage-app {app-name}` to run coverage for a specific app
 - Use `yarn cy:open` to open Cypress UI test runner for a user
-- Use `yarn cy:run:auto --spec "path/to/test.cypress.spec.js"` to run Cypress tests — automatically starts a dev server, runs with no retries/video, and provides structured failure output. No need to start `yarn watch` manually.
-- Use `yarn cy:run --spec "..."` for standard Cypress run (retries, video). Requires a dev server on port 3001.
+- Use `yarn cy:run:auto --spec "..."` to run Cypress tests with auto dev server, no retries, and structured failure output
+- Use `yarn cy:run --spec "..."` for standard Cypress run (requires dev server on port 3001)
 - Prefer Cypress tests over manual browser testing
 - Cypress tests require vets-api to NOT be running (APIs are mocked by tests)
 
@@ -44,14 +44,7 @@ This is a monorepo for VA.gov, with shared code in `src/platform` and individual
 - Use `yarn test:unit --log-level trace` to run tests with stack traces
 - Use `yarn test:unit src/applications/path/to/tests/**/*.unit.spec.js` to run tests with glob patterns
 - Use `yarn test:unit --help` for test runner usage help
-- Use `yarn cy:run --spec "path/to/test-file.cypress.spec.js"` to run specific Cypress tests
-- Use `yarn cy:run --spec "..." --retry --video` to run with retries and video recording
 - Use `yarn cy:run:localreports app-folder` to run Cypress tests with reports
-
-## Cypress testing workflow
-1. Run `yarn cy:run:auto --spec "path/to/cypress-test.js"` — dev server starts and stops automatically, no retries, structured output.
-2. Or start dev server manually with `nohup yarn watch --env entry=app-name > /dev/null 2>&1 &` and run `yarn cy:run --spec "..."`.
-3. On failure, read the structured summary (failures, command log, screenshots, diagnostics) to diagnose issues.
 
 ## Mock API Development
 - Use `yarn mock-api --responses path/to/responses.js` to run mock API server
