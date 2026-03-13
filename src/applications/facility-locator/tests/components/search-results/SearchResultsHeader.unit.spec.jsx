@@ -255,7 +255,7 @@ describe('SearchResultsHeader', () => {
     expect(wrapper.find('h2').text()).to.match(
       createRegexString({
         radius: STD_RADIUS,
-        totalEntries: 0,
+        totalEntries: 14,
         location: defaultLocation,
         serviceType: emergencyCareServices.NonVAEmergencyCare,
         facilityType: FacilitiesServicesConstants.EMERGENCY_CARE.string,
@@ -279,7 +279,7 @@ describe('SearchResultsHeader', () => {
         radius: STD_RADIUS,
         serviceType: emergencyCareServices.AllEmergencyCare,
         facilityType: FacilitiesServicesConstants.EMERGENCY_CARE.string,
-        totalEntries: 0,
+        totalEntries: 14,
         location: defaultLocation,
       }),
     );
