@@ -92,6 +92,7 @@ const testConfig = createTestConfig(
       'confirmation-question': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
+          // runAxeCheck(/confirmation-question/i);
           cy.get('@testData').then(data => {
             const confirmationSelection = data.confirmationQuestion ? 'Y' : 'N';
             cy.selectVaRadioOption(
@@ -116,12 +117,12 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'section-1-banner': ({ afterHook }) => {
+      /* 'section-1-banner': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.findByText(/continue/i, { selector: 'button' }).click();
         });
-      },
+      }, */
       'personal-information-1': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -141,6 +142,7 @@ const testConfig = createTestConfig(
       },
       'contact-information-1': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
+
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.fillAddressWebComponentPattern(
@@ -439,7 +441,9 @@ const testConfig = createTestConfig(
       },
       'authorization-and-certification': ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
+
         afterHook(() => {
+          // runAxeCheck(/authorization-and-certification/i);
           selectCheckboxWebComponent('authorizationRelease', true);
           selectCheckboxWebComponent('certificationStatements', true);
           selectCheckboxWebComponent('serviceConnectedStatements', true);
@@ -449,10 +453,9 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            reviewAndSubmitPageFlow(
-              data.veteran.fullName,
-              'Submit veteran application',
-            );
+            const signerName = data.veteran.fullName;
+
+            reviewAndSubmitPageFlow(signerName, 'Submit veteran application');
           });
         });
       },

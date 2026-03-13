@@ -15,7 +15,7 @@ const ombInfo = {
 export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
   const content = {
     formTitle:
-      "VETERAN'S APPLICATION FOR INCREASED COMPENSATION BASED ON UNEMPLOYABILITY (VA 21-8940) ",
+      "Veteran's Application for Increased Compensation Based on Unemployability (VA 21-8940) ",
     formSubTitle: '',
     authStartFormText: "Start the veteran's application",
     saveInProgressText:
