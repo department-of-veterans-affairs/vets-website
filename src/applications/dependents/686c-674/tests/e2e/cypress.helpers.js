@@ -1,9 +1,30 @@
-import { getUnixTime, add } from 'date-fns';
+import { getUnixTime, add, parse, isValid, format } from 'date-fns';
 
 import mockVaFileNumber from './fixtures/va-file-number.json';
+import mockDependents from './fixtures/mock-dependents.json';
 import mockUser from './user.json';
+import { pageHooks } from './cypress.helpers.hooks';
 
-export const setupCypress = (returnUrl = '') => {
+export { pageHooks };
+
+export const setupCypress = ({
+  returnUrl = '',
+  useTestDataInSip = false,
+} = {}) => {
+  // DoB in prefill processes MM/dd/yyyy format from `/show` endpoint to
+  // MM-dd-yyyy
+  const processedDependents = mockDependents.data.attributes.persons.map(
+    person => {
+      const dobObj = parse(person.dateOfBirth, 'MM/dd/yyyy', new Date());
+      return {
+        ...person,
+        dateOfBirth: isValid(dobObj)
+          ? format(dobObj, 'yyyy-MM-dd')
+          : person.dateOfBirth,
+      };
+    },
+  );
+
   const submission = {
     formSubmissionId: '123fake-submission-id-567',
     timestamp: '2020-11-12',
@@ -69,7 +90,22 @@ export const setupCypress = (returnUrl = '') => {
   );
   cy.get('@testData').then(testData => {
     const mockSipGet = {
-      formData: testData,
+      formData: useTestDataInSip
+        ? testData
+        : {
+            veteranInformation: testData.veteranInformation,
+            veteranContactInformation: testData.veteranContactInformation,
+            nonPrefill: {
+              dependents: {
+                success: 'true',
+                dependents: processedDependents,
+              },
+              isInReceiptOfPension:
+                testData.veteranInformation.isInReceiptOfPension || -1,
+              netWorthLimit:
+                testData.veteranInformation.netWorthLimit || 163699,
+            },
+          },
       metadata: {
         version: 0,
         prefill: true,
@@ -98,132 +134,11 @@ export const setupCypress = (returnUrl = '') => {
 
     cy.intercept('GET', '/v0/in_progress_forms/686C-674-V2', mockSipGet);
     cy.intercept('PUT', '/v0/in_progress_forms/686C-674-V2', mockSipPut);
+    cy.intercept('GET', '/v0/dependents_applications/show', mockDependents);
     cy.intercept('POST', '/v0/dependents_applications', submission).as(
       'submitApplication',
     );
 
     cy.login(userData);
   });
-};
-
-// Added
-export const fillDateWebComponentPattern = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    const [year, month, day] = value.split('-');
-
-    if (navigator.userAgent.includes('Chrome')) {
-      cy.get(`va-memorable-date[name="root_${fieldName}"]`)
-        .shadow()
-        .find('va-select.usa-form-group--month-select')
-        .shadow()
-        .find('select')
-        .select(parseInt(month, 10))
-        .realPress('Tab')
-        .realType(day)
-        .realPress('Tab')
-        .realType(year);
-    } else {
-      cy.get(`va-memorable-date[name="root_${fieldName}"]`)
-        .shadow()
-        .find('va-select.usa-form-group--month-select')
-        .shadow()
-        .find('select')
-        .select(parseInt(month, 10))
-        .then(() => {
-          cy.get(`va-memorable-date[name="root_${fieldName}"]`)
-            .shadow()
-            .find('va-text-input.usa-form-group--day-input')
-            .shadow()
-            .find('input')
-            .type(day)
-            .then(() => {
-              cy.get(`va-memorable-date[name="root_${fieldName}"]`)
-                .shadow()
-                .find('va-text-input.usa-form-group--year-input')
-                .shadow()
-                .find('input')
-                .type(year);
-            });
-        });
-    }
-  }
-};
-
-export const fillStandardTextInput = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`input[id="root_${fieldName}"], input[name="root_${fieldName}"]`)
-      .clear()
-      .type(value);
-  }
-};
-
-export const fillTextareaWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`va-textarea[name="root_${fieldName}"]`)
-      .shadow()
-      .find('textarea')
-      .clear()
-      .type(value);
-  }
-};
-
-export const fillTextWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`va-text-input[name="root_${fieldName}"]`)
-      .shadow()
-      .find('input')
-      .type(value);
-  }
-};
-
-export const selectRadioWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(
-      `va-radio-option[name="root_${fieldName}"][value="${value}"]`,
-    ).click();
-  }
-};
-
-export const selectRadioWebComponentShadow = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`va-radio-option[name="root_${fieldName}"][value="${value}"]`)
-      .shadow()
-      .find('input[type="radio"]')
-      .click({ force: true });
-  }
-};
-
-export const selectRadioWebComponentAlt = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`input[name="root_${fieldName}"][value="${value}"]`).click({
-      force: true,
-    });
-  }
-};
-
-export const selectYesNoWebComponent = (fieldName, value) => {
-  const selection = value ? 'Y' : 'N';
-  selectRadioWebComponent(fieldName, selection);
-};
-
-export const fillSelectWebComponent = (fieldName, value) => {
-  if (typeof value !== 'undefined') {
-    cy.get(`va-select[name="root_${fieldName}"]`)
-      .shadow()
-      .find('select')
-      .select(value);
-  }
-};
-
-export const signAndSubmit = () => {
-  cy.get('va-text-input')
-    .shadow()
-    .find('input')
-    .type('John Doe');
-  cy.get('va-checkbox')
-    .shadow()
-    .find('input[type="checkbox"]')
-    .check({ force: true });
-  cy.injectAxeThenAxeCheck();
-  cy.clickFormContinue();
 };

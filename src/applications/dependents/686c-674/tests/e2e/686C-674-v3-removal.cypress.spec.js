@@ -8,7 +8,7 @@ import manifest from '../../manifest.json';
 import mockVaFileNumber from './fixtures/va-file-number.json';
 import mockDependents from './fixtures/mock-dependents.json';
 import user from './user.json';
-import { signAndSubmit } from './cypress.helpers';
+import { pageHooks } from './cypress.helpers';
 
 Cypress.config('waitForAnimations', true);
 
@@ -293,11 +293,7 @@ const testConfig = createTestConfig(
         });
       },
 
-      'review-and-submit': ({ afterHook }) => {
-        afterHook(() => {
-          signAndSubmit();
-        });
-      },
+      'review-and-submit': pageHooks['review-and-submit'],
     },
     // skip: Cypress.env('CI'),
   },
