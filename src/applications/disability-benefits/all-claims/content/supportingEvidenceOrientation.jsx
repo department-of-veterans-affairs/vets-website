@@ -99,27 +99,28 @@ export const additionalSupportAccordion = (
       class="vads-u-margin-y--1"
       header="Where supporting documents may come from and additional forms"
       id="first"
+      level="3"
     >
-      <h3 className="vads-u-font-size--h5 vads-u-margin-y--0">
+      <h4 className="vads-u-font-size--h5 vads-u-margin-y--0">
         Records of receiving care
-      </h3>
+      </h4>
       <ul>
         <li>Civilian physicians or caregivers</li>
         <li>Counseling facilities or health clinics</li>
         <li>Sexual trauma crisis centers or centers for domestic abuse</li>
       </ul>
-      <h3 className="vads-u-font-size--h5 vads-u-margin-y--0">
+      <h4 className="vads-u-font-size--h5 vads-u-margin-y--0">
         Buddy or lay statements, also called written testimonials
-      </h3>
+      </h4>
       <ul>
         <li>Family members or roommates</li>
         <li>Faculty members</li>
         <li>Fellow service members</li>
         <li>Chaplains or clergy members</li>
       </ul>
-      <h3 className="vads-u-font-size--h5 vads-u-margin-y--0">
+      <h4 className="vads-u-font-size--h5 vads-u-margin-y--0">
         Civilian police reports
-      </h3>
+      </h4>
       <ul>
         <li>Police headquarters</li>
         <li>Local precincts</li>
@@ -131,9 +132,9 @@ export const additionalSupportAccordion = (
         <li>Personal journal or diary entries</li>
         <li>Emails, messages, or letters</li>
       </ul>
-      <h3 className="vads-u-font-size--h5 vads-u-margin-y--0">
+      <h4 className="vads-u-font-size--h5 vads-u-margin-y--0">
         Additional forms
-      </h3>
+      </h4>
       <ul>
         <li>Requests for increased compensation if you can’t work</li>
         <li>Requests for an automobile allowance</li>
