@@ -543,9 +543,7 @@ function buildSummary({
   if (screenshots.length > 0) {
     out.push(`  SCREENSHOTS: (${screenshots.length})`);
     screenshots.forEach(s => {
-      const idx = s.indexOf('cypress/screenshots/');
-      const relative = idx !== -1 ? s.substring(idx) : s;
-      out.push(`    ${relative}`);
+      out.push(`    "${s}"`);
     });
     out.push('');
   }
