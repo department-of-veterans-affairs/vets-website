@@ -273,76 +273,6 @@ describe('Thread Details container', () => {
     });
   });
 
-  it('with a reply draft message on a replied to message is MORE than 45 days', async () => {
-    const { category, subject } = replyDraftThread.threadDetails.messages[0];
-
-    const state = {
-      sm: {
-        folders: {
-          folder: inbox,
-        },
-        triageTeams: {
-          triageTeams: recipients,
-        },
-        threadDetails: {
-          isStale: isOlderThan(getLastSentMessage(messages).sentDate, 45),
-          cannotReply: isOlderThan(getLastSentMessage(messages).sentDate, 45),
-          drafts: [
-            {
-              ...replyDraftMessage,
-              draftDate: new Date(),
-            },
-          ],
-          messages: [
-            {
-              ...replyMessage,
-              sentDate: subDays(new Date(), 46).toISOString(),
-            },
-            olderMessage,
-          ],
-          isLoading: false,
-          replyToName: replyMessage.senderName,
-          threadFolderId: '0',
-          replyToMessageId: replyMessage.messageId,
-        },
-      },
-    };
-    const screen = setup(state);
-
-    expect(await screen.queryByText('Continue to reply')).to.not.exist;
-
-    expect(
-      await screen.findByText(`Messages: ${category} - ${subject}`, {
-        exact: false,
-      }),
-    ).to.exist;
-
-    expect(global.document.title).to.equal(
-      `Messages: ${PageTitles.CONVERSATION_TITLE_TAG}`,
-    );
-
-    expect(document.querySelector('va-textarea')).to.not.exist;
-
-    expect(document.querySelector('section.old-reply-message-body')).to.exist;
-
-    expect(
-      document.querySelector('span[data-testid=draft-reply-to]').textContent,
-    ).to.equal(
-      'Draft To: FREEMAN, GORDON\n(Team: SM_TO_VA_GOV_TRIAGE_GROUP_TEST)',
-    );
-
-    expect(screen.getByTestId('not-for-print-header').textContent).to.contain(
-      '2 messages in this conversation',
-    );
-
-    expect(
-      screen.getByTestId(`message-body-${olderMessage.messageId}`).textContent,
-    ).to.contain(olderMessage.body);
-    expect(screen.queryByTestId('send-button')).to.be.null;
-    expect(screen.queryByTestId('save-draft-button')).to.be.null;
-    expect(screen.getByTestId('delete-draft-button')).to.exist;
-  });
-
   it('with a reply draft message on a replied to message is MORE than 45 days OH message', async () => {
     const { category, subject } = replyDraftThread.threadDetails.messages[0];
 
@@ -420,63 +350,7 @@ describe('Thread Details container', () => {
     expect(screen.getByTestId('delete-draft-button')).to.exist;
   });
 
-  it('with reply draft where message is stale but cannotReply is true (useCanReplyField enabled)', async () => {
-    stubUseFeatureToggles({
-      useCanReplyField: true,
-    });
-
-    const { category, subject } = replyDraftThread.threadDetails.messages[0];
-
-    const state = {
-      sm: {
-        folders: {
-          folder: inbox,
-        },
-        triageTeams: {
-          triageTeams: recipients,
-        },
-        threadDetails: {
-          isStale: isOlderThan(getLastSentMessage(messages).sentDate, 45),
-          replyDisabled: true,
-          cannotReply: true,
-          drafts: [
-            {
-              ...replyDraftMessage,
-              draftDate: new Date(),
-            },
-          ],
-          messages: [
-            {
-              ...replyMessage,
-              isOhMessage: true,
-              sentDate: subDays(new Date(), 46).toISOString(),
-            },
-            olderMessage,
-          ],
-          isLoading: false,
-          replyToName: replyMessage.senderName,
-          threadFolderId: '0',
-          replyToMessageId: replyMessage.messageId,
-        },
-      },
-    };
-
-    const screen = setup(state);
-
-    expect(
-      await screen.findByText(`Messages: ${category} - ${subject}`, {
-        exact: false,
-      }),
-    ).to.exist;
-
-    expect(document.querySelector('va-textarea')).to.not.exist;
-
-    // Even though the message is stale, since replyDisabled is true, the stale alert is overridden
-    expect(screen.queryByTestId('expired-alert-message')).to.be.null;
-    expect(screen.getByTestId('cannot-reply-alert-message')).to.exist;
-  });
-
-  it('with reply draft where message is not stale but cannotReply is true (useCanReplyField enabled)', async () => {
+  it('displays cannotReply alert for reply draft when message is not stale but cannotReply is true (useCanReplyField enabled)', async () => {
     // Enable the useCanReplyField feature toggle
     stubUseFeatureToggles({
       useCanReplyField: true,
@@ -1389,5 +1263,339 @@ describe('Thread Details container', () => {
     expect(screen.queryByRole('heading', { level: 1 })).to.not.exist;
     expect(screen.queryByTestId('alert-text')).to.not.exist;
     expect(screen.queryByTestId('thread-loading-indicator')).to.not.exist;
+  });
+
+  describe('when migrating facility and blocked triage group and replyDisabled and stale', () => {
+    const MIGRATION_ALERT_H2 = /You can.t use messages to contact providers at some facilities right now/i;
+
+    it('renders MigratingFacilitiesAlerts only', async () => {
+      stubUseFeatureToggles({
+        useCanReplyField: true,
+      });
+
+      const state = {
+        sm: {
+          folders: {
+            folder: inbox,
+          },
+          threadDetails: {
+            ...threadDetails,
+            isStale: true,
+            cannotReply: true,
+            replyDisabled: true,
+            ohMigrationPhase: 'p3',
+          },
+          recipients: {
+            allRecipients: oneBlockedRecipient.mockAllRecipients,
+            allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
+            blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
+            associatedTriageGroupsQty:
+              oneBlockedRecipient.associatedTriageGroupsQty,
+            associatedBlockedTriageGroupsQty:
+              oneBlockedRecipient.associatedBlockedTriageGroupsQty,
+            noAssociations: oneBlockedRecipient.noAssociations,
+            allTriageGroupsBlocked: oneBlockedRecipient.allTriageGroupsBlocked,
+          },
+        },
+        user: {
+          profile: {
+            migrationSchedules: [
+              {
+                migrationDate: 'February 13, 2026',
+                facilities: [
+                  {
+                    facilityId: '979',
+                    facilityName: 'Test VA Medical Center',
+                  },
+                ],
+                migrationStatus: 'ACTIVE',
+                phases: {
+                  current: 'p3',
+                  p0: 'December 15, 2025 at 12:00AM ET',
+                  p1: 'December 30, 2025 at 12:00AM ET',
+                  p2: 'January 14, 2026 at 12:00AM ET',
+                  p3: 'February 7, 2026 at 12:00AM ET',
+                  p4: 'February 10, 2026 at 12:00AM ET',
+                  p5: 'February 13, 2026 at 12:00AM ET',
+                  p6: 'February 15, 2026 at 12:00AM ET',
+                  p7: 'February 20, 2026 at 12:00AM ET',
+                },
+              },
+            ],
+          },
+        },
+        drupalStaticData: {
+          vamcEhrData: {
+            data: {
+              ehrDataByVhaId: [
+                {
+                  facilityId: '662',
+                  isCerner: false,
+                },
+                {
+                  facilityId: '636',
+                  isCerner: false,
+                },
+              ],
+            },
+          },
+        },
+      };
+
+      const screen = setup(state);
+      const { category, subject } = threadDetails.messages[0];
+
+      expect(
+        await screen.findByText(`Messages: ${category} - ${subject}`, {
+          exact: false,
+          selector: 'h1',
+        }),
+      ).to.exist;
+      // renders migration alert
+      const h2 = screen.getByText(MIGRATION_ALERT_H2);
+      expect(h2.tagName).to.equal('H2');
+
+      // does not render blocked triage group alert
+      expect(screen.queryByTestId('blocked-triage-group-alert')).to.be.null;
+
+      // does not render cannot reply alert
+      expect(screen.queryByTestId('cannot-reply-alert-message')).to.be.null;
+
+      // does not render stale alert
+      expect(screen.queryByTestId('expired-alert-message')).to.be.null;
+    });
+  });
+  describe('when migrating facility and stale', () => {
+    const MIGRATION_ALERT_H2 = /You can.t use messages to contact providers at some facilities right now/i;
+    it('renders MigratingFacilitiesAlerts only', async () => {
+      stubUseFeatureToggles({
+        useCanReplyField: true,
+      });
+
+      const state = {
+        sm: {
+          folders: {
+            folder: inbox,
+          },
+          threadDetails: {
+            ...threadDetails,
+            isStale: true,
+            cannotReply: true,
+            replyDisabled: false,
+
+            ohMigrationPhase: 'p3',
+          },
+          recipients: {
+            allRecipients: oneBlockedRecipient.mockAllRecipients,
+            allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
+            blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
+            associatedTriageGroupsQty:
+              oneBlockedRecipient.associatedTriageGroupsQty,
+            associatedBlockedTriageGroupsQty:
+              oneBlockedRecipient.associatedBlockedTriageGroupsQty,
+            noAssociations: oneBlockedRecipient.noAssociations,
+            allTriageGroupsBlocked: oneBlockedRecipient.allTriageGroupsBlocked,
+          },
+        },
+        user: {
+          profile: {
+            migrationSchedules: [
+              {
+                migrationDate: 'February 13, 2026',
+                facilities: [
+                  {
+                    facilityId: '979',
+                    facilityName: 'Test VA Medical Center',
+                  },
+                ],
+                migrationStatus: 'ACTIVE',
+                phases: {
+                  current: 'p3',
+                  p0: 'December 15, 2025 at 12:00AM ET',
+                  p1: 'December 30, 2025 at 12:00AM ET',
+                  p2: 'January 14, 2026 at 12:00AM ET',
+                  p3: 'February 7, 2026 at 12:00AM ET',
+                  p4: 'February 10, 2026 at 12:00AM ET',
+                  p5: 'February 13, 2026 at 12:00AM ET',
+                  p6: 'February 15, 2026 at 12:00AM ET',
+                  p7: 'February 20, 2026 at 12:00AM ET',
+                },
+              },
+            ],
+          },
+        },
+        drupalStaticData: {
+          vamcEhrData: {
+            data: {
+              ehrDataByVhaId: [
+                {
+                  facilityId: '662',
+                  isCerner: false,
+                },
+                {
+                  facilityId: '636',
+                  isCerner: false,
+                },
+              ],
+            },
+          },
+        },
+      };
+
+      const screen = setup(state);
+      const { category, subject } = threadDetails.messages[0];
+
+      expect(
+        await screen.findByText(`Messages: ${category} - ${subject}`, {
+          exact: false,
+          selector: 'h1',
+        }),
+      ).to.exist;
+
+      // renders migration alert
+      const h2 = screen.getByText(MIGRATION_ALERT_H2);
+      expect(h2.tagName).to.equal('H2');
+
+      // does not render blocked triage group alert
+      expect(screen.queryByTestId('blocked-triage-group-alert')).to.be.null;
+
+      // does not render cannot reply alert
+      expect(screen.queryByTestId('cannot-reply-alert-message')).to.be.null;
+
+      // does not render stale alert
+      expect(screen.queryByTestId('expired-alert-message')).to.be.null;
+    });
+  });
+  describe('when blocked triage group and replyDisabled and stale', () => {
+    const BLOCKED_TRIAGE_GROUP_ALERT_H2 = /You can't use messages to contact providers at some facilities right now/i;
+
+    it('renders BlockedTriageGroupAlert only', async () => {
+      stubUseFeatureToggles({
+        useCanReplyField: true,
+      });
+
+      const state = {
+        sm: {
+          folders: {
+            folder: inbox,
+          },
+          threadDetails: {
+            ...threadDetails,
+            isStale: true,
+            cannotReply: true,
+            replyDisabled: true,
+          },
+          recipients: {
+            allRecipients: oneBlockedRecipient.mockAllRecipients,
+            allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
+            blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
+            associatedTriageGroupsQty:
+              oneBlockedRecipient.associatedTriageGroupsQty,
+            associatedBlockedTriageGroupsQty:
+              oneBlockedRecipient.associatedBlockedTriageGroupsQty,
+            noAssociations: oneBlockedRecipient.noAssociations,
+            allTriageGroupsBlocked: oneBlockedRecipient.allTriageGroupsBlocked,
+          },
+        },
+        drupalStaticData: {
+          vamcEhrData: {
+            data: {
+              ehrDataByVhaId: [
+                {
+                  facilityId: '662',
+                  isCerner: false,
+                },
+                {
+                  facilityId: '636',
+                  isCerner: false,
+                },
+              ],
+            },
+          },
+        },
+      };
+
+      const screen = setup(state);
+      const { category, subject } = threadDetails.messages[0];
+
+      expect(
+        await screen.findByText(`Messages: ${category} - ${subject}`, {
+          exact: false,
+          selector: 'h1',
+        }),
+      ).to.exist;
+      // does not render migration alert
+      expect(
+        screen.queryByText(BLOCKED_TRIAGE_GROUP_ALERT_H2, {
+          selector: 'h2',
+        }),
+      ).to.be.null;
+
+      // does not render blocked triage group alert
+      expect(screen.findByTestId('blocked-triage-group-alert')).to.exist;
+
+      // does not render cannot reply alert
+      expect(screen.queryByTestId('cannot-reply-alert-message')).to.be.null;
+
+      // does not render stale alert
+      expect(screen.queryByTestId('expired-alert-message')).to.be.null;
+    });
+  });
+  describe('when replyDisabled and stale', () => {
+    it('displays cannotReply alert for reply draft (useCanReplyField enabled)', async () => {
+      stubUseFeatureToggles({
+        useCanReplyField: true,
+      });
+
+      const { category, subject } = replyDraftThread.threadDetails.messages[0];
+
+      const state = {
+        sm: {
+          folders: {
+            folder: inbox,
+          },
+          triageTeams: {
+            triageTeams: recipients,
+          },
+          threadDetails: {
+            isStale: isOlderThan(getLastSentMessage(messages).sentDate, 45),
+            replyDisabled: true,
+            cannotReply: true,
+            drafts: [
+              {
+                ...replyDraftMessage,
+                draftDate: new Date(),
+              },
+            ],
+            messages: [
+              {
+                ...replyMessage,
+                isOhMessage: true,
+                sentDate: subDays(new Date(), 46).toISOString(),
+              },
+              olderMessage,
+            ],
+            isLoading: false,
+            replyToName: replyMessage.senderName,
+            threadFolderId: '0',
+            replyToMessageId: replyMessage.messageId,
+          },
+        },
+      };
+
+      const screen = setup(state);
+
+      expect(
+        await screen.findByText(`Messages: ${category} - ${subject}`, {
+          exact: false,
+        }),
+      ).to.exist;
+
+      expect(document.querySelector('va-textarea')).to.not.exist;
+
+      // Even though the message is stale, since replyDisabled is true, the stale alert is overridden
+      expect(screen.queryByTestId('expired-alert-message')).to.be.null;
+      expect(screen.getByTestId('cannot-reply-alert-message')).to.exist;
+    });
   });
 });

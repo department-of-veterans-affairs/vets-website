@@ -152,7 +152,8 @@ const MessageThreadHeader = props => {
                 cannotReply &&
                 isStale &&
                 !replyDisabled &&
-                !showBlockedTriageGroupAlert
+                !showBlockedTriageGroupAlert &&
+                !isInMigrationPhase
               }
               isOhMessage={isOhMessage}
             />
