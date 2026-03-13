@@ -9,6 +9,7 @@ import {
   getActiveExpandedPages,
 } from '@department-of-veterans-affairs/platform-forms-system/helpers';
 import formConfig from '../config/form';
+import { VETERAN_DETAILS_CHAPTER_TITLE } from '../constants';
 
 /**
  * @typedef {Object} MajorStep
@@ -25,7 +26,7 @@ import formConfig from '../config/form';
  * @const {Array<{key: string, label: string}>}
  */
 const CHAPTER_STEP_MAP = [
-  { key: 'veteranDetails', label: 'Veteran details' },
+  { key: 'veteranDetails', label: VETERAN_DETAILS_CHAPTER_TITLE },
   { key: 'disabilities', label: 'Conditions' },
   { key: 'mentalHealth', label: 'Mental health statement' },
   { key: 'supportingEvidence', label: 'Supporting evidence' },

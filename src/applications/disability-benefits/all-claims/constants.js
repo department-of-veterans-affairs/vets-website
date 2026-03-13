@@ -23,6 +23,8 @@ export const START_TEXT = {
   BDD: 'Start the Benefits Disability at Discharge Application',
 };
 
+export const VETERAN_DETAILS_CHAPTER_TITLE = 'Veteran details';
+
 export const ITF_NOTICE_TEXT = `By starting the disability application, you'll declare your intent to file. This will reserve a potential effective date for when you could start getting benefits. You have 1 year from the day you submit your intent to file to complete your application.`;
 
 export const itfStatuses = {
