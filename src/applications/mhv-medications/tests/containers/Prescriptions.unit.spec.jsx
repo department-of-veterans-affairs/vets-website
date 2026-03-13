@@ -389,7 +389,7 @@ describe('Medications Prescriptions container', () => {
     });
 
     it('should call recordEvent when rxRenewalMessageSuccess query param is present', async () => {
-      const addActionSpy = sinon.spy(datadogRum, 'addAction');
+      const addActionSpy = sandbox.spy(datadogRum, 'addAction');
       setup(initialState, '/?rxRenewalMessageSuccess=true');
 
       await waitFor(() => {
@@ -409,8 +409,6 @@ describe('Medications Prescriptions container', () => {
         expect(addActionSpy.called).to.be.true;
       });
       expect(addActionSpy.calledWith('Rx Renewal Success')).to.be.true;
-
-      addActionSpy.restore();
     });
 
     it('should not call recordEvent when rxRenewalMessageSuccess query param is not present', async () => {
