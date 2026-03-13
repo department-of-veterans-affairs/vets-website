@@ -1144,6 +1144,159 @@ jobs:
           conclusion: ${{ needs.stress-test-cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+  
+  forms-system_regression_check_get_file_paths:
+    name: Form System Regression Check - Get Files for Testing
+    needs: [tests-prep]
+    if: contains(needs.tests-prep.outputs.changed_file_paths, 'src/platform/forms-system')
+    runs-on: ubuntu-latest
+    outputs:
+      folders: ${{ steps.testing-folders.outputs.folders }}
+      cypress_specs: ${{ steps.testing-folders.outputs.cypress_specs }}
+      unit_test_specs: ${{ steps.testing-folders.outputs.unit_test_specs }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: |
+          cd /tmp
+          npm install @babel/parser @babel/traverse
+      - name: Get exports
+        id: testing-folders
+        env:
+          NODE_PATH: /tmp/node_modules
+          CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
+        run: node script/github-actions/find-form-exports.js
+      - name: Log script outputs
+        run: |
+          echo 'folders: ${{ steps.testing-folders.outputs.folders }}'
+          echo 'cypress_specs: ${{ steps.testing-folders.outputs.cypress_specs }}'
+          echo 'unit_test_specs: ${{ steps.testing-folders.outputs.unit_test_specs }}'
+  run_form-regression_unit_tests:
+    name: Forms System Regression - Unit Tests (${{ matrix.index }})
+    needs: forms-system_regression_check_get_file_paths
+    if: needs.forms-system_regression_check_get_file_paths.outputs.folders != ''
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        include: ${{ fromJson(needs.forms-system_regression_check_get_file_paths.outputs.unit_test_specs) }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+      - name: Run unit tests
+        run: yarn test:unit:gha "${{ matrix.spec }}"
+
+  run_form-regression_cypress_tests:
+    name: Forms System Regression - Cypress E2E Tests (${{ matrix.index }})
+    needs: [build, forms-system_regression_check_get_file_paths, fetch-ecr-credentials]
+    if: needs.forms-system_regression_check_get_file_paths.outputs.folders != ''
+    runs-on: ubuntu-16-cores-latest
+    continue-on-error: true
+    timeout-minutes: 120
+    permissions:
+      id-token: write
+      contents: read
+
+    container:
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/cypress/browsers:node-22.12.0-chrome-131.0.6778.108-1-ff-133.0-edge-131.0.2903.70-1
+      credentials:
+        username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
+        password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
+
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        include: ${{ fromJson(needs.forms-system_regression_check_get_file_paths.outputs.cypress_specs) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_region: us-gov-west-1
+          role: ${{ vars.AWS_ASSUME_ROLE }}
+
+      - name: Download production build artifact
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: vagovprod.tar.zst
+
+      - name: Unpack build
+        run: |
+          mkdir -p build/vagovprod
+          tar -C build/vagovprod --zstd -xf vagovprod.tar.zst
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 20
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          install-cypress: 'true'
+          path: |
+            .cache/yarn
+            /github/home/.cache/Cypress
+            node_modules
+
+      - name: Run Cypress tests
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          echo "Starting test server..."
+          node src/platform/testing/e2e/test-server.js \
+            --buildtype=vagovprod \
+            --port=3001 \
+            --host=127.0.0.1 \
+            > test-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+
+          echo "Waiting for server to be ready..."
+          ready=false
+          for i in $(seq 1 30); do
+            if wget -q --spider http://127.0.0.1:3001 2>/dev/null; then
+              echo "Server is ready!"
+              ready=true
+              break
+            fi
+            echo "Attempt $i failed, retrying..."
+            sleep 2
+          done
+
+          if [ "$ready" = false ]; then
+            echo "Server failed to start. Last 200 log lines:"
+            tail -n 200 test-server.log || cat test-server.log
+            exit 1
+          fi
+
+          yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options configFile=config/cypress-reporters.js --spec "${{ matrix.spec }}"
+        timeout-minutes: 60
+        env:
+          CYPRESS_CI: true
+
+      - name: Archive test videos
+        if: ${{ failure() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: forms-regression-cypress-videos-${{ strategy.job-index }}
+          path: cypress/videos
+
+      - name: Archive test screenshots
+        if: ${{ failure() }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: forms-regression-cypress-screenshots-${{ strategy.job-index }}
+          path: cypress/screenshots
 
   testing-reports-unit-tests:
     name: Testing Reports - Unit Tests
