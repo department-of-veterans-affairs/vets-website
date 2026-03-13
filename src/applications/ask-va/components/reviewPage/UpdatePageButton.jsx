@@ -11,7 +11,7 @@ const UpdatePageButton = ({ closeSection, keys, scroll, title }) => {
       buttonText="Update page"
       onButtonClick={() => {
         closeSection(keys, title);
-        scroll(title);
+        scroll();
       }}
       submitButton
       useWebComponents
