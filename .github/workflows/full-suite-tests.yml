@@ -32,6 +32,8 @@ jobs:
   validate-inputs:
     name: Validate Inputs
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Check that at least one test suite is selected
         run: |
@@ -191,6 +193,8 @@ jobs:
     name: Tests Prep
     needs: [fetch-allow-lists]
     runs-on: ubuntu-22.04
+    permissions:
+      contents: read
     outputs:
       disallowed-tests: ${{ steps.disallowed-tests.outputs.tests }}
       cypress-tests: ${{ steps.cypress-tests.outputs.selected }}
