@@ -45,8 +45,9 @@ describe('SM DELETE CUSTOM FOLDER', () => {
 
     cy.get(Locators.ALERTS.REMOVE_THIS_FOLDER)
       .shadow()
-      .find('.va-modal-close', { timeout: 2000 })
-      .should(`be.focused`);
+      .find('.va-modal-close')
+      .should(`be.visible`)
+      .and(`be.focused`);
     cy.get(Locators.ALERTS.REMOVE_THIS_FOLDER)
       .find(`va-button[text*='keep']`)
       .click();
