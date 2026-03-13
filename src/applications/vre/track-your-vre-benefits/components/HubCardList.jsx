@@ -116,6 +116,7 @@ const HubCardList = ({ step, stateList = [] }) => {
                 />
               ) : (
                 <VaLink
+                  active
                   href={card.href}
                   text={card.title}
                   className=" vads-u-font-weight--bold"
