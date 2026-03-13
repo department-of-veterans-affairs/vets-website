@@ -195,6 +195,7 @@ describe('Connected HealthCareContent', () => {
     appointmentsErrors = [],
     hasServerError = false,
     unreadCount = 2,
+    unreadCountErrors = [],
   } = {}) => ({
     health: {
       appointments: {
@@ -205,6 +206,7 @@ describe('Connected HealthCareContent', () => {
       msg: {
         unreadCount: {
           count: unreadCount,
+          errors: unreadCountErrors,
         },
       },
     },
@@ -301,5 +303,34 @@ describe('Connected HealthCareContent', () => {
     tree.getByRole('heading', { name: 'Upcoming appointment', level: 4 });
     tree.getByTestId('application-appointment-link');
     tree.getByTestId('manage-all-appointments-link');
+  });
+
+  it('shows no unread messages card when unread count is zero', () => {
+    const tree = renderWithStoreAndRouter(
+      <ConnectedHealthCareContent isVAPatient />,
+      {
+        initialState: createState({ unreadCount: 0 }),
+        reducers,
+      },
+    );
+
+    tree.getByTestId('no-unread-messages-card');
+    expect(tree.queryByTestId('messages-error')).to.not.exist;
+  });
+
+  it('shows messages error when unread count request fails', () => {
+    const tree = renderWithStoreAndRouter(
+      <ConnectedHealthCareContent isVAPatient />,
+      {
+        initialState: createState({ unreadCountErrors: [{ code: '500' }] }),
+        reducers,
+      },
+    );
+
+    tree.getByTestId('messages-error');
+    expect(tree.queryByTestId('no-unread-messages-card')).to.not.exist;
+    tree.getByRole('heading', { name: 'Appointments', level: 3 });
+    tree.getByRole('heading', { name: 'Messages', level: 3 });
+    tree.getByTestId('my-healthevet-link');
   });
 });

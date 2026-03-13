@@ -44,12 +44,9 @@ const HealthCareContent = ({
   const NoUpcomingAppointments = () => (
     <va-card data-testid="no-upcoming-appointments-card">
       <h4 className="vads-u-margin-top--0">Upcoming appointments</h4>
-      <p>You don’t have any upcoming appointments.</p>
-      <va-link
-        text="Manage health appointments"
-        href="/my-health/appointments"
-        active
-      />
+      <p className="vads-u-margin-y--0">
+        You don’t have any upcoming appointments.
+      </p>
     </va-card>
   );
 
