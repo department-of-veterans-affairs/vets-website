@@ -5,51 +5,19 @@ const isPdfFile = file =>
   file?.type === 'application/pdf' ||
   file?.name?.toLowerCase().endsWith('.pdf');
 
-const readFileAsBase64 = file =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const { result } = reader;
-        // result is in form data:<mime>;base64,<payload>
-        const [, payload] = String(result).split(',');
-        if (!payload) {
-          reject(new Error('Unable to read file contents.'));
-          return;
-        }
-        resolve(payload);
-      } catch (error) {
-        reject(error);
-      }
-    };
-    reader.onerror = () => {
-      reject(reader.error || new Error('File read failed.'));
-    };
-    reader.readAsDataURL(file);
-  });
-
 export const uploadDocument = async file => {
   if (!isPdfFile(file)) {
     throw new Error('Unsupported file type for CAVE upload.');
   }
 
-  const pdfBase64 = await readFileAsBase64(file);
-
-  /* eslint-disable camelcase */
-  const requestPayload = {
-    pdf_b64: pdfBase64,
-    file_name: file.name,
-  };
-  /* eslint-enable camelcase */
+  const formData = new FormData();
+  formData.append('file', file, file.name);
 
   let payload;
   try {
     payload = await apiRequest(buildIntakeUrl(), {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestPayload),
+      body: formData,
     });
   } catch (error) {
     const status = error?.status || 'unknown';

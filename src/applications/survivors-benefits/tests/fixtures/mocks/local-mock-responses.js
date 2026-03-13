@@ -4,6 +4,7 @@ const mockUser = require('./user.json');
 const { generateFeatureFlags } = require('./feature-flags');
 const submit = require('./completed.json');
 const completedForm = require('./completed-form.json');
+const caveResponses = require('./mock-cave');
 
 const responses = {
   'GET /v0/user': mockUser,
@@ -68,6 +69,7 @@ const responses = {
     });
   },
   'POST /survivors_benefits/v0/form534ez': submit,
+  ...caveResponses,
 };
 
 module.exports = responses;
