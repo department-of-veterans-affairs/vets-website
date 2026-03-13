@@ -97,7 +97,7 @@ function cancelItemPage(type) {
     .should('include', /cancel/gi);
   cy.get('va-modal[status="warning"]')
     .shadow()
-    .get('.va-modal-alert-body va-button')
+    .get('.va-modal-alert va-button')
     .first()
     .click();
 }
@@ -112,7 +112,7 @@ function removeItem1() {
     .should('contain', 'Delete');
   cy.get('va-modal[status="warning"]')
     .shadow()
-    .get('.va-modal-alert-body va-button')
+    .get('.va-modal-alert va-button')
     .first()
     .click();
   cy.get('va-card').should('have.length', 1);

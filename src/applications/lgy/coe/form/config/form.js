@@ -40,7 +40,6 @@ import {
 } from '../constants';
 import certificateUse from '../pages/certificateUse';
 import hadPriorLoans from '../pages/hadPriorLoans';
-import currentOwnership from '../pages/currentOwnership';
 import { propertiesHomeLoansPages } from '../pages/propertiesHomeLoansPages';
 
 const formConfig = {
@@ -257,18 +256,6 @@ const formConfig = {
           },
           uiSchema: hadPriorLoans.uiSchema,
           schema: hadPriorLoans.schema,
-        },
-        currentOwnership: {
-          path: 'current-ownership',
-          title: 'Ownership of properties with VA home loans',
-          depends: formData => {
-            return (
-              formData[`view:${TOGGLE_KEY}`] &&
-              formData?.loanHistory?.hadPriorLoans
-            );
-          },
-          uiSchema: currentOwnership.uiSchema,
-          schema: currentOwnership.schema,
         },
         ...propertiesHomeLoansPages,
       },

@@ -14,10 +14,7 @@ const testConfig = createTestConfig(
     fixtures: { data: path.join(__dirname, 'fixtures') },
     setupPerTest: () => {
       // Pass form start page path
-      setupCypress({
-        returnUrl: '/686-report-add-child/summary',
-        useTestDataInSip: true,
-      });
+      setupCypress('/686-report-add-child/summary');
     },
 
     stopTestAfterPath: '/review-and-submit',
@@ -54,7 +51,7 @@ const testConfig = createTestConfig(
 
           cy.get('va-modal[status="warning"]')
             .shadow()
-            .find('.va-modal-alert-body va-button')
+            .find('.va-modal__footer va-button')
             .first() // cancel button
             .click();
 

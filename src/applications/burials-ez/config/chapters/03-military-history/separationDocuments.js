@@ -1,13 +1,13 @@
 import React from 'react';
 import {
+  titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { generateTitle } from '../../../utils/helpers';
 
 export default {
   uiSchema: {
-    'ui:title': generateTitle('DD214 or other separation documents'),
+    ...titleUI('DD214 or other separation documents'),
     'ui:description': (
       <>
         <p>You can choose one of these options:</p>

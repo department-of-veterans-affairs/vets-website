@@ -17,7 +17,7 @@ export default function LoadFail() {
       uswds
       class="vads-u-margin-bottom--2"
     >
-      <h2 slot="headline">This page isn't available right now.</h2>
+      <h2 slot="headline">This page isn't working right now.</h2>
       <p>
         We’re sorry. Something went wrong on our end. Refresh this page or try
         again later.

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { shallowEqual, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import environment from 'platform/utilities/environment';
 import { useBrowserMonitoring } from 'platform/monitoring/Datadog';
 import { DowntimeNotification } from 'platform/monitoring/DowntimeNotification';
@@ -42,9 +42,8 @@ const BROWSER_MONITORING_PROPS = {
 };
 
 const App = ({ location, children }) => {
-  const isAppLoading = useSelector(
-    state => state.featureToggles?.loading || state.user?.profile?.loading,
-    shallowEqual,
+  const isAppLoading = useSelector(state =>
+    Boolean(state.featureToggles?.loading || state.user?.profile?.loading),
   );
 
   useBrowserMonitoring(BROWSER_MONITORING_PROPS);
