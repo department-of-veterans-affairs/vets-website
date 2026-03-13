@@ -1,5 +1,9 @@
 import React from 'react';
-import { focusByOrder, focusElement } from 'platform/utilities/ui/focus';
+import {
+  defaultFocusSelector,
+  focusByOrder,
+  focusElement,
+} from 'platform/utilities/ui/focus';
 import { scrollTo } from 'platform/utilities/scroll';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
@@ -66,7 +70,7 @@ const minimalHeaderScrollAndFocus = () => {
   } else if (checkboxGroupHeader) {
     focusElement('h1', null, checkboxGroupHeader);
   } else {
-    focusByOrder(['form h1', 'va-segmented-progress-bar']);
+    focusByOrder(['form h1', defaultFocusSelector]);
   }
 };
 

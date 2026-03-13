@@ -2,9 +2,29 @@ import { isWebComponent, querySelectorWithShadowRoot } from './webComponents';
 
 import environment from '../environment';
 
+// This is a custom string delimiter (not valid CSS) to indicate that part of the selector
+// is targeting an element inside a web component's shadow DOM
+const SHADOW_DELIMITER = '>>shadow>>';
+
 // .nav-header > h2 contains "Step {index} of {total}: {page title}"
+// For va-segmented-progress-bar, target h2 inside shadow root using custom >>shadow>> delimiter
 export const defaultFocusSelector =
-  '.nav-header > h2, va-segmented-progress-bar[heading-text][header-level="2"]';
+  'va-segmented-progress-bar>>shadow>>h2, .nav-header > h2';
+
+/**
+ * Parse a shadow delimiter selector and return the host element and internal selector
+ * @param {String} selector - Selector potentially containing >>shadow>> delimiter
+ * @param {Element} root - Root element for querySelector
+ * @returns {Object|null} Object with { host, internalSelector } or null if not a shadow selector or host not found
+ */
+function parseShadowSelector(selector, root) {
+  if (!selector.includes(SHADOW_DELIMITER)) {
+    return null;
+  }
+  const [hostSelector, internalSelector] = selector.split(SHADOW_DELIMITER);
+  const host = (root || document).querySelector(hostSelector.trim());
+  return host ? { host, internalSelector: internalSelector.trim() } : null;
+}
 
 /**
  * @typedef FocusOptions
@@ -16,8 +36,8 @@ export const defaultFocusSelector =
  */
 /**
  * Focus on element
- * @param {String|Element} selectorOrElement - CSS selector or attached DOM
- *  element
+ * @param {String|Element} selectorOrElement - CSS selector or attached DOM element.
+ *  Supports shadow DOM selectors using >>shadow>> delimiter (e.g., 'va-button>>shadow>>button').
  * @param {FocusOptions} [options]
  * @param {Element} [root] - root element for querySelector; would allow focusing
  *  on elements inside of shadow dom
@@ -50,28 +70,46 @@ export function focusElement(selectorOrElement, options = {}, root) {
     }
   }
 
+  // Handle shadow DOM selectors with >>shadow>> delimiter
+  if (typeof selectorOrElement === 'string') {
+    const shadowInfo = parseShadowSelector(selectorOrElement, root);
+    if (shadowInfo) {
+      const { host } = shadowInfo;
+      // Wait for the web component host to be ready before querying shadow DOM
+      querySelectorWithShadowRoot(host, root).then(readyHost => {
+        if (readyHost?.shadowRoot) {
+          const shadowEl = readyHost.shadowRoot.querySelector(
+            shadowInfo.internalSelector,
+          );
+          if (shadowEl) {
+            applyFocus(shadowEl);
+          }
+        }
+      });
+      return;
+    }
+  }
+
   if (isWebComponent(root) || isWebComponent(selectorOrElement, root)) {
     querySelectorWithShadowRoot(selectorOrElement, root).then(
-      elWithShadowRoot => applyFocus(elWithShadowRoot), // async code
+      elWithShadowRoot => applyFocus(elWithShadowRoot),
     );
   } else {
     const el =
       typeof selectorOrElement === 'string'
         ? (root || document).querySelector(selectorOrElement)
         : selectorOrElement;
-    applyFocus(el); // synchronous code
+    applyFocus(el);
   }
 }
 
 /**
- * Focus on first found element within the list; we're ignoreing DOM order, i.e.
- * using focusElement('h3, h2') will always focus on the h2 (higher on the page)
- * @param {String|Array} selectors - selectors in the desired order; if the
- *  first selector has no target, it'll move to the second, etc.
- * @param {Element} root - starting element of the querySelector; may be a
- *  shadowRoot
+ * Focus on first found element within the list
+ * @param {String|Array} selectors - selectors in priority order; tries each until one is found.
+ * @param {Element} root - starting element of the querySelector
  * @example focusByOrder('#main h3, .nav-header > h2');
  * @example focusByOrder(['#main h3', '.nav-header > h2']);
+ * @example focusByOrder('va-radio>>shadow>>h3, .nav-header > h2');
  */
 export function focusByOrder(selectors, root) {
   let list = selectors || '';
@@ -79,10 +117,30 @@ export function focusByOrder(selectors, root) {
     list = selectors.split(',');
   }
   if (Array.isArray(list)) {
+    list = list.flatMap(
+      selector =>
+        typeof selector === 'string' ? selector.split(',') : selector,
+    );
+
     list.some(selector => {
-      const el = (root || document).querySelector((selector || '').trim());
+      const trimmedSelector = (selector || '').trim();
+      if (!trimmedSelector) {
+        return false;
+      }
+
+      if (trimmedSelector.includes(SHADOW_DELIMITER)) {
+        const shadowInfo = parseShadowSelector(trimmedSelector, root);
+        if (shadowInfo) {
+          focusElement(trimmedSelector, {}, root);
+          return true;
+        }
+        return false;
+      }
+
+      // Check if regular element exists before focusing
+      const el = (root || document).querySelector(trimmedSelector);
       if (el) {
-        focusElement(el, {}, root);
+        focusElement(trimmedSelector, {}, root);
         return true;
       }
       return false;
@@ -148,7 +206,7 @@ export function waitForRenderThenFocus(
 
         // Don't set default focus if something is already focused
         if (document.activeElement === document.body) {
-          focusElement(defaultFocusSelector); // fallback to breadcrumbs
+          focusByOrder(defaultFocusSelector); // fallback to breadcrumbs
         }
       }
       count += 1;

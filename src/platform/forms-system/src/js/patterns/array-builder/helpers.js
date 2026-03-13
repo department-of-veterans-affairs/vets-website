@@ -7,7 +7,11 @@ import {
 } from 'platform/forms-system/src/js/helpers';
 import { getEligiblePages } from 'platform/forms-system/src/js/routing';
 import { isMinimalHeaderPath } from 'platform/forms-system/src/js/patterns/minimal-header';
-import { focusByOrder, focusElement } from 'platform/utilities/ui/focus';
+import {
+  defaultFocusSelector,
+  focusByOrder,
+  focusElement,
+} from 'platform/utilities/ui/focus';
 import { scrollTo, scrollToTop } from 'platform/utilities/scroll';
 import navigationState from 'platform/forms-system/src/js/utilities/navigation/navigationState';
 import environment from 'platform/utilities/environment';
@@ -384,7 +388,7 @@ export const defaultSummaryPageScrollAndFocusTarget = () => {
   if (radioHeader) {
     focusElement(`h${headerLevel}`, null, radioHeader);
   } else {
-    focusByOrder([`form h${headerLevel}`, 'va-segmented-progress-bar']);
+    focusByOrder([`form h${headerLevel}`, defaultFocusSelector]);
   }
 };
 
@@ -410,7 +414,7 @@ export const defaultItemPageScrollAndFocusTarget = () => {
   } else if (checkboxGroupHeader) {
     focusElement(headerLevel, null, checkboxGroupHeader);
   } else {
-    focusByOrder([`form ${headerLevel}`, 'va-segmented-progress-bar']);
+    focusByOrder([`form ${headerLevel}`, defaultFocusSelector]);
   }
 };
 

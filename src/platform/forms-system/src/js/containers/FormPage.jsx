@@ -7,7 +7,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import {
   isReactComponent,
-  focusElement,
+  focusByOrder,
   defaultFocusSelector,
 } from 'platform/utilities/ui';
 import { scrollToTop, customScrollAndFocus } from 'platform/utilities/scroll';
@@ -35,12 +35,12 @@ const focusForm = async (route, index) => {
     route.pageConfig?.scrollAndFocusTarget ||
     route.formConfig?.scrollAndFocusTarget;
   if (useCustomScrollAndFocus === false) {
-    focusElement(defaultFocusSelector);
+    focusByOrder(defaultFocusSelector);
   } else if (useCustomScrollAndFocus || scrollAndFocusTarget) {
     return customScrollAndFocus(scrollAndFocusTarget, index);
   }
 
-  focusElement(defaultFocusSelector);
+  focusByOrder(defaultFocusSelector);
   return scrollToTop();
 };
 
