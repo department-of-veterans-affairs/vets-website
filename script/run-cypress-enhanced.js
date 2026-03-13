@@ -628,7 +628,7 @@ async function main() {
   const headerParts = [];
   if (entryName) headerParts.push(`entry: ${entryName}`);
   if (noRetry) headerParts.push('no retries');
-  if (noVideo) headerParts.push('no video');
+  if (noVideo) headerParts.push('no video, screenshots on');
   if (noTimeout) headerParts.push('no timeout');
   else headerParts.push(`${timeoutSeconds}s timeout`);
   if (serve) headerParts.push('managed server');
