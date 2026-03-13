@@ -25,19 +25,18 @@ import VaccineFacilityPage from '../../covid-19-vaccine/components/VAFacilityPag
 import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
+import TypeOfMentalHealthPage from '../../new-appointment/components/TypeOfMentalHealthPage';
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
 import { vaosApi } from '../../redux/api/vaosApi';
 import { TYPES_OF_CARE, TYPE_OF_CARE_IDS } from '../../utils/constants';
 import MockFacilityResponse from '../fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse from '../fixtures/MockSchedulingConfigurationResponse';
+import MockServiceConfiguration from '../fixtures/MockServiceConfiguration';
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
   mockV2CommunityCareEligibility,
 } from './mockApis';
-import MockSchedulingConfigurationResponse, {
-  MockServiceConfiguration,
-} from '../fixtures/MockSchedulingConfigurationResponse';
-import TypeOfMentalHealthPage from '../../new-appointment/components/TypeOfMentalHealthPage';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -230,12 +229,13 @@ export async function setVAFacility(
   mockSchedulingConfigurationsApi({
     response: [
       new MockSchedulingConfigurationResponse({
-        facilityId: '983',
+        facilityId,
         services: [
           new MockServiceConfiguration({
             typeOfCareId,
             directEnabled: true,
             requestEnabled: true,
+            patientHistoryRequired: false,
           }),
         ],
       }),

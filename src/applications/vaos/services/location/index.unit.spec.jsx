@@ -13,14 +13,13 @@ import {
   getLocationsByTypeOfCareAndSiteIds,
 } from '.';
 import MockFacilityResponse from '../../tests/fixtures/MockFacilityResponse';
-import MockSchedulingConfigurationResponse, {
-  MockServiceConfiguration,
-} from '../../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockSchedulingConfigurationResponse from '../../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockServiceConfiguration from '../../tests/fixtures/MockServiceConfiguration';
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
 } from '../../tests/mocks/mockApis';
-import { VHA_FHIR_ID, TYPE_OF_CARE_IDS } from '../../utils/constants';
+import { TYPE_OF_CARE_IDS, VHA_FHIR_ID } from '../../utils/constants';
 import ccProviders from '../mocks/v2/cc_providers.json';
 import facilityDetails from '../mocks/v2/facilities.json';
 

@@ -2,14 +2,12 @@ import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import React from 'react';
 
-// eslint-disable-next-line import/no-unresolved
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
-import MockSchedulingConfigurationResponse, {
-  MockServiceConfiguration,
-} from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockSchedulingConfigurationResponse from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockServiceConfiguration from '../../../tests/fixtures/MockServiceConfiguration';
 import {
   mockEligibilityFetches,
   mockFacilitiesApi,

@@ -76,16 +76,12 @@ function setDateTimeSelectMockFetchesBase({
   mockEligibilityFetches({
     facilityId: '983',
     typeOfCareId,
-    limit: true,
-    requestPastVisits: true,
     clinics: clinicIds.length === 2 ? clinics : [clinics[0]],
     pastClinics: true,
   });
   mockEligibilityFetches({
     facilityId: '983',
     typeOfCareId,
-    limit: true,
-    directPastVisits: true,
     clinics: clinicIds.length === 2 ? clinics : [clinics[0]],
     pastClinics: true,
   });

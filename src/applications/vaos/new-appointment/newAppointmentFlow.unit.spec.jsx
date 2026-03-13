@@ -4,9 +4,8 @@ import sinon from 'sinon';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 
 import MockFacilityResponse from '../tests/fixtures/MockFacilityResponse';
-import MockSchedulingConfigurationResponse, {
-  MockServiceConfiguration,
-} from '../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockSchedulingConfigurationResponse from '../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockServiceConfiguration from '../tests/fixtures/MockServiceConfiguration';
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,

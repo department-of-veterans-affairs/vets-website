@@ -1,18 +1,17 @@
+import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
-import {
-  fetchFacilitySettings,
-  FETCH_FACILITY_SETTINGS,
-  FETCH_FACILITY_SETTINGS_SUCCEEDED,
-  FETCH_FACILITY_SETTINGS_FAILED,
-} from './actions';
+import MockSchedulingConfigurationResponse from '../../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockServiceConfiguration from '../../tests/fixtures/MockServiceConfiguration';
+import MockServiceConfigurationVA from '../../tests/fixtures/MockServiceConfigurationVA';
 import { mockSchedulingConfigurationsApi } from '../../tests/mocks/mockApis';
-import MockSchedulingConfigurationResponse, {
-  MockServiceConfiguration,
-  MockVaServiceConfiguration,
-} from '../../tests/fixtures/MockSchedulingConfigurationResponse';
 import { TYPE_OF_CARE_IDS } from '../../utils/constants';
+import {
+  FETCH_FACILITY_SETTINGS,
+  FETCH_FACILITY_SETTINGS_FAILED,
+  FETCH_FACILITY_SETTINGS_SUCCEEDED,
+  fetchFacilitySettings,
+} from './actions';
 
 describe('VAOS appointment-list redux actions', () => {
   describe('fetchFacilitySettings', () => {
@@ -130,7 +129,7 @@ describe('VAOS appointment-list redux actions', () => {
               }),
             ],
             vaServices: [
-              new MockVaServiceConfiguration({
+              new MockServiceConfigurationVA({
                 clinicalServiceId: 'covid',
                 bookedAppointments: true,
                 apptRequests: false,

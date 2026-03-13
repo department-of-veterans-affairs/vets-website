@@ -6,6 +6,8 @@ import React from 'react';
 import { server } from 'platform/testing/unit/mocha-setup';
 import CommunityCareProviderSelectionPage from '.';
 import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
+import MockSchedulingConfigurationResponse from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockServiceConfiguration from '../../../tests/fixtures/MockServiceConfiguration';
 import { CC_PROVIDERS_DATA } from '../../../tests/mocks/cc_providers_data';
 import { mockGetCurrentPosition } from '../../../tests/mocks/mockApis';
 import {
@@ -24,9 +26,6 @@ import {
 } from '../../../tests/mocks/setup';
 import { calculateBoundingBox } from '../../../utils/address';
 import { FACILITY_SORT_METHODS } from '../../../utils/constants';
-import MockSchedulingConfigurationResponse, {
-  MockServiceConfiguration,
-} from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
 
 const initialState = {
   featureToggles: {

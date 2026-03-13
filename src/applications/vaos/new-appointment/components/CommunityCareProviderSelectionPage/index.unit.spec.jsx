@@ -15,9 +15,8 @@ import {
 
 import CommunityCareProviderSelectionPage from '.';
 import MockFacilityResponse from '../../../tests/fixtures/MockFacilityResponse';
-import MockSchedulingConfigurationResponse, {
-  MockServiceConfiguration,
-} from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockSchedulingConfigurationResponse from '../../../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockServiceConfiguration from '../../../tests/fixtures/MockServiceConfiguration';
 import { CC_PROVIDERS_DATA } from '../../../tests/mocks/cc_providers_data';
 import { mockGetCurrentPosition } from '../../../tests/mocks/mockApis';
 import {

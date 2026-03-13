@@ -1,19 +1,18 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { waitFor } from '@testing-library/dom';
+import { expect } from 'chai';
+import { addDays, format, subDays } from 'date-fns';
+import MockDate from 'mockdate';
+import { server } from 'platform/testing/unit/mocha-setup';
 import {
   createGetHandler,
   jsonResponse,
 } from 'platform/testing/unit/msw-adapter';
-import { server } from 'platform/testing/unit/mocha-setup';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import MockDate from 'mockdate';
-import { waitFor } from '@testing-library/dom';
-import { expect } from 'chai';
-import { addDays, format, subDays } from 'date-fns';
 import React from 'react';
 import { NewBookingSection } from '.';
 import MockFacilityResponse from '../tests/fixtures/MockFacilityResponse';
-import MockSchedulingConfigurationResponse, {
-  MockServiceConfiguration,
-} from '../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockSchedulingConfigurationResponse from '../tests/fixtures/MockSchedulingConfigurationResponse';
+import MockServiceConfiguration from '../tests/fixtures/MockServiceConfiguration';
 import {
   mockFacilitiesApi,
   mockSchedulingConfigurationsApi,
