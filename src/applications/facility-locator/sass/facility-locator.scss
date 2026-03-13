@@ -581,7 +581,7 @@ $text-color: rgba(27, 27, 27, 1);
     top: 44px;
     width: 100%;
     z-index: 1010;
-
+    margin: 0;
     &.drowpdown-fl-sm-desktop {
       @media screen and (min-width: $small-desktop-screen) {
         max-width: 301px;
