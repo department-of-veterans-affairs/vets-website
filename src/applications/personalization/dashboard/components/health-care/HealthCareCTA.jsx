@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import IconCTALink from '../IconCTALink';
 
 const HealthCareCTA = ({
@@ -10,15 +11,28 @@ const HealthCareCTA = ({
   isLOA1,
   unreadMessagesCount,
 }) => {
-  const urls = {
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const smocEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPaySubmitMileageExpense,
+  );
+
+  let urls = {
     applyForVAHealthcare: '/health-care/apply-for-health-care-form-10-10ez/',
     myHealthEVet: '/my-health/',
     inbox: '/my-health/secure-messages/inbox/',
     appointments: '/my-health/appointments/',
     refillPrescriptions: '/my-health/medications/refill/',
-    travelReimbursement: '/my-health/travel-pay/claims',
+    travelReimbursement: 'https://dvagov-btsss.dynamics365portals.us/signin',
     medicalRecords: '/my-health/medical-records',
   };
+
+  if (smocEnabled) {
+    urls = {
+      ...urls,
+      travelReimbursement: '/my-health/travel-pay/claims',
+    };
+  }
 
   return (
     <>
@@ -110,12 +124,18 @@ const HealthCareCTA = ({
             <IconCTALink
               href={urls.travelReimbursement}
               icon="work"
-              text="Review and file travel reimbursement claims"
+              text={
+                smocEnabled
+                  ? 'Review and file travel claims'
+                  : 'Request travel reimbursement'
+              }
               testId="request-travel-reimbursement-link-from-cta"
               onClick={() => {
                 recordEvent({
                   event: 'nav-linkslist',
-                  'links-list-header': 'Review and file travel claims', // TODO: should I change this?
+                  'links-list-header': smocEnabled
+                    ? 'Review and file travel claims'
+                    : 'Request travel reimbursement',
                   'links-list-section-header': 'Health care',
                 });
               }}
