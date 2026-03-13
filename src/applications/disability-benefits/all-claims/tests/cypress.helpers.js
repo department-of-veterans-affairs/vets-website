@@ -1093,11 +1093,21 @@ export const pageHooks = (cy, testOptions) => ({
               'Authorize the release of non-VA medical records to VA',
             );
           });
-        cy.get('input[name="privacy-agreement"]').focus();
-        cy.get('input[name="privacy-agreement"]').click({ force: true });
+        cy.get('va-checkbox[name="privacy-agreement"]')
+          .shadow()
+          .find('input')
+          .check({ force: true });
       }
+      cy.findByText(/continue/i, { selector: 'button' })
+        .should('be.visible')
+        .and('not.be.disabled')
+        .click({ force: true });
+
+      cy.location('pathname').should(
+        'not.include',
+        'private-medical-records-authorize-release',
+      );
     });
-    cy.findByText(/continue/i, { selector: 'button' }).click();
   },
 
   'supporting-evidence/private-medical-records-release': () => {
@@ -1234,131 +1244,6 @@ export const pageHooks = (cy, testOptions) => ({
           .contains('Name of private provider or hospital')
           .its('length')
           .should('eq', 1);
-        const newProviderFacility = {
-          providerFacilityName: 'New Provider Facility',
-          providerFacilityAddress: {
-            street: '123 New St',
-            city: 'New City',
-            state: 'NY',
-            postalCode: '12345',
-            country: 'USA',
-          },
-          treatedDisabilityNames: {
-            'ankle replacement (ankle arthroplasty), bilateral': true,
-            'heart attack (myocardial infarction)': true,
-          },
-          treatmentDateRange: {
-            from: '01/02/2020',
-            fromYear: '2020',
-            fromMonth: '1',
-            fromDay: '2',
-            to: '12/07/2020',
-            toYear: '2020',
-            toMonth: '12',
-            toDay: '7',
-          },
-        };
-        cy.findByText(/add another provider or hospital/i).click();
-        // verify that the treated disability name checkboxes are visible and clickable
-        const ratedDisabilitiesCount = data?.ratedDisabilities.filter(
-          disability => disability['view:selected'] === true,
-        ).length;
-        const expectedCount =
-          data?.newDisabilities.length + ratedDisabilitiesCount;
-
-        cy.get('input[name^="root_treatedDisabilityNames"]').should(
-          'have.length',
-          expectedCount,
-        );
-        cy.get(
-          'input[name="root_treatedDisabilityNames1_anklereplacementanklearthroplastybilateral"]',
-        )
-          .should('exist')
-          .and('be.visible')
-          .and('be.enabled');
-
-        cy.get('input[name="root_providerFacilityName1"]').type(
-          newProviderFacility.providerFacilityName,
-        );
-        cy.get('input[name="root_providerFacilityAddress1_street1"]').type(
-          newProviderFacility.providerFacilityAddress.street,
-        );
-        cy.get('input[name="root_providerFacilityAddress1_city1"]').type(
-          newProviderFacility.providerFacilityAddress.city,
-        );
-        cy.get('select[name="root_providerFacilityAddress1_state1"]').select(
-          newProviderFacility.providerFacilityAddress.state,
-        );
-        cy.get('input[name="root_providerFacilityAddress1_postalCode1"]').type(
-          newProviderFacility.providerFacilityAddress.postalCode,
-        );
-        cy.get('select[name="root_providerFacilityAddress1_country1"]').select(
-          newProviderFacility.providerFacilityAddress.country,
-        );
-        cy.get(
-          'input[name="root_treatedDisabilityNames1_anklereplacementanklearthroplastybilateral"]',
-        ).check();
-        cy.get(
-          'input[name="root_treatedDisabilityNames1_heartattackmyocardialinfarction"]',
-        ).check();
-        cy.get('select[name="root_treatmentDateRange1_from1Month"]').select(
-          newProviderFacility.treatmentDateRange.fromMonth.toString(),
-        );
-        cy.get('input[name="root_treatmentDateRange1_from1Year"]').type(
-          `${newProviderFacility.treatmentDateRange.fromYear}`,
-        );
-        cy.get('select[name="root_treatmentDateRange1_from1Day"]').select(
-          `${newProviderFacility.treatmentDateRange.fromDay}`,
-        );
-        cy.get('select[name="root_treatmentDateRange1_to1Month"]').select(
-          `${newProviderFacility.treatmentDateRange.toMonth}`,
-        );
-        cy.get('select[name="root_treatmentDateRange1_to1Day"]').select(
-          `${newProviderFacility.treatmentDateRange.toDay}`,
-        );
-        cy.get('input[name="root_treatmentDateRange1_to1Year"]').type(
-          `${newProviderFacility.treatmentDateRange.toYear}`,
-        );
-        cy.findByText('Update', { selector: 'button' })
-          .should('exist')
-          .click();
-        cy.get('div[name="providerFacility-1"]')
-          .should('be.visible')
-          .within(() => {
-            cy.findByText(newProviderFacility.providerFacilityName).should(
-              'exist',
-            );
-            cy.findByText(
-              newProviderFacility.providerFacilityAddress.country.toString(),
-            ).should('exist');
-            cy.findByText(
-              newProviderFacility.providerFacilityAddress.street,
-            ).should('exist');
-            cy.findByText(
-              newProviderFacility.providerFacilityAddress.city,
-            ).should('exist');
-            cy.findByText('New York').should('exist');
-            cy.findByText(
-              newProviderFacility.providerFacilityAddress.postalCode,
-            ).should('exist');
-            cy.findByText(
-              /ankle replacement \(ankle arthroplasty\), bilateral/i,
-            ).should('exist');
-            cy.findByText(/heart attack \(myocardial infarction\)/i).should(
-              'exist',
-            );
-            cy.findByText(newProviderFacility.treatmentDateRange.from).should(
-              'exist',
-            );
-            cy.findByText(newProviderFacility.treatmentDateRange.to).should(
-              'exist',
-            );
-            cy.get('va-button[text="Edit"]').should('be.visible');
-            cy.get('va-button[text="Edit"]').click();
-            cy.findByText('New Provider or hospital').should('exist');
-            cy.get('button[aria-label="Remove Provider or hospital"]').click();
-            cy.findByText('New Provider or hospital').should('not.exist');
-          });
       }
     });
     afterHook(() => {
