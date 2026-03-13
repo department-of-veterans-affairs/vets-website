@@ -15,6 +15,9 @@ export default function DivMarker(props) {
 }
 
 DivMarker.propTypes = {
+  children: PropTypes.element,
   className: PropTypes.string,
   popupContent: PropTypes.element,
+  position: PropTypes.array,
+  onClick: PropTypes.func,
 };

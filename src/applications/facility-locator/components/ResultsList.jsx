@@ -38,7 +38,7 @@ export const ResultsList = ({
         })),
       );
     },
-    [results],
+    [results, searchString, currentPage],
   );
 
   useEffect(
@@ -47,6 +47,9 @@ export const ResultsList = ({
         recordSearchResultsEvents(props, resultsData);
       }
     },
+    // props is a rest spread object that changes every render; only
+    // resultsData determines when analytics should fire
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [resultsData],
   );
 

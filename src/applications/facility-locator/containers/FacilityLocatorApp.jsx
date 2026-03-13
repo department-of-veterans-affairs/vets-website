@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 import appendQuery from 'append-query';
@@ -82,6 +83,29 @@ class FacilityLocatorApp extends React.Component {
     );
   }
 }
+
+FacilityLocatorApp.propTypes = {
+  children: PropTypes.node,
+  location: PropTypes.shape({
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+    pathname: PropTypes.string,
+  }),
+  searchQuery: PropTypes.shape({
+    context: PropTypes.string,
+    currentPage: PropTypes.number,
+    facilityType: PropTypes.string,
+    searchString: PropTypes.string,
+    serviceType: PropTypes.string,
+    zoomLevel: PropTypes.number,
+  }),
+  selectedResult: PropTypes.shape({
+    attributes: PropTypes.shape({
+      name: PropTypes.string,
+    }),
+    id: PropTypes.string,
+  }),
+};
 
 function mapStateToProps(state) {
   return {

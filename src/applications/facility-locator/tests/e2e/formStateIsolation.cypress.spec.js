@@ -152,6 +152,7 @@ describe('Form State Isolation - Draft State Pattern', () => {
 
     cy.wait('@searchFacilitiesVA');
     cy.get('.facility-result', { timeout: 10000 }).should('exist');
+    cy.axeCheck();
 
     // Click submit again to allow any initial re-request to settle
     cy.get('#facility-search').click();

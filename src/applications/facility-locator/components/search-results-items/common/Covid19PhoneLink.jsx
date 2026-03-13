@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 
@@ -31,6 +32,14 @@ const Covid19PhoneLink = ({ phone, labelId }) => {
       />
     </div>
   );
+};
+
+Covid19PhoneLink.propTypes = {
+  labelId: PropTypes.string,
+  phone: PropTypes.shape({
+    extension: PropTypes.string,
+    number: PropTypes.string,
+  }),
 };
 
 export default Covid19PhoneLink;

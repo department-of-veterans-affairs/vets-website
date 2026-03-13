@@ -185,6 +185,7 @@ describe('Facility VA search', () => {
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.wait('@searchFacilities');
 
+    // eslint-disable-next-line cypress/unsafe-to-chain-command -- focused() is a query, not an action; safe to chain .should()
     cy.focused().should(
       'contain.text',
       'No results found for "Community providers (in VA’s network)", "General Acute Care Hospital" near "Raleigh, North Carolina 27606"',
@@ -240,14 +241,17 @@ describe('Facility VA search', () => {
   });
 
   it('should not trigger Use My Location when pressing enter in the input field', () => {
+    cy.intercept('GET', '/geocoding/**/*', mockGeocodingData).as(
+      'searchGeocode',
+    );
+
     cy.visit('/find-locations');
 
     cy.injectAxeThenAxeCheck();
 
     cy.get('#street-city-state-zip').type('27606{enter}');
-    // Wait for Use My Location to be triggered (it should not be)
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(8000);
+    // Wait for search to complete — proves Enter triggered a search, not Use My Location
+    cy.wait('@searchGeocode');
     // If Use My Location is triggered and succeeds, it will change the contents of the search field:
     cy.get('#street-city-state-zip')
       .invoke('val')

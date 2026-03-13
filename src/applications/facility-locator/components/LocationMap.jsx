@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { staticMapURL } from 'platform/utilities/facilities-and-mapbox';
 import { mapboxToken } from '../utils/mapboxToken';
@@ -20,5 +21,14 @@ function LocationMap({ info }) {
     </div>
   );
 }
+
+LocationMap.propTypes = {
+  info: PropTypes.shape({
+    attributes: PropTypes.shape({
+      lat: PropTypes.number,
+      long: PropTypes.number,
+    }),
+  }),
+};
 
 export default LocationMap;

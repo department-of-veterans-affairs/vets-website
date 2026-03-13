@@ -16,6 +16,7 @@ const useSearchSubmit = ({
   selectMobileMapPin,
   setSearchInitiated,
 }) => {
+  // Track last submitted query to prevent duplicate submissions
   const lastQueryRef = useRef(null);
 
   const handleSubmit = useCallback(
@@ -33,7 +34,7 @@ const useSearchSubmit = ({
         return;
       }
 
-      // CC_PROVIDER serviceType validation first (matches E2E test expectations)
+      // Validate serviceType for Community Care providers (must precede other checks)
       if (
         draftFormState.facilityType === LocationType.CC_PROVIDER &&
         (!draftFormState.serviceType || !selectedServiceType)
@@ -81,6 +82,7 @@ const useSearchSubmit = ({
         vamcServiceDisplay: draftFormState.vamcServiceDisplay,
       });
 
+      // Record analytics with specialty display name for CC providers
       let analyticsServiceType = draftFormState.serviceType;
       const specialtyDisplayName =
         currentQuery.specialties?.[draftFormState.serviceType];

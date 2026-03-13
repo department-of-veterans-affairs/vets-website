@@ -22,6 +22,7 @@ import FacilityType from './facility-type';
 import ServiceType from './service-type';
 import AddressAutosuggest from './location/AddressAutosuggest';
 
+/** Draft state pattern: inputs update local state, commit to Redux on submit. */
 export const SearchForm = props => {
   const {
     currentQuery,
@@ -48,6 +49,7 @@ export const SearchForm = props => {
     selectedServiceType,
   } = useSearchFormState(currentQuery);
 
+  // Synchronize URL params, Redux, and draft state
   useSearchFormSync({
     currentQuery,
     draftFormState,
@@ -58,6 +60,7 @@ export const SearchForm = props => {
     vaHealthServicesData: props.vaHealthServicesData,
   });
 
+  // Track geolocation errors for analytics
   useEffect(
     () => {
       if (currentQuery?.geocodeError) {
@@ -110,6 +113,7 @@ export const SearchForm = props => {
     focusElement('#street-city-state-zip');
   };
 
+  // Set focus in the location field when manual geocoding completes
   useEffect(
     () => {
       if (

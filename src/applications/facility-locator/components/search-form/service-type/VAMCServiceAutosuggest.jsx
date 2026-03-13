@@ -234,9 +234,9 @@ const VAMCServiceAutosuggest = ({
 VAMCServiceAutosuggest.propTypes = {
   committedServiceDisplay: PropTypes.string,
   isMobile: PropTypes.bool,
-  onDraftChange: PropTypes.func,
   searchInitiated: PropTypes.bool,
   setSearchInitiated: PropTypes.func,
+  onDraftChange: PropTypes.func,
 };
 
 export default VAMCServiceAutosuggest;
