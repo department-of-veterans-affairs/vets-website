@@ -12,6 +12,7 @@ import {
   MhvSecondaryNav,
   useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { Element } from 'platform/utilities/scroll';
 import {
   DowntimeNotification,
   externalServices,
@@ -157,6 +158,7 @@ const App = ({ children }) => {
             {mhvMrDown === externalServiceStatus.down && !bypassDowntime ? (
               <>
                 {atLandingPage && <MrBreadcrumbs />}
+                <Element name="topScrollElement" />
                 <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>
                   Medical records
                 </h1>
@@ -173,6 +175,7 @@ const App = ({ children }) => {
             ) : (
               <HeaderSectionProvider>
                 <MrBreadcrumbs />
+                <Element name="topScrollElement" />
                 <div className="vads-l-row">
                   <div className="medium-screen:vads-l-col--8">{children}</div>
                 </div>
