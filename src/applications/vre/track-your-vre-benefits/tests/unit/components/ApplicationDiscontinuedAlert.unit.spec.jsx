@@ -68,7 +68,7 @@ describe('ApplicationDiscontinuedAlert', () => {
       ),
     ).to.exist;
 
-    const vaLink = container.querySelector('va-link-action');
+    const vaLink = container.querySelector('va-link');
     expect(vaLink).to.not.exist;
   });
 
@@ -86,11 +86,11 @@ describe('ApplicationDiscontinuedAlert', () => {
       ),
     ).to.exist;
 
-    const vaLink = container.querySelector('va-link-action');
+    const vaLink = container.querySelector('va-link');
     expect(vaLink).to.not.exist;
   });
 
-  it('dispatches download action when "View my letter" is clicked', () => {
+  it('dispatches download action when the letter download link is clicked', () => {
     const dispatchSpy = sinon.spy();
     const resCaseId = 12345;
     const { container } = renderWithStore(
@@ -99,9 +99,13 @@ describe('ApplicationDiscontinuedAlert', () => {
       dispatchSpy,
     );
 
-    // Shadow DOM: va-link-action
-    const vaLink = container.querySelector('va-link-action');
+    const vaLink = container.querySelector('va-link');
     expect(vaLink).to.exist;
+    expect(vaLink.getAttribute('text')).to.equal(
+      'Download the VR-58 CH31 Adverse Action Decision Letter',
+    );
+    expect(vaLink.getAttribute('filetype')).to.equal('PDF');
+    expect(vaLink.hasAttribute('download')).to.be.true;
     fireEvent.click(vaLink);
 
     expect(dispatchSpy.calledOnce).to.be.true;
@@ -116,8 +120,7 @@ describe('ApplicationDiscontinuedAlert', () => {
       dispatchSpy,
     );
 
-    // va-loading-indicator is shown, so va-link-action is not rendered
-    const vaLink = container.querySelector('va-link-action');
+    const vaLink = container.querySelector('va-link');
     expect(vaLink).to.not.exist;
     expect(dispatchSpy.notCalled).to.be.true;
   });

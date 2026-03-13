@@ -159,8 +159,13 @@ describe('CH31 My Case Management Hub', () => {
       'be.visible',
     );
     cy.contains(/no response from veteran/i).should('be.visible');
-    cy.get('va-link-action')
-      .should('have.attr', 'text', 'View my letter')
+    cy.get('va-link')
+      .should(
+        'have.attr',
+        'text',
+        'Download the VR-58 CH31 Adverse Action Decision Letter',
+      )
+      .and('have.attr', 'filetype', 'PDF')
       .and('be.visible');
     cy.get('va-segmented-progress-bar').should('not.exist');
   });

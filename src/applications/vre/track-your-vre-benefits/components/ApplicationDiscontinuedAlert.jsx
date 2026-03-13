@@ -55,10 +55,11 @@ const ApplicationDiscontinuedAlert = ({ discontinuedReason, resCaseId }) => {
                 message="Downloading your letter..."
               />
             ) : (
-              <va-link-action
+              <va-link
+                download
+                filetype="PDF"
                 href="#"
-                text="View my letter"
-                type="primary"
+                text="Download the VR-58 CH31 Adverse Action Decision Letter"
                 onClick={handleDownload}
               />
             )}
