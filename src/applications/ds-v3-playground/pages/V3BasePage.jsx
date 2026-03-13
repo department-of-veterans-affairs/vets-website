@@ -26,6 +26,7 @@ import {
   VaPagination,
   VaIcon,
   VaLanguageToggle,
+  VaSort,
 } from '@department-of-veterans-affairs/web-components/react-bindings';
 
 import VaFileInputMultiple from './VaFileInputMultiple';
@@ -168,7 +169,6 @@ export default function V3BasePage() {
           </h2>
           <div className="vads-grid-col">
             <VaTextInput
-              uswds
               name="v3Input"
               label="V3 Input"
               hint="This is a hint"
@@ -185,7 +185,6 @@ export default function V3BasePage() {
           </h2>
           <div className="vads-grid-col">
             <VaSelect
-              uswds
               name="v3Select"
               label="V3 Select"
               onVaSelect={updateValue}
@@ -198,6 +197,28 @@ export default function V3BasePage() {
           </div>
         </div>
 
+        {/* Sort */}
+        <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
+          <h2 id="vaSort" className="vads-grid-col font-ui-md">
+            Sort component
+          </h2>
+          <div className="vads-grid-col">
+            <VaSort
+              message-aria-describedby="Optional description text for screen readers"
+              value=""
+              width="lg"
+              onVaSortSelect={updateValue}
+            >
+              <option value="relevance">Relevance</option>
+              <option value="az">A to Z</option>
+              <option value="za">Z to A</option>
+              <option value="newestoldest">Newest to Oldest</option>
+              <option value="oldestnewest">Oldest to Newest</option>
+            </VaSort>
+            <ValueDisplay label="Sort" id="sortValue" />
+          </div>
+        </div>
+
         {/* Radio */}
         <div className="vads-grid-row vads-flex-direction-column border-bottom vads-u-padding-bottom--2">
           <h2 id="vaRadio" className="vads-grid-col font-ui-md">
@@ -205,25 +226,21 @@ export default function V3BasePage() {
           </h2>
           <div className="vads-grid-col">
             <VaRadio
-              uswds
               label="V3 Radio"
               onVaValueChange={e => updateRadioValue(e.detail, 'v3')}
             >
               <VaRadioOption
-                uswds
                 label="Radio One"
                 name="v3RadioOptOne"
                 value="Radio One"
                 checked
               />
               <VaRadioOption
-                uswds
                 label="Radio Two"
                 name="v3RadioOptTwo"
                 value="Radio Two"
               />
               <VaRadioOption
-                uswds
                 label="Radio Three"
                 name="v3RadioOptThree"
                 value="Radio Three"
@@ -240,13 +257,12 @@ export default function V3BasePage() {
           </h2>
           <div className="vads-grid-col">
             <VaCheckboxGroup
-              uswds
               label="V3 Checkbox Group"
               onVaChange={e => updateCheckboxValue(e, 'v3')}
             >
-              <VaCheckbox uswds label="Checkbox 1" value="Checkbox 1" />
-              <VaCheckbox uswds label="Checkbox 2" value="Checkbox 2" />
-              <VaCheckbox uswds label="Checkbox 3" value="Checkbox 3" />
+              <VaCheckbox label="Checkbox 1" value="Checkbox 1" />
+              <VaCheckbox label="Checkbox 2" value="Checkbox 2" />
+              <VaCheckbox label="Checkbox 3" value="Checkbox 3" />
             </VaCheckboxGroup>
             <ValueDisplay label="V3 Checkbox Group" id="v3CheckboxValue" />
           </div>
@@ -264,7 +280,6 @@ export default function V3BasePage() {
               hint="This is a hint"
               onDateBlur={e => updateValue(e)}
               onDateChange={e => updateValue(e)}
-              uswds
             />
             <ValueDisplay label="V3 Memorable date" id="v3MemorableDateValue" />
           </div>
@@ -281,7 +296,6 @@ export default function V3BasePage() {
               label="V3 Textarea"
               hint="This is a hint"
               onInput={e => updateValue(e)}
-              uswds
             />
             <ValueDisplay label="V3 Text Area" id="v3TextAreaValue" />
           </div>
@@ -301,7 +315,6 @@ export default function V3BasePage() {
               onSecondaryClick={() =>
                 handleClick('v3ButtonPairValue', 'V3 back')
               }
-              uswds
             />
             <ValueDisplay label="V3 button pair" id="v3ButtonPairValue" />
           </div>
@@ -316,7 +329,6 @@ export default function V3BasePage() {
             <VaButton
               onClick={() => handleClick('v3ButtonValue', 'V3 edit')}
               text="Edit"
-              uswds
             />
             <ValueDisplay label="V3 button" id="v3ButtonValue" />
           </div>
@@ -344,7 +356,6 @@ export default function V3BasePage() {
             <VaButton
               onClick={openModalV3}
               text="Click here to open V3 modal"
-              uswds
             />
             <VaModal
               modalTitle="Are you sure you want to continue?"
@@ -354,7 +365,6 @@ export default function V3BasePage() {
               onPrimaryButtonClick={onCloseEventV3}
               onSecondaryButtonClick={onCloseEventV3}
               visible={isVisibleV3}
-              uswds
             >
               <p>You have unsaved changes that will be lost.</p>
             </VaModal>
@@ -376,7 +386,6 @@ export default function V3BasePage() {
                   'v3PrivacyAgreement',
                 )
               }
-              uswds
             />
             <ValueDisplay
               label="V3 Privacy Agreement"
@@ -397,7 +406,6 @@ export default function V3BasePage() {
               showIcon="true"
               closeBtnAriaLabel="Close"
               closeable="true"
-              uswds="true"
             >
               <h2 slot="headline">Info Alert</h2>
               <div>
@@ -410,7 +418,6 @@ export default function V3BasePage() {
               showIcon="true"
               closeBtnAriaLabel="Close"
               closeable="true"
-              uswds="true"
             >
               <h2 slot="headline">Error Alert</h2>
               <div>
@@ -423,7 +430,6 @@ export default function V3BasePage() {
               showIcon="true"
               closeBtnAriaLabel="Close"
               closeable="true"
-              uswds="true"
             >
               <h2 slot="headline">Success Alert</h2>
               <div>
@@ -436,7 +442,6 @@ export default function V3BasePage() {
               showIcon="true"
               closeBtnAriaLabel="Close"
               closeable="true"
-              uswds="true"
             >
               <h2 slot="headline">Warning Alert</h2>
               <div>
@@ -449,7 +454,6 @@ export default function V3BasePage() {
               showIcon="true"
               closeBtnAriaLabel="Close"
               closeable="true"
-              uswds="true"
             >
               <h2 slot="headline">Continue Alert</h2>
               <div>
@@ -458,19 +462,14 @@ export default function V3BasePage() {
             </VaAlert>
             <br />
             <h3>Not Closable</h3>
-            <VaAlert status="continue" showIcon="true" uswds="true">
+            <VaAlert status="continue" showIcon="true">
               <h2 slot="headline">Alert - Not Closable</h2>
               <div>
                 <p>This is an alert that cannot be closed</p>
               </div>
             </VaAlert>
             <h3>Background Only with Icon</h3>
-            <VaAlert
-              status="continue"
-              showIcon="true"
-              backgroundOnly="true"
-              uswds="true"
-            >
+            <VaAlert status="continue" showIcon="true" backgroundOnly="true">
               <h2 slot="headline">Alert - Background Only With Icon</h2>
               <div>
                 <p>This is an alert with only a background and icon</p>
@@ -478,23 +477,23 @@ export default function V3BasePage() {
             </VaAlert>
             <br />
             <h3>Slim Alerts</h3>
-            <VaAlert status="info" slim="true" uswds="true">
+            <VaAlert status="info" slim="true">
               <p className="margin-y-0">This is a slim info alert</p>
             </VaAlert>
             <br />
-            <VaAlert status="error" slim="true" uswds="true">
+            <VaAlert status="error" slim="true">
               <p className="margin-y-0">This is a slim error alert</p>
             </VaAlert>
             <br />
-            <VaAlert status="success" slim="true" uswds="true">
+            <VaAlert status="success" slim="true">
               <p className="margin-y-0">This is a slim success alert</p>
             </VaAlert>
             <br />
-            <VaAlert status="warning" slim="true" uswds="true">
+            <VaAlert status="warning" slim="true">
               <p className="margin-y-0">This is a slim warning alert</p>
             </VaAlert>
             <br />
-            <VaAlert status="continue" slim="true" uswds="true">
+            <VaAlert status="continue" slim="true">
               <p className="margin-y-0">This is a slim continue alert</p>
             </VaAlert>
           </div>
@@ -514,7 +513,6 @@ export default function V3BasePage() {
               label="Label is here"
               labels="Personal Information;Household Status;Supporting Documents;Signature;Review and Submit"
               total={5}
-              uswds
             />
           </div>
         </div>
@@ -525,7 +523,7 @@ export default function V3BasePage() {
             Additional Info
           </h2>
           <div className="vads-grid-col">
-            <VaAdditionalInfo trigger="Expand Additional Information" uswds>
+            <VaAdditionalInfo trigger="Expand Additional Information">
               <div>Here are some items</div>
               <ul>
                 <li>Item 1</li>
@@ -543,7 +541,7 @@ export default function V3BasePage() {
             Process List
           </h2>
           <div className="grid-col">
-            <VaProcessList uswds>
+            <VaProcessList>
               <VaProcessListItem>
                 <h3>Check to be sure you can request a Board Appeal</h3>
                 <p>
