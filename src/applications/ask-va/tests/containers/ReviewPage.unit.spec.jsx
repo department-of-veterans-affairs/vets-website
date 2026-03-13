@@ -179,7 +179,7 @@ describe('<ReviewPage /> container', () => {
       scrollElements.forEach(element => {
         const name = element.getAttribute('name');
         expect(name).to.not.include("'"); // single quote
-        expect(name).to.not.include('\u2019'); // curly apostrophe
+        expect(name).to.not.include('’'); // curly apostrophe
         // Verify the format is chapter{camelCaseName}ScrollElement
         expect(name).to.match(/^chapter[a-zA-Z]+ScrollElement$/);
       });
