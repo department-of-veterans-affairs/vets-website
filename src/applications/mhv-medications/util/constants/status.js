@@ -39,4 +39,5 @@ export const DISPENSE_STATUS = {
   ACTIVE: 'Active',
   ACTIVE_SUBMITTED: 'Active: Submitted',
   ACTIVE_REFILL_IN_PROCESS: 'Active: Refill in Process',
+  ACTIVE_SHIPPED: 'Active: Shipped',
 };

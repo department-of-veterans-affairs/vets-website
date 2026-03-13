@@ -10,6 +10,7 @@ import {
   getPrescriptionDetailUrl,
   getRxStatus,
   rxSourceIsNonVA,
+  getTrackingUrl,
 } from '../../util/helpers';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 import {
@@ -71,8 +72,18 @@ const MedicationsListCard = ({ rx }) => {
         rx?.refillStatus?.toLowerCase() === 'renew'
       : rx?.dispStatus === DISPENSE_STATUS.RENEW);
   const latestTrackingStatus = rx?.trackingList?.[0];
+  const isRecentlyShipped =
+    rx.dispStatus === DISPENSE_STATUS.ACTIVE_SHIPPED &&
+    rx.isTrackable &&
+    Boolean(latestTrackingStatus);
+  const trackingUrl = getTrackingUrl(
+    latestTrackingStatus?.carrier,
+    latestTrackingStatus?.trackingNumber,
+  );
   const isNonVaPrescription = rxSourceIsNonVA(rx);
   const rxStatus = getRxStatus(rx);
+  const showSimplifiedCard =
+    isManagementImprovements && (isFillInProgress || isRecentlyShipped);
 
   const cardBodyContent = () => {
     if (pendingRenewal || pendingMed) {
@@ -121,8 +132,34 @@ const MedicationsListCard = ({ rx }) => {
               </p>
             </div>
           )}
+        {isManagementImprovements &&
+          isRecentlyShipped && (
+            <div
+              className="vads-u-display--flex vads-u-align-items--center vads-u-background-color--green-lightest vads-u-padding--1 vads-u-margin-top--1"
+              data-testid="shipped-alert"
+              role="status"
+            >
+              <va-icon icon="local_shipping" size={3} aria-hidden="true" />
+              <p className="vads-u-margin-y--0 vads-u-margin-left--1">
+                Refill has shipped.{' '}
+                {trackingUrl ? (
+                  <a
+                    href={trackingUrl}
+                    rel="noreferrer"
+                    data-testid="get-tracking-info-link"
+                  >
+                    Get tracking info
+                  </a>
+                ) : (
+                  <Link to={getPrescriptionDetailUrl(rx)}>
+                    Get tracking info
+                  </Link>
+                )}
+              </p>
+            </div>
+          )}
         {rx &&
-          (rx.isRefillable || (isManagementImprovements && isFillInProgress)) &&
+          (rx.isRefillable || showSimplifiedCard) &&
           rx.refillRemaining >= 0 && (
             <p
               className="vads-u-margin-bottom--0"
@@ -136,26 +173,27 @@ const MedicationsListCard = ({ rx }) => {
             </p>
           )}
         {rx && <LastFilledInfo {...rx} />}
-        {latestTrackingStatus && (
-          <p
-            className="vads-u-margin-top--1p5 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray"
-            data-testid="rx-card-details--shipped-on"
-            data-dd-privacy="mask"
-          >
-            <va-icon icon="local_shipping" size={3} aria-hidden="true" />
-            <span
-              className="vads-u-margin-left--2"
-              data-testid="shipping-date"
+        {latestTrackingStatus &&
+          !showSimplifiedCard && (
+            <p
+              className="vads-u-margin-top--1p5 vads-u-padding-bottom--1p5 vads-u-border-bottom--1px vads-u-border-color--gray"
+              data-testid="rx-card-details--shipped-on"
               data-dd-privacy="mask"
             >
-              Shipped on{' '}
-              {dateFormat(
-                latestTrackingStatus.completeDateTime,
-                DATETIME_FORMATS.longMonthDate,
-              )}
-            </span>
-          </p>
-        )}
+              <va-icon icon="local_shipping" size={3} aria-hidden="true" />
+              <span
+                className="vads-u-margin-left--2"
+                data-testid="shipping-date"
+                data-dd-privacy="mask"
+              >
+                Shipped on{' '}
+                {dateFormat(
+                  latestTrackingStatus.completeDateTime,
+                  DATETIME_FORMATS.longMonthDate,
+                )}
+              </span>
+            </p>
+          )}
         {!isManagementImprovements &&
           rxStatus !== 'Unknown' && (
             <p
@@ -175,7 +213,7 @@ const MedicationsListCard = ({ rx }) => {
             />
           )}
         {rx &&
-          !(isManagementImprovements && isFillInProgress) && (
+          !showSimplifiedCard && (
             <ExtraDetails
               {...rx}
               page={pageType.LIST}
