@@ -46,6 +46,9 @@ describe('SIP Finish Later', () => {
     );
 
     // save and finish a form later
+    // Wait for focus management to complete before interacting with form
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(300);
     cy.fill('input[name="root_veteranFullName_first"]', 'Larry');
     cy.fill('input[name="root_veteranFullName_last"]', 'Walker');
     cy.get('.schemaform-sip-save-link').click();
@@ -119,6 +122,9 @@ describe('SIP Finish Later', () => {
     cy.url().should('contain', '/first-page');
 
     // test 401 error when saving
+    // Wait for focus management to complete before interacting with form
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(300);
     cy.fill('input[name="root_veteranFullName_first"]', 'Micky');
     cy.fill('input[name="root_veteranFullName_last"]', 'Mouse');
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {

@@ -48,6 +48,9 @@ describe('SIP Autosave Test', () => {
       statusCode: 500,
     });
 
+    // Wait for focus management to complete before interacting with form
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(300);
     cy.fill('input[name="root_veteranFullName_first"]', 'Steve');
     cy.get('va-alert[status="error"]').should('be.visible');
 
@@ -90,6 +93,9 @@ describe('SIP Autosave Test', () => {
     cy.intercept('PUT', '/v0/in_progress_forms/XX-123', {
       statusCode: 401,
     });
+    // Wait for focus management to complete before interacting with form
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(300);
     cy.fill('input[name="root_veteranFullName_first"]', 'Bob');
     cy.get('va-alert[status="error"]');
 
