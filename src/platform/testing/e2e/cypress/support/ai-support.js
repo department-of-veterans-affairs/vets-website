@@ -1,21 +1,11 @@
 /**
- * Enhanced Cypress support: command log and console error capture on failure.
+ * Enhanced Cypress support.
  *
- * Adds to the standard support/index.js:
- *   1. Command log capture — the full Cypress sidebar as text on failure
- *   2. Browser console error capture — JS errors that prevent rendering
- *   3. Screenshot path prediction — co-located with the command log output
- *
- * This bridges the gap between the rich browser-side state and the lossy
- * CLI error output that Cypress reporters provide.
- *
- * Loaded by the standard support/index.js when the enhanced runner is active
- * (detected via CYPRESS_ENHANCED_RUNNER env var).
+ * Captures command logs, console errors, and screenshot paths on failure.
+ * Loaded by support/index.js when CYPRESS_ENHANCED_RUNNER env var is set.
  */
 
-// ---------------------------------------------------------------------------
 // Command log capture
-// ---------------------------------------------------------------------------
 
 let currentTestLogs = [];
 let consoleErrors = [];
@@ -56,9 +46,7 @@ Cypress.on('test:before:run', () => {
   consoleErrors = [];
 });
 
-// ---------------------------------------------------------------------------
 // Browser console error capture
-// ---------------------------------------------------------------------------
 
 // Capture console.error calls from the app under test
 Cypress.on('window:before:load', win => {
@@ -90,9 +78,7 @@ Cypress.on('window:before:load', win => {
   });
 });
 
-// ---------------------------------------------------------------------------
 // Dump everything on failure
-// ---------------------------------------------------------------------------
 
 afterEach(function captureCommandLog() {
   const test = this.currentTest;

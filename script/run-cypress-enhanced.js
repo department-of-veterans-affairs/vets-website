@@ -5,23 +5,24 @@
 /**
  * Enhanced Cypress runner for vets-website.
  *
- * Drop-in replacement for `cypress run` with additional features:
- *   - Resolves spec path → entryName automatically
- *   - Optionally starts its own dev server on a random port (--serve)
- *   - Full Cypress sidebar command log printed to terminal on failure
- *   - Hard process-level timeout with process-group kill
- *   - Structured summary at the end with errors, screenshots, diagnostics
+ * - No retries (--no-retry)
+ * - Auto dev server on a free port (--serve)
+ * - Failure summary with errors, command log, and screenshot paths
+ * - Dev server health check
+ * - Hard process timeout
  *
  * Usage:
- *   yarn cy:run --spec "src/applications/.../test.cypress.spec.js"
- *   yarn cy:run --spec "..." --serve          (start+stop dev server automatically)
- *   yarn cy:run --spec "..." --no-retry       (disable retries, fail fast)
- *   yarn cy:run --spec "..." --no-video       (skip video recording)
- *   yarn cy:run --spec "..." --timeout 120    (hard process timeout in seconds)
- *   yarn cy:run --spec "..." --no-timeout     (disable hard timeout)
- *   yarn cy:run --spec "..." --summary-only   (summary only, no Cypress output)
+ *   yarn cy:run:auto --spec "src/applications/.../test.cypress.spec.js"
  *
- * All extra args (except the above) are forwarded to `cypress run`.
+ * Flags:
+ *   --serve          Start and stop a dev server automatically
+ *   --no-retry       Disable retries
+ *   --no-video       Skip video recording
+ *   --timeout N      Hard process timeout in seconds (default 180)
+ *   --no-timeout     Disable hard timeout
+ *   --summary-only   Summary only, no Cypress output
+ *
+ * All other args are forwarded to cypress run.
  */
 
 const { spawn } = require('child_process');
@@ -39,9 +40,7 @@ const MANIFEST_CATALOG = path.resolve(
 );
 const REPO_ROOT = path.resolve(__dirname, '..');
 
-// ---------------------------------------------------------------------------
 // Helpers
-// ---------------------------------------------------------------------------
 
 // eslint-disable-next-line no-control-regex
 const ANSI_ESCAPE = /\x1B\[[0-9;]*[a-zA-Z]/g;
@@ -52,9 +51,7 @@ function stripAnsi(str) {
   return str.replace(ANSI_ESCAPE, '').replace(OSC_ESCAPE, '');
 }
 
-// ---------------------------------------------------------------------------
-// Parsing helpers (defined before main so they're hoisted)
-// ---------------------------------------------------------------------------
+// Parsing helpers
 
 /**
  * Extract command log blocks printed by the enhanced support file.
@@ -202,9 +199,7 @@ function findScreenshots(text, startTime) {
   return shots;
 }
 
-// ---------------------------------------------------------------------------
-// Spec → entryName resolver
-// ---------------------------------------------------------------------------
+// Spec to entryName resolver
 
 function resolveEntryName(specPathArg) {
   if (!fs.existsSync(MANIFEST_CATALOG)) {
@@ -239,9 +234,7 @@ function resolveEntryName(specPathArg) {
   return null;
 }
 
-// ---------------------------------------------------------------------------
 // Dev server health check
-// ---------------------------------------------------------------------------
 
 function checkDevServer(url) {
   return new Promise(resolve => {
@@ -257,9 +250,7 @@ function checkDevServer(url) {
   });
 }
 
-// ---------------------------------------------------------------------------
-// Ephemeral dev server (--serve mode)
-// ---------------------------------------------------------------------------
+// Ephemeral dev server (--serve)
 
 /**
  * Find a free port by binding to port 0 and reading the assigned port.
@@ -358,9 +349,7 @@ function startDevServer(port, entryName) {
   });
 }
 
-// ---------------------------------------------------------------------------
 // Argument parsing
-// ---------------------------------------------------------------------------
 
 const rawArgs = process.argv.slice(2);
 let timeoutSeconds = DEFAULT_TIMEOUT_SECONDS;
@@ -394,9 +383,7 @@ for (let i = 0; i < rawArgs.length; i++) {
   }
 }
 
-// ---------------------------------------------------------------------------
 // Build summary output
-// ---------------------------------------------------------------------------
 
 function buildDiagnostics({ clean, hardTimeoutFired, entryName }) {
   const diags = [];
@@ -533,9 +520,7 @@ function buildSummary({
   return out.join('\n');
 }
 
-// ---------------------------------------------------------------------------
 // Run Cypress
-// ---------------------------------------------------------------------------
 
 function runCypress({ port, entryName }) {
   return new Promise(resolve => {
@@ -631,9 +616,7 @@ function runCypress({ port, entryName }) {
   });
 }
 
-// ---------------------------------------------------------------------------
 // Main
-// ---------------------------------------------------------------------------
 
 async function main() {
   const resolved = specPath ? resolveEntryName(specPath) : null;
