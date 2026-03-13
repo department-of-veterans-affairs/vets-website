@@ -73,12 +73,9 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
 
       const expectedMessageBodyText = [
         `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
-        `Prescription number: 2721195`,
         `Instructions: TAKE 1 BY MOUTH DAILY FOR 30 DAYS`,
         `Provider who prescribed it: Bob Taylor`,
-        `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
-        `Reason for use: Reason for use not available`,
         `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
@@ -124,12 +121,9 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
 
       const expectedMessageBodyText = [
         `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
-        `Prescription number: 2721195`,
         `Instructions: TAKE 1 BY MOUTH DAILY FOR 30 DAYS`,
         `Provider who prescribed it: Bob Taylor`,
-        `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
-        `Reason for use: Reason for use not available`,
         `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
@@ -245,12 +239,9 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
 
       const expectedMessageBodyText = [
         `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
-        `Prescription number: 2721195`,
         `Instructions: TAKE 1 BY MOUTH DAILY FOR 30 DAYS`,
         `Provider who prescribed it: Bob Taylor`,
-        `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
-        `Reason for use: Reason for use not available`,
         `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
@@ -315,12 +306,9 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
 
       const expectedMessageBodyText = [
         `Medication name, strength, and form: ABACAVIR SO4 600MG/LAMIVUDINE 300MG TAB`,
-        `Prescription number: 2721195`,
         `Instructions: TAKE 1 BY MOUTH DAILY FOR 30 DAYS`,
         `Provider who prescribed it: Bob Taylor`,
-        `Number of refills left: 0`,
         `Prescription expiration date: November 8, 2025`,
-        `Reason for use: Reason for use not available`,
         `Last filled on: November 6, 2024`,
         `Quantity: 4`,
       ].join('\n');
@@ -403,12 +391,9 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
 
       const expectedMessageBodyText = [
         `Medication name, strength, and form: METFORMIN HCL 500MG TAB`,
-        `Prescription number: Prescription number not available`,
         `Instructions: TAKE ONE TABLET BY MOUTH TWICE DAILY`,
         `Provider who prescribed it: Provider name not available`,
-        `Number of refills left: Number of refills left not available`,
         `Prescription expiration date: November 8, 2025`,
-        `Reason for use: Reason for use not available`,
         `Last filled on: November 6, 2024`,
         `Quantity: 60`,
       ].join('\n');
