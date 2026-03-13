@@ -4,6 +4,7 @@ import manifest from '../manifest.json';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import { uploadPage } from '../pages/upload';
+import { bddUploadPage } from '../pages/bddUpload';
 import { veteranInformationPage } from '../pages/veteranInformation';
 import { transformForSubmit } from './submit-transformer';
 import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
@@ -76,6 +77,19 @@ const form21526Ez = (pathname = null) => {
             uiSchema: uploadPage.uiSchema,
             schema: uploadPage.schema,
             scrollAndFocusTarget,
+            depends: formData => {
+              return formData.isBddClaim !== true;
+            },
+          },
+          bddUploadPage: {
+            path: 'bdd-upload-files',
+            title: 'Upload files',
+            uiSchema: bddUploadPage.uiSchema,
+            schema: bddUploadPage.schema,
+            scrollAndFocusTarget,
+            depends: formData => {
+              return formData.isBddClaim === true;
+            },
           },
         },
       },
