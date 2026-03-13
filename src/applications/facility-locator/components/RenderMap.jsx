@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import SearchAreaControl from './SearchAreaControl';
 
 // renderMap does not consider progressive disclosure flipper internally
@@ -22,6 +22,8 @@ const RenderMap = forwardRef(
     },
     ref,
   ) => {
+    const [skipLinkHref, setSkipLinkHref] = useState('#footerNav');
+
     useEffect(
       () => {
         if (map) {
@@ -30,6 +32,15 @@ const RenderMap = forwardRef(
       },
       [map],
     );
+
+    useEffect(() => {
+      // set the link location to the feedback button if it's there
+      const feedbackButtonPresent = !!document.getElementById('mdFormButton');
+      if (feedbackButtonPresent) {
+        setSkipLinkHref('#mdFormButton');
+      }
+    }, []);
+
     const speakMapInstructions = () => {
       const mapInstructionsElement = document.getElementById(
         'map-instructions',
@@ -56,6 +67,14 @@ const RenderMap = forwardRef(
           data-testid="map-instructions"
           aria-live="assertive"
         />
+
+        <va-link
+          id="skip-map-link"
+          className="skip-map-link"
+          href={skipLinkHref}
+          text="Skip map"
+        />
+
         <div
           id={mapboxGlContainer}
           data-testid={mapboxGlContainer}
