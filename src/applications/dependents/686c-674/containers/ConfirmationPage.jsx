@@ -55,7 +55,7 @@ export default function ConfirmationPage() {
           </p>
         </div>
         <div className="vads-u-margin-bottom--3">
-          <div className="dd-privacy-hidden">
+          <div>
             <strong>Date submitted</strong>
           </div>
           <p
@@ -95,24 +95,26 @@ export default function ConfirmationPage() {
         <Toggler.Enabled>
           {submissionId ? (
             <section>
-              <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--2 save-a-copy">
+              <h2 className="vads-u-margin-top--3 vads-u-margin-bottom--2 save-a-copy">
                 Save a copy of your form
               </h2>
               <span>
                 You can open, download, or print a copy of your submitted form
                 now.
               </span>
-              <div className="vads-u-margin-top--1p5">
-                <va-link
-                  external
-                  text="Download or print the information you submitted"
-                  class="form-renderer"
-                  href={
-                    submissionId ? `/my-va/submissions/${submissionId}` : ''
-                  }
-                />
+              <div className="vads-u-margin-top--2">
+                <strong>
+                  <va-link
+                    external
+                    text="Download or print the information you submitted"
+                    class="form-renderer"
+                    href={
+                      submissionId ? `/my-va/submissions/${submissionId}` : ''
+                    }
+                  />
+                </strong>
               </div>
-              <div className="vads-u-margin-top--1p5">
+              <div className="vads-u-margin-top--2 vads-u-margin-bottom--3">
                 <strong>Note:</strong> You won't be able to access a copy of the
                 information you submitted once you leave this page.
               </div>
