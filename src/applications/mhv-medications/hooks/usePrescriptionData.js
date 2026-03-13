@@ -39,6 +39,8 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
   // Build query params for getPrescriptionById
   // Use stationNumber from URL if available (required for v2 API when Cerner pilot is enabled)
   // Only fall back to cached prescription's stationNumber when Cerner pilot is enabled
+  // If no station_number is available, the backend will still work as long as
+  // the prescription_id is unique across stations
   const getStationNumber = () => {
     if (stationNumber) return stationNumber;
     if (isCernerPilot && cachedPrescription?.stationNumber) {
@@ -49,11 +51,6 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
 
   const resolvedStationNumber = getStationNumber();
 
-  // Skip API call if Cerner pilot is enabled but no station number is available from any source
-  // This prevents failed API calls while waiting for redirect or cached data
-  const shouldSkipDueToMissingStationNumber =
-    isCernerPilot && !resolvedStationNumber && !cachedPrescriptionAvailable;
-
   const prescriptionByIdParams = {
     id: prescriptionId,
     stationNumber: resolvedStationNumber,
@@ -63,7 +60,7 @@ export const usePrescriptionData = (prescriptionId, queryParams) => {
   const { data, error, isLoading: queryLoading } = getPrescriptionById.useQuery(
     prescriptionByIdParams,
     {
-      skip: cachedPrescriptionAvailable || shouldSkipDueToMissingStationNumber,
+      skip: cachedPrescriptionAvailable,
     },
   );
 
