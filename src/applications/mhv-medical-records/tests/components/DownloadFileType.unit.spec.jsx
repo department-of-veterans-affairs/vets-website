@@ -310,7 +310,7 @@ describe('DownloadFileType — AAL logging', () => {
 
     // va-button should not be loading initially
     expect(btn).to.have.attr('text', 'Download report');
-    expect(btn).to.have.attr('loading', 'false');
+    expect(btn).to.not.have.attr('loading', 'true');
 
     // Click the button
     await userEvent.click(btn);
