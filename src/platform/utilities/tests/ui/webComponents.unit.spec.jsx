@@ -11,6 +11,8 @@ import {
   isWebComponent,
   isWebComponentReady,
   querySelectorWithShadowRoot,
+  findNativeFormInputFocusTarget,
+  isNativeFormInput,
 } from '../../ui/webComponents';
 
 describe('web component basic checkers', async () => {
@@ -80,6 +82,22 @@ describe('web component basic checkers', async () => {
 
       el = await waitForShadowRoot({});
       expect(el).to.deep.eq({});
+    });
+  });
+
+  it('isNativeFormInput tests', async () => {
+    const { container } = await render(<input type="text" id="text" />);
+
+    await waitFor(() => {
+      const input = $('input', container);
+      expect(isNativeFormInput(input)).to.be.true;
+    });
+
+    const { container: container2 } = await render(<div>test</div>);
+
+    await waitFor(() => {
+      const div = $('div', container2);
+      expect(isNativeFormInput(div)).to.be.false;
     });
   });
 });
@@ -157,6 +175,49 @@ describe('web component query selector tests', async () => {
 
       el = await querySelectorWithShadowRoot('#not-found', null);
       expect(el).to.eq(null);
+    });
+  });
+});
+
+describe('findNativeFormInputFocusTarget tests', () => {
+  const SELECTOR = 'select,input,textarea,button';
+  it('finds native form elements inside an element', async () => {
+    const { container } = await render(
+      <div>
+        <select>
+          <option>option</option>
+        </select>
+      </div>,
+    );
+
+    await waitFor(() => {
+      const element = $('div', container);
+      const select = findNativeFormInputFocusTarget(element, SELECTOR);
+      expect(isNativeFormInput(select)).to.be.true;
+    });
+  });
+
+  it('returns null if no native form element is present', async () => {
+    const { container } = await render(
+      <div>
+        <span>test</span>
+      </div>,
+    );
+
+    await waitFor(() => {
+      const element = $('div', container);
+      const result = findNativeFormInputFocusTarget(element, SELECTOR);
+      expect(result).to.be.null;
+    });
+  });
+
+  it('returns input if input is a native form input', async () => {
+    const { container } = await render(<input type="text" id="text" />);
+
+    await waitFor(() => {
+      const element = $('input', container);
+      const result = findNativeFormInputFocusTarget(element, SELECTOR);
+      expect(result.tagName.toLowerCase()).to.eq('input');
     });
   });
 });

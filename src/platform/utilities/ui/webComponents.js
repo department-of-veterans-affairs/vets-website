@@ -22,9 +22,10 @@ export function isWebComponent(el, root) {
  * @param {HTMLElement} el an element that may recieve focus
  * @returns {boolean} is the element a form input
  */
-function isNativeFormInput(el) {
-  return ['input', 'select', 'textarea', 'button'].includes(
-    el.tagName.toLowerCase(),
+export function isNativeFormInput(el) {
+  return (
+    !!el &&
+    ['input', 'select', 'textarea', 'button'].includes(el.tagName.toLowerCase())
   );
 }
 /**
@@ -125,13 +126,14 @@ export function waitForShadowRoot(el, waitForPaint = true) {
  * @param {string} selector - the list of lower level selectors
  * @returns {HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | HTMLButtonElement }
  */
-function findNativeFormInputFocusTarget(rootElement, selector) {
+export function findNativeFormInputFocusTarget(rootElement, selector) {
   // we have reached the underlying form element that needs to be focused or else there isn't one to be found
   if (rootElement === null || isNativeFormInput(rootElement)) {
     return rootElement;
   }
   // it's a webcomponent with a shadowRoot
   let _rootElement = rootElement?.shadowRoot?.querySelector(selector);
+
   // it's either not a webcomponent or it doesn't have a shadowRoot
   if (!_rootElement) {
     _rootElement = rootElement.querySelector(selector);
@@ -171,7 +173,7 @@ function findNativeFormInputFocusTarget(rootElement, selector) {
 export async function querySelectorWithShadowRoot(
   selector,
   root,
-  { focusNativeFormInput },
+  { focusNativeFormInput } = {},
 ) {
   try {
     let selectorElement;
