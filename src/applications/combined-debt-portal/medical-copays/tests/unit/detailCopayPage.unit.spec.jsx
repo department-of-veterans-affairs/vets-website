@@ -41,7 +41,7 @@ describe('DetailCopayPage', () => {
   const mockMatch = { params: { id: '123' } };
 
   it('uses attributes.facility for TITLE when VHA payment history flag is true', () => {
-    const mockStatement = {
+    const mockCopay = {
       id: '123',
       attributes: {
         facility: {
@@ -67,8 +67,8 @@ describe('DetailCopayPage', () => {
       },
       combinedPortal: {
         mcp: {
-          selectedStatement: mockStatement,
-          statements: [mockStatement],
+          currentCopay: mockCopay,
+          copays: [mockCopay],
         },
       },
       featureToggles: {
@@ -86,7 +86,7 @@ describe('DetailCopayPage', () => {
   });
 
   it('uses station.facilityName for TITLE when VHA payment history flag is false', () => {
-    const mockStatement = {
+    const mockCopay = {
       id: '123',
       station: {
         facilityName: 'Tampa VA Medical Center',
@@ -106,8 +106,8 @@ describe('DetailCopayPage', () => {
       },
       combinedPortal: {
         mcp: {
-          selectedStatement: mockStatement,
-          statements: [mockStatement],
+          currentCopay: mockCopay,
+          copays: [mockCopay],
         },
       },
       featureToggles: {
@@ -124,5 +124,68 @@ describe('DetailCopayPage', () => {
     expect(container.textContent).to.include(
       'Copay bill for Tampa VA Medical Center',
     );
+  });
+
+  it('renders VHA unspaced account number split into 5 parts', () => {
+    const mockCopay = {
+      id: '123',
+      attributes: {
+        facility: { name: 'James A. Haley' },
+        invoiceDate: '2024-01-15',
+        accountNumber: '5160000000024571JONES',
+        lineItems: [],
+        principalBalance: 100,
+        paymentDueDate: '2024-02-15',
+        principalPaid: 25,
+      },
+    };
+
+    const mockState = {
+      user: { profile: { userFullName: { first: 'John', last: 'Doe' } } },
+      combinedPortal: {
+        mcp: { currentCopay: mockCopay, copays: [mockCopay] },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: true,
+        loading: false,
+      },
+    };
+
+    const { container } = renderWithStore(
+      <DetailCopayPage match={mockMatch} />,
+      mockState,
+    );
+
+    expect(container.textContent).to.include('516 0000 0000 24571 JONES');
+  });
+
+  it('renders CDW spaced account number correctly', () => {
+    const mockCopay = {
+      id: '123',
+      station: { facilityName: 'Tampa VA Medical Center' },
+      pSStatementDateOutput: '01/15/2024',
+      accountNumber: '516 0000 0000 24571 JONES',
+      details: [],
+      pHNewBalance: 100,
+      pHTotCharges: 25,
+    };
+
+    const mockState = {
+      user: { profile: { userFullName: { first: 'John', last: 'Doe' } } },
+      combinedPortal: {
+        mcp: { currentCopay: mockCopay, copays: [mockCopay] },
+      },
+      featureToggles: {
+        [FEATURE_FLAG_NAMES.showVHAPaymentHistory]: false,
+        loading: false,
+      },
+    };
+
+    const { container } = renderWithStore(
+      <DetailCopayPage match={mockMatch} />,
+      mockState,
+    );
+
+    expect(container.textContent).to.include('516 0000 0000 24571 JONES');
   });
 });

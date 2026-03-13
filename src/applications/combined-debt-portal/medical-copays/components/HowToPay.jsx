@@ -3,9 +3,22 @@ import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import CopyButton from '../../combined/components/CopyButton';
 
-const splitAccountNumber = accountNumber => {
-  const parts = accountNumber?.split(/\s+/) || [];
-  return Array.from({ length: 5 }, (_, i) => parts[i] || '');
+export const splitAccountNumber = accountNumber => {
+  if (!accountNumber) return Array(5).fill('');
+
+  if (/\s/.test(accountNumber)) {
+    const parts = accountNumber.split(/\s+/);
+    return Array.from({ length: 5 }, (_, i) => parts[i] || '');
+  }
+
+  // VHA/Lighthouse format: unspaced (e.g. "5160000000024571JONES")
+  // Pattern per Pay.gov spec: 3 (station) + 4 (DFN/EDIPI part 1) + 4 (part 2) + 5 (part 3) + last name
+  const match = accountNumber.match(/^(\d{3})(\d{4})(\d{4})(\d{5})(.+)$/);
+  if (match) {
+    return [match[1], match[2], match[3], match[4], match[5]];
+  }
+
+  return [accountNumber, '', '', '', ''];
 };
 
 export const HowToPay = ({
