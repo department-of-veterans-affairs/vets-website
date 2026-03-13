@@ -47,6 +47,18 @@ export const tabToContinue = () => {
   cy.realPress('Space');
 };
 
+export const tabToContinueNotWC = () => {
+  // Tabbing to keyboard-press buttons often doesn't work because they take
+  // a moment to load. The added wait may help.
+  // eslint-disable-next-line cypress/no-unnecessary-waiting
+  cy.wait(100);
+  cy.get('.usa-button-primary')
+    .should('exist')
+    .and('be.visible');
+  cy.tabToElement('.usa-button-primary');
+  cy.realPress('Space');
+};
+
 export const getRandomDate = (offset = Math.random() * 6) =>
   parseDateWithOffset({
     months: -Math.floor(3 + offset),

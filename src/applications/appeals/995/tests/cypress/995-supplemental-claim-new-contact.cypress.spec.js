@@ -32,11 +32,11 @@ const testConfig = createTestConfig(
       const toggles = [
         {
           name: 'decisionReviewsUseNewContactPage',
-          value: false,
+          value: true,
         },
         {
           name: 'decision_review_use_new_contact_info_page',
-          value: false,
+          value: true,
         },
       ];
       setupPerTest(data, toggles);
