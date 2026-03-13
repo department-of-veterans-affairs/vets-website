@@ -42,6 +42,18 @@ export const toggleMinimalHeader = show => {
   defaultHeader.classList.toggle('vads-u-display--none', show);
 };
 
+export const toggleMinimalFooter = show => {
+  const minimalFooter = document.getElementById('footer-minimal');
+  const defaultFooter = document.getElementById('footerNav');
+
+  if (!minimalFooter || !defaultFooter) {
+    return;
+  }
+
+  minimalFooter.classList.toggle('vads-u-display--none', !show);
+  defaultFooter.classList.toggle('vads-u-display--none', show);
+};
+
 export const formatMenuItems = menuItems => {
   const formattedMenuItems = [];
 

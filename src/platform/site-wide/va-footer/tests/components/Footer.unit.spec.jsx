@@ -213,7 +213,7 @@ describe('static <Footer> minimal-footer with various options', () => {
 
   it('should render minimal footer if true', () => {
     const { container } = setup({
-      footerHTML: '<div id="footerNav" data-minimal-footer="true"></div>',
+      footerHTML: '<div id="footer-minimal"></div><div id="footerNav"></div>',
       path: '/introduction',
     });
 
@@ -222,7 +222,7 @@ describe('static <Footer> minimal-footer with various options', () => {
 
   it('should not render minimal footer if false', () => {
     const { container } = setup({
-      footerHTML: '<div id="footerNav" data-minimal-footer="false"></div>',
+      footerHTML: '<div id="footerNav"></div>',
       path: '/introduction',
     });
 
@@ -232,7 +232,7 @@ describe('static <Footer> minimal-footer with various options', () => {
   it('should not render minimal footer if true but on an excluded path', () => {
     const { container } = setup({
       footerHTML:
-        '<div id="footerNav" data-minimal-footer="true" data-minimal-exclude-paths="[&quot;/introduction&quot;]"></div>',
+        '<div id="footer-minimal" data-exclude-paths="[&quot;/introduction&quot;]"></div><div id="footerNav"></div>',
       path: '/introduction',
     });
 
@@ -242,7 +242,7 @@ describe('static <Footer> minimal-footer with various options', () => {
   it('should render minimal footer if true and on a path not excluded', () => {
     const { container } = setup({
       footerHTML:
-        '<div id="footerNav" data-minimal-footer="true" data-minimal-exclude-paths="[&quot;/introduction&quot;]"></div>',
+        '<div id="footer-minimal" data-exclude-paths="[&quot;/introduction&quot;]"></div><div id="footerNav"></div>',
       path: '/confirmation',
     });
 
