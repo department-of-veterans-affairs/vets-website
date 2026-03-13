@@ -4,12 +4,27 @@ import sinon from 'sinon';
 import {
   DefinitionTester,
   fillDate,
-  selectRadio,
 } from 'platform/testing/unit/schemaform-utils';
 import { mount } from 'enzyme';
 import { waitFor } from '@testing-library/dom';
 import formConfig from '../../config/form';
 import { ERR_MSG_CSS_CLASS } from '../../constants';
+
+const selectPowStatus = (form, value = 'Y') => {
+  const powStatusRadio = form
+    .getDOMNode()
+    .querySelector('va-radio[name="root_view:powStatus"]');
+
+  powStatusRadio.dispatchEvent(
+    new CustomEvent('vaValueChange', {
+      detail: { value },
+      bubbles: true,
+      composed: true,
+    }),
+  );
+
+  form.update();
+};
 
 describe('Prisoner of war info', () => {
   const {
@@ -33,7 +48,8 @@ describe('Prisoner of war info', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
+    expect(form.find('va-radio').length).to.equal(1);
+    expect(form.find('va-radio-option').length).to.equal(2);
     form.unmount();
   });
 
@@ -47,9 +63,9 @@ describe('Prisoner of war info', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:powStatus', 'Y');
+    selectPowStatus(form, 'Y');
 
-    expect(form.find('input').length).to.equal(4);
+    expect(form.find('input').length).to.equal(2);
     expect(form.find('select').length).to.equal(4);
     form.unmount();
   });
@@ -67,7 +83,9 @@ describe('Prisoner of war info', () => {
     );
     await waitFor(() => {
       form.find('form').simulate('submit');
-      expect(form.find(ERR_MSG_CSS_CLASS).length).to.equal(1);
+      const radio = form.getDOMNode().querySelector('va-radio');
+      expect(radio.error).to.exist;
+      expect(radio.error).to.have.length.above(0);
       expect(onSubmit.called).to.be.false;
     });
     form.unmount();
@@ -83,7 +101,7 @@ describe('Prisoner of war info', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:powStatus', 'Y');
+    selectPowStatus(form, 'Y');
     fillDate(form, 'root_view:isPow_confinements_0_from', '2010-05-05');
     fillDate(form, 'root_view:isPow_confinements_0_to', '2011-05-05');
 
@@ -110,7 +128,7 @@ describe('Prisoner of war info', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:powStatus', 'Y');
+    selectPowStatus(form, 'Y');
     fillDate(form, 'root_view:isPow_confinements_0_from', '2010-05-05');
     fillDate(form, 'root_view:isPow_confinements_0_to', '2011-05-05');
 
@@ -133,7 +151,7 @@ describe('Prisoner of war info', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:powStatus', 'Y');
+    selectPowStatus(form, 'Y');
     expect(form.find('va-checkbox').length).to.equal(2);
     expect(form.find('va-checkbox[label="ASHD"]')).to.exist;
     expect(form.find('va-checkbox[label="Scars"]')).to.exist;
@@ -150,7 +168,7 @@ describe('Prisoner of war info', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:powStatus', 'Y');
+    selectPowStatus(form, 'Y');
     expect(form.find('input[type="checkbox"]').length).to.equal(0);
     const output = form.render().text();
     expect(output).to.not.contain(
@@ -171,7 +189,7 @@ describe('Prisoner of war info', () => {
       />,
     );
 
-    selectRadio(form, 'root_view:powStatus', 'Y');
+    selectPowStatus(form, 'Y');
     fillDate(form, 'root_view:isPow_confinements_0_from', '2010-05-05');
     fillDate(form, 'root_view:isPow_confinements_0_to', '2014-05-05'); // After service period
 
