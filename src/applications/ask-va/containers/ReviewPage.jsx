@@ -176,14 +176,11 @@ const ReviewPage = props => {
   };
 
   const editAll = (pageKeys, title) => {
-    console.log('title is', title);
-
     if (
       title === chapterTitles.yourContactInformation ||
       title === chapterTitles.yourInformation ||
       title === chapterTitles.yourQuestion
     ) {
-      console.log('handling edit for', pageKeys[0]);
       handleEdit(pageKeys[0], true, null);
     } else {
       pageKeys.forEach(key => handleEdit(key, true, null));
@@ -440,11 +437,7 @@ const ReviewPage = props => {
               .map(chapter => {
                 return (
                   <React.Fragment key={chapter.name}>
-                    <div
-                      name={`chapter${
-                        chapterTitles.veteransPersonalInformation
-                      }ScrollElement`}
-                    />
+                    <div name={`chapter${chapter.name}ScrollElement`} />
                     {!editSection.includes(
                       chapterTitles.veteransPersonalInformation,
                     ) ? (
@@ -541,7 +534,7 @@ const ReviewPage = props => {
                           closeSection={closeAll}
                           keys={chapter.pageKeys}
                           title={chapterTitles.veteransPersonalInformation}
-                          scroll={scrollToChapter}
+                          scroll={() => scrollToChapter(chapter.name)}
                         />
                       </>
                     )}
@@ -595,11 +588,7 @@ const ReviewPage = props => {
               .map(chapter => {
                 return (
                   <React.Fragment key={chapter.name}>
-                    <div
-                      name={`chapter${
-                        chapterTitles.familyMembersPersonalInformation
-                      }ScrollElement`}
-                    />
+                    <div name={`chapter${chapter.name}ScrollElement`} />
                     {!editSection.includes(
                       chapterTitles.familyMembersPersonalInformation,
                     ) ? (
@@ -676,7 +665,7 @@ const ReviewPage = props => {
                           closeSection={closeAll}
                           keys={chapter.pageKeys}
                           title={chapterTitles.familyMembersPersonalInformation}
-                          scroll={scrollToChapter}
+                          scroll={() => scrollToChapter(chapter.name)}
                         />
                       </>
                     )}
@@ -728,11 +717,7 @@ const ReviewPage = props => {
             .map(chapter => {
               return (
                 <React.Fragment key={chapter.name}>
-                  <div
-                    name={`chapter${
-                      chapterTitles.yourInformation
-                    }ScrollElement`}
-                  />
+                  <div name={`chapter${chapter.name}ScrollElement`} />
                   {!editSection.includes(chapterTitles.yourInformation) ? (
                     <ReviewSectionContent
                       title={chapterTitles.yourInformation}
@@ -815,7 +800,7 @@ const ReviewPage = props => {
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourInformation}
-                        scroll={scrollToChapter}
+                        scroll={() => scrollToChapter(chapter.name)}
                       />
                     </>
                   )}
@@ -829,7 +814,7 @@ const ReviewPage = props => {
               return (
                 <React.Fragment key={chapter.name}>
                   <div
-                    name={`chapter${chapterTitles.yourPostalCode}ScrollElement`}
+                    name={`chapter${chapter.name}ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourPostalCode) ? (
@@ -871,7 +856,7 @@ const ReviewPage = props => {
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourPostalCode}
-                        scroll={scrollToChapter}
+                        scroll={() => scrollToChapter(chapter.name)}
                       />
                     </>
                   )}
@@ -884,11 +869,7 @@ const ReviewPage = props => {
             .map(chapter => {
               return (
                 <React.Fragment key={chapter.name}>
-                  <div
-                    name={`chapter${
-                      chapterTitles.yourVAHealthFacility
-                    }ScrollElement`}
-                  />
+                  <div name={`chapter${chapter.name}ScrollElement`} />
                   {!editSection.includes(chapterTitles.yourVAHealthFacility) ? (
                     <ReviewSectionContent
                       title={chapterTitles.yourVAHealthFacility}
@@ -928,7 +909,7 @@ const ReviewPage = props => {
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourVAHealthFacility}
-                        scroll={scrollToChapter}
+                        scroll={() => scrollToChapter(chapter.name)}
                       />
                     </>
                   )}
@@ -941,11 +922,7 @@ const ReviewPage = props => {
             .map(chapter => {
               return (
                 <React.Fragment key={chapter.name}>
-                  <div
-                    name={`chapter${
-                      chapterTitles.stateOfProperty
-                    }ScrollElement`}
-                  />
+                  <div name={`chapter${chapter.name}ScrollElement`} />
                   {!editSection.includes(chapterTitles.stateOfProperty) ? (
                     <ReviewSectionContent
                       title={chapterTitles.stateOfProperty}
@@ -985,7 +962,7 @@ const ReviewPage = props => {
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.stateOfProperty}
-                        scroll={scrollToChapter}
+                        scroll={() => scrollToChapter(chapter.name)}
                       />
                     </>
                   )}
@@ -998,11 +975,7 @@ const ReviewPage = props => {
             .map(chapter => {
               return (
                 <React.Fragment key={chapter.name}>
-                  <div
-                    name={`chapter${
-                      chapterTitles.yourVREInformation
-                    }ScrollElement`}
-                  />
+                  <div name={`chapter${chapter.name}ScrollElement`} />
                   {!editSection.includes(chapterTitles.yourVREInformation) ? (
                     <ReviewSectionContent
                       title={chapterTitles.yourVREInformation}
@@ -1050,7 +1023,7 @@ const ReviewPage = props => {
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourVREInformation}
-                        scroll={scrollToChapter}
+                        scroll={() => scrollToChapter(chapter.name)}
                       />
                     </>
                   )}
@@ -1063,11 +1036,7 @@ const ReviewPage = props => {
             .map(chapter => {
               return (
                 <React.Fragment key={chapter.name}>
-                  <div
-                    name={`chapter${
-                      chapterTitles.schoolInformation
-                    }ScrollElement`}
-                  />
+                  <div name={`chapter${chapter.name}ScrollElement`} />
                   {!editSection.includes(chapterTitles.schoolInformation) ? (
                     <ReviewSectionContent
                       title={chapterTitles.schoolInformation}
@@ -1146,9 +1115,7 @@ const ReviewPage = props => {
               return (
                 <React.Fragment key={chapter.name}>
                   <div
-                    name={`chapter${
-                      chapterTitles.yourContactInformation
-                    }ScrollElement`}
+                    name={`chapter${chapter.name}ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(
@@ -1227,7 +1194,7 @@ const ReviewPage = props => {
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourContactInformation}
-                        scroll={scrollToChapter}
+                        scroll={() => scrollToChapter(chapter.name)}
                       />
                     </>
                   )}
@@ -1241,9 +1208,7 @@ const ReviewPage = props => {
               return (
                 <React.Fragment key={chapter.name}>
                   <div
-                    name={`chapter${
-                      chapterTitles.yourMailingAddress
-                    }ScrollElement`}
+                    name={`chapter${chapter.name}ScrollElement`}
                     key={chapter.name}
                   />
                   {!editSection.includes(chapterTitles.yourMailingAddress) ? (
@@ -1330,7 +1295,7 @@ const ReviewPage = props => {
                         closeSection={closeAll}
                         keys={chapter.pageKeys}
                         title={chapterTitles.yourMailingAddress}
-                        scroll={scrollToChapter}
+                        scroll={() => scrollToChapter(chapter.name)}
                       />
                     </>
                   )}
@@ -1353,16 +1318,13 @@ const ReviewPage = props => {
                 className="vads-u-margin-bottom--2"
               >
                 <>
-                  <div
-                    name={`chapter${chapterTitles.yourQuestion}ScrollElement`}
-                  />
+                  <div name={`chapter${chapter.name}ScrollElement`} />
                 </>
                 {!editSection.includes(chapterTitles.yourQuestion) ? (
                   <ReviewSectionContent
                     editSection={editAll}
                     title={chapterTitles.yourQuestion}
                     keys={chapter.pageKeys}
-                    title={chapterTitles.yourQuestion}
                     items={[
                       {
                         name: 'Subject',
@@ -1556,6 +1518,7 @@ ReviewPage.propTypes = {
   loggedIn: PropTypes.bool,
   setData: PropTypes.func,
   setEditMode: PropTypes.func,
+  setFormErrors: PropTypes.func,
   setValid: PropTypes.func,
   setViewedPages: PropTypes.func,
   uploadFile: PropTypes.func,

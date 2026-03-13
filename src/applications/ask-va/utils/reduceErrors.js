@@ -1,5 +1,10 @@
 import numberToWords from '~/platform/forms-system/src/js/utilities/data/numberToWords';
 
+// NOTE: For original implementation, see src/platform/forms-system/src/js/utilities/data/reduceErrors.js.
+// This version is modified for the Ask VA form, as the original implementation makes assumptions
+// around the idea that each field belongs to a single page. The Ask VA form implementation dynamically
+// generates variations of pages based on user input, so a single field may belong to multiple pages.
+
 // Process JSON-schema error messages for viewing
 
 /**
