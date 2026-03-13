@@ -59,6 +59,7 @@
   "confirmContactEmailInterstitialEnabled": "confirm_contact_email_interstitial_enabled",
   "cstClaimPhases": "cst_claim_phases",
   "cstClaimsListFilter": "cst_claims_list_filter",
+  "cstEvidenceRequestsStackedAlerts": "cst_evidence_requests_stacked_alerts",
   "cstMultiClaimProvider": "cst_multi_claim_provider",
   "cstIncludeDdl5103Letters": "cst_include_ddl_5103_letters",
   "cstIncludeDdlBoaLetters": "cst_include_ddl_boa_letters",
