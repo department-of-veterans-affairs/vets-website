@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import { getCoeDocuments } from './api';
 import List from './List';
 
 const DocumentList = ({ notOnUploadPage }) => {
   const [documents, setDocuments] = useState([]);
+  const {
+    TOGGLE_NAMES,
+    useToggleLoadingValue,
+    useToggleValue,
+  } = useFeatureToggle();
+  const enableCveStatus = useToggleValue(TOGGLE_NAMES.coeEnableCveStatus);
+  const isLoading = useToggleLoadingValue(TOGGLE_NAMES.coeEnableCveStatus);
 
   useEffect(() => {
     const getData = async () => {
@@ -20,16 +27,28 @@ const DocumentList = ({ notOnUploadPage }) => {
     getData();
   }, []);
 
+  if (isLoading) {
+    return <va-loading-indicator message="Loading your application..." />;
+  }
+
   if (documents.length > 0) {
     return (
       <>
-        <h2 className="vads-u-margin-bottom--0">
+        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--0">
           You have letters about your COE request
         </h2>
         <p className="vads-u-border-color--gray-lighter vads-u-border-bottom--1px vads-u-margin--0 vads-u-padding-y--3">
           We’ve emailed you notification letters about your COE request. Read
           these and follow the steps they outline. You may need to take action
           before we can make a final decision.
+          {enableCveStatus && (
+            <div>
+              <va-link
+                href="/resources/how-to-download-and-open-a-vagov-pdf-form/"
+                text="Get instructions for downloading a VA.gov PDF"
+              />
+            </div>
+          )}
         </p>
         <List documents={documents} />
       </>
