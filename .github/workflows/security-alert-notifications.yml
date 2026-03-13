@@ -35,4 +35,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
           channel_id: 'C02RLAUM2LV'
-          alert_types: 'code_scanning,secret_scanning'
+          alert_types: 'code_scanning,secret_scanning,dependabot'
