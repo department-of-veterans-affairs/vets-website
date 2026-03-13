@@ -12,39 +12,37 @@ const AdditionalInstructions = ({ formResponses }) => {
   return (
     <section>
       <va-accordion>
-        <va-accordion-item header="What happens after I send in my application?">
+        <va-accordion-item header="What happens after I submit my application?">
           <p>
             The Board reviews nearly all applications within 18 months. You can
-            continue to submit supporting documentation until the Board has
-            reviewed your application.
+            continue to submit supporting documentation until the Board is
+            finished reviewing your application.
           </p>
           <p>
-            If your application is successful, the Board will direct your
-            service personnel office to issue you either a DD215, which contains
-            updates to the DD214, or an entirely new DD214. If you get a new
-            DD214,{' '}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://www.archives.gov/veterans/military-service-records"
-            >
-              request a copy (opens in a new tab)
-            </a>
-            .
+            If the Board approves your application, they’ll tell your service
+            personnel office to issue you either a DD Form 215, which updates
+            your existing DD214, or a new DD214. If you get a new DD214, make
+            sure to ask for a copy of your records.
+            <p>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://www.archives.gov/veterans/military-service-records"
+              >
+                Request a copy of your own records (opens in a new tab)
+              </a>
+            </p>
           </p>
           <p>
-            If your appeal results in raising your discharge to honorable,
-            you’ll immediately be considered an eligible Veteran to VA, and you
-            can apply for VA benefits and services. For now, you may still apply
-            for VA eligibility by{' '}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://www.benefits.va.gov/BENEFITS/docs/COD_Factsheet.pdf"
-            >
-              requesting a Character of Discharge review (opens in a new tab)
-            </a>
-            .
+            If they change your discharge to honorable, you’re immediately
+            considered an eligible VA Veteran. This means you can apply for VA
+            benefits and services. For now, you may still apply for VA
+            eligibility by requesting a Character of Discharge review.
+          </p>
+          <p>
+            <strong>Note:</strong> You can ask for a VA Character of Discharge
+            review and apply for a discharge upgrade from the DOD or Coast Guard
+            at the same time.
           </p>
         </va-accordion-item>
         <VABenefitsAccordion isResultsPage />
