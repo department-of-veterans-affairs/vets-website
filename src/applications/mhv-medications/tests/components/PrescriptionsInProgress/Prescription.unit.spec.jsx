@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import { renderWithStoreAndRouterV6 } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import Prescription from '../../../components/PrescriptionsInProgress/Prescription';
 import { IN_PROGRESS_MEDS_DISPLAY_TYPES } from '../../../util/constants';
+import { dataDogActionNames } from '../../../util/dataDogConstants';
 import reducers from '../../../reducers';
 
 describe('Prescription Component', () => {
@@ -35,6 +36,15 @@ describe('Prescription Component', () => {
     expect(link.textContent).to.equal(defaultPrescription.prescriptionName);
     expect(link.getAttribute('href')).to.include(
       `/prescription/${defaultPrescription.prescriptionId}`,
+    );
+  });
+
+  it('displays the prescription name link with correct DD action name', () => {
+    const screen = setup();
+    const link = screen.getByTestId('prescription-link');
+    expect(link).to.have.attribute(
+      'data-dd-action-name',
+      dataDogActionNames.inProgressPage.MEDICATION_NAME_LINK,
     );
   });
 

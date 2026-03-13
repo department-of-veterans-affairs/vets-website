@@ -4,16 +4,16 @@ import PropTypes from 'prop-types';
 const VABenefitsAccordion = ({ isResultsPage = false }) => {
   const links = [
     {
+      text: 'Learn more about PTSD treatment',
+      href: '/health-care/health-needs-conditions/mental-health/ptsd/',
+    },
+    {
       text: 'Learn more about military sexual trauma',
       href: '/health-care/health-needs-conditions/military-sexual-trauma/',
     },
     {
       text: 'Learn more about VA mental health services',
       href: '/health-care/health-needs-conditions/mental-health/',
-    },
-    {
-      text: 'Learn more about PTSD treatment',
-      href: '/health-care/health-needs-conditions/mental-health/ptsd/',
     },
   ];
 
@@ -44,9 +44,11 @@ const VABenefitsAccordion = ({ isResultsPage = false }) => {
   return (
     <va-accordion-item header="Can I get VA benefits without a discharge upgrade or correction?">
       <p>
-        If you need mental health services for conditions related to PTSD,
-        military sexual trauma, or other experiences linked to your service, you
-        may qualify for VA health benefits right away. You don’t need a
+        <strong>
+          If you need mental health services for conditions related to PTSD,
+          military sexual trauma, or other experiences linked to your service,
+        </strong>{' '}
+        you may qualify for VA health benefits right away. You don’t need a
         discharge upgrade or correction to receive these services.
       </p>
       {learnMoreLinks}

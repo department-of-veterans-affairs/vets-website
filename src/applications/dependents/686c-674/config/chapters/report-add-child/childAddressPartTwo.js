@@ -1,16 +1,16 @@
 import {
   arrayBuilderItemSubsequentPageTitleUI,
-  fullNameNoSuffixUI,
   fullNameNoSuffixSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { fullNameNoSuffixWithAsciiUI } from '../../helpers';
 
 export const childAddressPartTwo = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `Who does ${formData?.fullName?.first || 'this child'} live with?`,
+        `Person ${formData?.fullName?.first || 'this child'} lives with`,
     ),
-    livingWith: fullNameNoSuffixUI(),
+    livingWith: fullNameNoSuffixWithAsciiUI(),
     'ui:options': {
       updateSchema: (formData, formSchema, _uiSchema, index) => {
         if (formData?.childrenToAdd?.[index]?.doesChildLiveWithYou === false) {

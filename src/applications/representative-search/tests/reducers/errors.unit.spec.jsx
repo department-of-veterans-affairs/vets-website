@@ -3,9 +3,7 @@ import {
   SEARCH_FAILED,
   FETCH_REPRESENTATIVES,
   CLEAR_ERROR,
-  REPORT_COMPLETE,
   GEOCODE_FAILED,
-  REPORT_FAILED,
   GEOCODE_STARTED,
   SEARCH_COMPLETE,
   SEARCH_STARTED,
@@ -21,19 +19,6 @@ describe('errors reducer', () => {
       },
       {
         type: FETCH_REPRESENTATIVES,
-      },
-    );
-
-    expect(state.isErrorFetchRepresentatives).to.eql(null);
-  });
-
-  it('should handle report complete', () => {
-    const state = ErrorsReducer(
-      {
-        ...INITIAL_STATE,
-      },
-      {
-        type: REPORT_COMPLETE,
       },
     );
 
@@ -80,18 +65,6 @@ describe('errors reducer', () => {
     );
 
     expect(state.isErrorFetchRepresentatives).to.eql(null);
-  });
-  it('should handle report failure', () => {
-    const state = ErrorsReducer(
-      {
-        ...INITIAL_STATE,
-      },
-      {
-        type: REPORT_FAILED,
-      },
-    );
-
-    expect(state.isErrorReportSubmission).to.eql(true);
   });
   it('should clear error on starting geocode', () => {
     const state = ErrorsReducer(

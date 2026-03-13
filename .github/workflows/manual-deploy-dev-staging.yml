@@ -65,6 +65,8 @@ jobs:
   set-environment:
     name: Set environment to deploy
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       environment: ${{ steps.set-output.outputs.environment }}
     needs: permissions-check

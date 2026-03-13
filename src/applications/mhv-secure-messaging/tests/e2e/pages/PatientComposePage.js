@@ -148,7 +148,8 @@ class PatientComposePage {
     return cy
       .findByTestId(Locators.FIELDS.MESSAGE_SUBJECT_DATA_TEST_ID)
       .shadow()
-      .find(`#inPutField`);
+      .find(`#inputField`)
+      .should('not.be.disabled');
   };
 
   validateMessageSubjectField = expectedText => {
@@ -159,7 +160,8 @@ class PatientComposePage {
     return cy
       .findByTestId(Locators.FIELDS.MESSAGE_BODY)
       .shadow()
-      .find(`#input-type-textarea`);
+      .find(`#input-type-textarea`)
+      .should('not.be.disabled');
   };
 
   typeMessageBody = (text = '') => {
@@ -697,6 +699,18 @@ class PatientComposePage {
       .shadow()
       .find('.usa-hint')
       .should('contain', expectedHint);
+  };
+
+  selectDifferentCareTeamLink = () => {
+    return cy
+      .findByText(Data.CURATED_LIST.SELECT_CARE_TEAM)
+      .should('be.visible');
+  };
+
+  clickSelectDifferentCareTeamLink = () => {
+    this.selectDifferentCareTeamLink().click({ force: true });
+    // Verify navigation to the select care team page succeeded
+    cy.url().should('include', Data.LINKS.SELECT_CARE_TEAM);
   };
 }
 

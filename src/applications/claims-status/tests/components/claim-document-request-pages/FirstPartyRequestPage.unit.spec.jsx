@@ -600,7 +600,36 @@ describe('<FirstPartyRequestPage>', () => {
         } else {
           expect(addFilesForm).to.not.exist;
         }
+
+        // Verify OtherWaysToSendYourDocuments
+        const otherWays = queryByTestId('other-ways-to-send-documents');
+        if (testCase.showsAddFilesForm) {
+          expect(otherWays).to.exist;
+        } else {
+          expect(otherWays).to.not.exist;
+        }
       });
+    });
+  });
+
+  describe('OtherWaysToSendYourDocuments', () => {
+    it('should render when canUploadFile is true', () => {
+      const item = createTrackedItem({ canUploadFile: true });
+      const { getByTestId, getByText } = renderWithReduxAndRouter(
+        <FirstPartyRequestPage {...defaultProps} item={item} />,
+        { initialState },
+      );
+      expect(getByTestId('other-ways-to-send-documents')).to.exist;
+      getByText('Other ways to send your documents');
+    });
+
+    it('should not render when canUploadFile is false', () => {
+      const item = createTrackedItem({ canUploadFile: false });
+      const { queryByTestId } = renderWithReduxAndRouter(
+        <FirstPartyRequestPage {...defaultProps} item={item} />,
+        { initialState },
+      );
+      expect(queryByTestId('other-ways-to-send-documents')).to.not.exist;
     });
   });
 

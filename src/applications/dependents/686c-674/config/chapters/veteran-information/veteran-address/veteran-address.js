@@ -3,6 +3,7 @@ import {
   addressUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { asciiValidation } from '../../../helpers';
 
 export const uiSchema = {
   veteranContactInformation: {
@@ -32,6 +33,7 @@ export const uiSchema = {
               errors.addError('Enter a valid city name');
             }
           },
+          asciiValidation,
         ],
       },
     },

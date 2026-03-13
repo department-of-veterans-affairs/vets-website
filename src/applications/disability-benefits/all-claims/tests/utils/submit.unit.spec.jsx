@@ -2135,6 +2135,7 @@ describe('addFileAttachments', () => {
         {
           name: 'sha-part-a.pdf',
           confirmationCode: 'sha-code-123',
+          attachmentId: 'L702',
           size: 1024,
           type: 'application/pdf',
         },
@@ -2147,6 +2148,7 @@ describe('addFileAttachments', () => {
     expect(result.attachments).to.have.lengthOf(1);
     expect(result.attachments[0].name).to.equal('sha-part-a.pdf');
     expect(result.attachments[0].confirmationCode).to.equal('sha-code-123');
+    expect(result.attachments[0].attachmentId).to.equal('L702');
     expect(result).to.not.have.property('separationHealthAssessmentUploads');
     expect(result.veteranFullName).to.deep.equal({
       first: 'Sam',
@@ -2160,6 +2162,7 @@ describe('addFileAttachments', () => {
         {
           name: 'sha-part-a.pdf',
           confirmationCode: 'sha-code-123',
+          attachmentId: 'L702',
           size: 1024,
           type: 'application/pdf',
         },
@@ -2178,8 +2181,12 @@ describe('addFileAttachments', () => {
 
     expect(result.attachments).to.have.lengthOf(2);
     const names = result.attachments.map(attachment => attachment.name);
+    const shaAttachment = result.attachments.find(
+      attachment => attachment.name === 'sha-part-a.pdf',
+    );
     expect(names).to.include('sha-part-a.pdf');
     expect(names).to.include('buddy-statement.pdf');
+    expect(shaAttachment.attachmentId).to.equal('L702');
     expect(result).to.not.have.property('separationHealthAssessmentUploads');
     expect(result).to.not.have.property('additionalDocuments');
   });
