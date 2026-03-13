@@ -67,6 +67,9 @@ export const CLEAR_UNSAVED_EXPENSE_CHANGES = 'CLEAR_UNSAVED_EXPENSE_CHANGES';
 export const SET_REVIEW_PAGE_ALERT = 'SET_REVIEW_PAGE_ALERT';
 export const CLEAR_REVIEW_PAGE_ALERT = 'CLEAR_REVIEW_PAGE_ALERT';
 export const SET_EXPENSE_BACK_DESTINATION = 'SET_EXPENSE_BACK_DESTINATION';
+export const UPLOAD_POA_STARTED = 'UPLOAD_POA_STARTED';
+export const UPLOAD_POA_SUCCESS = 'UPLOAD_POA_SUCCESS';
+export const UPLOAD_POA_FAILURE = 'UPLOAD_POA_FAILURE';
 export const SET_UNSAVED_CHANGES_MODAL_VISIBLE =
   'SET_UNSAVED_CHANGES_MODAL_VISIBLE';
 
@@ -807,6 +810,43 @@ export function clearReviewPageAlert() {
   };
 }
 
+// Proof of attendance document upload
+export function uploadProofOfAttendance(claimId, fileData) {
+  return async dispatch => {
+    dispatch({ type: UPLOAD_POA_STARTED });
+    recordEvent({
+      event: 'api_call',
+      'api-name': 'POST upload proof of attendance',
+      'api-status': 'started',
+    });
+
+    try {
+      const response = await apiRequest(
+        `${environment.API_URL}/travel_pay/v0/claims/${claimId}/documents`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(fileData),
+        },
+      );
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'POST upload proof of attendance',
+        'api-status': 'successful',
+      });
+      dispatch({ type: UPLOAD_POA_SUCCESS });
+      return response;
+    } catch (error) {
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'POST upload proof of attendance',
+        'api-status': 'failed',
+      });
+      dispatch({ type: UPLOAD_POA_FAILURE, error });
+      throw error;
+    }
+  };
+}
 // Unsaved changes modal visibility action
 export function setUnsavedChangesModalVisible(isVisible, source = null) {
   return {

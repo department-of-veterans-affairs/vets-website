@@ -43,6 +43,9 @@ import {
   SET_REVIEW_PAGE_ALERT,
   CLEAR_REVIEW_PAGE_ALERT,
   SET_EXPENSE_BACK_DESTINATION,
+  UPLOAD_POA_STARTED,
+  UPLOAD_POA_SUCCESS,
+  UPLOAD_POA_FAILURE,
   SET_UNSAVED_CHANGES_MODAL_VISIBLE,
 } from './actions';
 
@@ -163,6 +166,10 @@ const initialState = {
       error: null,
     },
     expenseBackDestination: null,
+    proofOfAttendance: {
+      isLoading: false,
+      error: null,
+    },
     unsavedChangesModal: {
       visible: false,
       source: null,
@@ -759,6 +766,42 @@ function travelPayReducer(state = initialState, action) {
           unsavedChangesModal: {
             visible: action.payload.visible,
             source: action.payload.source,
+          },
+        },
+      };
+
+    case UPLOAD_POA_STARTED:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          proofOfAttendance: {
+            isLoading: true,
+            error: null,
+          },
+        },
+      };
+
+    case UPLOAD_POA_SUCCESS:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          proofOfAttendance: {
+            isLoading: false,
+            error: null,
+          },
+        },
+      };
+
+    case UPLOAD_POA_FAILURE:
+      return {
+        ...state,
+        complexClaim: {
+          ...state.complexClaim,
+          proofOfAttendance: {
+            isLoading: false,
+            error: action.error,
           },
         },
       };

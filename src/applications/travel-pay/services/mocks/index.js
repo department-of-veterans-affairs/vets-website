@@ -157,20 +157,88 @@ const responses = {
 
   // Create a new complex claim
   // POST /travel_pay/v0/complex_claims
-  'POST /travel_pay/v0/complex_claims': (req, res) => {
-    return res.json({
-      claimId: 'bd427107-91ac-4a4a-94ae-177df5aa32dc',
-    });
-  },
+  'POST /travel_pay/v0/complex_claims': createClaimHandler(),
 
   // Submitting a complex claim
   // PATCH /travel_pay/v0/complex_claims/:claimId/submit
   'PATCH /travel_pay/v0/complex_claims/:claimId/submit': (req, res) => {
+    const { claimId } = req.params;
+    const { claimsStore, appointmentsStore } = require('./mockStore');
+
+    const claim = claimsStore[claimId];
+    if (!claim) {
+      return res.status(404).json({
+        errors: [{ detail: 'Claim not found' }],
+      });
+    }
+
+    // Keep claim status as Saved after submission
+    claimsStore[claimId] = {
+      ...claim,
+      modifiedOn: new Date().toISOString(),
+    };
+
+    // Update the appointment's travelPayClaim to reflect the submission
+    Object.entries(appointmentsStore).forEach(([apptId, appt]) => {
+      const apptClaimId = appt.attributes?.travelPayClaim?.claim?.id;
+      if (apptClaimId === claimId) {
+        appointmentsStore[apptId] = {
+          ...appt,
+          attributes: {
+            ...appt.attributes,
+            travelPayClaim: {
+              ...appt.attributes.travelPayClaim,
+              claim: {
+                ...appt.attributes.travelPayClaim.claim,
+                claimStatus: claim.claimStatus,
+              },
+            },
+          },
+        };
+      }
+    });
+
     return res.json({
-      id: req.params.claimId,
+      id: claimId,
     });
   },
 
+  // Upload proof of attendance document
+  // POST /travel_pay/v0/claims/:claimId/documents
+  'POST /travel_pay/v0/claims/:claimId/documents': (req, res) => {
+    const { claimId } = req.params;
+    const { claimsStore } = require('./mockStore');
+
+    // Ensure the claim exists in the store
+    if (!claimsStore[claimId]) {
+      claimsStore[claimId] = {
+        id: claimId,
+        claimId,
+        claimNumber: `TC${Math.floor(Math.random() * 1_000_000_000)}`,
+        claimStatus: 'InProgress',
+        expenses: [],
+        documents: [],
+      };
+    }
+
+    // Add the document to the claim
+    const newDocument = {
+      documentId: 'mock-poa-document-id-001',
+      claimId,
+      filename: req.body.fileName || 'proof-of-attendance.pdf',
+      mimetype: req.body.contentType || 'application/pdf',
+    };
+
+    if (!claimsStore[claimId].documents) {
+      claimsStore[claimId].documents = [];
+    }
+    claimsStore[claimId].documents.push(newDocument);
+
+    return res.status(200).json(newDocument);
+  },
+  // 'POST /travel_pay/v0/claims/:claimId/documents': (req, res) => {
+  //   return res.status(500).json({ errors: [{ title: 'Server error' }] });
+  // },
   // Deleting documents
   // DELETE /travel_pay/v0/claims/:claimId/documents/:documentId
   'DELETE /travel_pay/v0/claims/:claimId/documents/:documentId': (req, res) => {

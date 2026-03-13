@@ -1,6 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
 import { useSelector } from 'react-redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import { fireEvent, waitFor } from '@testing-library/react';
 
@@ -11,6 +13,7 @@ import {
   Route,
   useLocation,
 } from 'react-router-dom-v5-compat';
+import { commonReducer } from 'platform/startup/store';
 import ReviewPage from '../../../../components/complex-claims/pages/ReviewPage';
 import reducer from '../../../../redux/reducer';
 
@@ -60,6 +63,11 @@ describe('Travel Pay – ReviewPage', () => {
 
   const getData = () => ({
     travelPay: {
+      appointment: {
+        data: { id: apptId, isCC: false },
+        isLoading: false,
+        error: null,
+      },
       claimSubmission: { isSubmitting: false, error: null, data: null },
       claimDetails: {
         data: {
@@ -547,6 +555,119 @@ describe('Travel Pay – ReviewPage', () => {
     // Wait for navigation and check alert is cleared
     await waitFor(() => {
       expect(getByTestId('alert-display').textContent).to.equal('no-alert');
+    });
+  });
+
+  describe('Community care appointment redirect guard', () => {
+    const ProofOfAttendancePage = () => (
+      <div data-testid="proof-of-attendance-page">Proof of Attendance</div>
+    );
+
+    const getCCState = ({ isCCAppt = true } = {}) => ({
+      ...getData(),
+      travelPay: {
+        ...getData().travelPay,
+        appointment: {
+          data: {
+            id: apptId,
+            kind: isCCAppt ? 'cc' : 'clinic',
+            isCC: isCCAppt,
+          },
+          error: null,
+          isLoading: false,
+        },
+      },
+    });
+
+    // Creates a store with the CC feature flag set via action dispatch
+    const createCCStore = (initialState, ccFlagEnabled = true) => {
+      const store = createStore(
+        combineReducers({ ...commonReducer, ...reducer }),
+        initialState,
+        applyMiddleware(thunk),
+      );
+      store.dispatch({
+        type: 'FETCH_TOGGLE_VALUES_SUCCEEDED',
+        // eslint-disable-next-line camelcase
+        payload: { travel_pay_enable_community_care: ccFlagEnabled },
+      });
+      return store;
+    };
+
+    it('redirects to proof-of-attendance when appointment is CC and the flag is enabled', () => {
+      const store = createCCStore(getCCState(), true);
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<ReviewPage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/proof-of-attendance"
+              element={<ProofOfAttendancePage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { store, reducers: reducer },
+      );
+
+      expect(getByTestId('proof-of-attendance-page')).to.exist;
+    });
+
+    it('does not redirect when the appointment is CC but the flag is disabled', async () => {
+      const store = createCCStore(getCCState(), false);
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<ReviewPage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/proof-of-attendance"
+              element={<ProofOfAttendancePage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { store, reducers: reducer },
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('review-page')).to.exist;
+      });
+    });
+
+    it('does not redirect when the appointment is not CC', async () => {
+      const store = createCCStore(getCCState({ isCCAppt: false }), true);
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={[`/file-new-claim/${apptId}/${claimId}/review`]}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/review"
+              element={<ReviewPage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/proof-of-attendance"
+              element={<ProofOfAttendancePage />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { store, reducers: reducer },
+      );
+
+      await waitFor(() => {
+        expect(getByTestId('review-page')).to.exist;
+      });
     });
   });
 

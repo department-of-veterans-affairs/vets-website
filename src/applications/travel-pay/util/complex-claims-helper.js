@@ -1,4 +1,8 @@
-import { EXPENSE_TYPES, STATUSES } from '../constants';
+import {
+  EXPENSE_TYPES,
+  PROOF_OF_ATTENDANCE_FILENAME,
+  STATUSES,
+} from '../constants';
 
 /**
  * Get an expense type object by key
@@ -30,7 +34,8 @@ export function formatAmount(amount) {
 }
 
 /**
- * Checks if there are any documents that are not associated with any expenses
+ * Checks if there are any documents that are not associated with any expenses.
+ * Proof of attendance documents are intentionally unassociated and are excluded.
  * @param {Array} documents - Array of document objects with expenseId
  * @returns {boolean} - True if there are unassociated documents, false otherwise
  */
@@ -41,8 +46,16 @@ export function hasUnassociatedDocuments(documents = []) {
   const realDocuments = documents.filter(doc => doc.mimetype);
   if (realDocuments.length === 0) return false;
 
-  // Check if any document is missing an expenseId (is unassociated)
-  return realDocuments.some(doc => !doc.expenseId);
+  // Proof of attendance documents are intentionally unassociated with an expense —
+  const nonPoaDocuments = realDocuments.filter(
+    doc =>
+      !doc.filename
+        ?.toLowerCase()
+        .startsWith(`${PROOF_OF_ATTENDANCE_FILENAME}.`),
+  );
+
+  // Check if any remaining document is missing an expenseId (is unassociated)
+  return nonPoaDocuments.some(doc => !doc.expenseId);
 }
 
 /**

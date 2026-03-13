@@ -46,7 +46,7 @@ function getClaimByIdHandler({ expensesStore }) {
       .filter(Boolean);
 
     const documents = (storedClaim.documents || []).filter(
-      doc => expensesStore[doc.expenseId],
+      doc => !doc.expenseId || expensesStore[doc.expenseId],
     );
 
     // Deep copy appointment too, if present
@@ -124,15 +124,87 @@ function updateClaimHandler() {
 function createClaimHandler() {
   return (req, res) => {
     const newClaimId = uuidv4();
+    const requestData = req.body;
+
     const newClaim = {
       id: newClaimId,
+      claimId: newClaimId,
       claimNumber: `TC${Math.floor(Math.random() * 1_000_000_000)}`,
       claimStatus: STATUS_KEYS.SAVED,
+      claimSource: 'VaGov',
       expenses: [],
-      ...req.body,
+      documents: [],
+      createdOn: new Date().toISOString(),
+      modifiedOn: new Date().toISOString(),
+      ...requestData,
     };
 
     claimsStore[newClaimId] = newClaim;
+
+    // Link the claim back to the appointment based on datetime and facility
+    // This allows the appointment to show the claim status
+    const { appointmentDateTime, facilityStationNumber } = requestData;
+    if (appointmentDateTime && facilityStationNumber) {
+      Object.entries(appointmentsStore).forEach(([apptId, appt]) => {
+        const apptStart = appt.attributes?.start;
+        const apptLocalStart = appt.attributes?.localStartTime;
+        const apptFacilityId = appt.attributes?.locationId;
+
+        // Normalize datetime strings for comparison:
+        // - appointmentDateTime from request: "2025-04-15T06:30:00" (no timezone)
+        // - apptStart: "2025-04-15T10:30:00.000Z" (UTC)
+        // - apptLocalStart: "2025-04-15T06:30:00.000-04:00" (with offset)
+        const normalizeDateTime = dt => {
+          if (!dt) return null;
+          return dt.slice(0, 19);
+        };
+
+        const requestDateTime = normalizeDateTime(appointmentDateTime);
+        const apptDateTime = normalizeDateTime(apptLocalStart || apptStart);
+
+        // Match by datetime and facility
+        if (
+          apptDateTime &&
+          apptFacilityId === facilityStationNumber &&
+          requestDateTime === apptDateTime
+        ) {
+          const facilityName =
+            appt.attributes?.location?.name || 'VA Medical Center';
+
+          // Backfill ClaimDetailsContent-required fields onto the claim
+          claimsStore[newClaimId] = {
+            ...claimsStore[newClaimId],
+            appointmentDate: requestDateTime,
+            facilityName,
+            appointment: {
+              appointmentDateTime: requestDateTime,
+              facilityId: facilityStationNumber,
+              facilityName,
+              appointmentSource: 'VAOS',
+              appointmentType:
+                requestData.appointmentType || 'CommunityCareSingle',
+              appointmentStatus: 'Complete',
+              isCompleted: true,
+            },
+          };
+
+          appointmentsStore[apptId] = {
+            ...appt,
+            attributes: {
+              ...appt.attributes,
+              travelPayClaim: {
+                metadata: { status: 200, success: true },
+                claim: {
+                  id: newClaimId,
+                  claimNumber: newClaim.claimNumber,
+                  claimStatus: newClaim.claimStatus,
+                },
+              },
+            },
+          };
+        }
+      });
+    }
 
     return res.json({ claimId: newClaimId });
   };

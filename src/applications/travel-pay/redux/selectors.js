@@ -1,3 +1,5 @@
+import { PROOF_OF_ATTENDANCE_FILENAME } from '../constants';
+
 export const selectAppointment = state => state.travelPay.appointment;
 
 export const selectComplexClaim = state => state.travelPay.complexClaim.claim;
@@ -67,6 +69,19 @@ export const selectReviewPageAlert = state => state.travelPay.reviewPageAlert;
 
 export const selectExpenseBackDestination = state =>
   state.travelPay.complexClaim.expenseBackDestination;
+
+export const selectProofOfAttendanceState = state =>
+  state.travelPay.complexClaim.proofOfAttendance;
+
+export const selectHasProofOfAttendance = state => {
+  const documents = state.travelPay.complexClaim.claim.data?.documents || [];
+  return documents.some(
+    doc =>
+      doc.filename
+        ?.toLowerCase()
+        .startsWith(`${PROOF_OF_ATTENDANCE_FILENAME}.`) && !doc.expenseId,
+  );
+};
 
 export const selectUnsavedChangesModal = state =>
   state.travelPay.complexClaim.unsavedChangesModal || {

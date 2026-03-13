@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Link, useNavigate, useLocation } from 'react-router-dom-v5-compat';
-
-import {
-  useFeatureToggle,
-  TOGGLE_NAMES,
-} from 'platform/utilities/feature-toggles';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import {
   BTSSS_PORTAL_URL,
   COMPLEX_CLAIMS_ANALYTICS_NAMESPACE,
@@ -32,11 +28,13 @@ const IntroductionPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isCommunityCareEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPayEnableCommunityCare,
+  );
+
   const { data: appointment } = useSelector(selectAppointment);
   const complexClaim = useSelector(selectComplexClaim);
-
-  const { useToggleValue } = useFeatureToggle();
-  const ccEnabled = useToggleValue(TOGGLE_NAMES.travelPayEnableCommunityCare);
 
   const title = 'File a travel reimbursement claim';
 
@@ -44,6 +42,8 @@ const IntroductionPage = () => {
   useSetFocus();
 
   const apptId = appointment?.id;
+  const isCCAppt = appointment?.isCC;
+  const isCommunityCareClaim = isCommunityCareEnabled && isCCAppt;
 
   // Only render redirect component if this is NOT from client-side navigation
   const shouldShowRedirect = !location.state?.skipRedirect;
@@ -59,13 +59,13 @@ const IntroductionPage = () => {
       return;
     }
 
-    // If claim already exists, navigate directly
+    // If claim already exists, the wrapper will handle redirecting
     const existingClaimId =
       complexClaim?.data?.claimId || appointment?.travelPayClaim?.claim?.id;
 
     if (existingClaimId) {
       dispatch(setExpenseBackDestination('intro'));
-      navigate(`/file-new-claim/${apptId}/${existingClaimId}/choose-expense`);
+      navigate(`/file-new-claim/${apptId}/${existingClaimId}`);
       return;
     }
 
@@ -82,7 +82,11 @@ const IntroductionPage = () => {
       );
       if (result?.claimId) {
         dispatch(setExpenseBackDestination('intro'));
-        navigate(`/file-new-claim/${apptId}/${result.claimId}/choose-expense`);
+        // Navigate directly to the right first step for this claim type
+        const nextPath = isCommunityCareClaim
+          ? `/file-new-claim/${apptId}/${result.claimId}/proof-of-attendance`
+          : `/file-new-claim/${apptId}/${result.claimId}/choose-expense`;
+        navigate(nextPath);
       }
     } catch (error) {
       navigate(`/file-new-claim/${apptId}/create-claim-error`);
@@ -152,7 +156,7 @@ const IntroductionPage = () => {
               </ul>
               <p>
                 You’ll be asked to submit receipts when you file your claim.
-                {ccEnabled &&
+                {isCommunityCareEnabled &&
                   appointment?.isCC && (
                     <>
                       {' '}
@@ -164,7 +168,7 @@ const IntroductionPage = () => {
                   )}
               </p>
               <p>
-                {ccEnabled ? (
+                {isCommunityCareEnabled ? (
                   <>
                     If your trip was one way, if you started from somewhere
                     other than your home address, or if you’re a caregiver,
@@ -193,7 +197,7 @@ const IntroductionPage = () => {
                 </Link>
               </p>
               {appointment &&
-                !appointment.isCC && (
+                (!isCCAppt || isCommunityCareClaim) && (
                   <va-link-action
                     onClick={createClaim}
                     href="#"

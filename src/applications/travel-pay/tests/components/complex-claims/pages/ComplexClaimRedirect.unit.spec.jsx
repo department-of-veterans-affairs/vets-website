@@ -1,7 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 import { MemoryRouter, Routes, Route } from 'react-router-dom-v5-compat';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import { commonReducer } from 'platform/startup/store';
 
 import reducer from '../../../../redux/reducer';
 import ComplexClaimRedirect from '../../../../components/complex-claims/pages/ComplexClaimRedirect';
@@ -12,6 +15,24 @@ const ChooseExpensePage = () => (
   <div data-testid="choose-expense-page">Choose Expense</div>
 );
 const ReviewPage = () => <div data-testid="review-page">Review</div>;
+const ProofOfAttendancePage = () => (
+  <div data-testid="proof-of-attendance-page">Proof of Attendance</div>
+);
+
+// Creates a store with FETCH_TOGGLE_VALUES_SUCCEEDED to reliably set CC flag
+const createCCStore = (initialState, ccFlagEnabled = true) => {
+  const store = createStore(
+    combineReducers({ ...commonReducer, ...reducer }),
+    initialState,
+    applyMiddleware(thunk),
+  );
+  store.dispatch({
+    type: 'FETCH_TOGGLE_VALUES_SUCCEEDED',
+    // eslint-disable-next-line camelcase
+    payload: { travel_pay_enable_community_care: ccFlagEnabled },
+  });
+  return store;
+};
 
 describe('ComplexClaimRedirect', () => {
   const getInitialState = ({
@@ -19,14 +40,15 @@ describe('ComplexClaimRedirect', () => {
     expenses = [],
     appointmentId = '12345',
     isClaimFetchLoading = false,
+    isCCAppt = false,
   } = {}) => ({
-    featureToggles: {
-      loading: false,
-    },
+    featureToggles: { loading: false },
     travelPay: {
       appointment: {
         data: {
           id: appointmentId,
+          kind: isCCAppt ? 'cc' : 'clinic',
+          isCC: isCCAppt,
         },
         error: null,
         isLoading: false,
@@ -313,6 +335,141 @@ describe('ComplexClaimRedirect', () => {
           initialState,
           reducers: reducer,
         },
+      );
+
+      expect(getByTestId('choose-expense-page')).to.exist;
+    });
+  });
+
+  describe('Community care appointment redirects', () => {
+    it('redirects to proof-of-attendance when CC flag is enabled and appointment is CC', () => {
+      const initialState = getInitialState({
+        claimId: 'claim-123',
+        expenses: [],
+        isCCAppt: true,
+      });
+      const store = createCCStore(initialState, true);
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={['/file-new-claim/12345/claim-123/redirect']}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/proof-of-attendance"
+              element={<ProofOfAttendancePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/redirect"
+              element={<ComplexClaimRedirect />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { store, reducers: reducer },
+      );
+
+      expect(getByTestId('proof-of-attendance-page')).to.exist;
+    });
+
+    it('does not redirect to proof-of-attendance when the CC flag is disabled', () => {
+      const initialState = getInitialState({
+        claimId: 'claim-123',
+        expenses: [],
+        isCCAppt: true,
+      });
+      const store = createCCStore(initialState, false);
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={['/file-new-claim/12345/claim-123/redirect']}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpensePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/redirect"
+              element={<ComplexClaimRedirect />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { store, reducers: reducer },
+      );
+
+      expect(getByTestId('choose-expense-page')).to.exist;
+    });
+
+    it('does not redirect to proof-of-attendance when appointment is not CC', () => {
+      const initialState = getInitialState({
+        claimId: 'claim-123',
+        expenses: [],
+        isCCAppt: false,
+      });
+      const store = createCCStore(initialState, true);
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={['/file-new-claim/12345/claim-123/redirect']}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpensePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/redirect"
+              element={<ComplexClaimRedirect />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { store, reducers: reducer },
+      );
+
+      expect(getByTestId('choose-expense-page')).to.exist;
+    });
+
+    it('does not redirect to proof-of-attendance when POA is already uploaded', () => {
+      const initialState = getInitialState({
+        claimId: 'claim-123',
+        expenses: [],
+        isCCAppt: true,
+      });
+
+      // Add POA document to claim data
+      initialState.travelPay.complexClaim.claim.data = {
+        claimId: 'claim-123',
+        documents: [
+          {
+            documentId: 'poa-doc-001',
+            filename: 'proof-of-attendance.pdf',
+            mimetype: 'application/pdf',
+          },
+        ],
+      };
+
+      const store = createCCStore(initialState, true);
+
+      const { getByTestId } = renderWithStoreAndRouter(
+        <MemoryRouter
+          initialEntries={['/file-new-claim/12345/claim-123/redirect']}
+        >
+          <Routes>
+            <Route
+              path="/file-new-claim/:apptId/:claimId/choose-expense"
+              element={<ChooseExpensePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/proof-of-attendance"
+              element={<ProofOfAttendancePage />}
+            />
+            <Route
+              path="/file-new-claim/:apptId/:claimId/redirect"
+              element={<ComplexClaimRedirect />}
+            />
+          </Routes>
+        </MemoryRouter>,
+        { store, reducers: reducer },
       );
 
       expect(getByTestId('choose-expense-page')).to.exist;

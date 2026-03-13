@@ -224,8 +224,7 @@ const buildAppointmentsFromClaims = (
  * @param {number} [daysOffset=-3] - Days in the past relative to today
  * @returns {Object} VAOS-formatted CC appointment
  */
-function buildCCAppointment(daysOffset = -1) {
-  const id = 'cc-appt-001';
+function buildCCAppointment(daysOffset = -1, id = 'cc-appt-001') {
   const { start, end, localStartTime } = generateAppointmentDates(daysOffset);
 
   return {
@@ -237,7 +236,7 @@ function buildCCAppointment(daysOffset = -1) {
       identifier: [
         {
           system: 'Appointment/',
-          value: 'cc-external-appt-001',
+          value: `cc-external-${id}`,
         },
       ],
       kind: 'cc',
@@ -266,16 +265,8 @@ function buildCCAppointment(daysOffset = -1) {
       modality: 'vaInPerson',
       isPastAppointment: true,
       preferredProviderName: 'Test Preferred Provider',
-      travelPayClaim: {
-        metadata: {
-          status: 200,
-          success: true,
-          message: 'Data retrieved successfully.',
-        },
-        claims: {
-          // No travelPayClaim — lets you test creating a new claim and uploading PoA from scratch
-        },
-      },
+      // No travelPayClaim initially — lets you test creating a new claim and uploading PoA from scratch
+      // The claim will be linked here when created via createClaimHandler
     },
   };
 }

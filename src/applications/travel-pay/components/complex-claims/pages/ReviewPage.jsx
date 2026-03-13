@@ -1,22 +1,20 @@
 import React, { useEffect, useRef } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom-v5-compat';
+import { useNavigate, useParams, Navigate } from 'react-router-dom-v5-compat';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-import {
-  useFeatureToggle,
-  TOGGLE_NAMES,
-} from 'platform/utilities/feature-toggles';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { focusElement } from 'platform/utilities/ui/focus';
 import useSetPageTitle from '../../../hooks/useSetPageTitle';
 import ReviewPageAlert from './ReviewPageAlert';
 import ExpensesAccordion from './ExpensesAccordion';
 import {
+  selectAppointment,
   selectComplexClaim,
   selectAllExpenses,
   selectAllDocuments,
   selectReviewPageAlert,
+  selectHasProofOfAttendance,
 } from '../../../redux/selectors';
 import { formatAmount } from '../../../util/complex-claims-helper';
 import { EXPENSE_TYPES } from '../../../constants';
@@ -31,15 +29,18 @@ const ReviewPage = () => {
   const { apptId, claimId } = useParams();
   const alertRef = useRef(null);
 
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const ccEnabled = useToggleValue(TOGGLE_NAMES.travelPayEnableCommunityCare);
+
+  const { data: appointment } = useSelector(selectAppointment);
   const { data: claimDetails = {} } = useSelector(selectComplexClaim);
   const expenses = useSelector(selectAllExpenses) ?? [];
   const documents = useSelector(selectAllDocuments) ?? [];
   const alertMessage = useSelector(selectReviewPageAlert);
-
-  const { useToggleValue } = useFeatureToggle();
-  const ccEnabled = useToggleValue(TOGGLE_NAMES.travelPayEnableCommunityCare);
+  const hasProofOfAttendance = useSelector(selectHasProofOfAttendance);
 
   const title = 'Your unsubmitted expenses';
+  const isCCAppt = appointment?.isCC;
 
   useSetPageTitle(title);
 
@@ -68,6 +69,16 @@ const ReviewPage = () => {
     },
     [dispatch],
   );
+
+  // CC appointments must complete PoA upload before reaching review
+  if (ccEnabled && isCCAppt && !hasProofOfAttendance) {
+    return (
+      <Navigate
+        to={`/file-new-claim/${apptId}/${claimId}/proof-of-attendance`}
+        replace
+      />
+    );
+  }
 
   // Get total by expense type and return expenses in EXPENSE_TYPES order
   const totalByExpenseType = Object.fromEntries(

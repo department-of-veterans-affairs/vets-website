@@ -21,6 +21,8 @@ import {
   selectIsUnsavedChangesModalVisible,
   selectUnsavedChangesModalSource,
   selectExpenseBackDestination,
+  selectHasProofOfAttendance,
+  selectAllExpenses,
 } from '../redux/selectors';
 import DowntimeWindowAlert from './DownTimeWindowAlert';
 import {
@@ -86,6 +88,9 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const complexClaimsEnabled = useToggleValue(
     TOGGLE_NAMES.travelPayEnableComplexClaims,
   );
+  const isCommunityCareEnabled = useToggleValue(
+    TOGGLE_NAMES.travelPayEnableCommunityCare,
+  );
 
   const {
     data: apptData,
@@ -96,6 +101,8 @@ const ComplexClaimSubmitFlowWrapper = () => {
   const complexClaim = useSelector(selectComplexClaim) ?? {};
   const claimData = complexClaim.data;
   const claimError = complexClaim.fetch?.error;
+  const allExpenses = useSelector(selectAllExpenses);
+  const hasProofOfAttendance = useSelector(selectHasProofOfAttendance);
 
   const hasUnsavedChanges = useSelector(selectHasUnsavedExpenseChanges);
   const isUnsavedChangesModalVisible = useSelector(
@@ -227,6 +234,70 @@ const ComplexClaimSubmitFlowWrapper = () => {
     ) {
       return <Navigate to={`/claims/${claimIdFromAppt}`} replace />;
     }
+  }
+
+  // If user is on intro page but claim already exists and is editable, redirect into the flow
+  // This prevents showing the intro page when user returns to an in-progress claim
+  // Skip redirect if explicitly navigated here with skipRedirect state (e.g., back button)
+  const shouldSkipIntroRedirect = location.state?.skipRedirect;
+  const isClaimEditable =
+    claimData &&
+    isClaimIncompleteOrSaved(claimData.claimStatus) &&
+    claimData.claimSource === 'VaGov';
+
+  if (
+    isIntroductionPage &&
+    effectiveClaimId &&
+    isClaimEditable &&
+    !shouldSkipIntroRedirect
+  ) {
+    const isCCAppt = apptData?.isCC;
+    const expenses = allExpenses ?? [];
+
+    // For CC appointments with CC flag enabled
+    if (isCommunityCareEnabled && isCCAppt) {
+      // If no POA uploaded yet, go to POA page
+      if (!hasProofOfAttendance) {
+        return (
+          <Navigate
+            to={`/file-new-claim/${apptId}/${effectiveClaimId}/proof-of-attendance`}
+            replace
+          />
+        );
+      }
+      // If POA exists but no expenses, go to choose-expense
+      if (expenses.length === 0) {
+        return (
+          <Navigate
+            to={`/file-new-claim/${apptId}/${effectiveClaimId}/choose-expense`}
+            replace
+          />
+        );
+      }
+      // If POA exists and expenses exist, go to review
+      return (
+        <Navigate
+          to={`/file-new-claim/${apptId}/${effectiveClaimId}/review`}
+          replace
+        />
+      );
+    }
+
+    // For non-CC appointments (standard complex claims flow)
+    if (expenses.length === 0) {
+      return (
+        <Navigate
+          to={`/file-new-claim/${apptId}/${effectiveClaimId}/choose-expense`}
+          replace
+        />
+      );
+    }
+    return (
+      <Navigate
+        to={`/file-new-claim/${apptId}/${effectiveClaimId}/review`}
+        replace
+      />
+    );
   }
 
   return (
