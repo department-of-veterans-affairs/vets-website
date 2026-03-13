@@ -273,6 +273,7 @@ describe('SM Meds Renewal - Triage Group Selection Prefill', () => {
           expect(request.category).to.eq('MEDICATIONS');
           expect(request.subject).to.eq('Renewal Needed');
           expect(request.recipient_id).to.eq(+mockRecipients.data[0].id);
+          expect(request.prescription_id).to.eq('24654491');
         });
 
       cy.injectAxeThenAxeCheck(AXE_CONTEXT);

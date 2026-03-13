@@ -41,6 +41,29 @@ site.login(); // Mock user login, sets up session and feature flags
   cy.intercept('GET', Paths.SM_API_BASE, mockData).as('getData');
   ```
 
+### Intercept Path Must Match FE Routing Logic
+
+The FE always sends messages (including RX renewals) through the same `POST /messaging/messages` endpoint. The backend auto-routes to the upstream MHV renewal endpoint when `prescription_id` is present in the payload.
+
+```javascript
+// ✅ CORRECT — All message sends (including renewals) use the same endpoint
+cy.intercept('POST', `${Paths.INTERCEPT.MESSAGES}`, {}).as('sentMessage');
+```
+
+For renewal tests, assert that `prescription_id` is present in the request body:
+```javascript
+cy.wait('@sentMessage')
+  .its('request')
+  .then(req => {
+    expect(req.body.prescription_id).to.eq('24654491');
+  });
+```
+
+**Key intercept paths:**
+| Path | Constant | When used |
+|---|---|---|
+| `/messaging/messages` | `Paths.INTERCEPT.MESSAGES` | All message sends (standard and renewal) |
+
 ## Web Component Selectors
 
 - External links (`VaLink`) render as `<va-link>` (NOT `<va-link-action>`)

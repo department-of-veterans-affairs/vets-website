@@ -54,9 +54,13 @@ describe('prescription actions', () => {
         type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
       });
       expect(actions[1]).to.deep.equal({
-        type: Actions.Prescriptions.IS_LOADING,
+        type: Actions.Prescriptions.SET_PRESCRIPTION_ID,
+        payload: prescriptionId,
       });
       expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.IS_LOADING,
+      });
+      expect(actions[3]).to.deep.equal({
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
         payload: mockResponse.data.attributes,
       });
@@ -95,9 +99,13 @@ describe('prescription actions', () => {
         type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
       });
       expect(actions[1]).to.deep.equal({
-        type: Actions.Prescriptions.IS_LOADING,
+        type: Actions.Prescriptions.SET_PRESCRIPTION_ID,
+        payload: prescriptionId,
       });
       expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.IS_LOADING,
+      });
+      expect(actions[3]).to.deep.equal({
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
         payload: mockResponse.data.attributes,
       });
@@ -158,6 +166,22 @@ describe('prescription actions', () => {
       const fetchUrl = global.fetch.firstCall.args[0];
       expect(fetchUrl).to.include('/my_health/v2/prescriptions/456');
       expect(fetchUrl).to.not.include('station_number');
+
+      const actions = store.getActions();
+      expect(actions[0]).to.deep.equal({
+        type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
+      });
+      expect(actions[1]).to.deep.equal({
+        type: Actions.Prescriptions.SET_PRESCRIPTION_ID,
+        payload: prescriptionId,
+      });
+      expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.IS_LOADING,
+      });
+      expect(actions[3]).to.deep.equal({
+        type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
+        payload: mockResponse.data.attributes,
+      });
     });
 
     it('should fall back to v1 API when feature toggles are still loading', async () => {
@@ -196,9 +220,13 @@ describe('prescription actions', () => {
         type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
       });
       expect(actions[1]).to.deep.equal({
-        type: Actions.Prescriptions.IS_LOADING,
+        type: Actions.Prescriptions.SET_PRESCRIPTION_ID,
+        payload: undefined,
       });
       expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.IS_LOADING,
+      });
+      expect(actions[3]).to.deep.equal({
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
         payload: 'Prescription ID is required',
       });
@@ -224,9 +252,13 @@ describe('prescription actions', () => {
         type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
       });
       expect(actions[1]).to.deep.equal({
-        type: Actions.Prescriptions.IS_LOADING,
+        type: Actions.Prescriptions.SET_PRESCRIPTION_ID,
+        payload: 'undefined',
       });
       expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.IS_LOADING,
+      });
+      expect(actions[3]).to.deep.equal({
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
         payload: 'Prescription ID is required',
       });
@@ -251,9 +283,13 @@ describe('prescription actions', () => {
         type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
       });
       expect(actions[1]).to.deep.equal({
-        type: Actions.Prescriptions.IS_LOADING,
+        type: Actions.Prescriptions.SET_PRESCRIPTION_ID,
+        payload: prescriptionId,
       });
       expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.IS_LOADING,
+      });
+      expect(actions[3]).to.deep.equal({
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
         payload: 'Internal Server Error',
       });
@@ -279,9 +315,13 @@ describe('prescription actions', () => {
         type: Actions.Prescriptions.CLEAR_PRESCRIPTION,
       });
       expect(actions[1]).to.deep.equal({
-        type: Actions.Prescriptions.IS_LOADING,
+        type: Actions.Prescriptions.SET_PRESCRIPTION_ID,
+        payload: prescriptionId,
       });
       expect(actions[2]).to.deep.equal({
+        type: Actions.Prescriptions.IS_LOADING,
+      });
+      expect(actions[3]).to.deep.equal({
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
         payload: 'Record not found',
       });
@@ -311,7 +351,7 @@ describe('prescription actions', () => {
       await store.dispatch(getPrescriptionById(prescriptionId));
 
       const actions = store.getActions();
-      expect(actions[2]).to.deep.equal({
+      expect(actions[3]).to.deep.equal({
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID,
         payload: mockResponse.data.attributes,
       });
@@ -335,7 +375,7 @@ describe('prescription actions', () => {
       await store.dispatch(getPrescriptionById(prescriptionId));
 
       const actions = store.getActions();
-      expect(actions[2]).to.deep.equal({
+      expect(actions[3]).to.deep.equal({
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
         payload: 'Non-VA medication',
       });
@@ -358,7 +398,7 @@ describe('prescription actions', () => {
       await store.dispatch(getPrescriptionById(prescriptionId));
 
       const actions = store.getActions();
-      expect(actions[2]).to.deep.equal({
+      expect(actions[3]).to.deep.equal({
         type: Actions.Prescriptions.GET_PRESCRIPTION_BY_ID_ERROR,
         payload: 'Non-VA medication',
       });

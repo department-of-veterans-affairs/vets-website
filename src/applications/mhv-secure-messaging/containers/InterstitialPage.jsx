@@ -111,7 +111,10 @@ const InterstitialPage = props => {
         dispatch(clearPrescription());
       }
       if (redirectPath) {
-        dispatch(setRedirectPath(decodeURIComponent(redirectPath)));
+        const decoded = decodeURIComponent(redirectPath);
+        if (decoded.startsWith('/')) {
+          dispatch(setRedirectPath(decoded));
+        }
       }
     },
     [location.search, handleRedirect, dispatch],

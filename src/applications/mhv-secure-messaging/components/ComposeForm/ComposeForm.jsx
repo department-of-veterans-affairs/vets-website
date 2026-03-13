@@ -83,6 +83,7 @@ const ComposeForm = props => {
   const { prescription } = useSelector(state => state.sm);
   const {
     renewalPrescription,
+    prescriptionId: rawPrescriptionId,
     rxError = prescription.error,
     redirectPath,
   } = prescription;
@@ -501,6 +502,16 @@ const ComposeForm = props => {
         messageData[`${'recipient_id'}`] = draftInProgress.recipientId;
         messageData[`${'station_number'}`] = draftInProgress.stationNumber;
 
+        const rxPrescriptionId =
+          renewalPrescription?.prescriptionId ?? rawPrescriptionId;
+        if (
+          isRxRenewalDraft &&
+          rxPrescriptionId &&
+          rxPrescriptionId !== 'undefined'
+        ) {
+          messageData[`${'prescription_id'}`] = rxPrescriptionId.toString();
+        }
+
         let sendData;
         if (attachmentsRef.current.length > 0) {
           sendData = new FormData();
@@ -519,7 +530,8 @@ const ComposeForm = props => {
               sendData,
               attachmentsRef.current.length > 0,
               draftInProgress.ohTriageGroup,
-              !!redirectPath, // suppress alert when redirectPath exists
+              !!isRxRenewalDraft, // isRxRenewal: enables Datadog renewal logging
+              !!(isRxRenewalDraft && redirectPath), // suppress success alert when redirecting to Medications
             ),
           );
           dispatch(clearDraftInProgress());
@@ -553,9 +565,12 @@ const ComposeForm = props => {
       draftInProgress.subject,
       electronicSignature,
       history,
+      isRxRenewalDraft,
       isSaving,
       navigateToRxCallback,
+      rawPrescriptionId,
       redirectPath,
+      renewalPrescription,
     ],
   );
 

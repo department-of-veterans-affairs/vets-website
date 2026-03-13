@@ -177,19 +177,28 @@ export const moveMessageThread = (threadId, folderId) => async dispatch => {
 
 export const sendMessage = (
   message,
-  attachments,
+  hasAttachments,
   ohTriageGroup = false,
   isRxRenewal = false,
+  suppressSuccessAlert = false,
 ) => async dispatch => {
-  const messageData =
-    typeof message === 'string' ? JSON.parse(message) : message;
+  let messageData;
+  if (typeof message === 'string') {
+    messageData = JSON.parse(message);
+  } else if (message instanceof FormData) {
+    messageData = JSON.parse(message.get('message'));
+  } else {
+    messageData = message;
+  }
   const startTimeMs = Date.now();
   try {
-    const response = await createMessage(message, attachments, ohTriageGroup);
+    const response = await createMessage(
+      message,
+      hasAttachments,
+      ohTriageGroup,
+    );
 
-    // do not show success alert for prescription renewal messages
-    // due to redirect to Medications page, where that success banner is displayed
-    if (!isRxRenewal) {
+    if (!suppressSuccessAlert) {
       dispatch(
         addAlert(
           Constants.ALERT_TYPE_SUCCESS,
@@ -206,7 +215,7 @@ export const sendMessage = (
           messageId: response.data?.attributes?.messageId,
           recipientId: messageData?.recipient_id,
           category: messageData?.category,
-          hasAttachments: attachments && attachments.length > 0,
+          hasAttachments,
         },
         status: 'info',
       });
@@ -233,7 +242,7 @@ export const sendMessage = (
           category: messageData?.category,
           errorCode,
           errorDetail,
-          hasAttachments: attachments && attachments.length > 0,
+          hasAttachments,
         },
         status: 'error',
         error: e,
