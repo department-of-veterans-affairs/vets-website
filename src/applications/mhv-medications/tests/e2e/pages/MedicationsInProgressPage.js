@@ -22,6 +22,16 @@ class MedicationsInProgressPage {
     );
   };
 
+  verifyEmptyViewCard = () => {
+    cy.findByTestId('in-progress-empty-view-card').should('exist');
+  };
+
+  verifyEmptyViewProcessListSteps = () => {
+    cy.findByText('You request a refill').should('exist');
+    cy.findByText('We process your refill request').should('exist');
+    cy.findByText('We ship your refill to you').should('exist');
+  };
+
   verifyProcessListSteps = () => {
     cy.findByText('Request submitted').should('exist');
     cy.findByText('Fill in progress').should('exist');
