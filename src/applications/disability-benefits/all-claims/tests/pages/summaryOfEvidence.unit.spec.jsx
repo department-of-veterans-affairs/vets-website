@@ -451,7 +451,7 @@ describe('Summary of Evidence', () => {
       'You provided documents to support your claim.',
     );
     expect(form.render().text()).to.contain(
-      'Next, we’ll share some information about what to expect during a claim exam.',
+      'Next, we’ll tell you what to expect during a claim exam.',
     );
     form.unmount();
   });
@@ -489,7 +489,7 @@ describe('Summary of Evidence', () => {
       'You haven’t uploaded any evidence.',
     );
     expect(form.render().text()).to.contain(
-      'Next, we’ll share some information about what to expect during a claim exam.',
+      'Next, we’ll tell you what to expect during a claim exam.',
     );
     expect(form.find('li').length).to.equal(1);
     form.unmount();
@@ -525,7 +525,7 @@ describe('Summary of Evidence', () => {
       separationHealthAssessmentUploads[0].name,
     );
     expect(form.render().text()).to.contain(
-      'Next, we’ll share some information about what to expect during a claim exam.',
+      'Next, we’ll tell you what to expect during a claim exam.',
     );
     expect(form.find('li').length).to.equal(0);
     form.unmount();
@@ -561,7 +561,7 @@ describe('Summary of Evidence', () => {
       separationHealthAssessmentUploads[0].name,
     );
     expect(form.render().text()).to.contain(
-      'Next, we’ll share some information about what to expect during a claim exam.',
+      'Next, we’ll tell you what to expect during a claim exam.',
     );
     expect(form.find('li').length).to.equal(0);
     form.unmount();
@@ -597,7 +597,7 @@ describe('Summary of Evidence', () => {
       separationHealthAssessmentUploads[0].name,
     );
     expect(form.render().text()).to.contain(
-      'Next, we’ll share some information about what to expect during a claim exam.',
+      'Next, we’ll tell you what to expect during a claim exam.',
     );
     expect(form.find('li').length).to.equal(0);
     form.unmount();
@@ -633,7 +633,7 @@ describe('Summary of Evidence', () => {
       separationHealthAssessmentUploads[0].name,
     );
     expect(form.render().text()).to.contain(
-      'Next, we’ll share some information about what to expect during a claim exam.',
+      'Next, we’ll tell you what to expect during a claim exam.',
     );
     expect(form.find('li').length).to.equal(0);
     form.unmount();
@@ -788,7 +788,7 @@ describe('Summary of Evidence', () => {
         .text(),
     ).to.contain(additionalDocuments[1].name);
     expect(form.render().text()).to.contain(
-      'We’ll submit these documents you uploaded as evidence supporting your claim:',
+      'We’ll submit these documents you uploaded:',
     );
     form.unmount();
   });
@@ -827,6 +827,48 @@ describe('Summary of Evidence', () => {
     expect(form.render().text()).to.contain(
       'We’ll submit these service treatment records you uploaded:',
     );
+    form.unmount();
+  });
+  it("should render 'no evidence' warning when 'no evidence' selected when enhancement feature is on", () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:hasEvidence': false,
+          disability526SupportingEvidenceEnhancement: true,
+        }}
+      />,
+    );
+
+    expect(form.render().text()).to.contain(
+      'You haven’t uploaded any evidence.',
+    );
+    expect(form.find('li').length).to.equal(0);
+    form.unmount();
+  });
+  it("should render 'no evidence' warning when 'no evidence' selected even if evidence present when enhancement feature is on", () => {
+    const form = mount(
+      <DefinitionTester
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{
+          'view:hasEvidence': false,
+          vaTreatmentFacilities,
+          privateMedicalRecordAttachments,
+          additionalDocuments,
+          providerFacility: privateFacilities,
+          disability526SupportingEvidenceEnhancement: true,
+        }}
+      />,
+    );
+
+    expect(form.render().text()).to.contain(
+      'You haven’t uploaded any evidence.',
+    );
+    expect(form.find('li').length).to.equal(0);
     form.unmount();
   });
 });

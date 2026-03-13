@@ -69,9 +69,7 @@ export const supportingEvidenceOrientationAlert = ({ formData }) => (
         />
       </p>
     </va-alert>
-    <p>
-      Next, we’ll ask you about evidence we’ll need to support these claims:
-    </p>
+    <p>Next, we’ll ask you to submit evidence that supports your claim:</p>
     <ul>
       {(isClaimingNew(formData) || isClaimingIncrease(formData)) && (
         <>

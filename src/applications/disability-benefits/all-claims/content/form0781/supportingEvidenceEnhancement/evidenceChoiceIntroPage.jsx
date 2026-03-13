@@ -7,7 +7,7 @@ export const evidenceChoiceIntroQuestion =
   'Are there any supporting documents or additional forms that you want us to review with your claim?';
 
 const evidenceChoiceIntroDescription = (
-  <p>Support your claim by providing documents from any of these sources</p>
+  <p>Support your claim by providing documents from any of these sources.</p>
 );
 
 const receivingCareHeader = <h4>Records of receiving care</h4>;
@@ -68,7 +68,7 @@ const additionalFormsLinkAndNote = (
     <va-link
       external
       href="https://www.va.gov/disability/how-to-file-claim/additional-forms/"
-      text="Learn more about the additional forms you can submit (opens in a new tab)"
+      text="Learn more about the additional forms you can submit"
     />
     <br />
     <br />
