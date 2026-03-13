@@ -1,19 +1,52 @@
 const expandCollapsedElement = (el, selector) => {
-  cy.wrap(el)
-    .shadow()
-    .then($shadow => {
-      const $collapsed = $shadow.find(selector);
-      if ($collapsed.length) cy.wrap($collapsed).click({ force: true });
-    });
+  cy.wrap(el).then($el => {
+    const host = $el?.[0];
+    const hasShadowRoot = Boolean(host?.shadowRoot);
+
+    if (hasShadowRoot) {
+      const collapsed = host.shadowRoot.querySelector(selector);
+      if (collapsed) {
+        cy.wrap(collapsed).click({ force: true });
+        return;
+      }
+    }
+
+    // Some component-library versions don't expose a shadow-root toggle button.
+    // Opening via attribute keeps tests stable across implementations.
+    if (host?.tagName === 'VA-ACCORDION-ITEM' && !$el.attr('open')) {
+      cy.wrap($el).invoke('attr', 'open', 'true');
+    }
+  });
 };
 
 const waitForAccordionHydration = () => {
+  cy.window().then(win => win.customElements.whenDefined('va-accordion-item'));
+
   cy.get('va-accordion-item', { timeout: 5000 })
     .should('have.length.at.least', 1)
     .each($item => {
       cy.wrap($item)
+        .should($el => {
+          expect($el.get(0).shadowRoot).to.exist;
+        })
         .shadow()
         .find('button', { timeout: 5000 })
+        .should('exist');
+    });
+};
+
+const waitForAdditionalInfoHydration = () => {
+  cy.window().then(win => win.customElements.whenDefined('va-additional-info'));
+
+  cy.get('va-additional-info', { timeout: 5000 })
+    .should('have.length.at.least', 1)
+    .each($info => {
+      cy.wrap($info)
+        .should($el => {
+          expect($el.get(0).shadowRoot).to.exist;
+        })
+        .shadow()
+        .find('a[role="button"]', { timeout: 5000 })
         .should('exist');
     });
 };
@@ -34,6 +67,7 @@ Cypress.Commands.add('expandAccordions', () => {
     }
 
     if ($main.find('va-additional-info').length > 0) {
+      waitForAdditionalInfoHydration();
       cy.get('va-additional-info').each($info => {
         expandCollapsedElement(
           $info,
