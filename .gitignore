@@ -46,7 +46,9 @@ all-links.csv
 .ignore
 .tool-versions
 .cursorrules
-.claude/settings.local.json
+.claude/
+.cursor/
+.github/skills/
 
 # Generated files from OpenAPI specs
 src/applications/benefits-optimization-aquia/**/generated/
