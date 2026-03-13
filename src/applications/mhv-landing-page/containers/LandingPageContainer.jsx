@@ -88,7 +88,6 @@ const LandingPageContainer = () => {
 
   return (
     <RequiredLoginView
-      useSiS
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >

@@ -21,7 +21,9 @@ describe('CreateAccountLink', () => {
     });
 
     it(`should render correctly for each ${policy}`, async () => {
-      const screen = render(<CreateAccountLink policy={policy} />);
+      const screen = render(
+        <CreateAccountLink policy={policy} useOAuth={false} />,
+      );
       const anchor = await screen.findByTestId(policy);
       expect(anchor.textContent).to.include(
         `Create an account with ${SERVICE_PROVIDERS[policy].label}`,
@@ -35,7 +37,11 @@ describe('CreateAccountLink', () => {
         <CreateAccountLink policy={policy} useOAuth={false} />,
       );
       const anchor = await screen.findByTestId(policy);
-      const href = await authUtilities.signupOrVerify({ policy, isLink: true });
+      const href = await authUtilities.signupOrVerify({
+        policy,
+        isLink: true,
+        useOAuth: false,
+      });
       await waitFor(() => expect(anchor.href).to.eql(href));
 
       screen.unmount();
@@ -62,7 +68,11 @@ describe('CreateAccountLink', () => {
         <CreateAccountLink policy={policy} useOAuth={false} />,
       );
       const anchor = await screen.findByTestId(policy);
-      const href = await authUtilities.signupOrVerify({ policy, isLink: true });
+      const href = await authUtilities.signupOrVerify({
+        policy,
+        isLink: true,
+        useOAuth: false,
+      });
       fireEvent.click(anchor);
 
       await waitFor(() => expect(anchor.href).to.eql(href));
