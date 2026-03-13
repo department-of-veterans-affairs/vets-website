@@ -86,10 +86,10 @@ describe('Tracked Item Content helpers:', () => {
       });
     });
 
-    context('when text contains bold tags ({b}...{/b})', () => {
-      it('should convert {b}...{/b} to strong elements', () => {
+    context('when text contains bold tags ({b}...{\\b})', () => {
+      it('should convert {b}...{\\b} to strong elements', () => {
         const { container } = render(
-          formatDescription('This is {b}bold{/b} text'),
+          formatDescription('This is {b}bold{\\b} text'),
         );
         const strongElement = container.querySelector('strong');
         expect(strongElement).to.exist;
@@ -98,7 +98,7 @@ describe('Tracked Item Content helpers:', () => {
 
       it('should handle multiple bold sections', () => {
         const { container } = render(
-          formatDescription('{b}First{/b} and {b}Second{/b} bold'),
+          formatDescription('{b}First{\\b} and {b}Second{\\b} bold'),
         );
         const strongElements = container.querySelectorAll('strong');
         expect(strongElements.length).to.equal(2);
@@ -108,7 +108,7 @@ describe('Tracked Item Content helpers:', () => {
 
       it('should handle bold text spanning content', () => {
         const { container } = render(
-          formatDescription('{b}Entire text is bold{/b}'),
+          formatDescription('{b}Entire text is bold{\\b}'),
         );
         const strongElement = container.querySelector('strong');
         expect(strongElement).to.exist;
@@ -182,7 +182,7 @@ describe('Tracked Item Content helpers:', () => {
     context('when text contains combined formatting', () => {
       it('should handle bold text within list items', () => {
         const { container } = render(
-          formatDescription('[*] {b}Bold{/b} item\n[*] Normal item'),
+          formatDescription('[*] {b}Bold{\\b} item\n[*] Normal item'),
         );
         const list = container.querySelector('ul');
         expect(list).to.exist;
@@ -223,7 +223,7 @@ describe('Tracked Item Content helpers:', () => {
       it('should handle complex mixed content', () => {
         const { container } = render(
           formatDescription(
-            '{b}Important:{/b} Please provide the following:\n[*] {b}Document A{/b}\n[*] Document B\n[*] Document C',
+            '{b}Important:{\\b} Please provide the following:\n[*] {b}Document A{\\b}\n[*] Document B\n[*] Document C',
           ),
         );
         const paragraph = container.querySelector('p');
