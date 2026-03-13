@@ -11,6 +11,7 @@ function AutosuggestOption({
   item,
   getItemProps,
   itemToString,
+  inputValue,
 }) {
   const role = item.isError ? 'alert' : 'option';
   const itemInfo = {
@@ -22,7 +23,7 @@ function AutosuggestOption({
   // Only add aria-selected if the item is not disabled/error
   // This prevents aria-selected="false" on disabled items which is an accessibility issue
   if (!item.disabled && !item.isError) {
-    itemInfo['aria-selected'] = index === highlightedIndex;
+    itemInfo['aria-selected'] = inputValue === itemToString(item);
   }
 
   return (

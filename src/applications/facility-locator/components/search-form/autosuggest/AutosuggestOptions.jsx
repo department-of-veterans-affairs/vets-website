@@ -7,6 +7,7 @@ function AutosuggestOptions({
   options,
   isShown,
   isLoading,
+  inputValue,
   loadingMessage,
   itemToString,
   getMenuProps,
@@ -54,6 +55,7 @@ function AutosuggestOptions({
           getItemProps={getItemProps}
           highlightedIndex={highlightedIndex}
           itemToString={itemToString}
+          inputValue={inputValue}
         />
       ))}
     </div>
