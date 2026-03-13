@@ -4,8 +4,8 @@
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
-@import "../../../platform/forms/sass/m-form-confirmation";
-@import "../../../platform/forms/sass/m-schemaform";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+@import "../../../../platform/forms/sass/m-schemaform";
 
 // adds spacing to form titles
 #root__title {
