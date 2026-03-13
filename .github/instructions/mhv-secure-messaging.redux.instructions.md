@@ -63,6 +63,11 @@ state.sm = {
     error: null,
     isLoading: false,
   },
+  tooltip: {
+    tooltipVisible: false,
+    tooltipId: undefined,
+    error: undefined,
+  },
 }
 ```
 
@@ -118,6 +123,8 @@ Actions.Draft.UPDATE_DRAFT
 Actions.Folder.GET_LIST
 Actions.Thread.GET
 Actions.Prescriptions.GET_PRESCRIPTION_BY_ID
+Actions.Tooltip.GET_TOOLTIPS
+Actions.Tooltip.SET_TOOLTIP_VISIBILITY
 ```
 
 ## Action Creator Pattern
@@ -158,6 +165,11 @@ export const myAction = (param) => async dispatch => {
 | `deleteDraft(messageId)` | Delete draft permanently |
 | `moveMessageThread(threadId, folderId)` | Move thread to folder |
 | `deleteMessage(threadId)` | Move thread to trash |
+| `getTooltipByName(tooltipName)` | Fetch tooltip by name (find-or-create pattern) |
+| `createNewTooltip(tooltipName)` | Create a new tooltip record via API |
+| `setTooltip(tooltipId, visible)` | Set tooltip ID and visibility in state |
+| `updateTooltipVisibility(tooltipId, visible)` | Hide tooltip via API + update state |
+| `incrementTooltip(tooltipId)` | Increment view counter via API |
 
 ## Thread List Refresh Pattern
 

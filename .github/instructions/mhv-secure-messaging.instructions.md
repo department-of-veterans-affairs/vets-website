@@ -28,7 +28,7 @@ applyTo: "src/applications/mhv-secure-messaging/**"
 ### Redux Structure
 
 - **Root reducer**: Combined reducer at `reducers/index.js` under `sm` namespace
-- **Reducer modules**: `alerts`, `recipients`, `breadcrumbs`, `categories`, `facilities`, `folders`, `search`, `threads`, `threadDetails`, `triageTeams`, `preferences`, `prescription`
+- **Reducer modules**: `alerts`, `recipients`, `breadcrumbs`, `categories`, `facilities`, `folders`, `search`, `threads`, `threadDetails`, `triageTeams`, `preferences`, `prescription`, `tooltip`
 - **Action types**: Centralized in `util/actionTypes.js` under `Actions` object with nested namespaces (e.g., `Actions.Message.GET`, `Actions.Draft.CREATE_DRAFT`)
 - **Selectors**: Defined in `selectors.js` (e.g., `folder`, `selectSignature`, `populatedDraft`)
 - **State access pattern**: Always use `state.sm.<reducer>` to access secure messaging state
@@ -42,6 +42,7 @@ applyTo: "src/applications/mhv-secure-messaging/**"
 - **Base path**: `${environment.API_URL}/my_health/v1`
 - **Mock responses**: `api/mocks/`, configured via `src/platform/mhv/api/mocks/index.js`
 - **Patterns**: All API functions return promises; use async/await in action creators with try/catch
+- **Tooltip endpoints**: `GET/POST /tooltips`, `PATCH /tooltips/{id}` — use `X-Key-Inflection: camel` header; see `SmApi.js` tooltip functions
 
 ## Constants & Configuration (`util/constants.js`)
 
@@ -236,6 +237,7 @@ import { dateFormat, decodeHtmlEntities, sortRecipients } from '../util/helpers'
 - ❌ Allow replies without checking 45-day rule
 - ❌ Skip error handling in async actions
 - ❌ Forget `setThreadRefetchRequired(true)` after state-changing operations
+- ❌ Build one-off dismissible alerts — use `DismissibleAlert` shared component with tooltip API
 
 ## Thread List Refresh Pattern
 
