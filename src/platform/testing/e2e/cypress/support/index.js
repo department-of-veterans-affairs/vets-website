@@ -180,7 +180,6 @@ beforeEach(() => {
   /* eslint-enable camelcase */
 });
 
-// Register failure hooks when using the enhanced runner (cy:run:auto)
 if (Cypress.env('FAILURE_HOOKS')) {
   require('./register-failure-hooks'); // eslint-disable-line global-require
 }
