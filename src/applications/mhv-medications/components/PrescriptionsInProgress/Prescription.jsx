@@ -7,6 +7,7 @@ import {
   IN_PROGRESS_MEDS_DISPLAY_TYPES,
   trackingConfig,
 } from '../../util/constants';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const Prescription = ({ prescription, displayType }) => {
   const { prescriptionName, trackingList } = prescription;
@@ -45,6 +46,9 @@ const Prescription = ({ prescription, displayType }) => {
         className="vads-u-font-weight--bold"
         to={getPrescriptionDetailUrl(prescription)}
         data-testid="prescription-link"
+        data-dd-action-name={
+          dataDogActionNames.inProgressPage.MEDICATION_NAME_LINK
+        }
       >
         {prescriptionName}
       </Link>

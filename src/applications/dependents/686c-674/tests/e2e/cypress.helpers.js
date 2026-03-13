@@ -1,27 +1,9 @@
-import { getUnixTime, add, parse, isValid, format } from 'date-fns';
+import { getUnixTime, add } from 'date-fns';
 
 import mockVaFileNumber from './fixtures/va-file-number.json';
-import mockDependents from './fixtures/mock-dependents.json';
 import mockUser from './user.json';
 
-export const setupCypress = ({
-  returnUrl = '',
-  useTestDataInSip = false,
-} = {}) => {
-  // DoB in prefill processes MM/dd/yyyy format from `/show` endpoint to
-  // MM-dd-yyyy
-  const processedDependents = mockDependents.data.attributes.persons.map(
-    person => {
-      const dobObj = parse(person.dateOfBirth, 'MM/dd/yyyy', new Date());
-      return {
-        ...person,
-        dateOfBirth: isValid(dobObj)
-          ? format(dobObj, 'yyyy-MM-dd')
-          : person.dateOfBirth,
-      };
-    },
-  );
-
+export const setupCypress = (returnUrl = '') => {
   const submission = {
     formSubmissionId: '123fake-submission-id-567',
     timestamp: '2020-11-12',
@@ -87,22 +69,7 @@ export const setupCypress = ({
   );
   cy.get('@testData').then(testData => {
     const mockSipGet = {
-      formData: useTestDataInSip
-        ? testData
-        : {
-            veteranInformation: testData.veteranInformation,
-            veteranContactInformation: testData.veteranContactInformation,
-            nonPrefill: {
-              dependents: {
-                success: 'true',
-                dependents: processedDependents,
-              },
-              isInReceiptOfPension:
-                testData.veteranInformation.isInReceiptOfPension || -1,
-              netWorthLimit:
-                testData.veteranInformation.netWorthLimit || 163699,
-            },
-          },
+      formData: testData,
       metadata: {
         version: 0,
         prefill: true,
@@ -131,7 +98,6 @@ export const setupCypress = ({
 
     cy.intercept('GET', '/v0/in_progress_forms/686C-674-V2', mockSipGet);
     cy.intercept('PUT', '/v0/in_progress_forms/686C-674-V2', mockSipPut);
-    cy.intercept('GET', '/v0/dependents_applications/show', mockDependents);
     cy.intercept('POST', '/v0/dependents_applications', submission).as(
       'submitApplication',
     );
@@ -140,8 +106,6 @@ export const setupCypress = ({
   });
 };
 
-/* eslint-disable cypress/unsafe-to-chain-command */
-// TODO: switch to using cy commands from platform
 // Added
 export const fillDateWebComponentPattern = (fieldName, value) => {
   if (typeof value !== 'undefined') {
@@ -202,7 +166,6 @@ export const fillTextareaWebComponent = (fieldName, value) => {
       .type(value);
   }
 };
-/* eslint-enable cypress/unsafe-to-chain-command */
 
 export const fillTextWebComponent = (fieldName, value) => {
   if (typeof value !== 'undefined') {

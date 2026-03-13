@@ -22,7 +22,9 @@ describe('Medical Records View Labs and Tests', () => {
     cy.wait('@session');
 
     cy.visit('my-health/medical-records/labs-and-tests');
-    cy.get('[data-testid="expired-alert-message"]').should('be.visible');
+    cy.get('[data-testid="expired-alert-message"]', {
+      includeShadowDom: true,
+    }).should('be.visible');
 
     // Axe check
     cy.injectAxe();

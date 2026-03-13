@@ -970,6 +970,7 @@ describe('1010d `validateApplicant` form validation', () => {
     applicantGender: { gender: 'M' },
     applicantPhone: '555-123-4567',
     applicantAddress: {
+      country: 'USA',
       street: '123 Main St',
       city: 'Anytown',
       state: 'NY',
@@ -998,6 +999,32 @@ describe('1010d `validateApplicant` form validation', () => {
       expect(validateApplicant(applicant)).to.be.false;
     });
 
+    it('should return "false" when state is omitted for non-required country', () => {
+      const applicant = makeApplicant({
+        applicantAddress: {
+          street: '123 Main St',
+          city: 'Paris',
+          country: 'FRA',
+        },
+        applicantRelationshipToSponsor: { relationshipToVeteran: 'other' },
+      });
+      expect(validateApplicant(applicant)).to.be.false;
+    });
+
+    it('should return "true" when state is omitted for required country', () => {
+      const applicant = makeApplicant({
+        applicantAddress: {
+          country: 'CAN',
+          street: '123 Main St',
+          city: 'Toronto',
+          postalCode: 'A1A A1A',
+        },
+        applicantRelationshipToSponsor: { relationshipToVeteran: 'other' },
+      });
+
+      expect(validateApplicant(applicant)).to.be.true;
+    });
+
     [
       ['first name is omitted', { applicantName: { last: 'Doe' } }],
       ['last name is omitted', { applicantName: { first: 'John' } }],
@@ -1011,11 +1038,15 @@ describe('1010d `validateApplicant` form validation', () => {
       ],
       [
         'city is omitted',
-        { applicantAddress: { street: '123 Main St', state: 'NY' } },
+        {
+          applicantAddress: { street: '123 Main St', state: 'NY' },
+        },
       ],
       [
         'state is omitted',
-        { applicantAddress: { street: '123 Main St', city: 'Anytown' } },
+        {
+          applicantAddress: { street: '123 Main St', city: 'Anytown' },
+        },
       ],
       [
         'relationship to sponsor is omitted',

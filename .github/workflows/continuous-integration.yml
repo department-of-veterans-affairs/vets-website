@@ -12,8 +12,31 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48
+        with:
+          base-ref: main
+          head-ref: ${{ github.sha }}
+          fail-on-severity: moderate
+          fail-on-scopes: runtime, development
+          comment-summary-in-pr: on-failure
+          license-check: false
+
   build:
     name: Build
+    needs: [dependency-review]
     runs-on: ubuntu-16-cores-latest
     permissions:
       id-token: write
@@ -410,9 +433,6 @@ jobs:
           TESTS: ${{ env.DISALLOWED_TESTS }}
           TESTS_PROPERTY: 'DISALLOWED_TESTS'
 
-      - name: Create test results folder
-        run: mkdir -p test-results
-
       - name: Run unit tests
         id: run-tests
         run: |
@@ -423,7 +443,6 @@ jobs:
           fi
 
         env:
-          MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ needs.tests-prep.outputs.changed_file_paths }}
           APP_FOLDERS: ${{ needs.tests-prep.outputs.app_folders }}
           IS_STRESS_TEST: false
@@ -473,9 +492,6 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Create test results folder
-        run: mkdir -p test-results
-
       - name: Download Unit Test Stability Allow List
         uses: ./.github/workflows/download-artifact
         with:
@@ -491,7 +507,6 @@ jobs:
       - name: Run unit tests
         run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level verbose
         env:
-          MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
           IS_STRESS_TEST: true
           STEP: ${{ matrix.runs }}
@@ -1404,7 +1419,7 @@ jobs:
       - name: Copy coverage file to data directory
         run: |
           mkdir -p qa-standards-dashboard-data/src/testing-reports/data
-          cp qa-standards-dashboard-data/coverage/coverage-summary.json qa-standards-dashboard-data/src/testing-reports/data
+          cp qa-standards-dashboard-data/coverage/test-coverage-report.json qa-standards-dashboard-data/src/testing-reports/data/coverage-summary.json
 
       - name: Archive coverage txt
         if: ${{ always() }}

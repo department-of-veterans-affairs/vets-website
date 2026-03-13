@@ -725,6 +725,7 @@ describe('Schemaform validations', () => {
         data: {
           privacyAgreementAccepted: true,
           testArray: ['test', 3],
+          testCondition: true,
         },
         pages: {
           testPage: {
@@ -740,7 +741,12 @@ describe('Schemaform validations', () => {
               },
             },
             uiSchema: {},
-            itemFilter: (item, index) => index < 1,
+            itemFilter: (item, formData) => {
+              if (formData.testCondition) {
+                return typeof item === 'string';
+              }
+              return true;
+            },
             showPagePerItem: true,
             arrayPath: 'testArray',
           },
@@ -761,11 +767,20 @@ describe('Schemaform validations', () => {
         form.pages.testPage.schema.properties.testArray.items,
       ).to.deep.equal({ type: 'string' });
     });
-    it('should filter items based on index function', () => {
+    it('should filter items based on data in filter function', () => {
+      const itemFilterStub = sinon
+        .stub()
+        .onFirstCall()
+        .returns(true)
+        .onSecondCall()
+        .returns(true)
+        .onThirdCall()
+        .returns(false);
+
       const form = {
         data: {
           privacyAgreementAccepted: true,
-          testArray: ['test', 'test2', 'anotherTest'],
+          testArray: ['testItem1', 'testItem2', 'testItem3'],
         },
         pages: {
           testPage: {
@@ -781,17 +796,13 @@ describe('Schemaform validations', () => {
               },
             },
             uiSchema: {},
-            itemFilter: (item, index) => {
-              expect(index).to.be.a('number');
-              expect(index).to.be.at.least(0);
-              expect(index).to.be.lessThan(form.data.testArray.length);
-              return index < 2;
-            },
+            itemFilter: itemFilterStub,
             showPagePerItem: true,
             arrayPath: 'testArray',
           },
         },
       };
+
       const pageList = [
         {
           pageKey: 'testPage',
@@ -800,16 +811,17 @@ describe('Schemaform validations', () => {
       ];
 
       const result = isValidForm(form, pageList, true);
-      // NB: this test is a little misleading because the isValidForm function curries in index to the itemFilter functionality
-      // Platform code is being updated in this PR (https://github.com/department-of-veterans-affairs/vets-website/pull/37482) to assign data as itemFilter's second parameter
-      // At this time, only disability-benefits is using itemFilter's second parameter argument so this will have no other impact
 
       expect(result.isValid).to.be.true;
-      expect(result.formData.testArray).to.deep.equal(['test', 'test2']);
-      // schema is _not_ modified since it isn't an array
-      expect(
-        form.pages.testPage.schema.properties.testArray.items,
-      ).to.deep.equal({ type: 'string' });
+      expect(result.formData.testArray).to.deep.equal([
+        'testItem1',
+        'testItem2',
+      ]);
+
+      sinon.assert.calledThrice(itemFilterStub);
+      sinon.assert.calledWith(itemFilterStub, 'testItem1', form.data);
+      sinon.assert.calledWith(itemFilterStub, 'testItem2', form.data);
+      sinon.assert.calledWith(itemFilterStub, 'testItem3', form.data);
     });
     it('should not validate pages where depends is false', () => {
       const form = {

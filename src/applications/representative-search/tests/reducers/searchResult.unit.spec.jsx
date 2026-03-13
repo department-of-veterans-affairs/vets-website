@@ -5,18 +5,12 @@ import {
   FETCH_REPRESENTATIVES,
   SORT_TYPE_UPDATED,
   // SEARCH_FAILED,
-  // REPORT_FAILED,
   CLEAR_SEARCH_RESULTS,
-  REPORT_SUBMITTED,
-  REPORT_ITEMS_UPDATED,
 } from '../../utils/actionTypes';
 import { SearchResultReducer } from '../../reducers/searchResult';
 
 const INITIAL_STATE = {
   searchResults: [],
-  reportedResults: [],
-  reportSubmissionInProgress: false,
-  reportSubmissionStatus: 'INITIAL',
   pagination: {},
 };
 
@@ -55,36 +49,6 @@ describe('representatives reducer', () => {
     });
 
     expect(state).to.eql(INITIAL_STATE);
-  });
-  it('should handle starting report', () => {
-    const state = SearchResultReducer(
-      { ...INITIAL_STATE, reportSubmissionInProgress: false },
-      {
-        type: REPORT_SUBMITTED,
-      },
-    );
-
-    expect(state.reportSubmissionInProgress).to.eql(true);
-  });
-  it('should handle new report items', () => {
-    const reports = {
-      flags: [
-        {
-          flag_type: 'email',
-          flag_value: 'example@rep.com',
-        },
-      ],
-    };
-
-    const state = SearchResultReducer(
-      { ...INITIAL_STATE },
-      {
-        type: REPORT_ITEMS_UPDATED,
-        payload: reports,
-      },
-    );
-
-    expect(state.reportedResults).to.eql(reports);
   });
 
   it('should handle fetching state to build a search query object', () => {

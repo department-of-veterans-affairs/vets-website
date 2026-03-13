@@ -2,10 +2,12 @@
 import {
   titleUI,
   yesNoUI,
-  yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import AgentOrangeExposureDescription from '../../../components/FormDescriptions/AgentOrangeExposureDescription';
+import { FULL_SCHEMA } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
+
+const { exposedToAgentOrange } = FULL_SCHEMA.properties;
 
 export default {
   uiSchema: {
@@ -19,7 +21,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      exposedToAgentOrange: yesNoSchema,
+      exposedToAgentOrange,
     },
   },
 };

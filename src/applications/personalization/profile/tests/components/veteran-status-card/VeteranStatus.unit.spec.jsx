@@ -312,7 +312,7 @@ describe('VeteranStatus', () => {
           apiRequestStub,
           '/profile/vet_verification_status',
         );
-        expect(view.getByText(`This page isn't available right now.`)).to.exist;
+        expect(view.getByText(`This page isn't working right now.`)).to.exist;
 
         // Check that the description is not rendered
         expect(

@@ -68,7 +68,7 @@ const testConfig = createTestConfig(
 
               cy.get('va-modal[status="warning"]')
                 .shadow()
-                .get('.va-modal-alert-body va-button')
+                .get('.va-modal-alert va-button')
                 .first()
                 .click();
 

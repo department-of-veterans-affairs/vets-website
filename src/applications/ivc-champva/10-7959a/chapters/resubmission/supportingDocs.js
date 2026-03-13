@@ -15,18 +15,19 @@ import {
   llmUploadAlertUI,
 } from '../../definitions';
 import content from '../../locales/en/content.json';
+import { ATTACHMENT_IDS } from '../../utils/constants';
+
+const TITLE_TEXT = content['resubmission-docs-upload--page-title'];
+const INPUT_LABEL = content['resubmission-docs-upload--input-label'];
 
 export default {
   uiSchema: {
-    ...titleUI(
-      content['resubmission-docs-upload--page-title'],
-      ResubmissionDocsDescription,
-    ),
+    ...titleUI(TITLE_TEXT, ResubmissionDocsDescription),
     ...descriptionUI(ResubmissionDocsUploadDescription),
     ...llmUploadAlertUI,
     resubmissionDocsUpload: attachmentUI({
-      label: content['resubmission-docs-upload--input-label'],
-      attachmentId: 'MEDDOC',
+      label: INPUT_LABEL,
+      attachmentId: ATTACHMENT_IDS.meddoc,
     }),
     ...llmResponseAlertUI,
   },

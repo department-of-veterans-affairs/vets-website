@@ -105,6 +105,12 @@ export default function transformForSubmit(
       return '10-7959a_resubmission_pdi_number';
     };
 
+    const recordDtaEvent =
+      form.data['view:champvaEnableClaimResubmitQuestion'] &&
+      form.data.claimStatus === 'resubmission' &&
+      form.data['view:hasClaimDocs'] === false;
+
+    if (recordDtaEvent) recordEvent({ event: '10-7959a_duty_to_assist' });
     recordEvent({ event: getEventName() });
   }
 

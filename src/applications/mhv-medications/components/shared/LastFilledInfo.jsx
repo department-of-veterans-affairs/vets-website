@@ -15,7 +15,11 @@ const LastFilledInfo = rx => {
   return (
     <>
       {nonVA && (
-        <p data-testid="rx-last-filled-info" data-dd-privacy="mask">
+        <p
+          className="vads-u-margin-top--0"
+          data-testid="rx-last-filled-info"
+          data-dd-privacy="mask"
+        >
           {dateFormat(
             orderedDate,
             DATETIME_FORMATS.longMonthDate,
@@ -25,7 +29,11 @@ const LastFilledInfo = rx => {
         </p>
       )}
       {showLastFilledDate && (
-        <p data-testid="rx-last-filled-date" data-dd-privacy="mask">
+        <p
+          className="vads-u-margin-top--0"
+          data-testid="rx-last-filled-date"
+          data-dd-privacy="mask"
+        >
           {dateFormat(
             sortedDispensedDate,
             DATETIME_FORMATS.longMonthDate,
@@ -37,7 +45,11 @@ const LastFilledInfo = rx => {
       {!nonVA &&
         !showLastFilledDate &&
         !isCernerPilot && (
-          <p data-testid="active-not-filled-rx" data-dd-privacy="mask">
+          <p
+            className="vads-u-margin-top--0"
+            data-testid="active-not-filled-rx"
+            data-dd-privacy="mask"
+          >
             Not filled yet
           </p>
         )}
