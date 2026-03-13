@@ -74,7 +74,9 @@ const MedicationsListCard = ({ rx }) => {
       : rx?.dispStatus === DISPENSE_STATUS.RENEW);
   const latestTrackingStatus = rx?.trackingList?.[0];
   const isRecentlyShipped =
-    rx.dispStatus === dispStatusObj.shipped && rx.isTrackable;
+    rx.dispStatus === dispStatusObj.shipped &&
+    rx.isTrackable &&
+    Boolean(latestTrackingStatus);
   const trackingUrl = getTrackingUrl(
     latestTrackingStatus?.carrier,
     latestTrackingStatus?.trackingNumber,
