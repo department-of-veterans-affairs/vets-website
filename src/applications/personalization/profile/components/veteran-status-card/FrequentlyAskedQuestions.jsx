@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { PDFErrorAlert } from './VeteranStatusAlerts';
+import {
+  PDFErrorAlert,
+  DynamicVeteranStatusAlert,
+} from './VeteranStatusAlerts';
 
 const FrequentlyAskedQuestions = ({
   createPdf,
@@ -76,7 +79,21 @@ const FrequentlyAskedQuestions = ({
           )}
           {pdfError && (
             <div className="vads-u-margin-top--4">
-              <PDFErrorAlert />
+              {cveVeteranStatusNewService ? (
+                <DynamicVeteranStatusAlert
+                  alertType="error"
+                  header="Something went wrong"
+                  body={[
+                    {
+                      type: 'text',
+                      value:
+                        "We're sorry. Something went wrong on our end. Refresh this page or try again later.",
+                    },
+                  ]}
+                />
+              ) : (
+                <PDFErrorAlert />
+              )}
             </div>
           )}
           <p>

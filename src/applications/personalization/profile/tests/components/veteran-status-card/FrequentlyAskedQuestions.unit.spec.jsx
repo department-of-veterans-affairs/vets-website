@@ -47,14 +47,34 @@ describe('<FrequentlyAskedQuestions />', () => {
     ).to.not.exist;
   });
 
-  it('renders PDF error alert when pdfError is true', () => {
+  it('renders old service PDF error alert when pdfError is true and cveVeteranStatusNewService is false', () => {
     const { getByText } = render(
-      <FrequentlyAskedQuestions createPdf={() => {}} pdfError />,
+      <FrequentlyAskedQuestions
+        createPdf={() => {}}
+        pdfError
+        cveVeteranStatusNewService={false}
+      />,
     );
 
-    // Check that the link is not rendered
     expect(
       getByText('We’re sorry. Try to print your Veteran Status Card later.'),
+    ).to.exist;
+  });
+
+  it('renders new service PDF error alert when pdfError is true and cveVeteranStatusNewService is true', () => {
+    const { getByText } = render(
+      <FrequentlyAskedQuestions
+        createPdf={() => {}}
+        pdfError
+        cveVeteranStatusNewService
+      />,
+    );
+
+    expect(getByText('Something went wrong')).to.exist;
+    expect(
+      getByText(
+        "We're sorry. Something went wrong on our end. Refresh this page or try again later.",
+      ),
     ).to.exist;
   });
 
