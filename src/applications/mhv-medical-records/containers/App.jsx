@@ -12,6 +12,7 @@ import {
   MhvSecondaryNav,
   useBackToTop,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { Element } from 'platform/utilities/scroll';
 import {
   DowntimeNotification,
   externalServices,
@@ -154,6 +155,7 @@ const App = ({ children }) => {
             ref={measuredRef}
             className="vads-l-grid-container vads-u-padding-left--2"
           >
+            <Element name="topScrollElement" />
             {mhvMrDown === externalServiceStatus.down && !bypassDowntime ? (
               <>
                 {atLandingPage && <MrBreadcrumbs />}
