@@ -16,11 +16,11 @@ export const defaultMobileQueryParams = {
 export const defaultMobileOAuthOptions = {
   clientId: CLIENT_IDS.VAMOBILE,
   acr: {
-    idme: 'loa3',
+    idme: 'urn:acr.va.gov:verified-facial-match-preferred',
     logingov: 'urn:acr.va.gov:verified-facial-match-preferred',
   },
   acrSignup: {
-    idme_signup: 'loa3',
+    idme_signup: 'urn:acr.va.gov:verified-facial-match-preferred',
     logingov_signup: 'urn:acr.va.gov:verified-facial-match-preferred',
   },
 };
@@ -35,11 +35,11 @@ export const defaultWebOAuthOptions = {
 export const arpWebOAuthOptions = {
   clientId: CLIENT_IDS.ARP,
   acr: {
-    idme: 'loa3',
+    idme: 'urn:acr.va.gov:verified-facial-match-preferred',
     logingov: 'urn:acr.va.gov:verified-facial-match-preferred',
   },
   acrSignup: {
-    idme_signup: 'loa3',
+    idme_signup: 'urn:acr.va.gov:verified-facial-match-preferred',
     logingov_signup: 'urn:acr.va.gov:verified-facial-match-preferred',
   },
 };

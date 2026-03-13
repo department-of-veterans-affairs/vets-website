@@ -124,7 +124,7 @@ export const OAUTH_ERROR_RESPONSES = {
 };
 
 export const FORCED_VERIFICATION_ACRS = {
-  idme: 'loa3',
+  idme: 'urn:acr.va.gov:verified-facial-match-required',
   mhv: 'loa3',
   dslogon: 'loa3',
   logingov: 'urn:acr.va.gov:verified-facial-match-required',
