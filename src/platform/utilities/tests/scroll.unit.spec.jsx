@@ -740,6 +740,7 @@ describe('Error Scaffolding', () => {
       const vaCheckbox = document.createElement('va-checkbox');
       const vaCheckboxGroup = document.createElement('va-checkbox-group');
       const vaComboBox = document.createElement('va-combo-box');
+      const vaTelephoneInput = document.createElement('va-telephone-input');
       const vaRadio = document.createElement('va-radio');
       const vaRadioOption = document.createElement('va-radio-option');
       const vaSelect = document.createElement('va-select');
@@ -752,6 +753,7 @@ describe('Error Scaffolding', () => {
       expect(isSupportedVaElement(vaCheckbox)).to.be.true;
       expect(isSupportedVaElement(vaCheckboxGroup)).to.be.true;
       expect(isSupportedVaElement(vaComboBox)).to.be.true;
+      expect(isSupportedVaElement(vaTelephoneInput)).to.be.true;
       expect(isSupportedVaElement(vaRadio)).to.be.true;
       expect(isSupportedVaElement(vaRadioOption)).to.be.true;
       expect(isSupportedVaElement(vaSelect)).to.be.true;
@@ -926,6 +928,55 @@ describe('Error Scaffolding', () => {
 
       const target = findFocusTarget(vaTextInput);
       expect(target.id).to.equal('visible-input');
+    });
+
+    it('should focus va-combo-box child when va-telephone-input has combo-box error', () => {
+      const vaTelephoneInput = document.createElement('va-telephone-input');
+      vaTelephoneInput.setAttribute('error', 'Invalid phone number');
+      const telShadowRoot = vaTelephoneInput.attachShadow({ mode: 'open' });
+
+      const comboBox = document.createElement('va-combo-box');
+      comboBox.setAttribute('error', 'Select a country');
+      const comboShadowRoot = comboBox.attachShadow({ mode: 'open' });
+      const comboInput = document.createElement('input');
+      comboInput.id = 'country-input';
+      comboShadowRoot.appendChild(comboInput);
+
+      const textInput = document.createElement('va-text-input');
+      const textShadowRoot = textInput.attachShadow({ mode: 'open' });
+      const phoneInput = document.createElement('input');
+      phoneInput.id = 'phone-input';
+      textShadowRoot.appendChild(phoneInput);
+
+      telShadowRoot.appendChild(comboBox);
+      telShadowRoot.appendChild(textInput);
+
+      const target = findFocusTarget(vaTelephoneInput);
+      expect(target.id).to.equal('country-input');
+    });
+
+    it('should focus va-text-input child when va-telephone-input has no combo-box error', () => {
+      const vaTelephoneInput = document.createElement('va-telephone-input');
+      vaTelephoneInput.setAttribute('error', 'Invalid phone number');
+      const telShadowRoot = vaTelephoneInput.attachShadow({ mode: 'open' });
+
+      const comboBox = document.createElement('va-combo-box');
+      const comboShadowRoot = comboBox.attachShadow({ mode: 'open' });
+      const comboInput = document.createElement('input');
+      comboInput.id = 'country-input';
+      comboShadowRoot.appendChild(comboInput);
+
+      const textInput = document.createElement('va-text-input');
+      const textShadowRoot = textInput.attachShadow({ mode: 'open' });
+      const phoneInput = document.createElement('input');
+      phoneInput.id = 'phone-input';
+      textShadowRoot.appendChild(phoneInput);
+
+      telShadowRoot.appendChild(comboBox);
+      telShadowRoot.appendChild(textInput);
+
+      const target = findFocusTarget(vaTelephoneInput);
+      expect(target.id).to.equal('phone-input');
     });
   });
 
