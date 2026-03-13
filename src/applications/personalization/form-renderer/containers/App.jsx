@@ -1,15 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Toggler } from 'platform/utilities/feature-toggles';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+import FormRenderer from 'platform/form-renderer/FormRenderer';
+import { apiRequest } from '~/platform/utilities/api';
 
 export default function App({ params }) {
   const { id } = params;
+  const [response, setResponse] = useState(null);
+  const [isError, setIsError] = useState(false);
+
   const {
     TOGGLE_NAMES: { dependentsEnableFormViewerMFE: appToggleKey },
     useToggleLoadingValue,
   } = useFeatureToggle();
   const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
+
+  function getSubmission(submissionId) {
+    return apiRequest(`/digital_forms_api/submissions/${submissionId}`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(submission => setResponse(submission))
+      .catch(() => setIsError(true));
+  }
+
+  useEffect(
+    () => {
+      getSubmission(id);
+    },
+    [id],
+  );
 
   return (
     <div>
@@ -17,7 +38,16 @@ export default function App({ params }) {
         <Toggler
           toggleName={Toggler.TOGGLE_NAMES.dependentsEnableFormViewerMFE}
         >
-          <Toggler.Enabled>{id}</Toggler.Enabled>
+          <Toggler.Enabled>
+            {response && !isError ? (
+              <FormRenderer
+                config={response.template}
+                data={response.submission}
+              />
+            ) : (
+              <div>Could not load submission.</div>
+            )}
+          </Toggler.Enabled>
           <Toggler.Disabled>
             {/* If the feature flag is off, redirect user to /my-va */}
             <RedirectHandler />

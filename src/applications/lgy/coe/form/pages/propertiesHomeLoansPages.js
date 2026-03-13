@@ -9,6 +9,7 @@ import propertyAddress from './propertyAddress';
 import loanDetails from './loanDetails';
 import entitlementRestoration from './entitlementRestoration';
 import disasterDamage from './disasterDamage';
+import { certificateUseOptions } from '../constants';
 
 const formatPropertyAddress = itemData => {
   const { propertyAddress: itemPropertyAddress } = itemData || {};
@@ -105,6 +106,7 @@ const options = {
     deleteYes: 'Yes, delete',
     deleteNo: 'No, cancel',
     summaryTitle: 'Summary of properties with VA home loans',
+    summaryTitleWithoutItems: 'Properties owned with VA home loans',
   },
 };
 
@@ -118,12 +120,17 @@ const summaryPage = {
     'view:propertiesHomeLoans': arrayBuilderYesNoUI(
       options,
       {
-        title: 'Do you have a property with a VA home loan to add?',
+        title:
+          'Do you currently own at least 1 property bought with a VA home loan?',
+        hint:
+          'Properties may be single family homes, condos, or any other types of properties purchased with a VA home loan.',
         labels: { Y: 'Yes', N: 'No' },
+        labelHeaderLevel: 'p',
       },
       {
         title: 'Do you have another property with a VA home loan to add?',
         labels: { Y: 'Yes', N: 'No' },
+        labelHeaderLevel: 'p',
       },
     ),
   },
@@ -138,8 +145,14 @@ const summaryPage = {
 
 const shouldShowPropertiesHomeLoansLoop = formData =>
   formData['view:coeFormRebuildCveteam'] &&
-  formData?.loanHistory?.hadPriorLoans === true &&
-  formData?.loanHistory?.currentOwnership === true;
+  ((formData.loanHistory?.hadPriorLoans &&
+    [
+      certificateUseOptions.ENTITLEMENT_INQUIRY_ONLY,
+      certificateUseOptions.HOME_PURCHASE,
+      certificateUseOptions.CASH_OUT_REFINANCE,
+    ].includes(formData.loanHistory?.certificateUse)) ||
+    formData.loanHistory?.certificateUse ===
+      certificateUseOptions.INTEREST_RATE_REDUCTION_REFINANCE);
 
 export const propertiesHomeLoansPages = arrayBuilderPages(
   options,

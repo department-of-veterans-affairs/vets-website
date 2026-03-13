@@ -7,6 +7,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import * as useFetchPrescriptionsInProgressModule from '../../hooks/PrescriptionsInProgress/useFetchPrescriptionsInProgress';
 import PrescriptionsInProgress from '../../containers/PrescriptionsInProgress';
 import reducers from '../../reducers';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 describe('PrescriptionsInProgress container', () => {
   let sandbox;
@@ -123,10 +124,14 @@ describe('PrescriptionsInProgress container', () => {
     stubFetchHook(mockCategorizedPrescriptions);
     const screen = setup();
     const link = screen.getByRole('link', {
-      name: /Go to your medication history/i,
+      name: /Review and print list of medications/i,
     });
     expect(link).to.exist;
     expect(link.getAttribute('href')).to.equal('/history');
+    expect(link.getAttribute('data-dd-action-name')).to.equal(
+      dataDogActionNames.inProgressPage
+        .GO_TO_REVIEW_AND_PRINT_MEDICATION_HISTORY_LINK,
+    );
   });
 
   it('displays the refill medications link', () => {
@@ -136,7 +141,10 @@ describe('PrescriptionsInProgress container', () => {
       name: /Refill medications/i,
     });
     expect(link).to.exist;
-    expect(link.getAttribute('href')).to.equal('/refill');
+    expect(link.getAttribute('href')).to.equal('/');
+    expect(link.getAttribute('data-dd-action-name')).to.equal(
+      dataDogActionNames.inProgressPage.REFILL_MEDICATIONS_LINK,
+    );
   });
 
   it('renders NeedHelp component', () => {

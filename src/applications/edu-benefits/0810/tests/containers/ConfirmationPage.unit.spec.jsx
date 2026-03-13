@@ -46,6 +46,23 @@ describe('ConfirmationPage', () => {
     expect(alert).to.contain.text('Your confirmation number is 1234567890');
   });
 
+  it('should render without submission data using fallback defaults', () => {
+    const store = mockStore({
+      form: {
+        ...createInitialState(formConfig),
+        data: {},
+      },
+    });
+    const { container } = render(
+      <Provider store={store}>
+        <ConfirmationPage route={{ formConfig }} />
+      </Provider>,
+    );
+    const alert = container.querySelector('va-alert');
+    expect(alert).to.exist;
+    expect(alert).to.not.contain.text('Your confirmation number is');
+  });
+
   it('should render with form data', () => {
     const { container } = initConfirmationPage({
       formData: maximalTestData.data,

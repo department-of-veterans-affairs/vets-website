@@ -15,8 +15,8 @@ function ComplexClaimsEntryContent() {
   return (
     <>
       <p className="vads-u-font-family--serif vads-u-font-size--lg">
-        File new claims for travel reimbursement and review the status of all
-        your travel claims.
+        File new claims for travel pay and review the status of all your travel
+        reimbursement claims.
       </p>
       <h2 className="vads-u-margin-top--2">
         File a new claim for travel pay online
@@ -60,8 +60,8 @@ function SmocEntryContent() {
   return (
     <>
       <p className="vads-u-font-family--serif vads-u-font-size--lg">
-        File new claims for travel reimbursement and review the status of all
-        your travel claims.
+        File new claims for travel pay and review the status of all your travel
+        reimbursement claims.
       </p>
       <h2 className="vads-u-margin-top--2">
         File a new claim for travel reimbursement online
@@ -180,7 +180,9 @@ export default function TravelPayStatusContent() {
         )}
 
       <div className="btsss-claims-sort-and-filter-container">
-        <h2 className="vads-u-margin-top--2">Your travel claims</h2>
+        <h2 className="vads-u-margin-top--2">
+          Your travel reimbursement claims
+        </h2>
         <p>
           {complexClaimsEnabled
             ? "This list shows all the travel reimbursement claims you've started or filed."

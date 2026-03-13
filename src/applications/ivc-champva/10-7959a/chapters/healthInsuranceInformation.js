@@ -1,30 +1,29 @@
-import get from 'platform/utilities/data/get';
+import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import {
-  titleUI,
-  descriptionUI,
-  yesNoUI,
-  yesNoSchema,
   arrayBuilderItemFirstPageTitleUI,
-  arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  phoneUI,
+  descriptionUI,
   phoneSchema,
-  textUI,
-  textSchema,
-  radioUI,
+  phoneUI,
   radioSchema,
+  radioUI,
+  textSchema,
+  textUI,
+  titleUI,
+  yesNoSchema,
+  yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { arrayBuilderPages } from 'platform/forms-system/src/js/patterns/array-builder';
 import { privWrapper } from '../../shared/utilities';
 import { validFieldCharsOnly } from '../../shared/validations';
-import {
-  hasOhi,
-  personalizeTitleByName,
-  replaceStrValues,
-} from '../utils/helpers';
 import content from '../locales/en/content.json';
+import { hasOhi, replaceStrValues } from '../utils/helpers';
+import {
+  titleWithFormDataUI,
+  titleWithNameText,
+  titleWithNameUI,
+} from '../utils/titles';
 
 const INSURANCE_TYPE_LABELS = {
   group: content['health-insurance--type-label--group'],
@@ -97,13 +96,13 @@ export const insuranceOptions = {
     },
     deleteNo: () => content['arraybuilder--button-delete-no'],
     deleteYes: () => content['arraybuilder--button-delete-yes'],
-    summaryTitle: props =>
-      privWrapper(
-        personalizeTitleByName(
-          props.formData,
-          content['health-insurance--summary-title'],
-        ),
-      ),
+    summaryTitle: props => {
+      const titleText = titleWithNameText(
+        content['health-insurance--summary-title'],
+      )(props.formData);
+
+      return privWrapper(titleText);
+    },
     summaryDescription: null,
     cancelAddButtonText: content['health-insurance--button--cancel-add'],
   },
@@ -111,14 +110,7 @@ export const insuranceOptions = {
 
 export const insuranceStatusSchema = {
   uiSchema: {
-    ...titleUI(({ formData }) =>
-      privWrapper(
-        personalizeTitleByName(
-          formData,
-          content['health-insurance--summary-title-no-items'],
-        ),
-      ),
-    ),
+    ...titleWithNameUI(content['health-insurance--summary-title-no-items']),
     hasOhi: {
       ...yesNoUI({
         title: content['health-insurance--yes-no-label'],
@@ -164,11 +156,9 @@ const policyPage = {
 
 const insuranceProviderPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) => `${get('name', formData)} insurance type`,
-      '',
-      false,
-    ),
+    ...titleWithFormDataUI('%s insurance type', null, {
+      arrayBuilder: true,
+    }),
     type: {
       ...radioUI({
         type: 'radio',

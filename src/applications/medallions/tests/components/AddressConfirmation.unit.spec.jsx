@@ -77,4 +77,53 @@ describe('Connected AddressConfirmation component', () => {
     const block = container.querySelector('.blue-bar-block');
     expect(block.textContent).to.include('XYZ');
   });
+
+  it('renders warning alert when isExactMatch is false', () => {
+    const { container } = renderWithStore({
+      subHeader: 'Check your address',
+      userAddress: baseAddress,
+      isExactMatch: false,
+    });
+
+    const alert = container.querySelector('va-alert[status="warning"]');
+    expect(alert).to.exist;
+    expect(alert.textContent).to.include('Check the address you entered');
+  });
+
+  it('renders success alert when isExactMatch is true', () => {
+    const { container } = renderWithStore({
+      subHeader: 'Check your address',
+      userAddress: baseAddress,
+      isExactMatch: true,
+    });
+
+    const alert = container.querySelector('va-alert[status="success"]');
+    expect(alert).to.exist;
+    expect(alert.textContent).to.include('Your address was an exact match');
+  });
+
+  it('shows additional info expandable when isExactMatch is false', () => {
+    const { container } = renderWithStore({
+      subHeader: 'Check your address',
+      userAddress: baseAddress,
+      isExactMatch: false,
+    });
+
+    const additionalInfo = container.querySelector('va-additional-info');
+    expect(additionalInfo).to.exist;
+    expect(additionalInfo.getAttribute('trigger')).to.include(
+      "Why we can't confirm",
+    );
+  });
+
+  it('does not show additional info expandable when isExactMatch is true', () => {
+    const { container } = renderWithStore({
+      subHeader: 'Check your address',
+      userAddress: baseAddress,
+      isExactMatch: true,
+    });
+
+    const additionalInfo = container.querySelector('va-additional-info');
+    expect(additionalInfo).to.not.exist;
+  });
 });

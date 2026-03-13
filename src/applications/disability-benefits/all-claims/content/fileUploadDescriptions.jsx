@@ -23,10 +23,8 @@ export const UploadDescription = ({ uploadTitle }) => (
       <li>{`Maximum PDF file size: ${MAX_PDF_FILE_SIZE_MB}MB`}</li>
     </ul>
     <p>
-      <em>
-        A 1MB file equals about 500 pages of text. A photo is usually about 6MB.
-        Large files can take longer to upload with a slow Internet connection.
-      </em>
+      A 1MB file equals about 500 pages of text. A photo is usually about 6MB.
+      Large files can take longer to upload with a slow internet connection.
     </p>
   </div>
 );

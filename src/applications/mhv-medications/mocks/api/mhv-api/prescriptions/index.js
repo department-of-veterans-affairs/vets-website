@@ -256,6 +256,7 @@ function generateMockPrescriptions(
   n = 20,
   isV2 = false,
   includeOracleHealth = false,
+  simulateFailedStations = false,
 ) {
   function edgeCasePrescription({
     prescriptionId,
@@ -479,12 +480,17 @@ function generateMockPrescriptions(
   // Exports do not have page or perPage sent in the request
   const isExport = !req.query.page && !req.query.per_page;
 
+  // When true, the response will include hasFailedStations: true
+  // which triggers the failed-stations alert in Prescriptions.
+  const hasFailedStations = simulateFailedStations || false;
+
+  // In the export response:
   if (isExport) {
     return {
       data: filteredPrescriptions,
       meta: {
         updatedAt: formatISO(new Date()),
-        failedStationList: null,
+        hasFailedStations,
       },
       links: {},
     };
@@ -560,11 +566,12 @@ function generateMockPrescriptions(
         ).length,
       };
 
+  // In the paginated response:
   return {
     data: slice,
     meta: {
       updatedAt: formatISO(new Date()),
-      failedStationList: null,
+      hasFailedStations,
       pagination: {
         currentPage,
         perPage,

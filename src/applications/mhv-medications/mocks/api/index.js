@@ -66,28 +66,42 @@ const responses = {
   },
   'GET /my_health/v2/medical_records/allergies': acceleratedAllergies.all,
   'GET /my_health/v1/prescriptions': (_req, res) => {
+    // === LOCAL TESTING TOGGLES ===
+    // Set to true to simulate failed stations alert
+    const simulateFailedStations = false;
+    // Set to true to simulate no medications (empty list)
+    const simulateNoMedications = false;
+
     delaySingleResponse(
       () =>
         res.json(
           prescriptions.generateMockPrescriptions(
             _req,
-            20,
+            simulateNoMedications ? 0 : 20,
             false,
             oracleHealthMode,
+            simulateFailedStations,
           ),
         ),
       2250,
     );
   },
   'GET /my_health/v2/prescriptions': (_req, res) => {
+    // === LOCAL TESTING TOGGLES ===
+    // Set to true to simulate failed stations alert
+    const simulateFailedStations = false;
+    // Set to true to simulate no medications (empty list)
+    const simulateNoMedications = false;
+
     delaySingleResponse(
       () =>
         res.json(
           prescriptions.generateMockPrescriptions(
             _req,
-            20,
+            simulateNoMedications ? 0 : 20,
             true,
             oracleHealthMode,
+            simulateFailedStations,
           ),
         ),
       2250,

@@ -106,6 +106,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
         },
       ],
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
+      systemType: 'vista',
     });
   });
 
@@ -155,6 +156,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
         },
       ],
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
+      systemType: 'vista',
     });
   });
 

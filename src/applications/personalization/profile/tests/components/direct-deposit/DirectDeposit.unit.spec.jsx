@@ -148,7 +148,7 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
       );
 
       expect(
-        getByRole('heading', { name: "This page isn't available right now." }),
+        getByRole('heading', { name: "This page isn't working right now." }),
       ).to.exist;
     });
 

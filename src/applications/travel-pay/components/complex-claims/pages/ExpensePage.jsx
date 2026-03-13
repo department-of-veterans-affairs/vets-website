@@ -62,6 +62,7 @@ import ExpenseAirTravelFields from './ExpenseAirTravelFields';
 import ExpenseLodgingFields from './ExpenseLodgingFields';
 import ExpenseCommonCarrierFields from './ExpenseCommonCarrierFields';
 import CancelExpenseModal from './CancelExpenseModal';
+import { formatAmount } from '../../../util/complex-claims-helper';
 
 export const toBase64 = file =>
   new Promise((resolve, reject) => {
@@ -181,6 +182,10 @@ const ExpensePage = () => {
           let initialState = {
             ...fetchedExpense,
             purchaseDate: normalizeDate(fetchedExpense.dateIncurred) || '',
+            costRequested:
+              fetchedExpense.costRequested != null
+                ? formatAmount(fetchedExpense.costRequested)
+                : '',
           };
 
           // Normalize date fields for expense types that use them
