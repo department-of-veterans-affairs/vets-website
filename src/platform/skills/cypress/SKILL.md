@@ -34,15 +34,15 @@ If multiple specs match, list them and ask the user which to run (unless they sa
 
 ### 2. Run the test
 
-Use `--serve` mode, which starts a dev server on a free port, runs the test, and tears it down:
+Use `cy:run:auto`, which starts a dev server on a free port, runs with no retries/video, and tears down after:
 
 ```bash
-yarn cy:run --serve --no-retry --no-video --spec "<spec-path>" --summary-only
+yarn cy:run:auto --spec "<spec-path>" --summary-only
 ```
 
 This handles everything: resolves entryName, finds a free port, starts `yarn watch`, waits for compilation, runs Cypress, and cleans up after.
 
-**Fast mode:** If the user already has a dev server running on port 3001 (check with `curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:3001`), you can skip `--serve` for faster iteration (~5s vs ~60s):
+**Fast mode:** If the user already has a dev server running on port 3001 (check with `curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:3001`), you can skip the auto server for faster iteration (~5s vs ~60s):
 
 ```bash
 yarn cy:run --no-retry --no-video --spec "<spec-path>" --summary-only
