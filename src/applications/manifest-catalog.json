@@ -124,6 +124,12 @@
       "rootUrl": "/forms/21p-530a/submit-state-interment-allowance-request"
     },
     {
+      "directoryPath": "src/applications/benefits-optimization-pingwind/21-4502",
+      "appName": "Apply for automobile or adaptive equipment",
+      "entryName": "21-4502",
+      "rootUrl": "/disability/eligibility/automobile-adaptive-equipment/apply-form-21-4502"
+    },
+    {
       "directoryPath": "src/applications/benefits-optimization-pingwind/21-8940",
       "appName": "Apply for additional compensation based on inability to work",
       "entryName": "21-8940",

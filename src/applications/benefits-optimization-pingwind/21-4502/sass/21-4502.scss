@@ -1,0 +1,36 @@
+// Form 21-4502 styles
+// Add any form-specific overrides here; shared styles come from platform
+
+// Same height for Back and Submit (form flow + review page)
+.form-progress-buttons {
+  button.usa-button-primary,
+  button.usa-button-secondary,
+  va-button[continue],
+  va-button[back] {
+    min-height: 2.5rem;
+    margin-top: 0;
+  }
+}
+
+// Align Back and Continue/Submit on the same Y (form flow)
+.form-progress-buttons.schemaform-buttons {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+
+  > .columns {
+    display: flex;
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+}
+
+// Review page: align Back and Submit row
+.form-progress-buttons.vads-u-display--flex {
+  align-items: flex-end;
+
+  > div {
+    display: flex;
+    align-items: flex-end;
+  }
+}
