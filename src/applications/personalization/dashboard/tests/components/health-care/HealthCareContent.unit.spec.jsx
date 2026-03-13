@@ -44,7 +44,7 @@ describe('<UnconnectedHealthCareContent />', () => {
     tree.getByTestId('appointments-error');
   });
 
-  it('should render the Next appointments card', () => {
+  it('should render the Next appointments cards for the first two appointments', () => {
     const appointments = v2.createAppointmentSuccess().data;
     const appts = appointments.map(appointment => appointment.attributes);
 
@@ -53,7 +53,23 @@ describe('<UnconnectedHealthCareContent />', () => {
       { initialState },
     );
 
-    tree.getByTestId('health-care-appointments-card');
+    const cards = tree.getAllByTestId('health-care-appointments-card');
+    expect(cards).to.have.lengthOf(2);
+  });
+
+  it('should render one Next appointments card when there is one appointment', () => {
+    const appointments = v2.createAppointmentSuccess().data;
+    const appts = appointments
+      .map(appointment => appointment.attributes)
+      .slice(0, 1);
+
+    const tree = renderWithStoreAndRouter(
+      <UnconnectedHealthCareContent appointments={appts} />,
+      { initialState },
+    );
+
+    const cards = tree.getAllByTestId('health-care-appointments-card');
+    expect(cards).to.have.lengthOf(1);
   });
 
   it('should render the no upcoming appointments text', () => {
@@ -169,39 +185,152 @@ describe('<UnconnectedHealthCareContent />', () => {
 });
 
 describe('Connected HealthCareContent', () => {
+  const reducers = {
+    health: (state = {}) => state,
+    hcaEnrollmentStatus: (state = {}) => state,
+  };
+
+  const createState = ({
+    appointmentsData = [],
+    appointmentsErrors = [],
+    hasServerError = false,
+    unreadCount = 2,
+    unreadCountErrors = [],
+  } = {}) => ({
+    health: {
+      appointments: {
+        fetching: false,
+        data: appointmentsData,
+        errors: appointmentsErrors,
+      },
+      msg: {
+        unreadCount: {
+          count: unreadCount,
+          errors: unreadCountErrors,
+        },
+      },
+    },
+    hcaEnrollmentStatus: {
+      hasServerError,
+    },
+    scheduledDowntime: {
+      globalDowntime: null,
+      isReady: true,
+      isPending: false,
+      serviceMap: { get: () => {} },
+      dismissedDowntimeWarnings: [],
+    },
+    user: {
+      profile: {
+        facilities: [],
+      },
+    },
+    featureToggles: {
+      [Toggler.TOGGLE_NAMES.myVaAuthExpRedesignEnabled]: true,
+    },
+  });
+
   it('maps state to props correctly', () => {
-    const state = {
-      health: {
-        appointments: {
-          fetching: false,
-          data: [],
-          errors: [],
-        },
+    const tree = renderWithStoreAndRouter(
+      <ConnectedHealthCareContent isVAPatient />,
+      { initialState: createState(), reducers },
+    );
+
+    expect(tree.getByRole('heading', { name: 'Appointments', level: 3 })).to
+      .exist;
+    expect(tree.getByRole('heading', { name: 'Messages', level: 3 })).to.exist;
+    expect(tree.getByText('2 unread messages')).to.exist;
+  });
+
+  it('shows appointments error text when appointments request fails', () => {
+    const tree = renderWithStoreAndRouter(
+      <ConnectedHealthCareContent isVAPatient />,
+      {
+        initialState: createState({
+          appointmentsErrors: [{ code: '500' }],
+        }),
+        reducers,
       },
-      hcaEnrollmentStatus: {
-        hasServerError: false,
-      },
-      scheduledDowntime: {
-        globalDowntime: null,
-        isReady: true,
-        isPending: false,
-        serviceMap: { get: () => {} },
-        dismissedDowntimeWarnings: [],
-      },
-      user: {
-        profile: {
-          facilities: [],
-        },
-      },
-      featureToggles: {},
-      sm: { unreadCount: { count: 2 } },
-    };
+    );
+
+    tree.getByTestId('appointments-error');
+    expect(tree.getByRole('heading', { name: 'Appointments', level: 3 })).to
+      .exist;
+    expect(tree.getByRole('heading', { name: 'Messages', level: 3 })).to.exist;
+  });
+
+  it('shows no healthcare notice for users without VA healthcare', () => {
+    const tree = renderWithStoreAndRouter(<ConnectedHealthCareContent />, {
+      initialState: createState(),
+      reducers,
+    });
+
+    tree.getByTestId('no-health-care-notice');
+    tree.getByTestId('my-healthevet-link');
+    expect(tree.queryByRole('heading', { name: 'Appointments', level: 3 })).to
+      .not.exist;
+    expect(tree.queryByRole('heading', { name: 'Messages', level: 3 })).to.not
+      .exist;
+  });
+
+  it('shows no upcoming appointments card when there are no appointments', () => {
+    const tree = renderWithStoreAndRouter(
+      <ConnectedHealthCareContent isVAPatient />,
+      { initialState: createState({ applicationData: [] }), reducers },
+    );
+
+    tree.getByTestId('no-upcoming-appointments-card');
+    tree.getByRole('heading', { name: 'Appointments', level: 3 });
+    tree.getByTestId('manage-all-appointments-link');
+    expect(tree.queryByTestId('application-appointment-link')).to.not.exist;
+  });
+
+  it('shows an appointment card when there is an appointment in the next 30 days', () => {
+    const appointments = v2
+      .createAppointmentSuccess({ startsInDays: [30] })
+      .data.map(appointment => appointment.attributes);
 
     const tree = renderWithStoreAndRouter(
       <ConnectedHealthCareContent isVAPatient />,
-      { initialState: state },
+      {
+        initialState: createState({ appointmentsData: appointments }),
+        reducers,
+      },
     );
 
-    expect(tree.getByText('Messages')).to.exist;
+    tree.getByTestId('health-care-appointments-card');
+    expect(tree.queryByTestId('no-upcoming-appointments-card')).to.not.exist;
+    tree.getByRole('heading', { name: 'Upcoming appointment', level: 4 });
+    tree.getByTestId('application-appointment-link');
+    tree.getByTestId('manage-all-appointments-link');
+  });
+
+  it('shows no unread messages card when unread count is zero', () => {
+    const tree = renderWithStoreAndRouter(
+      <ConnectedHealthCareContent isVAPatient />,
+      {
+        initialState: createState({ unreadCount: 0 }),
+        reducers,
+      },
+    );
+
+    tree.getByTestId('no-unread-messages-card');
+    expect(tree.queryByTestId('messages-error')).to.not.exist;
+  });
+
+  it('shows messages error when unread count request fails', () => {
+    const tree = renderWithStoreAndRouter(
+      <ConnectedHealthCareContent isVAPatient />,
+      {
+        initialState: createState({ unreadCountErrors: [{ code: '500' }] }),
+        reducers,
+      },
+    );
+
+    tree.getByTestId('messages-error');
+    expect(tree.queryByTestId('no-unread-messages-card')).to.not.exist;
+    tree.getByRole('heading', { name: 'Appointments', level: 3 });
+    tree.getByRole('heading', { name: 'Messages', level: 3 });
+    tree.getByTestId('my-healthevet-link');
   });
 });

@@ -7,7 +7,7 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
 
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-import AppointmentsCard from './AppointmentsCard';
+import AppointmentCard from './AppointmentCard';
 
 const HealthCareContent = ({
   appointments,
@@ -20,26 +20,39 @@ const HealthCareContent = ({
   isLOA1,
   isCernerPatient,
 }) => {
-  const nextAppointment = appointments?.[0];
-  const hasUpcomingAppointment = !!nextAppointment;
+  const upcomingAppointments = appointments?.slice(0, 2) || [];
+  const hasUpcomingAppointment = upcomingAppointments.length > 0;
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
-  const NoUpcomingAppointmentsText = () => (
+  const ManageAllAppointmentsLink = () => (
+    <va-link
+      text="Manage all appointments"
+      href="/my-health/appointments"
+      data-testid="manage-all-appointments-link"
+    />
+  );
+
+  const MyHealtheVetLink = () => (
+    <va-link
+      text="Go to My HealtheVet"
+      href="/my-health"
+      data-testid="my-healthevet-link"
+    />
+  );
+
+  const NoUpcomingAppointments = () => (
     <va-card data-testid="no-upcoming-appointments-card">
-      <h4 className="vads-u-margin-top--1">Upcoming appointments</h4>
-      <p>You don’t have any upcoming appointments.</p>
-      <va-link
-        text="Manage health appointments"
-        href="/my-health/appointments"
-        active
-      />
+      <h4 className="vads-u-margin-top--0">Upcoming appointments</h4>
+      <p className="vads-u-margin-y--0">
+        You don’t have any upcoming appointments.
+      </p>
     </va-card>
   );
 
   const NoUnreadMessages = () => (
     <va-card data-testid="no-unread-messages-card">
-      <h4 className="vads-u-margin-top--1">No unread messages</h4>
+      <h4 className="vads-u-margin-top--0">No unread messages</h4>
       <va-link
         text="Go to inbox"
         href="/my-health/secure-messages/inbox"
@@ -50,7 +63,7 @@ const HealthCareContent = ({
 
   const UnreadMessages = () => (
     <va-card data-testid="upread-messages-card">
-      <h4 className="vads-u-margin-top--1">
+      <h4 className="vads-u-margin-top--0">
         {unreadMessagesCount} unread message
         {unreadMessagesCount !== 1 && 's'}
       </h4>
@@ -64,8 +77,7 @@ const HealthCareContent = ({
 
   const NoHealthcareText = () => (
     <div data-testid="no-health-care-notice">
-      <p>We can’t find any VA health care for you.</p>
-      <va-link text="Go to My HealtheVet" href="/my-health" />
+      <p>We can’t find any VA health care on file for you.</p>
     </div>
   );
 
@@ -76,37 +88,31 @@ const HealthCareContent = ({
       : 'error';
 
     return (
-      <div className="vads-u-margin-bottom--2p5">
-        <va-alert status={status} show-icon data-testid="healthcare-error">
-          <p>
-            We can’t show your health care information right now. Refresh this
-            page or try again later.
-          </p>
-        </va-alert>
-      </div>
+      <va-alert status={status} data-testid="healthcare-error">
+        <p className="vads-u-margin-y--0" data-testid="healthcare-error-text">
+          We can’t show your health care information right now. Refresh this
+          page or try again later.
+        </p>
+      </va-alert>
     );
   };
 
   const AppointmentsError = () => (
-    <div className="vads-u-margin-bottom--2p5">
-      <va-alert status="warning" show-icon data-testid="appointments-error">
-        <div>
-          We can’t show your appointments right now. Refresh this page or try
-          again later.
-        </div>
-      </va-alert>
-    </div>
+    <va-alert status="warning" data-testid="appointments-error">
+      <p className="vads-u-margin-y--0">
+        We can’t show your appointments right now. Refresh this page or try
+        again later.
+      </p>
+    </va-alert>
   );
 
   const MessagesError = () => (
-    <div className="vads-u-margin-bottom--2p5">
-      <va-alert status="warning" show-icon data-testid="messages-error">
-        <div>
-          We can’t show your messages right now. Refresh this page or try again
-          later.
-        </div>
-      </va-alert>
-    </div>
+    <va-alert status="warning" data-testid="messages-error">
+      <p className="vads-u-margin-y--0">
+        We can’t show your messages right now. Refresh this page or try again
+        later.
+      </p>
+    </va-alert>
   );
 
   if (shouldShowLoadingIndicator) {
@@ -118,6 +124,9 @@ const HealthCareContent = ({
       <div className="vads-l-row">
         <DashboardWidgetWrapper>
           <HealthcareError />
+          <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+            <MyHealtheVetLink />
+          </p>
         </DashboardWidgetWrapper>
       </div>
     );
@@ -125,21 +134,46 @@ const HealthCareContent = ({
 
   return (
     <>
-      <div className="vads-l-row">
-        <DashboardWidgetWrapper>
-          {isVAPatient && (
-            <h3 className="vads-u-margin-top--0">Appointments</h3>
+      <div>
+        {isVAPatient && <h3 className="vads-u-margin-top--0">Appointments</h3>}
+        {hasAppointmentsError && (
+          <DashboardWidgetWrapper>
+            <AppointmentsError />
+          </DashboardWidgetWrapper>
+        )}
+        {hasUpcomingAppointment &&
+          !isLOA1 && (
+            <>
+              <div className="vads-l-row">
+                {upcomingAppointments.map(appointment => (
+                  <DashboardWidgetWrapper key={appointment.id}>
+                    <AppointmentCard appointment={appointment} />
+                  </DashboardWidgetWrapper>
+                ))}
+              </div>
+              <p className="vads-u-margin-y--0">
+                <ManageAllAppointmentsLink />
+              </p>
+            </>
           )}
-          {hasAppointmentsError && <AppointmentsError />}
-          {hasUpcomingAppointment &&
-            !isLOA1 && <AppointmentsCard appointments={appointments} />}
-          {!isVAPatient && !isLOA1 && <NoHealthcareText />}
-          {isVAPatient &&
-            !hasUpcomingAppointment &&
-            !hasAppointmentsError &&
-            !isLOA1 &&
-            !isCernerPatient && <NoUpcomingAppointmentsText />}
-        </DashboardWidgetWrapper>
+        {!isVAPatient &&
+          !isLOA1 && (
+            <DashboardWidgetWrapper>
+              <NoHealthcareText />
+            </DashboardWidgetWrapper>
+          )}
+        {isVAPatient &&
+          !hasUpcomingAppointment &&
+          !hasAppointmentsError &&
+          !isLOA1 &&
+          !isCernerPatient && (
+            <DashboardWidgetWrapper>
+              <NoUpcomingAppointments />
+              <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+                <ManageAllAppointmentsLink />
+              </p>
+            </DashboardWidgetWrapper>
+          )}
       </div>
       {isVAPatient && (
         <div className="vads-l-row">
@@ -152,6 +186,9 @@ const HealthCareContent = ({
           </DashboardWidgetWrapper>
         </div>
       )}
+      <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+        <MyHealtheVetLink />
+      </p>
     </>
   );
 };
