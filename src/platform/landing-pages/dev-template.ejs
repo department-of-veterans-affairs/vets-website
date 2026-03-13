@@ -253,15 +253,21 @@
     <!-- Footer -->
     <div id="announcement-root"></div>
     <footer class="footer" role="contentinfo">
+      <% if (typeof minimalFooter !== 'undefined') { %>
       <%
         const minimalFooterExcludePaths = (typeof minimalFooter === 'object' && minimalFooter.excludePaths) || (typeof minimalExcludePaths !== 'undefined' && minimalExcludePaths);
       %>
-      <div id="footerNav"
-        data-minimal-footer="<%= typeof minimalFooter !== 'undefined' ? true : false %>"
+      <div
+        id="footer-minimal"
+        class="vads-u-display--none"
         <% if (minimalFooterExcludePaths) { %>
-          data-minimal-exclude-paths='<%= JSON.stringify(minimalFooterExcludePaths).replace(/"/g, "&quot;") %>'
+          data-exclude-paths='<%= JSON.stringify(minimalFooterExcludePaths).replace(/"/g, "&quot;") %>'
         <% } %>
-      ></div>
+      >
+        <va-minimal-footer></va-minimal-footer>
+      </div>
+      <% } %>
+      <div id="footerNav"></div>
     </footer>
 
     <!--
