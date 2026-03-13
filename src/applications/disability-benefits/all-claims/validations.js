@@ -20,6 +20,7 @@ import {
   claimingRated,
   showSeparationLocation,
   sippableId,
+  isBDD,
   isEvidenceEnhancement,
 } from './utils';
 
@@ -216,13 +217,14 @@ export function validateMilitaryTreatmentState(
 
 /**
  * Whether the user has indicated they have evidence (gate for evidence-type validations).
- * In enhancement flow uses view:hasMedicalRecords; in legacy flow uses view:hasEvidence.
+ * In enhancement flow uses view:hasMedicalRecords (non-BDD) or view:hasEvidence (BDD);
+ * in legacy flow uses view:hasEvidence.
  *
  * @param {Object} formData - Full formData
  * @returns {boolean}
  */
 const getHasEvidence = formData =>
-  isEvidenceEnhancement(formData)
+  isEvidenceEnhancement(formData) && !isBDD(formData)
     ? _.get('view:hasMedicalRecords', formData, true)
     : _.get('view:hasEvidence', formData, true);
 
@@ -689,7 +691,7 @@ export const validateSeparationDate = (
   currentIndex,
   appStateData,
 ) => {
-  const { isBDD, servicePeriods = [] } = appStateData;
+  const { isBDD: isBDDClaim, servicePeriods = [] } = appStateData;
   const branch = servicePeriods[currentIndex]?.serviceBranch || '';
 
   // Parse the date first to validate it
@@ -713,7 +715,7 @@ export const validateSeparationDate = (
 
   // Check if date is more than 180 days in the future (applies to both BDD and non-BDD)
   if (isAfter(separationDate, add(today, { days: 180 }))) {
-    if (isBDD) {
+    if (isBDDClaim) {
       errors.addError(
         'Your separation date must be before 180 days from today',
       );
@@ -723,7 +725,7 @@ export const validateSeparationDate = (
       );
     }
   } else if (
-    !isBDD &&
+    !isBDDClaim &&
     !isReserves &&
     isAfter(separationDate, add(today, { days: 90 }))
   ) {

@@ -907,6 +907,50 @@ describe('526 All Claims validations', () => {
 
       expect(fixtures.wrappedValidator.calledOnce).to.be.true;
     });
+
+    it('should not call wrappedValidator in BDD enhancement flow when view:hasEvidence is false', () => {
+      const fixtures = createTestFixtures();
+      const formData = {
+        'view:isBddData': true,
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasEvidence': false,
+        serviceInformation: {
+          servicePeriods: [
+            {
+              dateRange: {
+                to: daysFromToday(120),
+              },
+            },
+          ],
+        },
+      };
+
+      callValidateIfHasEvidence(formData, fixtures);
+
+      expect(fixtures.wrappedValidator.called).to.be.false;
+    });
+
+    it('should call wrappedValidator in BDD enhancement flow when view:hasEvidence is true', () => {
+      const fixtures = createTestFixtures();
+      const formData = {
+        'view:isBddData': true,
+        disability526SupportingEvidenceEnhancement: true,
+        'view:hasEvidence': true,
+        serviceInformation: {
+          servicePeriods: [
+            {
+              dateRange: {
+                to: daysFromToday(120),
+              },
+            },
+          ],
+        },
+      };
+
+      callValidateIfHasEvidence(formData, fixtures);
+
+      expect(fixtures.wrappedValidator.calledOnce).to.be.true;
+    });
   });
 
   describe('validateMedicalRecordsAtLeastOne', () => {
