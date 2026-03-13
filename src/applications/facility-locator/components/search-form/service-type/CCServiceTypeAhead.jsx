@@ -184,6 +184,7 @@ class CCServiceTypeAhead extends Component {
         onInputValueChange={inputValue => {
           if (
             currentQuery.serviceType &&
+            currentQuery.specialties &&
             inputValue !== currentQuery.specialties[currentQuery.serviceType]
           ) {
             handleServiceTypeChange({

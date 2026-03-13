@@ -81,7 +81,12 @@ for (const featureSet of featureSets) {
     });
 
     it('shows error message when typing in `back pain`, NOT selecting a service type, and attempting to search', () => {
+      h.typeInCityStateInput('Austin, TX');
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.CC_PRO);
+
+      // Wait for services to be saved to state and input field to not be disabled
+      cy.wait('@mockServices');
+
       h.typeInCCPServiceTypeInput('back pain');
       h.submitSearchForm();
 
@@ -90,6 +95,10 @@ for (const featureSet of featureSets) {
 
     it('does not show error message when selecting a service type, then tab-ing/focusing back to the facility type field, then tab-ing forward to service type field', () => {
       h.selectFacilityTypeInDropdown(h.FACILITY_TYPES.CC_PRO);
+
+      // Wait for services to load before interacting with typeahead
+      cy.wait('@mockServices');
+
       h.typeAndSelectInCCPServiceTypeInput('Clinic/Center - Urgent Care');
       h.findSelectInVaSelect(h.FACILITY_TYPE_DROPDOWN).focus();
 
