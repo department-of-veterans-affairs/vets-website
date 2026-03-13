@@ -56,7 +56,10 @@ export const schema = {
         phoneNumber: phoneSchema,
         internationalPhoneNumber: dependentsIntPhoneSchema,
         emailAddress: emailSchema,
-        electronicCorrespondence: { type: 'boolean' },
+        electronicCorrespondence: {
+          type: 'boolean',
+          enumNames: ['Selected', 'Not selected'],
+        },
       },
     },
   },
