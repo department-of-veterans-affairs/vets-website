@@ -1,6 +1,10 @@
 name: Security Alert Notifications
 
 on:
+  # TODO: Remove push trigger before merging — only needed for branch testing
+  push:
+    branches:
+      - feat/security-alert-notifications
   workflow_dispatch:
 
 permissions:
@@ -28,7 +32,8 @@ jobs:
           env_variable_name: SLACK_BOT_TOKEN
 
       - name: Check and notify security alerts
-        uses: department-of-veterans-affairs/vsp-github-actions/security-alert-slack-notify@main
+        # TODO: Switch back to @main after vsp-github-actions PR #69 is merged
+        uses: department-of-veterans-affairs/vsp-github-actions/security-alert-slack-notify@feat/security-alert-slack-notify
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           slack_bot_token: ${{ env.SLACK_BOT_TOKEN }}
