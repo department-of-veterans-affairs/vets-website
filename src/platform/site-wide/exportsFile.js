@@ -42,8 +42,6 @@ import layoutReducer from './layout/reducers';
 
 import { restartShouldRedirect } from './wizard';
 
-import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
-
 const userNavScss = require('./user-nav/sass/user-nav.scss');
 const mDowntimeNotification = require('./sass/modules/_m-downtime-notification.scss');
 const vaMedalliaStyle = require('./sass/va-medallia-style.scss');
@@ -84,7 +82,6 @@ export {
   userNavReducer,
   layoutReducer,
   restartShouldRedirect,
-  addFocusBehaviorToCrisisLineModal,
   startSitewideComponents,
   startHeader,
   startVAFooter,

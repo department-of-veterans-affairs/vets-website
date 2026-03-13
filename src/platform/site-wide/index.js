@@ -9,7 +9,6 @@ import './wysiwyg-analytics-setup';
 import loadAccordionHandler from './legacy-component-js/accordion';
 import createAdditionalInfoWidget from './legacy-component-js/additional-info';
 import addSidenavListeners from './legacy-component-js/sidenav';
-import addFocusBehaviorToCrisisLineModal from './accessible-VCL-modal';
 import startAnnouncementWidget from './announcements';
 import startBanners from './banners';
 import startHeader from './header';
@@ -19,7 +18,6 @@ import startSideNav from './side-nav';
 import startUserNavWidget from './user-nav';
 import startAuthModals from './user-nav/startAuthModals';
 import startVAFooter from './va-footer';
-import { addOverlayTriggers } from './legacy/menu';
 
 /**
  * Start up the site-wide components that live on every page, like
@@ -80,8 +78,4 @@ export default function startSitewideComponents(commonStore) {
   startMobileMenuButton(commonStore);
   startVAFooter(window.VetsGov.headerFooter.footerData, commonStore);
   startHeader(commonStore, window.VetsGov.headerFooter.megaMenuData);
-
-  // Start Veteran Crisis Line modal functionality.
-  addFocusBehaviorToCrisisLineModal();
-  addOverlayTriggers();
 }

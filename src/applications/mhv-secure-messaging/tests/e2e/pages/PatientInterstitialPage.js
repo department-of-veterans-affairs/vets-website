@@ -6,7 +6,11 @@ class PatientInterstitialPage {
   };
 
   getCrisisLineModal = () => {
-    return cy.get(`#modal-crisisline`);
+    return cy
+      .get('va-crisis-line-modal')
+      .first()
+      .shadow()
+      .find('va-modal');
   };
 
   getCrisisLineModalLink = () => {
