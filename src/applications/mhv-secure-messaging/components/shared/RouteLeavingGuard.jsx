@@ -141,6 +141,7 @@ export const RouteLeavingGuard = ({
   );
 
   const handleConfirmNavigationClick = () => {
+    datadogRum.addAction(confirmButtonDDActionName);
     const isConfirmButtonTextMatching = confirmButtonText.includes('Save');
 
     if (isConfirmButtonTextMatching) {
@@ -153,6 +154,9 @@ export const RouteLeavingGuard = ({
   };
 
   const handleCancelNavigationClick = e => {
+    if (cancelButtonDDActionName) {
+      datadogRum.addAction(cancelButtonDDActionName);
+    }
     setIsModalVisible(false);
     updateModalVisible(false);
     setSavedDraft(false);
@@ -216,6 +220,10 @@ export const RouteLeavingGuard = ({
           closeModal();
           datadogRum.addAction('Navigation Warning Modal Closed');
         }}
+        onPrimaryButtonClick={handleCancelNavigationClick}
+        onSecondaryButtonClick={handleConfirmNavigationClick}
+        primaryButtonText={cancelButtonText}
+        secondaryButtonText={confirmButtonText}
         status="warning"
         visible={modalVisible}
         data-dd-action-name="Navigation Warning Modal"
@@ -227,23 +235,6 @@ export const RouteLeavingGuard = ({
               .confirmButtonText && p1}
         </p>
         {p2 && <p>{p2}</p>}
-        <div className="mobile-lg:vads-u-flex-direction--row">
-          <va-button
-            class="vads-u-margin-top--1 vads-u-flex--auto"
-            text={cancelButtonText}
-            onClick={handleCancelNavigationClick} // need to pass a func to save draft
-            data-dd-action-name={cancelButtonDDActionName}
-            data-testid="route-guard-primary-button"
-          />
-          <va-button
-            class="vads-u-margin-top--1 vads-u-flex--auto"
-            secondary
-            text={confirmButtonText}
-            onClick={handleConfirmNavigationClick}
-            data-dd-action-name={confirmButtonDDActionName}
-            data-testid="route-guard-secondary-button"
-          />
-        </div>
       </VaModal>
     </>
   );

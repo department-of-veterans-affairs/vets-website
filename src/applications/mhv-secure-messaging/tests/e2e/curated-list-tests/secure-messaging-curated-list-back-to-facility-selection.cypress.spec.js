@@ -166,7 +166,8 @@ describe('SM CURATED LIST BACK TO SELECTION', () => {
     );
 
     cy.get('va-modal[modal-title="We can\'t save this message yet"]')
-      .find('va-button[text="Edit draft"]')
+      .shadow()
+      .find('button:not(.usa-button--secondary)')
       .click();
 
     cy.findByTestId(`continue-button`).click();

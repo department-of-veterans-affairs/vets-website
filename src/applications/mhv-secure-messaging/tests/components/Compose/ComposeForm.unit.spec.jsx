@@ -675,7 +675,7 @@ describe('Compose form component', () => {
       "We can't save attachments in a draft message",
     );
 
-    fireEvent.click(document.querySelector('va-button[text="Edit draft"]'));
+    modal.__events.primaryButtonClick();
   });
 
   it('renders without errors to category selection', async () => {

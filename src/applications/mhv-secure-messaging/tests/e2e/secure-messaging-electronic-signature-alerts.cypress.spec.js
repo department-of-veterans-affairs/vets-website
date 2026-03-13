@@ -55,17 +55,19 @@ describe('Secure Messaging Digital Signature Error flows', () => {
 
     cy.get(Locators.BUTTONS.SAVE_DRAFT).dblclick();
 
-    cy.get(Locators.ALERTS.ALERT_MODAL)
+    cy.findByTestId('navigation-warning-modal')
       .shadow()
       .find('h2')
       .should('have.text', Alerts.SAVE_SIGN);
 
-    PatientComposePage.getAlertEditDraftBtn()
-      .first()
-      .should('have.attr', 'text', Data.BUTTONS.EDIT_DRAFT);
-    PatientComposePage.getAlertEditDraftBtn()
-      .last()
-      .should('have.attr', 'text', Data.BUTTONS.SAVE_DRAFT_WO_SIGN);
+    PatientComposePage.getAlertModalPrimaryBtnText().should(
+      'eq',
+      Data.BUTTONS.EDIT_DRAFT,
+    );
+    PatientComposePage.getAlertModalSecondaryBtnText().should(
+      'eq',
+      Data.BUTTONS.SAVE_DRAFT_WO_SIGN,
+    );
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
@@ -81,17 +83,19 @@ describe('Secure Messaging Digital Signature Error flows', () => {
 
     cy.get(Locators.BUTTONS.SAVE_DRAFT).dblclick();
 
-    cy.get(Locators.ALERTS.ALERT_MODAL)
+    cy.findByTestId('navigation-warning-modal')
       .shadow()
       .find('h2')
       .should('have.text', Alerts.SAVE_SIGN_ATTCH);
 
-    PatientComposePage.getAlertEditDraftBtn()
-      .first()
-      .should('have.attr', 'text', Data.BUTTONS.EDIT_DRAFT);
-    PatientComposePage.getAlertEditDraftBtn()
-      .last()
-      .should('have.attr', 'text', Data.BUTTONS.SAVE_DRAFT_WO_SIGN_ATTCH);
+    PatientComposePage.getAlertModalPrimaryBtnText().should(
+      'eq',
+      Data.BUTTONS.EDIT_DRAFT,
+    );
+    PatientComposePage.getAlertModalSecondaryBtnText().should(
+      'eq',
+      Data.BUTTONS.SAVE_DRAFT_WO_SIGN_ATTCH,
+    );
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 
@@ -172,17 +176,19 @@ describe('Secure Messaging Oracle Health Digital Signature Error flows', () => {
 
     cy.get(Locators.BUTTONS.SAVE_DRAFT).dblclick();
 
-    cy.get(Locators.ALERTS.ALERT_MODAL)
+    cy.findByTestId('navigation-warning-modal')
       .shadow()
       .find('h2')
       .should('have.text', Alerts.SAVE_SIGN);
 
-    PatientComposePage.getAlertEditDraftBtn()
-      .first()
-      .should('have.attr', 'text', Data.BUTTONS.EDIT_DRAFT);
-    PatientComposePage.getAlertEditDraftBtn()
-      .last()
-      .should('have.attr', 'text', Data.BUTTONS.SAVE_DRAFT_WO_SIGN);
+    PatientComposePage.getAlertModalPrimaryBtnText().should(
+      'eq',
+      Data.BUTTONS.EDIT_DRAFT,
+    );
+    PatientComposePage.getAlertModalSecondaryBtnText().should(
+      'eq',
+      Data.BUTTONS.SAVE_DRAFT_WO_SIGN,
+    );
 
     cy.injectAxeThenAxeCheck(AXE_CONTEXT);
 

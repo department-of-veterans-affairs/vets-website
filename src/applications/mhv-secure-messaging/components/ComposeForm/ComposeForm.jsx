@@ -180,14 +180,17 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      // Consider draftInProgress "empty" if it has no recipientId
+      // Consider draftInProgress "empty" if it has no meaningful content
       const isDraftInProgressEmpty =
         !draftInProgress ||
         Object.keys(draftInProgress).length === 0 ||
         (!draftInProgress.careSystemVhaId &&
           !draftInProgress.careSystemName &&
           !draftInProgress.recipientId &&
-          !draftInProgress.recipientName);
+          !draftInProgress.recipientName &&
+          !draftInProgress.category &&
+          !draftInProgress.subject &&
+          !draftInProgress.body);
 
       if (isDraftInProgressEmpty && draft && !sendMessageFlag) {
         const careTeam =

@@ -564,8 +564,16 @@ class PatientComposePage {
       .click({ force: true });
   };
 
-  getAlertEditDraftBtn = () => {
-    return cy.get(Locators.ALERTS.ALERT_MODAL).find('va-button');
+  getAlertModalPrimaryBtnText = () => {
+    return cy
+      .findByTestId('navigation-warning-modal')
+      .invoke('attr', 'primary-button-text');
+  };
+
+  getAlertModalSecondaryBtnText = () => {
+    return cy
+      .findByTestId('navigation-warning-modal')
+      .invoke('attr', 'secondary-button-text');
   };
 
   verifyHeader = text => {
@@ -601,18 +609,23 @@ class PatientComposePage {
     firstBtnText = `Edit draft`,
     secondBtnText = `Delete draft`,
   ) => {
-    cy.get(`va-modal[status="warning"]`)
+    cy.findByTestId('navigation-warning-modal')
+      .shadow()
       .find(`h2`)
       .should('be.visible')
       .and(`contain.text`, alertText);
 
-    cy.get(`va-modal[status="warning"]`)
-      .find(`va-button[text='${firstBtnText}']`)
-      .should('be.visible');
+    cy.findByTestId('navigation-warning-modal').should(
+      'have.attr',
+      'primary-button-text',
+      firstBtnText,
+    );
 
-    cy.get(`va-modal[status="warning"]`)
-      .find(`va-button[text='${secondBtnText}']`)
-      .should('be.visible');
+    cy.findByTestId('navigation-warning-modal').should(
+      'have.attr',
+      'secondary-button-text',
+      secondBtnText,
+    );
   };
 
   verifyAttchedFilesList = listLength => {

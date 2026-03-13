@@ -1,11 +1,12 @@
 import React from 'react';
-import { fireEvent, waitFor, act } from '@testing-library/react';
+import { waitFor, act } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { commonReducer } from 'platform/startup/store';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
+import { datadogRum } from '@datadog/browser-rum';
 import RouteLeavingGuard from '../../../components/shared/RouteLeavingGuard';
 import { ErrorMessages } from '../../../util/constants';
 import reducer from '../../../reducers';
@@ -146,10 +147,8 @@ describe('RouteLeavingGuard component', () => {
         { navigationError, navigationErrorModalVisible: true },
       );
 
-      const confirmButton = screen.container.querySelector(
-        'va-button[text="Leave page"]',
-      );
-      fireEvent.click(confirmButton);
+      const modal = screen.getByTestId('navigation-warning-modal');
+      modal.__events.secondaryButtonClick();
 
       expect(saveDraftHandlerSpy.called).to.be.false;
     });
@@ -160,10 +159,8 @@ describe('RouteLeavingGuard component', () => {
         { navigationError, navigationErrorModalVisible: true },
       );
 
-      const cancelButton = screen.container.querySelector(
-        'va-button[text="Stay on page"]',
-      );
-      fireEvent.click(cancelButton);
+      const modal = screen.getByTestId('navigation-warning-modal');
+      modal.__events.primaryButtonClick();
 
       // Modal should still exist but we can check if the spy functions were called correctly
       expect(screen.getByTestId('navigation-warning-modal')).to.exist;
@@ -188,13 +185,8 @@ describe('RouteLeavingGuard component', () => {
     it('calls saveDraftHandler when confirm button contains "Save"', async () => {
       const screen = setup({}, { saveError, savedDraft: true });
 
-      const confirmButton = screen.container.querySelector(
-        `va-button[text="${
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-            .confirmButtonText
-        }"]`,
-      );
-      fireEvent.click(confirmButton);
+      const modal = screen.getByTestId('navigation-warning-modal');
+      modal.__events.secondaryButtonClick();
 
       expect(saveDraftHandlerSpy.calledWith('manual-confirmed')).to.be.true;
     });
@@ -210,10 +202,8 @@ describe('RouteLeavingGuard component', () => {
         { saveError: customSaveError, savedDraft: true },
       );
 
-      const confirmButton = screen.container.querySelector(
-        'va-button[text="Delete draft"]',
-      );
-      fireEvent.click(confirmButton);
+      const modal = screen.getByTestId('navigation-warning-modal');
+      modal.__events.secondaryButtonClick();
 
       expect(saveDraftHandlerSpy.called).to.be.false;
     });
@@ -230,12 +220,8 @@ describe('RouteLeavingGuard component', () => {
         { navigationError, navigationErrorModalVisible: true },
       );
 
-      const cancelButton = screen.container.querySelector(
-        `va-button[text="${
-          ErrorMessages.ComposeForm.CONT_SAVING_DRAFT.cancelButtonText
-        }"]`,
-      );
-      fireEvent.click(cancelButton);
+      const modal = screen.getByTestId('navigation-warning-modal');
+      modal.__events.primaryButtonClick();
 
       expect(saveDraftHandlerSpy.calledWith('manual')).to.be.true;
     });
@@ -250,12 +236,8 @@ describe('RouteLeavingGuard component', () => {
         { navigationError, navigationErrorModalVisible: true },
       );
 
-      const cancelButton = screen.container.querySelector(
-        `va-button[text="${
-          ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES.cancelButtonText
-        }"]`,
-      );
-      fireEvent.click(cancelButton);
+      const modal = screen.getByTestId('navigation-warning-modal');
+      modal.__events.primaryButtonClick();
 
       expect(saveDraftHandlerSpy.calledWith('manual')).to.be.true;
     });
@@ -272,10 +254,8 @@ describe('RouteLeavingGuard component', () => {
         { navigationError, navigationErrorModalVisible: true },
       );
 
-      const cancelButton = screen.container.querySelector(
-        'va-button[text="Stay on page"]',
-      );
-      fireEvent.click(cancelButton);
+      const modal = screen.getByTestId('navigation-warning-modal');
+      modal.__events.primaryButtonClick();
 
       expect(saveDraftHandlerSpy.called).to.be.false;
     });
@@ -361,25 +341,30 @@ describe('RouteLeavingGuard component', () => {
   });
 
   describe('datadog action names', () => {
-    it('sets correct data-dd-action-name for confirm button when save error exists', () => {
+    let addActionStub;
+
+    beforeEach(() => {
+      addActionStub = sinonSandbox.stub(datadogRum, 'addAction');
+    });
+
+    it('fires correct DD action for confirm button when save error exists', () => {
       const saveError = {
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
       };
 
       const screen = setup({}, { saveError, savedDraft: true });
 
-      const confirmButton = screen.container.querySelector(
-        `va-button[text="${
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-            .confirmButtonText
-        }"]`,
-      );
-      expect(confirmButton.getAttribute('data-dd-action-name')).to.equal(
-        "Save draft without attachments button - Can't save with attachments modal",
-      );
+      const modal = screen.getByTestId('navigation-warning-modal');
+      modal.__events.secondaryButtonClick();
+
+      expect(
+        addActionStub.calledWith(
+          "Save draft without attachments button - Can't save with attachments modal",
+        ),
+      ).to.be.true;
     });
 
-    it('sets correct data-dd-action-name for confirm button when navigation error exists', () => {
+    it('fires correct DD action for confirm button when navigation error exists', () => {
       const navigationError = {
         title: 'Unsaved changes',
         cancelButtonText: 'Stay on page',
@@ -391,30 +376,28 @@ describe('RouteLeavingGuard component', () => {
         { navigationError, navigationErrorModalVisible: true },
       );
 
-      const confirmButton = screen.container.querySelector(
-        'va-button[text="Leave page"]',
-      );
-      expect(confirmButton.getAttribute('data-dd-action-name')).to.equal(
-        'Confirm Navigation Leaving Button',
-      );
+      const modal = screen.getByTestId('navigation-warning-modal');
+      modal.__events.secondaryButtonClick();
+
+      expect(addActionStub.calledWith('Confirm Navigation Leaving Button')).to
+        .be.true;
     });
 
-    it('sets correct data-dd-action-name for cancel button when save error exists', () => {
+    it('fires correct DD action for cancel button when save error exists', () => {
       const saveError = {
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
       };
 
       const screen = setup({}, { saveError, savedDraft: true });
 
-      const cancelButton = screen.container.querySelector(
-        `va-button[text="${
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT
-            .cancelButtonText
-        }"]`,
-      );
-      expect(cancelButton.getAttribute('data-dd-action-name')).to.equal(
-        "Edit draft button - Can't save with attachments modal",
-      );
+      const modal = screen.getByTestId('navigation-warning-modal');
+      modal.__events.primaryButtonClick();
+
+      expect(
+        addActionStub.calledWith(
+          "Edit draft button - Can't save with attachments modal",
+        ),
+      ).to.be.true;
     });
   });
 
@@ -433,11 +416,9 @@ describe('RouteLeavingGuard component', () => {
         '/compose',
       );
 
-      // Find the confirm button and click it
-      const confirmButton = screen.container.querySelector(
-        'va-button[text="Continue"]',
-      );
-      fireEvent.click(confirmButton);
+      // Click the confirm button via modal events
+      const modal = screen.getByTestId('navigation-warning-modal');
+      modal.__events.secondaryButtonClick();
 
       // Wait for useEffect to run
       await new Promise(resolve => setTimeout(resolve, 0));
@@ -446,7 +427,7 @@ describe('RouteLeavingGuard component', () => {
       // Since we can't easily mock history.push without conflicts,
       // we'll verify the navigation flow by checking that the component
       // would attempt navigation (confirmedNavigation becomes true)
-      expect(confirmButton).to.exist;
+      expect(modal).to.exist;
     });
 
     it('covers navigate function when lastLocation pathname exists', async () => {
@@ -464,20 +445,16 @@ describe('RouteLeavingGuard component', () => {
         '/compose',
       );
 
-      // Simulate the navigation flow
-      const confirmButton = screen.container.querySelector(
-        'va-button[text="Leave Page"]',
-      );
-
-      // Click confirm to trigger the navigation flow
-      fireEvent.click(confirmButton);
+      // Click confirm to trigger the navigation flow via modal events
+      const modal = screen.getByTestId('navigation-warning-modal');
+      modal.__events.secondaryButtonClick();
 
       // Wait for async operations
       await new Promise(resolve => setTimeout(resolve, 0));
 
       // The navigate function should be covered when the useEffect runs
       // with confirmedNavigation=true and lastLocation.pathname exists
-      expect(confirmButton).to.exist;
+      expect(modal).to.exist;
     });
 
     it('covers the navigate useCallback function definition', () => {
@@ -588,16 +565,9 @@ describe('RouteLeavingGuard component', () => {
         expect(modal.getAttribute('visible')).to.equal('true');
       });
 
-      // Verify the buttons are present (confirming modal state was set correctly)
-      const cancelButton = screen.container.querySelector(
-        'va-button[text="Cancel"]',
-      );
-      const confirmButton = screen.container.querySelector(
-        'va-button[text="Continue"]',
-      );
-
-      expect(cancelButton).to.exist;
-      expect(confirmButton).to.exist;
+      // Verify the modal has correct button text attributes (confirming modal state was set correctly)
+      expect(modal.getAttribute('primary-button-text')).to.equal('Cancel');
+      expect(modal.getAttribute('secondary-button-text')).to.equal('Continue');
     });
   });
 
@@ -904,12 +874,10 @@ describe('RouteLeavingGuard component', () => {
       });
 
       // Now click the confirm button to trigger confirmedNavigation=true
-      const confirmButton = screen.container.querySelector(
-        'va-button[text="Leave Page"]',
-      );
+      const modal2 = screen.getByTestId('navigation-warning-modal');
 
       act(() => {
-        fireEvent.click(confirmButton);
+        modal2.__events.secondaryButtonClick();
       });
 
       // Wait for the useEffect to execute and navigate
@@ -949,12 +917,10 @@ describe('RouteLeavingGuard component', () => {
       });
 
       // Confirm navigation
-      const confirmButton = screen.container.querySelector(
-        'va-button[text="Continue"]',
-      );
-
       act(() => {
-        fireEvent.click(confirmButton);
+        screen
+          .getByTestId('navigation-warning-modal')
+          .__events.secondaryButtonClick();
       });
 
       // Wait for useEffect to navigate to the lastLocation
@@ -989,12 +955,10 @@ describe('RouteLeavingGuard component', () => {
         expect(modal.getAttribute('visible')).to.equal('true');
       });
 
-      const confirmButton = screen.container.querySelector(
-        'va-button[text="Continue"]',
-      );
-
       act(() => {
-        fireEvent.click(confirmButton);
+        screen
+          .getByTestId('navigation-warning-modal')
+          .__events.secondaryButtonClick();
       });
 
       await waitFor(() => {
@@ -1031,12 +995,10 @@ describe('RouteLeavingGuard component', () => {
         expect(modal.getAttribute('visible')).to.equal('true');
       });
 
-      const confirmButton = screen.container.querySelector(
-        'va-button[text="Continue"]',
-      );
-
       act(() => {
-        fireEvent.click(confirmButton);
+        screen
+          .getByTestId('navigation-warning-modal')
+          .__events.secondaryButtonClick();
       });
 
       await waitFor(() => {
@@ -1066,12 +1028,10 @@ describe('RouteLeavingGuard component', () => {
       });
 
       // Click cancel instead of confirm - this should NOT trigger navigation
-      const cancelButton = screen.container.querySelector(
-        'va-button[text="Stay"]',
-      );
-
       act(() => {
-        fireEvent.click(cancelButton);
+        screen
+          .getByTestId('navigation-warning-modal')
+          .__events.primaryButtonClick();
       });
 
       // Wait and verify we stayed on the original page

@@ -403,23 +403,29 @@ class PatientMessageDraftsPage {
     firstBtnText = `Edit draft`,
     secondBtnText = `Delete draft`,
   ) => {
-    cy.get(`va-modal[status="warning"]`)
+    cy.findByTestId('navigation-warning-modal')
+      .shadow()
       .find(`h2`)
       .should('be.visible')
       .and(`contain.text`, alertText);
 
-    cy.get(`va-modal[status="warning"]`)
-      .find(`va-button[text='${firstBtnText}']`)
-      .should('be.visible');
+    cy.findByTestId('navigation-warning-modal').should(
+      'have.attr',
+      'primary-button-text',
+      firstBtnText,
+    );
 
-    cy.get(`va-modal[status="warning"]`)
-      .find(`va-button[text='${secondBtnText}']`)
-      .should('be.visible');
+    cy.findByTestId('navigation-warning-modal').should(
+      'have.attr',
+      'secondary-button-text',
+      secondBtnText,
+    );
   };
 
   clickDeleteChangesButton = () => {
-    cy.get(`[status="warning"]`)
-      .find(`va-button[text="Delete changes"]`)
+    cy.findByTestId('navigation-warning-modal')
+      .shadow()
+      .find(`button.usa-button--secondary`)
       .click();
   };
 
