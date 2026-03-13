@@ -29,49 +29,43 @@ export const FDCDescription = (
 );
 
 export const FDCWarning = (
-  <div className="usa-alert usa-alert-info background-color-only">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        Since you’ve uploaded all your supporting documents, your claim will be
-        submitted as a fully developed claim.
-      </div>
-    </div>
-  </div>
+  <va-alert status="info" uswds>
+    <p className="vads-u-margin-y--0">
+      Since you’ve uploaded all your supporting documents, your claim will be
+      submitted as a fully developed claim.
+    </p>
+  </va-alert>
 );
 
 export const noFDCWarning = (
-  <div className="usa-alert usa-alert-info background-color-only">
-    <div className="usa-alert-body">
-      <div className="usa-alert-text">
-        <p>
-          Since you’ll be sending in additional documents later, your
-          application doesn’t qualify for the Fully Developed Claim program.
-          We’ll review your claim through the standard claim process. With the
-          standard claim process, you have up to 1 year from the date we receive
-          your claim to turn in any information and evidence.
-        </p>
-        <p>You can turn in your evidence in 1 of 3 ways:</p>
-        <ul>
-          <li>
-            Visit the Claim Status tool and upload your documents under the File
-            tab.{' '}
-            <va-link
-              href="/track-claims"
-              text="Track the status of your claims"
-              external
-            />
-          </li>
-          <li>
-            Call Veterans Benefits Assistance at{' '}
-            <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through
-            Friday, 8:00 a.m. to 9:00 p.m. ET.
-          </li>
-          <li>
-            Save your application and return to it later when you have your
-            evidence ready to upload.
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <va-alert status="info" uswds>
+    <p>
+      Since you’ll be sending in additional documents later, your application
+      doesn’t qualify for the Fully Developed Claim program. We’ll review your
+      claim through the standard claim process. With the standard claim process,
+      you have up to 1 year from the date we receive your claim to turn in any
+      information and evidence.
+    </p>
+    <p>You can turn in your evidence in 1 of 3 ways:</p>
+    <ul>
+      <li>
+        Visit the Claim Status tool and upload your documents under the File
+        tab.{' '}
+        <va-link
+          href="/track-claims"
+          text="Track the status of your claims"
+          external
+        />
+      </li>
+      <li>
+        Call Veterans Benefits Assistance at{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
+        8:00 a.m. to 9:00 p.m. ET.
+      </li>
+      <li>
+        Save your application and return to it later when you have your evidence
+        ready to upload.
+      </li>
+    </ul>
+  </va-alert>
 );

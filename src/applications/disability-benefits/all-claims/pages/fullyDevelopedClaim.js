@@ -1,5 +1,9 @@
 import get from 'platform/utilities/data/get';
 import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import {
   FDCDescription,
   FDCWarning,
   noFDCWarning,
@@ -8,17 +12,17 @@ import ConfirmationFullyDevelopedClaim from '../components/confirmationFields/Co
 
 export const uiSchema = {
   'ui:description': FDCDescription,
-  standardClaim: {
-    'ui:title': 'Do you want to apply using the Fully Developed Claim program?',
-    'ui:widget': 'yesNo',
-    'ui:options': {
-      yesNoReverse: true,
-      labels: {
-        Y: 'Yes, I have uploaded all my supporting documents.',
-        N: 'No, I have some extra information that I’ll submit to VA later.',
-      },
+  standardClaim: yesNoUI({
+    title: 'Do you want to apply using the Fully Developed Claim program?',
+    yesNoReverse: true,
+    labels: {
+      Y: 'Yes, I have uploaded all my supporting documents.',
+      N: 'No, I have some extra information that I’ll submit to VA later.',
     },
-  },
+    errorMessages: {
+      required: 'You must provide a response',
+    },
+  }),
   'view:fdcWarning': {
     'ui:description': FDCWarning,
     'ui:options': {
@@ -38,9 +42,7 @@ export const schema = {
   type: 'object',
   required: ['standardClaim'],
   properties: {
-    standardClaim: {
-      type: 'boolean',
-    },
+    standardClaim: yesNoSchema,
     'view:fdcWarning': {
       type: 'object',
       properties: {},
