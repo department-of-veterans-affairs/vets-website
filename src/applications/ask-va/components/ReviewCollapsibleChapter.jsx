@@ -20,6 +20,9 @@ import {
   focusOnChange,
   getFocusableElements,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { isValidForm } from '@department-of-veterans-affairs/platform-forms-system/validation';
+import { ERROR_ELEMENTS } from 'platform/utilities/constants';
+import { reduceErrors } from 'platform/forms-system/src/js/utilities/data/reduceErrors';
 
 import { removeDuplicatesByChapterAndPageKey } from '../utils/reviewPageHelper';
 import ArrayField from './ArrayField';
@@ -37,12 +40,15 @@ class ReviewCollapsibleChapter extends React.Component {
   }
 
   handleEdit(key, editing, index = null) {
-    this.props.onEdit(key, editing, index);
-    this.scrollToPage(key);
-    if (editing) {
-      // pressing "Update page" will call handleSubmit, which moves focus from
-      // the edit button to the this target
-      this.focusOnPage(key);
+    // Only allow exiting edit mode if there are no validation errors
+    if (editing || !this.hasValidationError(key, index)) {
+      this.props.onEdit(key, editing, index);
+      this.scrollToPage(key);
+      if (editing) {
+        // pressing "Update page" will call handleSubmit, which moves focus from
+        // the edit button to the this target
+        this.focusOnPage(key);
+      }
     }
   }
 
@@ -55,14 +61,59 @@ class ReviewCollapsibleChapter extends React.Component {
   }
 
   handleSubmit = (formData, key, path = null, index = null) => {
+    // Recheck validations after the user clicks the update page button
+    const hasError = this.hasValidationError(key, index);
+
     // This makes sure defaulted data on a page with no changes is saved
-    // Probably safe to do this for regular pages, too, but it hasn’t been necessary
+    // Probably safe to do this for regular pages, too, but it hasn't been necessary
     if (path) {
       const newData = set([path, index], formData, this.props.form.data);
       this.props.setData(newData);
     }
 
-    this.handleEdit(key, false, index);
+    // Only close edit mode if there are no validation errors
+    if (!hasError) {
+      this.handleEdit(key, false, index);
+    }
+  };
+
+  /**
+   * Validates the form and checks if the current page has any errors
+   * @param {string} key - The page key
+   * @param {number|null} index - The index for array pages
+   * @returns {boolean} - True if there are validation errors
+   */
+  hasValidationError = (key, index) => {
+    const { form, reviewErrors = {} } = this.props;
+    const { pageList } = this.props.routes[1];
+
+    console.log('=== hasValidationError DEBUG ===');
+    console.log('props:', this.props);
+    const scrollElementKey = `${key}${index ?? ''}`;
+
+    // Validate the form and get errors
+    const { errors } = isValidForm(form, pageList);
+    const cleanedErrors = reduceErrors(errors, pageList, reviewErrors);
+
+    // Update form errors in redux state
+    this.props.setFormErrors({
+      rawErrors: errors,
+      errors: cleanedErrors,
+    });
+
+    // Check if current page has any errors
+    const pageKey = scrollElementKey;
+    const hasErrors = cleanedErrors.some(error => {
+      const errorPageKey = `${error.pageKey}${error.index ?? ''}`;
+      return errorPageKey === pageKey;
+    });
+
+    if (hasErrors) {
+      // Focus on first error message on page
+      focusOnChange(scrollElementKey, ERROR_ELEMENTS.join(','));
+    }
+
+    return hasErrors;
   };
 
   shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
