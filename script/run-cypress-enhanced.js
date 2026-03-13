@@ -21,7 +21,7 @@
  *   --no-video       Skip video recording
  *   --timeout N      Hard process timeout in seconds (default: 180)
  *   --no-timeout     Disable hard timeout
- *   --summary-only   Print summary only, suppress Cypress output
+ *   --verbose        Show full Cypress output (default: summary only)
  *
  * All other args are forwarded to cypress run.
  */
@@ -354,7 +354,7 @@ function startDevServer(port, entryName) {
 
 const rawArgs = process.argv.slice(2);
 let timeoutSeconds = DEFAULT_TIMEOUT_SECONDS;
-let quiet = false;
+let verbose = false;
 let serve = false;
 let noRetry = false;
 let noVideo = false;
@@ -366,8 +366,8 @@ for (let i = 0; i < rawArgs.length; i++) {
   if (rawArgs[i] === '--timeout' && rawArgs[i + 1]) {
     timeoutSeconds = parseInt(rawArgs[i + 1], 10) || DEFAULT_TIMEOUT_SECONDS;
     i++;
-  } else if (rawArgs[i] === '--summary-only') {
-    quiet = true;
+  } else if (rawArgs[i] === '--verbose') {
+    verbose = true;
   } else if (rawArgs[i] === '--serve') {
     serve = true;
   } else if (rawArgs[i] === '--no-retry') {
@@ -445,7 +445,8 @@ function buildSummary({
       '?'} failing (${stats.duration || `${totalTime}s`})`,
   );
 
-  if (!quiet && failures.length > 0) {
+  // Show FAILURES only when there are no command logs (command logs include the error)
+  if (failures.length > 0 && commandLogs.length === 0) {
     out.push('');
     out.push('  FAILURES:');
     out.push(`  ${'-'.repeat(68)}`);
@@ -464,7 +465,7 @@ function buildSummary({
       out.push('');
       out.push(`  [${block.testTitle}]`);
 
-      if (quiet) {
+      if (!verbose) {
         const errorLine = block.body
           .split('\n')
           .find(l => l.startsWith('Error:'));
@@ -506,7 +507,12 @@ function buildSummary({
 
   if (screenshots.length > 0) {
     out.push('  SCREENSHOTS:');
-    screenshots.forEach(s => out.push(`    ${s}`));
+    screenshots.forEach(s => {
+      const relative = s.includes('cypress/screenshots')
+        ? s.substring(s.indexOf('cypress/screenshots'))
+        : s;
+      out.push(`    ${relative}`);
+    });
     out.push('');
   }
 
@@ -563,13 +569,13 @@ function runCypress({ port, entryName }) {
     child.stdout.on('data', data => {
       const text = data.toString();
       rawOutput += text;
-      if (!quiet) process.stdout.write(text);
+      if (verbose) process.stdout.write(text);
     });
 
     child.stderr.on('data', data => {
       const text = data.toString();
       rawOutput += text;
-      if (!quiet) process.stderr.write(text);
+      if (verbose) process.stderr.write(text);
     });
 
     let hardTimeoutFired = false;
@@ -644,7 +650,7 @@ async function main() {
       process.exit(1);
     }
 
-    console.log(`\n--- Cypress Enhanced Runner (${headerParts.join(', ')}) ---\n`);
+    console.log(`\n--- Cypress Auto Runner (${headerParts.join(', ')}) ---\n`);
 
     let server;
     try {
@@ -701,7 +707,7 @@ async function main() {
   }
 
   process.stdout.write(
-    `\n--- Cypress Enhanced Runner (${headerParts.join(', ')}) ---\n\n`,
+    `\n--- Cypress Auto Runner (${headerParts.join(', ')}) ---\n\n`,
   );
 
   const exitCode = await runCypress({ port: 3001, entryName });
