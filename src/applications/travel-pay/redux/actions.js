@@ -814,6 +814,11 @@ export function clearReviewPageAlert() {
 export function uploadProofOfAttendance(claimId, fileData) {
   return async dispatch => {
     dispatch({ type: UPLOAD_POA_STARTED });
+    recordEvent({
+      event: 'api_call',
+      'api-name': 'POST upload proof of attendance',
+      'api-status': 'started',
+    });
 
     try {
       const response = await apiRequest(
@@ -824,9 +829,19 @@ export function uploadProofOfAttendance(claimId, fileData) {
           body: JSON.stringify(fileData),
         },
       );
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'POST upload proof of attendance',
+        'api-status': 'successful',
+      });
       dispatch({ type: UPLOAD_POA_SUCCESS });
       return response;
     } catch (error) {
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'POST upload proof of attendance',
+        'api-status': 'failed',
+      });
       dispatch({ type: UPLOAD_POA_FAILURE, error });
       throw error;
     }
