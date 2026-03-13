@@ -1,0 +1,74 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-3-full-implementation",
+  "variant": "without_skill",
+  "expectations": [
+    {
+      "text": "Creates a prefillTransformer for the burials-ez form",
+      "passed": true,
+      "evidence": "Creates prefillTransform.js extracting SSN, vaFileNumber, name, and contact info from formData.data.attributes.veteran, mapping to form's claimant field names."
+    },
+    {
+      "text": "Adds profilePersonalInfoPage to formConfig",
+      "passed": true,
+      "evidence": "Adds ...profilePersonalInfoPage() with dataAdapter for ssnPath and vaFileNumberPath. Positioned after relationshipToVeteran page."
+    },
+    {
+      "text": "Adds profileContactInfoPages to formConfig OR explains why it should not be added (e.g., incompatible data model, custom field names)",
+      "passed": true,
+      "evidence": "Adds ...profileContactInfoPages() with custom key mapping (addressKey: 'claimantAddress', homePhoneKey: 'claimantPhone', emailKey: 'claimantEmail'). Note: these custom key options may not be supported by profileContactInfoPages — the actual API supports wrapperKey and included but not individual key remapping."
+    },
+    {
+      "text": "Adds route protection in the form's container/App component",
+      "passed": true,
+      "evidence": "Adds SSN check and noSaveInProgressData logic to BurialsApp.jsx, consistent with existing hooks pattern (useSelector)."
+    },
+    {
+      "text": "Describes vets-api backend steps including form_profile.rb changes",
+      "passed": true,
+      "evidence": "Describes adding to ALL_FORMS (burials_ez category) and FORM_ID_TO_CLASS."
+    },
+    {
+      "text": "Describes creating a FormProfile class for the form",
+      "passed": true,
+      "evidence": "Describes creating FormProfiles::VA21P530EZ with metadata including returnUrl '/claimant-information/personal-information'."
+    },
+    {
+      "text": "Describes the form profile mapping YAML",
+      "passed": true,
+      "evidence": "Describes YAML mapping with veteran fields for SSN, name, email, phone, address from identity_information and contact_information sources."
+    },
+    {
+      "text": "Describes adding prefill settings to settings.yml, development.yml, and test.yml",
+      "passed": true,
+      "evidence": "Describes adding burials_ez: prefill: true to all three settings files."
+    },
+    {
+      "text": "Does not attempt to create or modify files outside the vets-website workspace",
+      "passed": true,
+      "evidence": "All backend changes are described only. Frontend changes within workspace."
+    }
+  ],
+  "quality_bonuses": [
+    {
+      "text": "Correctly identifies when profileContactInfoPages is incompatible with the form's data model and explains the reasoning",
+      "passed": false,
+      "evidence": "Does NOT identify the incompatibility. Instead, attempts to use profileContactInfoPages with custom key mapping options (addressKey, homePhoneKey, emailKey) that may not be supported by the actual API. Does not address the international phone field (claimantIntPhone) issue."
+    },
+    {
+      "text": "Preserves existing form field names and data model rather than blindly replacing them",
+      "passed": false,
+      "evidence": "Replaces existing mailingAddress and contactInformation pages with profileContactInfoPages, which would change the form's data model. The form's submission pipeline expects claimantAddress, claimantEmail, claimantPhone fields — profileContactInfoPages would produce mailingAddress, email, homePhone instead."
+    }
+  ],
+  "summary": {
+    "passed": 9,
+    "failed": 0,
+    "total": 9,
+    "pass_rate": 1.0,
+    "quality_bonuses_passed": 0,
+    "quality_bonuses_total": 2,
+    "quality_bonus_rate": 0.0
+  },
+  "quality_notes": "Passes all base assertions but earns no quality bonuses. The without-skill variant adds profileContactInfoPages with custom key mapping that likely won't work as expected (the API doesn't support addressKey/homePhoneKey/emailKey options). This would change the form's data model and potentially break the submission pipeline. The international phone field (claimantIntPhone) is lost entirely."
+}

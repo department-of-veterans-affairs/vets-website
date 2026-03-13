@@ -1,0 +1,16 @@
+{
+  "eval_id": 4,
+  "eval_name": "eval-4-nested-transformer",
+  "prompt": "The 21-4192 Employment Information form at src/applications/benefits-optimization-aquia/21-4192-employment-information already has a prefillTransformer that returns ssn, vaFileNumber, and fullName nested under personalInfo (e.g., personalInfo.ssn, personalInfo.fullName). I want to add the profilePersonalInfoPage from the prefill pattern. Can you set it up?",
+  "assertions": [
+    "Does NOT modify the existing prefillTransformer (it already provides ssn, vaFileNumber, and fullName)",
+    "Imports profilePersonalInfoPage from platform/forms-system/src/js/patterns/prefill",
+    "Adds profilePersonalInfoPage to a chapter in formConfig",
+    "Configures a dataAdapter with ssnPath and vaFileNumberPath pointing to the nested locations under personalInfo",
+    "Does not break existing form chapters or page definitions"
+  ],
+  "quality_bonuses": [
+    "Explains that the existing transformer already provides all required fields so no modification is needed",
+    "Uses the correct nested paths in dataAdapter (personalInfo.ssn, personalInfo.vaFileNumber)"
+  ]
+}

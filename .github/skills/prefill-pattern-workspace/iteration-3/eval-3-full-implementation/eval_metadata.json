@@ -1,0 +1,20 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-3-full-implementation",
+  "prompt": "I need to implement prefill for the burials-ez form at src/applications/burials-ez (form ID 21P-530EZ). Please implement the frontend prefill pattern and then show me what backend vets-api changes are needed.",
+  "assertions": [
+    "Creates a prefillTransformer for the burials-ez form",
+    "Adds profilePersonalInfoPage to formConfig",
+    "Adds profileContactInfoPages to formConfig OR explains why it should not be added (e.g., incompatible data model, custom field names)",
+    "Adds route protection in the form's container/App component",
+    "Describes vets-api backend steps including form_profile.rb changes",
+    "Describes creating a FormProfile class for the form",
+    "Describes the form profile mapping YAML",
+    "Describes adding prefill settings to settings.yml, development.yml, and test.yml",
+    "Does not attempt to create or modify files outside the vets-website workspace"
+  ],
+  "quality_bonuses": [
+    "Correctly identifies when profileContactInfoPages is incompatible with the form's data model and explains the reasoning",
+    "Preserves existing form field names and data model rather than blindly replacing them"
+  ]
+}

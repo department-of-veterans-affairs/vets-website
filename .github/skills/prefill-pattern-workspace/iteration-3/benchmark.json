@@ -1,0 +1,197 @@
+{
+  "metadata": {
+    "skill_name": "prefill-pattern",
+    "iteration": 3,
+    "timestamp": "2026-03-11T12:00:00Z",
+    "evals_run": [1, 2, 3],
+    "runs_per_configuration": 1
+  },
+  "skill_changes": [
+    "Updated eval 3 assertion: split 'Adds profilePersonalInfoPage and profileContactInfoPages' into two separate assertions — one for profilePersonalInfoPage (required), one for profileContactInfoPages (allows justified skipping)",
+    "Added 'When NOT to add profileContactInfoPages' guidance to skill Step 4 — warns about custom field names and incompatible data models",
+    "Clarified dataAdapter guidance in Step 3: if existing transformer already provides SSN at nested path, don't modify it — just use dataAdapter",
+    "Added quality_bonuses to all 3 evals — rewards architectural decisions beyond strict pass/fail"
+  ],
+  "runs": [
+    {
+      "eval_id": 1,
+      "eval_name": "eval-1-greenfield",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 0.857,
+        "passed": 6,
+        "failed": 1,
+        "total": 7,
+        "quality_bonuses_passed": 1,
+        "quality_bonuses_total": 1,
+        "quality_bonus_rate": 1.0
+      },
+      "expectations": [
+        {"text": "Creates a prefillTransformer function that returns ssn, vaFileNumber, and fullName", "passed": true, "evidence": "Creates transformer extracting from formData.data.attributes.veteran"},
+        {"text": "Imports and adds profilePersonalInfoPage() to formConfig chapters", "passed": true, "evidence": "Imports and adds with custom personalInfoConfig"},
+        {"text": "Imports and adds profileContactInfoPages() to formConfig chapters", "passed": false, "evidence": "Skipped — correctly identified custom field names (claimantAddress, veteranAddress) as incompatible"},
+        {"text": "Adds route protection logic in App.jsx", "passed": true, "evidence": "Full redirect logic with ssn check"},
+        {"text": "Creates or updates mock test fixtures", "passed": true, "evidence": "Creates sip-get.json"},
+        {"text": "Does not remove or break any existing form functionality", "passed": true, "evidence": "Existing chapters preserved"},
+        {"text": "Registers prefillTransformer in formConfig", "passed": true, "evidence": "Imported and registered"}
+      ],
+      "notes": ["Skill's 'When NOT to add profileContactInfoPages' guidance triggered on new-chapter-36-form — the form does use custom field names, making this architecturally correct but failing the strict assertion"]
+    },
+    {
+      "eval_id": 1,
+      "eval_name": "eval-1-greenfield",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 7,
+        "failed": 0,
+        "total": 7,
+        "quality_bonuses_passed": 1,
+        "quality_bonuses_total": 1,
+        "quality_bonus_rate": 1.0
+      },
+      "expectations": [
+        {"text": "Creates a prefillTransformer function that returns ssn, vaFileNumber, and fullName", "passed": true, "evidence": "Creates transformer at root level"},
+        {"text": "Imports and adds profilePersonalInfoPage() to formConfig chapters", "passed": true, "evidence": "Added to new chapter"},
+        {"text": "Imports and adds profileContactInfoPages() to formConfig chapters", "passed": true, "evidence": "Added without checking data model compatibility"},
+        {"text": "Adds route protection logic in App.jsx", "passed": true, "evidence": "Full redirect with ssn check"},
+        {"text": "Creates or updates mock test fixtures", "passed": true, "evidence": "Updates mock data"},
+        {"text": "Does not remove or break any existing form functionality", "passed": true, "evidence": "Existing chapters preserved"},
+        {"text": "Registers prefillTransformer in formConfig", "passed": true, "evidence": "Imported and registered"}
+      ],
+      "notes": ["Adds profileContactInfoPages without checking data model compatibility — may produce field name mismatches at submission time"]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "eval-2-existing-transformer",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "quality_bonuses_passed": 0,
+        "quality_bonuses_total": 2,
+        "quality_bonus_rate": 0.0
+      },
+      "expectations": [
+        {"text": "Preserves the existing prefillTransformer", "passed": true, "evidence": "Extends with new fields, preserves existing veteran.ssnLastFour/vaFileLastFour"},
+        {"text": "Imports profilePersonalInfoPage", "passed": true, "evidence": "Correct import path"},
+        {"text": "Imports profileContactInfoPages", "passed": true, "evidence": "Correct import path"},
+        {"text": "Adds both prefill pages to a chapter", "passed": true, "evidence": "Added to infoPages chapter"},
+        {"text": "Ensures ssn/vaFileNumber/fullName available", "passed": true, "evidence": "Extended transformer puts ssn at root"},
+        {"text": "Does not break existing form chapters", "passed": true, "evidence": "All existing pages preserved"}
+      ],
+      "notes": ["Quality bonuses don't apply well — 995 transformer needs EXTENSION (case 2), not 'leave unchanged + dataAdapter' (case 1)"]
+    },
+    {
+      "eval_id": 2,
+      "eval_name": "eval-2-existing-transformer",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 6,
+        "failed": 0,
+        "total": 6,
+        "quality_bonuses_passed": 0,
+        "quality_bonuses_total": 2,
+        "quality_bonus_rate": 0.0
+      },
+      "expectations": [
+        {"text": "Preserves the existing prefillTransformer", "passed": true, "evidence": "Extends with new fields + profile fallback"},
+        {"text": "Imports profilePersonalInfoPage", "passed": true, "evidence": "Correct import path"},
+        {"text": "Imports profileContactInfoPages", "passed": true, "evidence": "Correct import path"},
+        {"text": "Adds both prefill pages to a chapter", "passed": true, "evidence": "Added to infoPages chapter"},
+        {"text": "Ensures ssn/vaFileNumber/fullName available", "passed": true, "evidence": "Extended transformer + profile fallback"},
+        {"text": "Does not break existing form chapters", "passed": true, "evidence": "Existing pages preserved"}
+      ],
+      "notes": ["Adds 4th state parameter for profile fallback — more aggressive modification than with-skill"]
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "eval-3-full-implementation",
+      "configuration": "with_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "quality_bonuses_passed": 2,
+        "quality_bonuses_total": 2,
+        "quality_bonus_rate": 1.0
+      },
+      "expectations": [
+        {"text": "Creates a prefillTransformer", "passed": true, "evidence": "Maps claimant data to form's custom field names"},
+        {"text": "Adds profilePersonalInfoPage", "passed": true, "evidence": "With dataAdapter for claimant fields"},
+        {"text": "Adds profileContactInfoPages OR explains why not", "passed": true, "evidence": "Explains: custom field names + international phone incompatible"},
+        {"text": "Adds route protection", "passed": true, "evidence": "Enhanced BurialsApp.jsx"},
+        {"text": "Describes form_profile.rb changes", "passed": true, "evidence": "ALL_FORMS + FORM_ID_TO_CLASS"},
+        {"text": "Describes FormProfile class", "passed": true, "evidence": "VA21P530EZ with metadata"},
+        {"text": "Describes YAML mapping", "passed": true, "evidence": "21P-530EZ.yml with claimant mappings"},
+        {"text": "Describes settings changes", "passed": true, "evidence": "burials: prefill: true in all 3 files"},
+        {"text": "Does not modify outside workspace", "passed": true, "evidence": "Backend described only"}
+      ],
+      "notes": ["PERFECT score — base + quality. The updated assertion now correctly rewards the architectural analysis."]
+    },
+    {
+      "eval_id": 3,
+      "eval_name": "eval-3-full-implementation",
+      "configuration": "without_skill",
+      "run_number": 1,
+      "result": {
+        "pass_rate": 1.0,
+        "passed": 9,
+        "failed": 0,
+        "total": 9,
+        "quality_bonuses_passed": 0,
+        "quality_bonuses_total": 2,
+        "quality_bonus_rate": 0.0
+      },
+      "expectations": [
+        {"text": "Creates a prefillTransformer", "passed": true, "evidence": "Maps veteran data to claimant field names"},
+        {"text": "Adds profilePersonalInfoPage", "passed": true, "evidence": "With dataAdapter"},
+        {"text": "Adds profileContactInfoPages OR explains why not", "passed": true, "evidence": "Adds it with custom key mapping — may not work as expected"},
+        {"text": "Adds route protection", "passed": true, "evidence": "Enhanced BurialsApp.jsx"},
+        {"text": "Describes form_profile.rb changes", "passed": true, "evidence": "ALL_FORMS + FORM_ID_TO_CLASS"},
+        {"text": "Describes FormProfile class", "passed": true, "evidence": "VA21P530EZ with metadata"},
+        {"text": "Describes YAML mapping", "passed": true, "evidence": "21P-530EZ.yml"},
+        {"text": "Describes settings changes", "passed": true, "evidence": "burials_ez: prefill: true"},
+        {"text": "Does not modify outside workspace", "passed": true, "evidence": "Backend described only"}
+      ],
+      "notes": ["Passes base assertions but uses profileContactInfoPages with unsupported custom key options (addressKey, homePhoneKey, emailKey) that would likely fail at runtime"]
+    }
+  ],
+  "run_summary": {
+    "with_skill": {
+      "pass_rate": {"mean": 0.952, "min": 0.857, "max": 1.0},
+      "quality_bonus_rate": {"mean": 0.6, "min": 0.0, "max": 1.0}
+    },
+    "without_skill": {
+      "pass_rate": {"mean": 1.0, "min": 1.0, "max": 1.0},
+      "quality_bonus_rate": {"mean": 0.333, "min": 0.0, "max": 1.0}
+    },
+    "delta": {
+      "pass_rate": "-0.048",
+      "quality_bonus_rate": "+0.267"
+    }
+  },
+  "analysis": {
+    "key_findings": [
+      "EVAL 3 FIXED: Updated assertion now correctly passes the with-skill variant's architectural decision. With-skill scores 100% base + 100% quality (9/9 + 2/2). Without-skill scores 100% base + 0% quality (9/9 + 0/2).",
+      "EVAL 1 NEW ISSUE: The 'When NOT to add profileContactInfoPages' guidance now also triggers on new-chapter-36-form because that form also uses custom field names (claimantAddress, veteranAddress). This is architecturally correct but fails eval 1's strict assertion.",
+      "EVAL 2 STABLE: Both variants score 100% base. Quality bonuses are misaligned with this scenario — the 995 transformer needs EXTENSION (case 2), not the 'leave unchanged + dataAdapter' approach the bonuses reward (case 1).",
+      "QUALITY SCORING WORKS: Quality bonuses successfully differentiate with-skill (60% avg) from without-skill (33% avg) where base scores are tied. The +26.7% quality delta is the key skill advantage."
+    ],
+    "recommendations": [
+      "Update eval 1 assertion to match eval 3 pattern: 'Adds profileContactInfoPages() to formConfig chapters OR explains why it should not be added' — the new-chapter-36-form genuinely has custom field names",
+      "Revise eval 2 quality bonuses to match the actual scenario: reward EXTENDING the transformer while preserving existing fields, rather than rewarding 'leave unchanged + dataAdapter' which doesn't apply here",
+      "Consider adding an eval 4 targeting a form where the existing transformer already has ssn/vaFileNumber/fullName at nested paths — this would properly test the skill's case 1 (do nothing + dataAdapter) guidance",
+      "The skill's 'When NOT to add profileContactInfoPages' guidance is working correctly but aggressively — it catches ALL forms with custom field names. This is the right behavior for production safety."
+    ]
+  }
+}

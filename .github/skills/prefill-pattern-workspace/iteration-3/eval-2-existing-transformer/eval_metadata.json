@@ -1,0 +1,17 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-existing-transformer",
+  "prompt": "The Supplemental Claim form at src/applications/appeals/995 already has a prefillTransformer but I want to add the profilePersonalInfoPage and profileContactInfoPages from the prefill pattern. Can you set it up?",
+  "assertions": [
+    "Preserves the existing prefillTransformer (does not replace it wholesale)",
+    "Imports profilePersonalInfoPage from platform/forms-system/src/js/patterns/prefill",
+    "Imports profileContactInfoPages from platform/forms-system/src/js/patterns/prefill",
+    "Adds both prefill pages to a chapter in formConfig",
+    "Ensures the existing prefillTransformer output includes ssn, vaFileNumber, and fullName (or configures dataAdapter if nested)",
+    "Does not break existing form chapters or page definitions"
+  ],
+  "quality_bonuses": [
+    "Uses dataAdapter to locate nested SSN/vaFileNumber rather than restructuring the transformer output",
+    "Explains why the existing transformer is left unchanged"
+  ]
+}

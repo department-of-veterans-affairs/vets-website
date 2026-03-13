@@ -1,0 +1,27 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-existing-transformer",
+  "configuration": "with_skill",
+  "result": {
+    "pass_rate": 0.667,
+    "passed": 4,
+    "failed": 2,
+    "total": 6,
+    "quality_bonuses_passed": 2,
+    "quality_bonuses_total": 2,
+    "quality_bonus_rate": 1.0
+  },
+  "expectations": [
+    {"text": "Preserves the existing prefillTransformer (does not replace it wholesale)", "passed": true, "evidence": "Extends transformer preserving veteran.ssnLastFour and veteran.vaFileLastFour while adding new root-level fields"},
+    {"text": "Imports profilePersonalInfoPage from platform/forms-system/src/js/patterns/prefill", "passed": true, "evidence": "Imports profilePersonalInfoPage from platform/forms-system/src/js/patterns/prefill"},
+    {"text": "Imports profileContactInfoPages from platform/forms-system/src/js/patterns/prefill", "passed": false, "evidence": "Does NOT import profileContactInfoPages — skips it citing existing manual contact pages and veteran.* namespace as incompatible"},
+    {"text": "Adds both prefill pages to a chapter in formConfig", "passed": false, "evidence": "Only adds profilePersonalInfoPage, skips profileContactInfoPages"},
+    {"text": "Ensures the existing prefillTransformer output includes ssn, vaFileNumber, and fullName (or configures dataAdapter if nested)", "passed": true, "evidence": "Extends transformer to add ssn, vaFileNumber, and fullName at root level"},
+    {"text": "Does not break existing form chapters or page definitions", "passed": true, "evidence": "Existing housingRisk, livingSituation, contact pages preserved"}
+  ],
+  "quality_bonuses": [
+    {"text": "Extends the existing transformer while preserving all existing field mappings (e.g., veteran.ssnLastFour, veteran.vaFileLastFour)", "passed": true, "evidence": "Explicitly preserves veteranSsnLastFour and veteranVaFileNumberLastFour mappings while adding new root-level fields"},
+    {"text": "Explains what fields the existing transformer is missing and why they need to be added", "passed": true, "evidence": "Explains transformer only returns ssnLastFour and vaFileLastFour but prefill pattern needs full ssn, vaFileNumber, and fullName at root"}
+  ],
+  "notes": ["Skill's 'When NOT to add profileContactInfoPages' guidance triggered incorrectly here — 995 form already uses profileContactInfo (not custom fields), but skill causes model to skip profileContactInfoPages even when user explicitly requests it. This is overly conservative."]
+}

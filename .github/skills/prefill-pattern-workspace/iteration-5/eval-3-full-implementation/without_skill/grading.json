@@ -1,0 +1,30 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-3-full-implementation",
+  "configuration": "without_skill",
+  "result": {
+    "pass_rate": 1.0,
+    "passed": 9,
+    "failed": 0,
+    "total": 9,
+    "quality_bonuses_passed": 2,
+    "quality_bonuses_total": 3,
+    "quality_bonus_rate": 0.667
+  },
+  "expectations": [
+    {"text": "Creates a prefillTransformer for the burials-ez form", "passed": true, "evidence": "Creates transformer with ssn, vaFileNumber, fullName at root plus claimant-specific fields"},
+    {"text": "Adds profilePersonalInfoPage to formConfig", "passed": true, "evidence": "Adds profilePersonalInfoPage with dataAdapter for SSN path"},
+    {"text": "Adds profileContactInfoPages to formConfig OR explains why it should not be added", "passed": true, "evidence": "States contact info pages NOT compatible with custom field names (claimantEmail, claimantPhone, claimantAddress)"},
+    {"text": "Adds route protection in the form's container/App component", "passed": true, "evidence": "Enhances BurialsApp.jsx with prefill data check"},
+    {"text": "Describes vets-api backend steps including form_profile.rb changes", "passed": true, "evidence": "Describes form_profile.rb with ALL_FORMS hash"},
+    {"text": "Describes creating a FormProfile class for the form", "passed": true, "evidence": "Describes FormProfile class creation"},
+    {"text": "Describes the form profile mapping YAML", "passed": true, "evidence": "Describes YAML mapping configuration"},
+    {"text": "Describes adding prefill settings to settings.yml, development.yml, and test.yml", "passed": true, "evidence": "Describes settings file updates"},
+    {"text": "Does not attempt to create or modify files outside the vets-website workspace", "passed": true, "evidence": "Backend changes described only"}
+  ],
+  "quality_bonuses": [
+    {"text": "Correctly identifies when profileContactInfoPages is incompatible", "passed": true, "evidence": "Identifies claimantEmail, claimantPhone, claimantIntPhone, claimantAddress as custom names"},
+    {"text": "Preserves existing form field names and data model", "passed": true, "evidence": "Preserves claimant field names in transformer"},
+    {"text": "Asks the user which prefill pages they want before implementing", "passed": false, "evidence": "No skill — does not present structured page selection question"}
+  ]
+}

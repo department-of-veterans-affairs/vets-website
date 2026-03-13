@@ -1,0 +1,59 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-existing-transformer",
+  "variant": "with_skill",
+  "expectations": [
+    {
+      "text": "Preserves the existing prefillTransformer (does not replace it wholesale)",
+      "passed": true,
+      "evidence": "Extends the existing transformer by adding ssn, vaFileNumber, fullName at root level while preserving the existing veteran.ssnLastFour and veteran.vaFileLastFour mappings. Existing form-specific data retained."
+    },
+    {
+      "text": "Imports profilePersonalInfoPage from platform/forms-system/src/js/patterns/prefill",
+      "passed": true,
+      "evidence": "Adds import { profilePersonalInfoPage, profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill'."
+    },
+    {
+      "text": "Imports profileContactInfoPages from platform/forms-system/src/js/patterns/prefill",
+      "passed": true,
+      "evidence": "Same import statement includes profileContactInfoPages."
+    },
+    {
+      "text": "Adds both prefill pages to a chapter in formConfig",
+      "passed": true,
+      "evidence": "Adds ...profilePersonalInfoPage() and ...profileContactInfoPages() to infoPages chapter, positioned before existing veteranInfo page."
+    },
+    {
+      "text": "Ensures the existing prefillTransformer output includes ssn, vaFileNumber, and fullName (or configures dataAdapter if nested)",
+      "passed": true,
+      "evidence": "Extended transformer returns ssn, vaFileNumber, fullName at root level. SSN at root avoids needing dataAdapter, as noted: 'SSN at root avoids needing dataAdapter in Step 4.'"
+    },
+    {
+      "text": "Does not break existing form chapters or page definitions",
+      "passed": true,
+      "evidence": "Existing veteranInfo, housingRisk, livingSituation, otherHousingRisk, contact pages, and other chapters all remain unchanged."
+    }
+  ],
+  "quality_bonuses": [
+    {
+      "text": "Uses dataAdapter to locate nested SSN/vaFileNumber rather than restructuring the transformer output",
+      "passed": false,
+      "evidence": "Chose to extend the transformer by adding fields at root level instead of using dataAdapter. This is valid but the alternative approach (dataAdapter + no transformer changes) was available."
+    },
+    {
+      "text": "Explains why the existing transformer is left unchanged",
+      "passed": false,
+      "evidence": "Transformer was extended (case 2 from skill decision tree — missing fields), so this bonus doesn't apply."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0,
+    "quality_bonuses_passed": 0,
+    "quality_bonuses_total": 2,
+    "quality_bonus_rate": 0.0
+  },
+  "quality_notes": "Perfect base score. Quality bonuses don't apply well to this scenario — the 995 transformer was missing ssn/vaFileNumber/fullName entirely (skill decision tree case 2: EXTEND), so using dataAdapter alone wouldn't work. The bonuses are better suited for case 1 (transformer already sufficient). Both bonuses are somewhat misaligned with the actual scenario."
+}

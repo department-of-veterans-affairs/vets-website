@@ -1,0 +1,201 @@
+{
+  "metadata": {
+    "skill_name": "prefill-pattern",
+    "iteration": 6,
+    "timestamp": "2026-03-12T18:00:00Z",
+    "evals_run": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    "runs_per_configuration": 1
+  },
+  "skill_changes": [
+    "No skill changes — iteration 6 tests the iteration-5 skill against 7 new edge case evals (IDs 5-11) in addition to the original 4 evals (IDs 1-4)"
+  ],
+  "runs": [
+    {
+      "eval_id": 1, "eval_name": "eval-1-greenfield", "configuration": "with_skill",
+      "result": { "pass_rate": 1.0, "passed": 6, "failed": 1, "total": 7, "quality_bonuses_passed": 2, "quality_bonuses_total": 3, "quality_bonus_rate": 0.667 },
+      "notes": "Failed: profileContactInfoPages not added and skipped without explicit user-facing explanation. Quality: correct import paths, identified incompatibility, but did NOT ask user which pages they want."
+    },
+    {
+      "eval_id": 1, "eval_name": "eval-1-greenfield", "configuration": "without_skill",
+      "result": { "pass_rate": 1.0, "passed": 7, "failed": 0, "total": 7, "quality_bonuses_passed": 2, "quality_bonuses_total": 3, "quality_bonus_rate": 0.667 },
+      "notes": "All passed. Correctly identified incompatibility and explained reasoning. Did not ask user which pages."
+    },
+    {
+      "eval_id": 2, "eval_name": "eval-2-existing-transformer", "configuration": "with_skill",
+      "result": { "pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "quality_bonuses_passed": 2, "quality_bonuses_total": 3, "quality_bonus_rate": 0.667 },
+      "notes": "All passed. Extended transformer preserving existing mappings. Did not ask user which pages."
+    },
+    {
+      "eval_id": 2, "eval_name": "eval-2-existing-transformer", "configuration": "without_skill",
+      "result": { "pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "quality_bonuses_passed": 2, "quality_bonuses_total": 3, "quality_bonus_rate": 0.667 },
+      "notes": "All passed. Extended transformer, explained missing fields. Did not ask user which pages."
+    },
+    {
+      "eval_id": 3, "eval_name": "eval-3-full-implementation", "configuration": "with_skill",
+      "result": { "pass_rate": 0.889, "passed": 8, "failed": 1, "total": 9, "quality_bonuses_passed": 2, "quality_bonuses_total": 3, "quality_bonus_rate": 0.667 },
+      "notes": "Failed: did not add profilePersonalInfoPage (skipped due to custom field names). Correctly identified contact info incompatibility. Did not ask user."
+    },
+    {
+      "eval_id": 3, "eval_name": "eval-3-full-implementation", "configuration": "without_skill",
+      "result": { "pass_rate": 1.0, "passed": 9, "failed": 0, "total": 9, "quality_bonuses_passed": 2, "quality_bonuses_total": 3, "quality_bonus_rate": 0.667 },
+      "notes": "All passed including profilePersonalInfoPage. Correctly skipped contact info pages. Did not ask user."
+    },
+    {
+      "eval_id": 4, "eval_name": "eval-4-nested-transformer", "configuration": "with_skill",
+      "result": { "pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 },
+      "notes": "All passed. Correctly used dataAdapter with nested paths. Explained transformer is sufficient."
+    },
+    {
+      "eval_id": 4, "eval_name": "eval-4-nested-transformer", "configuration": "without_skill",
+      "result": { "pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 },
+      "notes": "All passed. Used dataAdapter correctly. Explained transformer is sufficient."
+    },
+    {
+      "eval_id": 5, "eval_name": "eval-5-contact-only", "configuration": "with_skill",
+      "result": { "pass_rate": 0.833, "passed": 5, "failed": 1, "total": 6, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 },
+      "notes": "Partial fail on 'does not break existing form' — adding profileContactInfoPages to this form will change data model. Quality: warned about incompatible names, respected user choice."
+    },
+    {
+      "eval_id": 5, "eval_name": "eval-5-contact-only", "configuration": "without_skill",
+      "result": { "pass_rate": 0.667, "passed": 4, "failed": 2, "total": 6, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 },
+      "notes": "Failed: profileContactInfoPages not actually added (self-graded as failed due to incompatibility). Also failed 'does not break existing form'. Quality: warned about field names, respected user choice."
+    },
+    {
+      "eval_id": 6, "eval_name": "eval-6-minimal-form", "configuration": "with_skill",
+      "result": { "pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 },
+      "notes": "All passed. Created transformer, added both pages, route protection, handled minimal structure well. Asked user which pages."
+    },
+    {
+      "eval_id": 6, "eval_name": "eval-6-minimal-form", "configuration": "without_skill",
+      "result": { "pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "quality_bonuses_passed": 1, "quality_bonuses_total": 2, "quality_bonus_rate": 0.5 },
+      "notes": "All passed. Created transformer, added both pages, route protection. Did NOT ask user which pages."
+    },
+    {
+      "eval_id": 7, "eval_name": "eval-7-already-implemented", "configuration": "with_skill",
+      "result": { "pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "quality_bonuses_passed": 1, "quality_bonuses_total": 2, "quality_bonus_rate": 0.5 },
+      "notes": "All passed. Identified all existing components. Did not suggest improvements (this is a reference impl)."
+    },
+    {
+      "eval_id": 7, "eval_name": "eval-7-already-implemented", "configuration": "without_skill",
+      "result": { "pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 },
+      "notes": "All passed. Listed everything in place AND suggested improvements."
+    },
+    {
+      "eval_id": 8, "eval_name": "eval-8-backend-only", "configuration": "with_skill",
+      "result": { "pass_rate": 1.0, "passed": 7, "failed": 0, "total": 7, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 },
+      "notes": "All passed. Described all 5 backend steps. Skipped frontend entirely. Correct class naming."
+    },
+    {
+      "eval_id": 8, "eval_name": "eval-8-backend-only", "configuration": "without_skill",
+      "result": { "pass_rate": 1.0, "passed": 7, "failed": 0, "total": 7, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 },
+      "notes": "All passed. Described all 5 backend steps. Skipped frontend. Correct class naming."
+    },
+    {
+      "eval_id": 9, "eval_name": "eval-9-custom-validation", "configuration": "with_skill",
+      "result": { "pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 },
+      "notes": "All passed. Identified custom validation, housingRisk conditional, warned about losing logic, explained old vs new pattern. Suggested migration paths."
+    },
+    {
+      "eval_id": 9, "eval_name": "eval-9-custom-validation", "configuration": "without_skill",
+      "result": { "pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 },
+      "notes": "All passed. Identified custom validation, housingRisk, warned about loss, explained differences, suggested migration paths."
+    },
+    {
+      "eval_id": 10, "eval_name": "eval-10-exploratory", "configuration": "with_skill",
+      "result": { "pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 },
+      "notes": "All passed. Analyzed form state, asked clarifying questions, distinguished personal vs contact compatibility, recommended Yes with caveats."
+    },
+    {
+      "eval_id": 10, "eval_name": "eval-10-exploratory", "configuration": "without_skill",
+      "result": { "pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 },
+      "notes": "All passed. Analyzed form, asked clarifying questions, distinguished personal vs contact, recommended Yes with caveats."
+    },
+    {
+      "eval_id": 11, "eval_name": "eval-11-nested-both-pages", "configuration": "with_skill",
+      "result": { "pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 },
+      "notes": "All passed. Used dataAdapter for personal info, wrapperKey for contact info, did not modify transformer."
+    },
+    {
+      "eval_id": 11, "eval_name": "eval-11-nested-both-pages", "configuration": "without_skill",
+      "result": { "pass_rate": 0.8, "passed": 4, "failed": 1, "total": 5, "quality_bonuses_passed": 1, "quality_bonuses_total": 2, "quality_bonus_rate": 0.5 },
+      "notes": "Failed: modified transformer (added homePhone/mobilePhone split). Also failed quality bonus about transformer being sufficient."
+    }
+  ],
+  "aggregated": {
+    "with_skill": {
+      "avg_pass_rate": 0.975,
+      "total_passed": 64,
+      "total_failed": 2,
+      "total_assertions": 66,
+      "avg_quality_bonus_rate": 0.864,
+      "total_quality_bonuses_passed": 19,
+      "total_quality_bonuses": 22,
+      "per_eval": {
+        "eval-1": { "pass_rate": 0.857, "quality_bonus_rate": 0.667 },
+        "eval-2": { "pass_rate": 1.0, "quality_bonus_rate": 0.667 },
+        "eval-3": { "pass_rate": 0.889, "quality_bonus_rate": 0.667 },
+        "eval-4": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 },
+        "eval-5": { "pass_rate": 0.833, "quality_bonus_rate": 1.0 },
+        "eval-6": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 },
+        "eval-7": { "pass_rate": 1.0, "quality_bonus_rate": 0.5 },
+        "eval-8": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 },
+        "eval-9": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 },
+        "eval-10": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 },
+        "eval-11": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 }
+      }
+    },
+    "without_skill": {
+      "avg_pass_rate": 0.951,
+      "total_passed": 63,
+      "total_failed": 3,
+      "total_assertions": 66,
+      "avg_quality_bonus_rate": 0.818,
+      "total_quality_bonuses_passed": 18,
+      "total_quality_bonuses": 22,
+      "per_eval": {
+        "eval-1": { "pass_rate": 1.0, "quality_bonus_rate": 0.667 },
+        "eval-2": { "pass_rate": 1.0, "quality_bonus_rate": 0.667 },
+        "eval-3": { "pass_rate": 1.0, "quality_bonus_rate": 0.667 },
+        "eval-4": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 },
+        "eval-5": { "pass_rate": 0.667, "quality_bonus_rate": 1.0 },
+        "eval-6": { "pass_rate": 1.0, "quality_bonus_rate": 0.5 },
+        "eval-7": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 },
+        "eval-8": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 },
+        "eval-9": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 },
+        "eval-10": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 },
+        "eval-11": { "pass_rate": 0.8, "quality_bonus_rate": 0.5 }
+      }
+    },
+    "delta": {
+      "pass_rate_delta": 0.024,
+      "quality_bonus_delta": 0.046
+    }
+  },
+  "iteration_comparison": {
+    "iteration_1": { "with_skill": 0.952, "without_skill": 0.944, "delta": 0.008 },
+    "iteration_2": { "with_skill": 0.958, "without_skill": 1.0, "delta": -0.042 },
+    "iteration_3": { "with_skill_base": 0.952, "without_skill_base": 1.0, "quality_delta": 0.267 },
+    "iteration_4": { "with_skill_base": 0.917, "without_skill_base": 1.0, "quality_delta": 0.0 },
+    "iteration_5": { "with_skill_base": 1.0, "without_skill_base": 1.0, "quality_delta": 0.182 },
+    "iteration_6": { "with_skill_base": 0.975, "without_skill_base": 0.951, "quality_delta": 0.046 }
+  },
+  "edge_case_analysis": {
+    "skill_wins": {
+      "eval-6-minimal-form": "Skill asked user which pages they want (quality bonus), baseline did not",
+      "eval-11-nested-both-pages": "Skill correctly left transformer unmodified and used dataAdapter; baseline modified transformer"
+    },
+    "skill_loses": {
+      "eval-1-greenfield": "Skill skipped profileContactInfoPages without explanation; baseline explained incompatibility",
+      "eval-3-full-implementation": "Skill skipped profilePersonalInfoPage due to custom field names; baseline added it",
+      "eval-7-already-implemented": "Baseline suggested improvements; skill did not"
+    },
+    "ties": {
+      "eval-2": "Both performed equally",
+      "eval-4": "Both performed equally",
+      "eval-5": "Both had similar issues with compatibility",
+      "eval-8": "Both performed equally well on backend-only",
+      "eval-9": "Both performed equally well on custom validation warning",
+      "eval-10": "Both performed equally well on exploratory/advisory"
+    }
+  }
+}

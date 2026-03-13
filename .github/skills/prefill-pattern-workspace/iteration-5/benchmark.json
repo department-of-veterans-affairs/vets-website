@@ -1,0 +1,92 @@
+{
+  "metadata": {
+    "skill_name": "prefill-pattern",
+    "iteration": 5,
+    "timestamp": "2026-03-12T14:00:00Z",
+    "evals_run": [1, 2, 3, 4],
+    "runs_per_configuration": 1
+  },
+  "skill_changes": [
+    "Added 'Choosing Which Prefill Pages to Add' section — skill now asks user which pages they want (Personal Info, Contact Info, or Both) before implementing",
+    "Replaced 'When NOT to add profileContactInfoPages' with 'Compatibility Warning' — warns user about custom field names but lets them decide instead of refusing",
+    "Updated page descriptions to be human-friendly: 'read-only card' vs 'editable pages' instead of 'mutable/immutable'",
+    "Added quality bonus to evals 1-3 for asking the user which pages they want"
+  ],
+  "runs": [
+    {
+      "eval_id": 1, "eval_name": "eval-1-greenfield", "configuration": "with_skill",
+      "result": { "pass_rate": 1.0, "passed": 7, "failed": 0, "total": 7, "quality_bonuses_passed": 3, "quality_bonuses_total": 3, "quality_bonus_rate": 1.0 }
+    },
+    {
+      "eval_id": 1, "eval_name": "eval-1-greenfield", "configuration": "without_skill",
+      "result": { "pass_rate": 1.0, "passed": 7, "failed": 0, "total": 7, "quality_bonuses_passed": 2, "quality_bonuses_total": 3, "quality_bonus_rate": 0.667 }
+    },
+    {
+      "eval_id": 2, "eval_name": "eval-2-existing-transformer", "configuration": "with_skill",
+      "result": { "pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "quality_bonuses_passed": 2, "quality_bonuses_total": 3, "quality_bonus_rate": 0.667 }
+    },
+    {
+      "eval_id": 2, "eval_name": "eval-2-existing-transformer", "configuration": "without_skill",
+      "result": { "pass_rate": 1.0, "passed": 6, "failed": 0, "total": 6, "quality_bonuses_passed": 2, "quality_bonuses_total": 3, "quality_bonus_rate": 0.667 }
+    },
+    {
+      "eval_id": 3, "eval_name": "eval-3-full-implementation", "configuration": "with_skill",
+      "result": { "pass_rate": 1.0, "passed": 9, "failed": 0, "total": 9, "quality_bonuses_passed": 3, "quality_bonuses_total": 3, "quality_bonus_rate": 1.0 }
+    },
+    {
+      "eval_id": 3, "eval_name": "eval-3-full-implementation", "configuration": "without_skill",
+      "result": { "pass_rate": 1.0, "passed": 9, "failed": 0, "total": 9, "quality_bonuses_passed": 2, "quality_bonuses_total": 3, "quality_bonus_rate": 0.667 }
+    },
+    {
+      "eval_id": 4, "eval_name": "eval-4-nested-transformer", "configuration": "with_skill",
+      "result": { "pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 }
+    },
+    {
+      "eval_id": 4, "eval_name": "eval-4-nested-transformer", "configuration": "without_skill",
+      "result": { "pass_rate": 1.0, "passed": 5, "failed": 0, "total": 5, "quality_bonuses_passed": 2, "quality_bonuses_total": 2, "quality_bonus_rate": 1.0 }
+    }
+  ],
+  "aggregated": {
+    "with_skill": {
+      "avg_pass_rate": 1.0,
+      "total_passed": 27,
+      "total_failed": 0,
+      "total_assertions": 27,
+      "avg_quality_bonus_rate": 0.909,
+      "total_quality_bonuses_passed": 10,
+      "total_quality_bonuses": 11,
+      "per_eval": {
+        "eval-1": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 },
+        "eval-2": { "pass_rate": 1.0, "quality_bonus_rate": 0.667 },
+        "eval-3": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 },
+        "eval-4": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 }
+      }
+    },
+    "without_skill": {
+      "avg_pass_rate": 1.0,
+      "total_passed": 27,
+      "total_failed": 0,
+      "total_assertions": 27,
+      "avg_quality_bonus_rate": 0.727,
+      "total_quality_bonuses_passed": 8,
+      "total_quality_bonuses": 11,
+      "per_eval": {
+        "eval-1": { "pass_rate": 1.0, "quality_bonus_rate": 0.667 },
+        "eval-2": { "pass_rate": 1.0, "quality_bonus_rate": 0.667 },
+        "eval-3": { "pass_rate": 1.0, "quality_bonus_rate": 0.667 },
+        "eval-4": { "pass_rate": 1.0, "quality_bonus_rate": 1.0 }
+      }
+    },
+    "delta": {
+      "pass_rate_delta": 0.0,
+      "quality_bonus_delta": 0.182
+    }
+  },
+  "iteration_comparison": {
+    "iteration_1": { "with_skill": 0.952, "without_skill": 0.944, "delta": 0.008 },
+    "iteration_2": { "with_skill": 0.958, "without_skill": 1.0, "delta": -0.042 },
+    "iteration_3": { "with_skill_base": 0.952, "without_skill_base": 1.0, "quality_delta": 0.267 },
+    "iteration_4": { "with_skill_base": 0.917, "without_skill_base": 1.0, "quality_delta": 0.0 },
+    "iteration_5": { "with_skill_base": 1.0, "without_skill_base": 1.0, "quality_delta": 0.182 }
+  }
+}

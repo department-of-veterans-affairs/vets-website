@@ -1,0 +1,59 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-existing-transformer",
+  "variant": "without_skill",
+  "expectations": [
+    {
+      "text": "Preserves the existing prefillTransformer (does not replace it wholesale)",
+      "passed": true,
+      "evidence": "Extends the transformer by adding new fields (ssn, vaFileNumber, fullName, dateOfBirth) while preserving existing veteran.ssnLastFour and veteran.vaFileLastFour. Also adds state parameter for profile fallback."
+    },
+    {
+      "text": "Imports profilePersonalInfoPage from platform/forms-system/src/js/patterns/prefill",
+      "passed": true,
+      "evidence": "Adds import { profilePersonalInfoPage, profileContactInfoPages } from 'platform/forms-system/src/js/patterns/prefill'."
+    },
+    {
+      "text": "Imports profileContactInfoPages from platform/forms-system/src/js/patterns/prefill",
+      "passed": true,
+      "evidence": "Same import statement includes profileContactInfoPages."
+    },
+    {
+      "text": "Adds both prefill pages to a chapter in formConfig",
+      "passed": true,
+      "evidence": "Adds ...profilePersonalInfoPage() and ...profileContactInfoPages() to infoPages chapter, positioned before existing veteranInfo page."
+    },
+    {
+      "text": "Ensures the existing prefillTransformer output includes ssn, vaFileNumber, and fullName (or configures dataAdapter if nested)",
+      "passed": true,
+      "evidence": "Extended transformer returns ssn, vaFileNumber, fullName at root. Also adds profile data as fallback source."
+    },
+    {
+      "text": "Does not break existing form chapters or page definitions",
+      "passed": true,
+      "evidence": "Existing chapters remain. Prefill pages added before existing pages."
+    }
+  ],
+  "quality_bonuses": [
+    {
+      "text": "Uses dataAdapter to locate nested SSN/vaFileNumber rather than restructuring the transformer output",
+      "passed": false,
+      "evidence": "Restructured transformer to put SSN at root instead of using dataAdapter."
+    },
+    {
+      "text": "Explains why the existing transformer is left unchanged",
+      "passed": false,
+      "evidence": "Transformer was modified (extended), not left unchanged."
+    }
+  ],
+  "summary": {
+    "passed": 6,
+    "failed": 0,
+    "total": 6,
+    "pass_rate": 1.0,
+    "quality_bonuses_passed": 0,
+    "quality_bonuses_total": 2,
+    "quality_bonus_rate": 0.0
+  },
+  "quality_notes": "Perfect base score. Same quality bonus situation as with-skill — the 995 transformer needed extension, making the 'leave unchanged + use dataAdapter' bonuses inapplicable. Also adds a 4th state parameter to the transformer for profile fallback, which is a more aggressive change than the with-skill approach."
+}

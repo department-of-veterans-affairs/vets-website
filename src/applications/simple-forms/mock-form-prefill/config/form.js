@@ -5,7 +5,6 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import {
   profilePersonalInfoPage,
   profileContactInfoPages,
-  transformEmailForSubmit,
 } from 'platform/forms-system/src/js/patterns/prefill';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { prefillTransformer } from './prefill-transformer';
@@ -24,13 +23,7 @@ const formConfig = {
   trackingPrefix: 'mock-prefill-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  // eslint-disable-next-line no-shadow
-  transformForSubmit: (formConfig, form, options) => {
-    let formData = form;
-    // transformers can be chained here
-    formData = transformEmailForSubmit(formData);
-    return transformForSubmit(formConfig, formData, options);
-  },
+  transformForSubmit,
   preSubmitInfo: {
     statementOfTruth: {
       body:

@@ -1,0 +1,42 @@
+{
+  "eval_id": 3,
+  "eval_name": "eval-3-full-implementation",
+  "variant": "with_skill",
+  "assertions": {
+    "Creates a prefillTransformer for the burials-ez form": {
+      "pass": true,
+      "notes": "Creates prefillTransformer that extracts veteran, claimant, and contact info from the backend response structure."
+    },
+    "Adds profilePersonalInfoPage and profileContactInfoPages to formConfig": {
+      "pass": true,
+      "notes": "Adds both prefill page generators to the claimantInformation chapter with appropriate config including dataAdapter for SSN path."
+    },
+    "Adds route protection in the form's container/App component": {
+      "pass": true,
+      "notes": "Adds route protection in BurialsApp.jsx checking formData?.claimantFullName?.first, redirecting to manifest.rootUrl if missing."
+    },
+    "Describes vets-api backend steps including form_profile.rb changes": {
+      "pass": true,
+      "notes": "Describes adding 21P-530EZ to ALL_FORMS hash and FORM_ID_TO_CLASS hash in form_profile.rb."
+    },
+    "Describes creating a FormProfile class for the form": {
+      "pass": true,
+      "notes": "Describes creating FormProfiles::VA21P530EZ with metadata including version, prefill flag, and returnUrl."
+    },
+    "Describes the form profile mapping YAML": {
+      "pass": true,
+      "notes": "Describes creating 21P-530EZ.yml with veteran, claimant, and contactInformation field mappings from identity_information and contact_information sources."
+    },
+    "Describes adding prefill settings to settings.yml, development.yml, and test.yml": {
+      "pass": true,
+      "notes": "Describes adding burials: prefill: true to all three settings files."
+    },
+    "Does not attempt to create or modify files outside the vets-website workspace": {
+      "pass": true,
+      "notes": "All backend changes are DESCRIBED only, not implemented. Frontend changes are within vets-website workspace."
+    }
+  },
+  "score": 8,
+  "total": 8,
+  "percentage": 100
+}

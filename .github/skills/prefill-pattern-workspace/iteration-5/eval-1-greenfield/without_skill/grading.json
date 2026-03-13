@@ -1,0 +1,28 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-greenfield",
+  "configuration": "without_skill",
+  "result": {
+    "pass_rate": 1.0,
+    "passed": 7,
+    "failed": 0,
+    "total": 7,
+    "quality_bonuses_passed": 2,
+    "quality_bonuses_total": 3,
+    "quality_bonus_rate": 0.667
+  },
+  "expectations": [
+    {"text": "Creates a prefillTransformer function that returns ssn, vaFileNumber, and fullName", "passed": true, "evidence": "Creates transformer extracting from formData.data.attributes.veteran"},
+    {"text": "Imports and adds profilePersonalInfoPage() to formConfig chapters", "passed": true, "evidence": "Adds profilePersonalInfoPage to new applicantInfoChapter"},
+    {"text": "Imports and adds profileContactInfoPages() to formConfig chapters OR explains why it should not be added", "passed": true, "evidence": "Notes field incompatibility, assumes both added for completeness, but recommends asking user"},
+    {"text": "Adds route protection logic in App.jsx", "passed": true, "evidence": "Full redirect logic with ssn check"},
+    {"text": "Creates or updates mock test fixtures", "passed": true, "evidence": "Creates mock data"},
+    {"text": "Does not remove or break any existing form functionality", "passed": true, "evidence": "Existing chapters preserved"},
+    {"text": "Registers prefillTransformer in formConfig", "passed": true, "evidence": "Imported and registered"}
+  ],
+  "quality_bonuses": [
+    {"text": "Uses correct import paths from platform/forms-system/src/js/patterns/prefill", "passed": true, "evidence": "Uses platform/forms-system/src/js/patterns/prefill"},
+    {"text": "Correctly identifies when profileContactInfoPages is incompatible", "passed": true, "evidence": "Notes non-standard claimantAddress, veteranMailingAddress fields"},
+    {"text": "Asks the user which prefill pages they want before implementing", "passed": false, "evidence": "Identifies it as a 'decision point for the user' but does not present a structured question with options"}
+  ]
+}

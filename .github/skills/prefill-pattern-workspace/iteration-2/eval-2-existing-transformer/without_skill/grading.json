@@ -1,0 +1,34 @@
+{
+  "eval_id": 2,
+  "eval_name": "eval-2-existing-transformer",
+  "variant": "without_skill",
+  "assertions": {
+    "Preserves the existing prefillTransformer (does not replace it wholesale)": {
+      "pass": true,
+      "notes": "PRESERVED! States 'The prefill transformer is NOT modified.' Used dataAdapter approach. Reasoned that PersonalInformation reads name/DOB from Redux profile, not formData, so transformer doesn't need fullName."
+    },
+    "Imports profilePersonalInfoPage from platform/forms-system/src/js/patterns/prefill": {
+      "pass": true,
+      "notes": "Imports profilePersonalInfoPage."
+    },
+    "Imports profileContactInfoPages from platform/forms-system/src/js/patterns/prefill": {
+      "pass": true,
+      "notes": "Imports profileContactInfoPages."
+    },
+    "Adds both prefill pages to a chapter in formConfig": {
+      "pass": true,
+      "notes": "Replaces veteranInfo with ...profilePersonalInfoPage({...}) and ...contactInfo with ...profileContactInfoPages({...})."
+    },
+    "Ensures the existing prefillTransformer output includes ssn, vaFileNumber, and fullName (or configures dataAdapter if nested)": {
+      "pass": true,
+      "notes": "Uses dataAdapter with ssnPath: 'veteran.ssnLastFour', vaFileNumberPath: 'veteran.vaFileLastFour'. Notes PersonalInformation reads name from Redux profile."
+    },
+    "Does not break existing form chapters or page definitions": {
+      "pass": true,
+      "notes": "Keeps housingRisk, livingSituation, choosePrimaryPhone, etc. Preserves page key and path. Preserves custom validation."
+    }
+  },
+  "score": 6,
+  "total": 6,
+  "percentage": 100
+}

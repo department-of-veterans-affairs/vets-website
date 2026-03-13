@@ -1,0 +1,38 @@
+{
+  "eval_id": 1,
+  "eval_name": "eval-1-greenfield",
+  "variant": "with_skill",
+  "assertions": {
+    "Creates a prefillTransformer function that returns ssn, vaFileNumber, and fullName": {
+      "pass": true,
+      "notes": "Created prefillTransformer that extracts ssn, vaFileNumber, and builds fullName from firstName/middleName/lastName/suffix. Returns all three at root level."
+    },
+    "Imports and adds profilePersonalInfoPage() to formConfig chapters": {
+      "pass": true,
+      "notes": "Imports from platform/forms-system/src/js/patterns/prefill and spreads ...profilePersonalInfoPage({...}) into new veteranInfoChapter with personalInfoConfig for name, ssn, vaFileNumber, dateOfBirth."
+    },
+    "Imports and adds profileContactInfoPages() to formConfig chapters": {
+      "pass": true,
+      "notes": "Imports profileContactInfoPages and spreads ...profileContactInfoPages({...}) with included: mailingAddress, email, homePhone, mobilePhone."
+    },
+    "Adds route protection logic in App.jsx that checks for login and save-in-progress data": {
+      "pass": true,
+      "notes": "Adds Redux connect, checks isLoggedIn and formData?.ssn, redirects to manifest.rootUrl. Skips protection on localhost and intro page."
+    },
+    "Creates or updates mock test fixtures (sip-get.json or similar) for local testing": {
+      "pass": true,
+      "notes": "Updates sip-get.json to include ssn, vaFileNumber in data.attributes.veteran structure. Updates returnUrl to /personal-information."
+    },
+    "Does not remove or break any existing form functionality": {
+      "pass": true,
+      "notes": "Keeps existing veteranServiceMemberInfoChapter pages (claimantAddressPage, veteranServiceMemberInfoPage, veteranAddressPage) intact in a separate chapter after the new prefill chapter."
+    },
+    "Registers prefillTransformer in formConfig": {
+      "pass": true,
+      "notes": "Adds prefillTransformer property to formConfig after prefillEnabled: true."
+    }
+  },
+  "score": 7,
+  "total": 7,
+  "percentage": 100
+}
