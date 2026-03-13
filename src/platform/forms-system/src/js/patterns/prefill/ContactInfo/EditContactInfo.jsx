@@ -31,10 +31,13 @@ export const BuildPageBase = ({
   ...rest
 }) => {
   const dispatch = useDispatch();
-  const Heading = editContactInfoHeadingLevel || 'h3';
+  const isMinimalHeader = isMinimalHeaderPath();
+  const Header = isMinimalHeader ? 'h1' : editContactInfoHeadingLevel || 'h3';
+  const headerClass = isMinimalHeader
+    ? 'vads-u-font-size--h2'
+    : 'vads-u-font-size--h3';
   const headerRef = useRef(null);
   const contactInfoFormAppConfig = useContactInfoFormAppConfig();
-  const isMinimalHeader = isMinimalHeaderPath();
 
   const modalState = useSelector(state => state?.vapService.modal);
   const prevModalState = usePrevious(modalState);
@@ -117,9 +120,9 @@ export const BuildPageBase = ({
               </p>
             </va-alert>
           )}
-          <Heading ref={headerRef} className="vads-u-font-size--h3">
+          <Header ref={headerRef} className={headerClass}>
             {title}
-          </Heading>
+          </Header>
           <ProfileInformationFieldController
             forceEditView
             fieldName={FIELD_NAMES[field]}

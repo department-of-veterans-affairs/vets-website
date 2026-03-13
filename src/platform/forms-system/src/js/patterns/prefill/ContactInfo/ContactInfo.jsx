@@ -642,7 +642,7 @@ export const ContactInfoBase = ({
     <>
       {contentBeforeButtons}
       <FormNavButtons
-        goBack={!isMinimalHeader && handlers.onGoBack}
+        goBack={isMinimalHeader ? null : handlers.onGoBack}
         goForward={handlers.onGoForward}
       />
       {contentAfterButtons}
