@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
-import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement, scrollToTop } from 'platform/utilities/ui';
-import { useHistory } from 'react-router-dom';
 import AssessYourInterestsAccordionItem from '../components/AssessYourInterestsAccordionItem';
 import FindEmploymentAccordionItem from '../components/FindEmploymentAccordionItem';
 import FindAPathAccordionItem from '../components/FindAPathAccordionItem';
@@ -10,7 +8,6 @@ import NeedHelp from '../components/NeedHelp';
 
 export default function CareerPlanning() {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const history = useHistory();
 
   const showCareerPlanningPage = useToggleValue(
     TOGGLE_NAMES.vre_eligibility_status_phase_2_updates,
@@ -48,14 +45,6 @@ export default function CareerPlanning() {
           <FindAPathAccordionItem />
           <FindEmploymentAccordionItem />
         </va-accordion>
-
-        <div className="medium-screen:vads-u-display--inline-block vads-u-display--none vads-u-margin-top--2">
-          <VaButton
-            back
-            onClick={() => history.push('/')}
-            text="Back to Case Tracker"
-          />
-        </div>
 
         <NeedHelp />
 
