@@ -84,8 +84,8 @@ describe('VASS Schedule Appointment', () => {
       DateTimeSelectionPageObject.selectFirstAvailableDateTimeAndContinue();
 
       cy.wait('@vass:get:topics');
-      cy.injectAxeThenAxeCheck();
       TopicSelectionPageObject.assertTopicSelectionPage();
+      cy.injectAxeThenAxeCheck();
       saveScreenshot('vass_schedule_topicSelection');
       TopicSelectionPageObject.selectTopicAndContinue('General VA benefits');
 
@@ -171,9 +171,10 @@ describe('VASS Schedule Appointment', () => {
       DateTimeSelectionPageObject.clickContinue();
 
       cy.wait('@vass:get:topics');
-      cy.injectAxeThenAxeCheck();
       TopicSelectionPageObject.assertTopicSelectionPage();
+      cy.injectAxeThenAxeCheck();
       TopicSelectionPageObject.selectTopicAndContinue(topic);
+      cy.injectAxeThenAxeCheck();
 
       ReviewPageObject.assertReviewPage();
       cy.injectAxeThenAxeCheck();
@@ -244,13 +245,16 @@ describe('VASS Schedule Appointment', () => {
       // Change topic: go back, unselect first and select second
       ReviewPageObject.clickEditTopic();
       TopicSelectionPageObject.assertTopicSelectionPage();
+      cy.injectAxeThenAxeCheck();
       TopicSelectionPageObject.unselectTopicByTestId(
         'topic-checkbox-general-va-benefits',
       );
+      cy.injectAxeThenAxeCheck();
       saveScreenshot('vass_schedule_topicSelection_changingTopic');
       TopicSelectionPageObject.selectTopicAndContinue(secondTopic);
 
       ReviewPageObject.assertReviewPage();
+      cy.injectAxeThenAxeCheck();
       ReviewPageObject.assertTopicDescription(secondTopic);
       saveScreenshot('vass_schedule_review_afterTopicChange');
       ReviewPageObject.clickConfirmAppointment();
@@ -355,18 +359,18 @@ describe('VASS Schedule Appointment', () => {
       VerifyPageObject.fillAndSubmitForm();
 
       cy.wait('@vass:post:request-otp');
-      cy.injectAxeThenAxeCheck();
       EnterOTPPageObject.assertEnterOTPPage({ cancellationFlow: true });
+      cy.injectAxeThenAxeCheck();
       EnterOTPPageObject.assertSuccessAlertContainsEmail('s****@email.com');
       saveScreenshot('vass_cancel_enterOTP_cancellationLink');
       EnterOTPPageObject.fillAndSubmitOTP();
 
       cy.wait('@vass:get:appointment-details');
 
-      cy.injectAxeThenAxeCheck();
       CancelAppointmentPageObject.assertCancelAppointmentPage({
         agentName: 'Agent Smith',
       });
+      cy.injectAxeThenAxeCheck();
       saveScreenshot('vass_cancel_cancelAppointmentPage_fromLink');
 
       CancelAppointmentPageObject.clickYesCancelAppointment();
