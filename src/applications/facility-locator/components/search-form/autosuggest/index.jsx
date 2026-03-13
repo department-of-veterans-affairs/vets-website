@@ -65,7 +65,6 @@ function Autosuggest({
     isItemDisabled,
     stateReducer: keepDataOnBlur ? srKeepOnBlur : stateReducer,
   });
-
   const inputClearClick = () => {
     onClearClick();
     selectItem(null);
@@ -120,6 +119,7 @@ function Autosuggest({
           getItemProps={getItemProps}
           highlightedIndex={highlightedIndex}
           options={options}
+          inputValue={inputValue}
           isShown={shouldBeShown}
           itemToString={itemToString}
           noItemsMessage={noItemsMessage} // to display when no items are found - disabled item

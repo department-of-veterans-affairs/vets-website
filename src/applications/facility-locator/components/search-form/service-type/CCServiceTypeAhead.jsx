@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Downshift from 'downshift';
 import classNames from 'classnames';
+import { get } from 'lodash';
 import MessagePromptDiv from './MessagePromptDiv';
 import { MIN_SEARCH_CHARS } from '../../../constants';
 
@@ -123,6 +124,7 @@ class CCServiceTypeAhead extends Component {
     getItemProps,
     highlightedIndex,
     inputValue,
+    selectedServiceCode,
   ) => {
     return (
       <div
@@ -141,7 +143,7 @@ class CCServiceTypeAhead extends Component {
               item: specialty,
               className: this.optionClasses(index === highlightedIndex),
               role: 'option',
-              'aria-selected': index === highlightedIndex,
+              'aria-selected': specialty.specialtyCode === selectedServiceCode,
             })}
           >
             {this.getSpecialtyName(specialty)}
@@ -197,10 +199,16 @@ class CCServiceTypeAhead extends Component {
           getInputProps,
           getItemProps,
           getLabelProps,
+          openMenu,
           isOpen,
           inputValue,
           highlightedIndex,
         }) => {
+          const selectedServiceCode = get(
+            this.props,
+            'initialSelectedServiceType',
+            null,
+          );
           const showExpanded =
             isOpen && inputValue && MIN_SEARCH_CHARS <= inputValue.length;
           return (
@@ -236,7 +244,12 @@ class CCServiceTypeAhead extends Component {
                       ? undefined
                       : 'like Chiropractor or Optometrist',
 
-                    onFocus: () => this.setState({ isFocused: true }),
+                    onFocus: () => {
+                      this.setState({ isFocused: true });
+                      if (inputValue && inputValue.length >= MIN_SEARCH_CHARS) {
+                        openMenu();
+                      }
+                    },
                     disabled: currentQuery?.fetchSvcsInProgress,
                   })}
                   onBlur={() => {
@@ -254,6 +267,7 @@ class CCServiceTypeAhead extends Component {
                     getItemProps,
                     highlightedIndex,
                     inputValue,
+                    selectedServiceCode,
                   )}
                 {this.renderTryAnotherServicePrompt(inputValue)}
               </span>
