@@ -41,7 +41,7 @@
     "city": "StartCity",
     "state": "AL"
   },
-  "marriedToVeteranAtTimeOfDeath": false,
+  "marriedToVeteranAtTimeOfDeath": true,
   "howMarriageEnded": "other",
   "marriageEndedExplanation": "Some other reason",
   "receivedBenefits": false,

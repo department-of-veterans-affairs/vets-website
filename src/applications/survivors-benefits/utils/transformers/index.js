@@ -10,3 +10,4 @@ export * from './transformCareExpenses';
 export * from './transformClaim';
 export * from './updateFullNames';
 export * from './updateBankValues';
+export * from './autoPopulateMarriageEndDate';

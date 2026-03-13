@@ -21,15 +21,23 @@ import { validations } from '../../validations';
 export default {
   uiSchema: {
     ...titleUI(
-      'When and where did your marriage end?',
-      'If you were married at the time of their death, this will be their date and place of death.',
+      ({ formData }) =>
+        formData.marriedToVeteranAtTimeOfDeath
+          ? 'Where did your marriage end?'
+          : 'When and where did your marriage end?',
+      ({ formData }) =>
+        formData.marriedToVeteranAtTimeOfDeath
+          ? 'If you were married at the time of their death, this will be their place of death.'
+          : 'If you were married at the time of their death, this will be their date and place of death.',
     ),
     marriageToVeteranEndDate: {
       ...currentOrPastDateUI({
         title: 'Date marriage ended',
         monthSelect: false,
+        validations: [validations.isAfterMarriageStartDate],
+        required: formData => formData.marriedToVeteranAtTimeOfDeath === false,
+        hideIf: formData => formData.marriedToVeteranAtTimeOfDeath === true,
       }),
-      'ui:validations': [validations.isAfterMarriageStartDate],
     },
     marriageToVeteranEndOutsideUs: checkboxUI({
       title: 'My marriage ended outside the U.S.',
@@ -68,7 +76,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['marriageToVeteranEndDate', 'marriageToVeteranEndLocation'],
+    required: ['marriageToVeteranEndLocation'],
     properties: {
       marriageToVeteranEndDate: currentOrPastDateSchema,
       marriageToVeteranEndOutsideUs: checkboxSchema,
