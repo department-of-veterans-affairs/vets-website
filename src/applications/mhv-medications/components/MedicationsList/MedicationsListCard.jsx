@@ -40,9 +40,10 @@ const MedicationsListCard = ({ rx }) => {
   const isManagementImprovements = useSelector(
     selectMedicationsManagementImprovementsFlag,
   );
-  const isRefillInProgress =
+  const isFillInProgress =
     rx.dispStatus === DISPENSE_STATUS.ACTIVE_REFILL_IN_PROCESS ||
     rx.dispStatus === DISPENSE_STATUS.ACTIVE_SUBMITTED;
+  const isInitialFill = isFillInProgress && !rx.sortedDispensedDate;
   const isOracleHealthCutoverEnabled = useSelector(
     selectMhvMedicationsOracleHealthCutoverFlag,
   );
@@ -105,15 +106,15 @@ const MedicationsListCard = ({ rx }) => {
     return (
       <>
         {isManagementImprovements &&
-          isRefillInProgress && (
+          isFillInProgress && (
             <div
               className="vads-u-display--flex vads-u-align-items--center vads-u-background-color--green-lightest vads-u-padding--1 vads-u-margin-top--1"
-              data-testid="refill-in-progress-alert"
+              data-testid="fill-in-progress-alert"
               role="status"
             >
               <va-icon icon="schedule" size={3} aria-hidden="true" />
               <p className="vads-u-margin-y--0 vads-u-margin-left--1">
-                Refill in progress.{' '}
+                {isInitialFill ? 'Fill' : 'Refill'} in progress.{' '}
                 <Link to={medicationsUrls.MEDICATIONS_IN_PROGRESS}>
                   Go to in-progress medications
                 </Link>
@@ -121,8 +122,7 @@ const MedicationsListCard = ({ rx }) => {
             </div>
           )}
         {rx &&
-          (rx.isRefillable ||
-            (isManagementImprovements && isRefillInProgress)) &&
+          (rx.isRefillable || (isManagementImprovements && isFillInProgress)) &&
           rx.refillRemaining >= 0 && (
             <p
               className="vads-u-margin-bottom--0"
@@ -175,7 +175,7 @@ const MedicationsListCard = ({ rx }) => {
             />
           )}
         {rx &&
-          !(isManagementImprovements && isRefillInProgress) && (
+          !(isManagementImprovements && isFillInProgress) && (
             <ExtraDetails
               {...rx}
               page={pageType.LIST}

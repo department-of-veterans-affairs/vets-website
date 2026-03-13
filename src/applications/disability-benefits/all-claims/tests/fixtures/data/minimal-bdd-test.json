@@ -46,7 +46,8 @@
       "separationHealthAssessmentUploads": [
         {
           "name": "sha-minimal.pdf",
-          "confirmationCode": "sha-minimal-code"
+          "confirmationCode": "sha-minimal-code",
+          "attachmentId": "L702"
         }
       ],
       "view:powStatus": false,
