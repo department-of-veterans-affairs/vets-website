@@ -15,6 +15,9 @@ const transformForSubmit = (formConfig, form) => {
   } else {
     transformedData.fullName = {};
   }
+  if (!transformedData.dateOfBirth && form.data?.dateOfBirth) {
+    transformedData.dateOfBirth = form.data.dateOfBirth;
+  }
 
   return JSON.stringify(transformedData);
 };
