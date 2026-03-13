@@ -11,6 +11,8 @@ env:
 jobs:
   get-registries:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       registries: ${{ steps.set-matrix.outputs.registries }}
     steps:

@@ -100,6 +100,8 @@ jobs:
     name: Tests Prep
     needs: [fetch-unit-tests-allow-list]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.folders }}
       apps-to-stress-test: ${{ steps.apps-to-stress-test.outputs.apps_to_test }}
@@ -166,6 +168,8 @@ jobs:
   unit-tests-stress-test:
     name: Unit Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: [fetch-unit-tests-allow-list, tests-prep]
 
     env:
