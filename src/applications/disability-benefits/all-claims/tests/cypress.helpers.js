@@ -1097,8 +1097,8 @@ export const pageHooks = (cy, testOptions) => ({
         cy.get('input[name="privacy-agreement"]').click({ force: true });
       }
     });
+    cy.findByText(/continue/i, { selector: 'button' }).scrollIntoView();
     cy.findByText(/continue/i, { selector: 'button' })
-      .scrollIntoView()
       .should('be.visible')
       .and('not.be.disabled')
       .click();
