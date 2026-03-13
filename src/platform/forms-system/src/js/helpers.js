@@ -857,13 +857,18 @@ export function hideFormTitle(formConfig, pathName, formData) {
     return false;
 
   const formPages = createFormPageList(formConfig);
-  let pageList = createPageList(formConfig, formPages);
+  const fullPageList = createPageList(formConfig, formPages);
+  let pageList = fullPageList;
   try {
-    pageList = getActiveExpandedPages(pageList, formData);
+    pageList = getActiveExpandedPages(fullPageList, formData);
   } catch {
     // If we can't get active expanded pages, just use the default pageList
   }
-  const page = pageList.find(p => p.path === pathName);
+  // Check active pages first, then fall back to full list for pages with
+  // depends: () => false (e.g. edit contact info pages)
+  const page =
+    pageList.find(p => p.path === pathName) ||
+    fullPageList.find(p => p.path === pathName);
 
   if (pathName === '/confirmation') {
     return !!(formConfig.hideFormTitleConfirmation === undefined
