@@ -3,24 +3,25 @@
 /* eslint-disable no-console, no-continue, no-plusplus */
 
 /**
- * Enhanced Cypress runner for vets-website.
- *
- * - No retries (--no-retry)
- * - Auto dev server on a free port (--serve)
- * - Failure summary with errors, command log, and screenshot paths
- * - Dev server health check
- * - Hard process timeout
- *
  * Usage:
- *   yarn cy:run:auto --spec "src/applications/.../test.cypress.spec.js"
+ *   yarn cy:run:auto --spec "src/applications/my-app/tests/e2e/test.cypress.spec.js"
+ *   node script/run-cypress-enhanced.js --serve --no-retry --spec "..."
+ *
+ * cy:run:auto passes --serve --no-retry --no-video by default.
+ *
+ * What it does:
+ *   - Starts a dev server on a free port, runs the test, stops the server
+ *   - Checks dev server health before running
+ *   - Prints a structured failure summary with errors, command log, and screenshots
+ *   - Kills the process after 180s if it hangs
  *
  * Flags:
  *   --serve          Start and stop a dev server automatically
  *   --no-retry       Disable retries
  *   --no-video       Skip video recording
- *   --timeout N      Hard process timeout in seconds (default 180)
+ *   --timeout N      Hard process timeout in seconds (default: 180)
  *   --no-timeout     Disable hard timeout
- *   --summary-only   Summary only, no Cypress output
+ *   --summary-only   Print summary only, suppress Cypress output
  *
  * All other args are forwarded to cypress run.
  */
