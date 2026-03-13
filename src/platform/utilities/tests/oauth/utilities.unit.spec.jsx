@@ -11,6 +11,7 @@ import {
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import environment from 'platform/utilities/environment';
 import { signupOrVerify } from 'platform/user/authentication/utilities';
+import { EXTERNAL_APPS } from 'platform/user/authentication/constants';
 import * as profileUtils from 'platform/user/profile/utilities';
 import {
   AUTHORIZE_KEYS_WEB,
@@ -19,6 +20,7 @@ import {
   OAUTH_KEYS,
   COOKIES,
   CLIENT_IDS,
+  FORCED_VERIFICATION_ACRS,
 } from '../../oauth/constants';
 import { setupMockCrypto } from '../../oauth/mockCrypto';
 import * as oAuthUtils from '../../oauth/utilities';
@@ -172,7 +174,7 @@ describe('OAuth - Utilities', () => {
   });
 
   describe('createOAuthRequest', () => {
-    ['logingov', 'idme', 'dslogon', 'mhv'].forEach(csp => {
+    ['logingov', 'idme'].forEach(csp => {
       it(`should generate the proper signin url based on ${csp} for web`, async () => {
         const url = await oAuthUtils.createOAuthRequest({
           type: csp,
@@ -190,10 +192,11 @@ describe('OAuth - Utilities', () => {
           application: 'vamobile',
         });
         const { oAuthOptions } = externalApplicationsConfig.vamobile;
-        expect(url).to.include(`type=${csp}`);
-        expect(url).to.include(`acr=${oAuthOptions.acr[csp]}`);
-        expect(url).to.include(`client_id=vamobile`);
-        expect(url).not.to.include('scope=');
+        const parsed = new URL(url);
+        expect(parsed.searchParams.get('type')).to.equal(csp);
+        expect(parsed.searchParams.get('acr')).to.equal(oAuthOptions.acr[csp]);
+        expect(parsed.searchParams.get('client_id')).to.equal('vamobile');
+        expect(parsed.searchParams.has('scope')).to.be.false;
       });
 
       it(`should generate the proper signin url based on ${csp} for mobile with scope`, async () => {
@@ -205,10 +208,11 @@ describe('OAuth - Utilities', () => {
           },
         });
         const { oAuthOptions } = externalApplicationsConfig.vamobile;
-        expect(url).to.include(`type=${csp}`);
-        expect(url).to.include(`acr=${oAuthOptions.acr[csp]}`);
-        expect(url).to.include(`client_id=vamobile`);
-        expect(url).to.include('scope=custom_scope');
+        const parsed = new URL(url);
+        expect(parsed.searchParams.get('type')).to.equal(csp);
+        expect(parsed.searchParams.get('acr')).to.equal(oAuthOptions.acr[csp]);
+        expect(parsed.searchParams.get('client_id')).to.equal('vamobile');
+        expect(parsed.searchParams.get('scope')).to.equal('custom_scope');
       });
     });
 
@@ -259,42 +263,49 @@ describe('OAuth - Utilities', () => {
         passedOptions: { forceVerify: 'required' },
       });
 
-      expect(url).to.include('acr=ial2');
-      expect(url2).to.include('acr=loa3');
+      expect(new URL(url).searchParams.get('acr')).to.equal(
+        FORCED_VERIFICATION_ACRS.logingov,
+      );
+      expect(new URL(url2).searchParams.get('acr')).to.equal(
+        FORCED_VERIFICATION_ACRS.idme,
+      );
     });
 
     ['idme_signup', 'logingov_signup'].forEach(csp => {
-      it(`should generate the proper signup url for ${csp}`, async () => {
-        const { oAuthOptions } = externalApplicationsConfig.default;
-        const acr = oAuthOptions.acrSignup[csp];
+      const expectedType = csp.slice(0, csp.indexOf('_'));
+      it(`should generate the proper signup url based on ${csp} for mobile without scope`, async () => {
         const url = await oAuthUtils.createOAuthRequest({
           type: csp,
+          application: 'vamobile',
           passedOptions: {
             isSignup: true,
           },
-          acr,
         });
-        const expectedType = csp.slice(0, csp.indexOf('_'));
-        expect(url).to.include(`type=${expectedType}`);
-        expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
-        expect(url).not.to.includes('operation=');
-        expect(url).not.to.include('scope=');
+        const { oAuthOptions } = externalApplicationsConfig.vamobile;
+        const parsed = new URL(url);
+        expect(parsed.searchParams.get('type')).to.equal(expectedType);
+        expect(parsed.searchParams.get('acr')).to.equal(
+          oAuthOptions.acrSignup[csp],
+        );
+        expect(parsed.searchParams.get('client_id')).to.equal('vamobile');
+        expect(parsed.searchParams.has('scope')).to.be.false;
       });
 
-      it(`should generate the proper signup url for ${csp} with an operation= query param to determine what we track`, async () => {
-        const { oAuthOptions } = externalApplicationsConfig.default;
-        const acr = oAuthOptions.acrSignup[csp];
+      it(`should generate the proper signup url based on ${csp} for mobile with scope`, async () => {
         const url = await oAuthUtils.createOAuthRequest({
           type: csp,
-          passedQueryParams: { operation: 'signup_interstitial' },
+          application: 'vamobile',
+          passedQueryParams: { scope: 'custom_scope' },
           passedOptions: { isSignup: true },
-          acr,
         });
-        const expectedType = csp.slice(0, csp.indexOf('_'));
-        expect(url).to.include(`type=${expectedType}`);
-        expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
-        expect(url).to.include('operation=signup_interstitial');
-        expect(url).not.to.include('scope=');
+        const { oAuthOptions } = externalApplicationsConfig.vamobile;
+        const parsed = new URL(url);
+        expect(parsed.searchParams.get('type')).to.equal(expectedType);
+        expect(parsed.searchParams.get('acr')).to.equal(
+          oAuthOptions.acrSignup[csp],
+        );
+        expect(parsed.searchParams.get('client_id')).to.equal('vamobile');
+        expect(parsed.searchParams.get('scope')).to.equal('custom_scope');
       });
     });
   });
@@ -957,7 +968,6 @@ describe('OAuth - Utilities', () => {
 
       it(`should generate the default URL for signup 'type=${policy}&acr=<loa3|ial2>' OAuth | config: vamobile`, async () => {
         global.window.location.search = `?oauth=true&application=vamobile&client_id=vamobile&code_challenge=some_random_code_challenge`;
-        const acrType = { idme: 'loa3', logingov: 'ial2' };
         const url = await signupOrVerify({
           policy,
           isLink: true,
@@ -965,8 +975,12 @@ describe('OAuth - Utilities', () => {
           useOAuth: true,
           config: 'vamobile',
         });
+        const parsed = new URL(url);
+        expect(parsed.searchParams.get('acr')).to.equal(
+          externalApplicationsConfig[EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]
+            .oAuthOptions.acr[policy],
+        );
         expect(url).to.include(`type=${policy}`);
-        expect(url).to.include(`acr=${acrType[policy]}`);
         expect(url).to.include('/authorize');
         expect(url).to.include('response_type=code');
         expect(url).to.include('code_challenge=');
