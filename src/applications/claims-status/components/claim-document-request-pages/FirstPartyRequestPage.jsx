@@ -5,6 +5,7 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 import { buildDateFormatter } from '../../utils/helpers';
 import * as TrackedItem from '../../utils/trackedItemContent';
 import AddFilesForm from '../claim-files-tab/AddFilesForm';
+import OtherWaysToSendYourDocuments from '../claim-files-tab-v2/OtherWaysToSendYourDocuments';
 import { resolveSharedContent } from './shared/descriptionContent';
 import RequestNotifications from './shared/RequestNotifications';
 
@@ -208,12 +209,18 @@ export default function FirstPartyRequestPage({
       )}
 
       {item.canUploadFile && (
-        <AddFilesForm
-          progress={progress}
-          uploading={uploading}
-          onCancel={onCancel}
-          onSubmit={files => onSubmit(files)}
-        />
+        <>
+          <AddFilesForm
+            hideOtherWaysLink
+            progress={progress}
+            uploading={uploading}
+            onCancel={onCancel}
+            onSubmit={files => onSubmit(files)}
+          />
+          <div className="vads-u-margin-top--4">
+            <OtherWaysToSendYourDocuments />
+          </div>
+        </>
       )}
     </div>
   );

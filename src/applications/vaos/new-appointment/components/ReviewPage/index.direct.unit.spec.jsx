@@ -280,6 +280,7 @@ describe('VAOS Page: ReviewPage direct scheduling', () => {
         desiredDate: '2021-05-06T00:00:00+00:00',
       },
       slot: store.getState().newAppointment.availableSlots[0],
+      systemType: 'vista',
     });
   });
 

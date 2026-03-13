@@ -4,13 +4,18 @@ class BaseDetailsPage {
   };
 
   clickPrintOrDownload = () => {
-    // Wait for menu button to be visible and enabled, then click
     cy.get('[data-testid="print-download-menu"]')
       .should('be.visible')
       .and('not.be.disabled')
       .click();
-    // Wait for the menu to open before proceeding
-    cy.get('[data-testid="print-download-menu"]').should(
+    cy.get('[data-testid="print-download-menu"]', { timeout: 10000 })
+      .should('have.attr', 'aria-expanded')
+      .then(expanded => {
+        if (expanded !== 'true') {
+          cy.get('[data-testid="print-download-menu"]').click();
+        }
+      });
+    cy.get('[data-testid="print-download-menu"]', { timeout: 10000 }).should(
       'have.attr',
       'aria-expanded',
       'true',

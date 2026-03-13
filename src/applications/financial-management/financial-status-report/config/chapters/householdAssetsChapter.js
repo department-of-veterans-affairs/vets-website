@@ -51,7 +51,7 @@ export default {
       },
       streamlinedShortTransitionPage: {
         // Transition page - streamlined short form only
-        path: 'skip-questions-explainer',
+        path: 'skip-questions-explainer-short',
         title: 'You can skip questions on this form',
         CustomPage: StreamlinedExplainer,
         CustomPageReview: null,

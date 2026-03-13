@@ -26,6 +26,8 @@ env:
 jobs:
   holiday-checker:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       is_holiday: ${{ steps.holiday-check.outputs.is_holiday }}
     steps:
@@ -35,6 +37,8 @@ jobs:
 
   cancel-run-if-holiday:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: holiday-checker
     if: ${{ github.event.inputs.bypass_freeze != 'true' && needs.holiday-checker.outputs.is_holiday == 'true' }}
     steps:
@@ -253,6 +257,8 @@ jobs:
   holiday-decision-gate:
     name: Holiday Decision Gate
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: [holiday-checker, main-deployment]
     steps:
       - name: Check if deployment should proceed
@@ -265,6 +271,8 @@ jobs:
 
   get-workflow-environment:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: holiday-decision-gate
     outputs:
       environment_name: ${{ steps.check-environment.outputs.env_name }}
@@ -280,6 +288,8 @@ jobs:
   set-env:
     name: Set Env Variables
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: holiday-decision-gate
     outputs:
       LATEST_TAG_VERSION: ${{ steps.get-latest-tag.outputs.LATEST_TAG_VERSION }}

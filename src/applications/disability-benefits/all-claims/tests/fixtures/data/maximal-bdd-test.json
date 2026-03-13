@@ -105,7 +105,8 @@
     "separationHealthAssessmentUploads": [
       {
         "name": "sha-maximal.pdf",
-        "confirmationCode": "sha-maximal-code"
+        "confirmationCode": "sha-maximal-code",
+        "attachmentId": "L702"
       }
     ],
     "view:unemployable": false,
