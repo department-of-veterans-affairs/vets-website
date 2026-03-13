@@ -224,6 +224,9 @@ const formConfig = {
     'Disability Compensation and Related Compensation Benefits (VA Form 21-526EZ)',
   preSubmitInfo: getPreSubmitInfo(),
   CustomReviewTopContent,
+  formOptions: {
+    useWebComponentForNavigation: true,
+  },
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>
