@@ -10,6 +10,10 @@ import {
   featureCombinationsTogglesToTest,
 } from './featureTogglesToTest';
 import * as h from './helpers';
+import {
+  createRegexString,
+  FacilitiesServicesConstants,
+} from '../../constants';
 
 const featureSets = featureCombinationsTogglesToTest([
   'facilities_use_fl_progressive_disclosure',
@@ -109,7 +113,13 @@ for (const featureSet of featureSets) {
 
       h.verifyElementShouldContainString(
         h.SEARCH_RESULTS_SUMMARY,
-        /(Showing|results).*Community providers.*Dentist - Orofacial Pain.*Austin, Texas/i,
+        createRegexString({
+          radius: null,
+          serviceType: 'Dentist \\- Orofacial Pain',
+          facilityType: FacilitiesServicesConstants.CC_PROVIDER.string,
+          totalEntries: 14,
+          location: 'Austin, Texas',
+        }),
       );
 
       h.clearInput(h.CCP_SERVICE_TYPE_INPUT);

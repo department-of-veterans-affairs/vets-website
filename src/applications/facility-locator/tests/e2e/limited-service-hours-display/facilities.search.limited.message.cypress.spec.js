@@ -1,4 +1,8 @@
 import data from './mock/search.limited.services.mocks.json';
+import {
+  createRegexString,
+  FacilitiesServicesConstants,
+} from '../../../constants';
 
 describe('Facility VA search', () => {
   beforeEach(() => {
@@ -42,7 +46,13 @@ describe('Facility VA search', () => {
       .select('Vet Centers');
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
-      'near "Atlanta, Georgia 30310"',
+      createRegexString({
+        radius: null,
+        serviceType: null,
+        facilityType: FacilitiesServicesConstants.VET_CENTER.string,
+        totalEntries: 1,
+        location: 'Atlanta, Georgia 30310',
+      }),
     );
 
     cy.get('[data-testid="limited-message"]').should('be.visible');

@@ -3,9 +3,7 @@
  */
 export const LocationType = {
   NONE: '',
-  VA_FACILITIES: 'va_facilities',
   CC_PROVIDER: 'provider',
-  // Subtypes of VA_FACILITIES
   HEALTH: 'health',
   BENEFITS: 'benefits',
   CEMETERY: 'cemetery',
@@ -13,6 +11,28 @@ export const LocationType = {
   URGENT_CARE: 'urgent_care',
   URGENT_CARE_PHARMACIES: 'pharmacy',
   EMERGENCY_CARE: 'emergency_care',
+};
+
+export const FacilitiesServicesConstants = {
+  NONE: '',
+  CC_PROVIDER: {
+    id: 'provider',
+    string: 'Community providers \\(in VA’s network\\)',
+  },
+  HEALTH: { id: 'health', string: 'VA health' },
+  BENEFITS: { id: 'benefits', string: 'VA benefits' },
+  CEMETERY: { id: 'cemetery', string: 'VA cemeteries' },
+  VET_CENTER: { id: 'vet_center', string: 'Vet centers' },
+  URGENT_CARE: { id: 'urgent_care', string: 'Urgent care' },
+  PHARMACIES_NON_VA: {
+    id: 'pharmacy',
+    string: 'Community pharmacies \\(in VA’s network\\)',
+  },
+  PHARMACIES_IN_NETWORK: {
+    id: 'pharmacy',
+    string: 'Community pharmacies \\(in VA’s network\\)',
+  },
+  EMERGENCY_CARE: { id: 'emergency_care', string: 'Emergency Care' },
 };
 
 /**
@@ -202,6 +222,7 @@ export const MAX_SEARCH_AREA = 500;
  */
 export const MIN_RADIUS = 10;
 export const MIN_RADIUS_CCP = 40;
+export const STD_RADIUS = 50;
 export const MIN_RADIUS_EXP = 49; // Expanded search radius - due to new map configurations
 export const MIN_RADIUS_NCA = 133; // National Cemetery Administration
 export const Covid19Vaccine = 'Covid19Vaccine';
@@ -211,3 +232,93 @@ export const Covid19Vaccine = 'Covid19Vaccine';
  */
 
 export const MIN_SEARCH_CHARS = 3;
+
+export const facilityHasUnpaginatedResults = facilityType =>
+  [
+    FacilitiesServicesConstants.URGENT_CARE.id,
+    FacilitiesServicesConstants.EMERGENCY_CARE.id,
+  ].includes(facilityType);
+
+export const hasNoServices = facilityType =>
+  [
+    FacilitiesServicesConstants.CEMETERY.id,
+    FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.id,
+    FacilitiesServicesConstants.BENEFITS.id,
+    FacilitiesServicesConstants.VET_CENTER.id,
+    FacilitiesServicesConstants.CEMETERY.string,
+    FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.string,
+    FacilitiesServicesConstants.BENEFITS.string,
+    FacilitiesServicesConstants.VET_CENTER.string,
+  ].includes(facilityType);
+
+export const isPluralizedFacilityType = facilityType =>
+  [
+    FacilitiesServicesConstants.CEMETERY.id,
+    FacilitiesServicesConstants.CC_PROVIDER.id,
+    FacilitiesServicesConstants.PHARMACIES_IN_NETWORK.id,
+    FacilitiesServicesConstants.VET_CENTER.id,
+  ].includes(facilityType);
+
+/**
+ * Builds a regex to match the rendered SearchResultsHeader text.
+ *
+ * The component renders:
+ *   {prefix}
+ *   <b>{serviceTypeText}</b> services at
+ *   <b>{facilityLabel}</b> facilities
+ *   within {N} miles of <b>{location}</b>
+ *
+ * Where serviceTypeText has the word "services" stripped if the original
+ * formatted name contained it.
+ *
+ * @param {Object} opts
+ * @param {string}  [opts.serviceType] - Formatted display name for the service (e.g. "Primary care").
+ * @param {string}  [opts.facilityType]- The facilityType id, used to detect unpaginated/noServices
+ * @param {Object}  [opts.pagination]  - { totalEntries, currentPage, totalPages }
+ * @param {string}  [opts.location]     - Location string
+ */
+
+export const createRegexString = ({
+  serviceType,
+  facilityType,
+  totalEntries,
+  location,
+  radius,
+} = {}) => {
+  const radiusPattern = radius != null ? String(Math.round(radius)) : '\\d+';
+
+  const facilityTypeHasNoServices =
+    hasNoServices(facilityType) ||
+    serviceType === null ||
+    serviceType === 'test';
+
+  // --- No results case ---
+  if (totalEntries === 0) {
+    return new RegExp(
+      `No results found for.*within ${radiusPattern} miles of.*${location}.*`,
+      'i',
+    );
+  }
+
+  // --- Results prefix ---
+  let resultsPrefix;
+  const resultsAreUnpaginated = facilityHasUnpaginatedResults(facilityType);
+
+  if (resultsAreUnpaginated) {
+    resultsPrefix = 'Results for ';
+  }
+
+  if (!resultsAreUnpaginated) {
+    if (totalEntries === 1) {
+      resultsPrefix = 'Showing 1 result for';
+    } else {
+      resultsPrefix = `(Showing|results)`;
+    }
+  }
+  return new RegExp(
+    `${resultsPrefix}.*${
+      facilityTypeHasNoServices ? '' : `${serviceType}.*`
+    }${facilityType}.*within ${radiusPattern} miles of.*${location}.*`,
+    'i',
+  );
+};

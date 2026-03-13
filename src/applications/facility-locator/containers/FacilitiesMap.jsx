@@ -534,6 +534,7 @@ const FacilitiesMap = props => {
               {!searchError && (
                 <SearchResultsHeader
                   results={results}
+                  radius={currentQuery.radius}
                   facilityType={facilityType}
                   serviceType={serviceType}
                   context={queryContext}

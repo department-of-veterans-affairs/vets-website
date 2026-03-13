@@ -8,7 +8,12 @@ import {
   benefitsServices,
   emergencyCareServices,
 } from '../config';
-import { LocationType } from '../constants';
+import {
+  LocationType,
+  facilityHasUnpaginatedResults as areFacilityTypeResultsUnpaginated,
+  hasNoServices as determineFacilityTypeHasNoServices,
+  isPluralizedFacilityType,
+} from '../constants';
 import { PaginationTypes } from '../types';
 
 export const SearchResultsHeader = ({
@@ -17,110 +22,113 @@ export const SearchResultsHeader = ({
   inProgress,
   pagination,
   results,
+  radius,
   serviceType,
   specialtyMap,
   vamcServiceDisplay,
 }) => {
-  const noResultsFound = !results || !results.length;
-
   if (inProgress || !context) {
     return <div style={{ height: '38px' }} />;
   }
 
+  const noResultsFound = !results || !results.length;
   const location = context ? context.replace(', United States', '') : null;
+  const resultsAreUnpaginated = areFacilityTypeResultsUnpaginated(facilityType);
+
+  const facilityTypeHasNoServices = determineFacilityTypeHasNoServices(
+    facilityType,
+  );
+
+  const facilityTypeIsPluralized = isPluralizedFacilityType(facilityType);
+
+  const servicesByFacility = {
+    [LocationType.URGENT_CARE]: {
+      services: urgentCareServices,
+      allServicesKey: 'AllUrgentCare',
+    },
+    [LocationType.EMERGENCY_CARE]: {
+      services: emergencyCareServices,
+      allServicesKey: 'AllEmergencyCare',
+    },
+    [LocationType.HEALTH]: { services: healthServices, allServicesKey: 'All' },
+    [LocationType.CC_PROVIDER]: { services: specialtyMap },
+    [LocationType.BENEFITS]: {
+      services: benefitsServices,
+      allServicesKey: 'All',
+    },
+  };
 
   const formatServiceType = rawServiceType => {
-    if (facilityType === LocationType.URGENT_CARE) {
-      if (!rawServiceType) {
-        return urgentCareServices.AllUrgentCare;
-      }
-      return urgentCareServices[rawServiceType];
+    if (facilityType === LocationType.HEALTH && vamcServiceDisplay) {
+      return vamcServiceDisplay;
     }
 
-    if (facilityType === LocationType.EMERGENCY_CARE) {
-      if (!rawServiceType) {
-        return emergencyCareServices.AllEmergencyCare;
-      }
-      return emergencyCareServices[rawServiceType];
-    }
-
-    if (facilityType === LocationType.HEALTH) {
-      if (vamcServiceDisplay) {
-        return vamcServiceDisplay;
-      }
-
-      if (!rawServiceType) {
-        return healthServices.All;
-      }
-
-      return healthServices[rawServiceType];
-    }
-
-    if (facilityType === LocationType.CC_PROVIDER) {
-      return specialtyMap && specialtyMap[rawServiceType];
-    }
-
-    if (facilityType === LocationType.BENEFITS) {
-      if (!rawServiceType) {
-        return benefitsServices.All;
-      }
-      return benefitsServices[rawServiceType];
-    }
-
-    return rawServiceType;
+    const config = servicesByFacility[facilityType];
+    if (!config?.services) return rawServiceType;
+    if (rawServiceType) return config.services[rawServiceType];
+    return config.allServicesKey
+      ? config.services[config.allServicesKey]
+      : rawServiceType;
   };
 
-  const formattedServiceType = formatServiceType(serviceType);
-
-  const messagePrefix = noResultsFound ? 'No results found' : 'Results';
-
-  const handleNumberOfResults = () => {
-    const { totalEntries, currentPage, totalPages } = pagination;
-
+  const determinePrefixText = () => {
     if (noResultsFound) {
-      return 'No results found';
+      return 'No results found for ';
     }
-    if (totalEntries === 1) {
-      return 'Showing 1 result';
-    }
-    if (totalEntries < 11) {
-      return `Showing 1 - ${totalEntries} results`;
+    if (resultsAreUnpaginated) {
+      return 'Results for ';
     }
 
-    if (totalEntries > 10) {
-      const startResultNum = 10 * (currentPage - 1) + 1;
-      const endResultNum =
-        currentPage !== totalPages ? 10 * currentPage : totalEntries;
+    if (pagination && !resultsAreUnpaginated) {
+      const { totalEntries, currentPage, totalPages } = pagination;
 
-      return `Showing ${startResultNum} - ${endResultNum} of ${totalEntries} results`;
+      if (totalEntries === 1) {
+        return 'Showing 1 result for ';
+      }
+      if (totalEntries <= 10) {
+        return `Showing 1 - ${totalEntries} results for `;
+      }
+      if (totalEntries > 10) {
+        const start = 10 * (currentPage - 1) + 1;
+        const end =
+          currentPage !== totalPages ? 10 * currentPage : totalEntries;
+        return `Showing ${start} - ${end} of ${totalEntries} results for `;
+      }
+      return 'Results for ';
     }
-    return 'Results';
+    return 'Results for ';
   };
 
-  const isSpecialCategory = [
-    LocationType.URGENT_CARE,
-    LocationType.EMERGENCY_CARE,
-  ].includes(facilityType);
+  const formattedServiceTypeText = formatServiceType(serviceType);
+  const serviceNameContainsServicesWord =
+    formattedServiceTypeText?.includes('services') || false;
 
-  const resultsPrefix = isSpecialCategory
-    ? `${messagePrefix} for `
-    : `${handleNumberOfResults()} for `;
+  const determineServicesText = () => {
+    const serviceDisplay = {
+      serviceTypeText: '',
+      showServicesWord: false,
+    };
 
-  const FormattedServiceTypeText = () =>
-    formattedServiceType ? (
-      <>
-        {`, `}
-        <b>{`"${formattedServiceType}"`}</b>
-      </>
-    ) : null;
+    if (facilityTypeHasNoServices) {
+      return serviceDisplay;
+    }
 
-  const FormattedLocationText = () =>
-    location ? (
-      <>
-        {` near `}
-        <b>{`"${location}"`}</b>
-      </>
-    ) : null;
+    if (serviceNameContainsServicesWord) {
+      serviceDisplay.serviceTypeText = formattedServiceTypeText.replace(
+        'services',
+        '',
+      );
+    } else {
+      serviceDisplay.serviceTypeText = formattedServiceTypeText;
+    }
+
+    serviceDisplay.showServicesWord = true;
+    return serviceDisplay;
+  };
+
+  const facilityLabel = facilityTypes[facilityType] || '';
+  const { serviceTypeText } = determineServicesText();
+  const { showServicesWord } = determineServicesText();
 
   return (
     <div>
@@ -129,10 +137,27 @@ export const SearchResultsHeader = ({
         className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-padding--0p5 vads-u-margin-y--1"
         tabIndex="-1"
       >
-        {`${resultsPrefix}`}
-        <b>{`"${facilityTypes[facilityType] || ''}"`}</b>
-        {FormattedServiceTypeText()}
-        {FormattedLocationText()}
+        {determinePrefixText()}
+        {!facilityTypeHasNoServices && (
+          <>
+            <b>{serviceTypeText}</b>
+            {showServicesWord && ` services at `}
+          </>
+        )}
+        {facilityLabel && (
+          <>
+            <b>{facilityLabel}</b>
+            {!facilityTypeIsPluralized ? ` facilities` : ``}
+          </>
+        )}
+        {location && (
+          <>
+            {radius != null
+              ? ` within ${Math.round(radius)} miles of `
+              : ` near `}
+            <b>{`${location}`}</b>
+          </>
+        )}
       </h2>
     </div>
   );
@@ -143,6 +168,7 @@ SearchResultsHeader.propTypes = {
   facilityType: PropTypes.string,
   inProgress: PropTypes.bool,
   pagination: PaginationTypes,
+  radius: PropTypes.number,
   results: PropTypes.array,
   serviceType: PropTypes.string,
   specialtyMap: PropTypes.object,
