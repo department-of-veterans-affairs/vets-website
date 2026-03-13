@@ -2,7 +2,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import FEATURE_FLAGS from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   createPageList,
   createFormPageList,
@@ -16,6 +15,7 @@ const defaultState = {
     loadedData: {
       metadata: {},
     },
+    data: {},
   },
   user: {
     login: {
@@ -52,40 +52,8 @@ const renderIntroductionPage = store => {
 };
 
 describe('<IntroductionPage />', () => {
-  it('should render v1', () => {
+  it('should render introduction page', () => {
     const store = createMockStore(defaultState);
-
-    const { container } = renderIntroductionPage(store);
-
-    expect(container).to.exist;
-  });
-
-  it('should render v2', () => {
-    const state = {
-      ...defaultState,
-      featureToggles: {
-        ...defaultState.featureToggles,
-        [FEATURE_FLAGS.showMeb54901990eTextUpdate]: true,
-      },
-    };
-
-    const store = createMockStore(state);
-
-    const { container } = renderIntroductionPage(store);
-
-    expect(container).to.exist;
-  });
-
-  it('should render v3', () => {
-    const state = {
-      ...defaultState,
-      featureToggles: {
-        ...defaultState.featureToggles,
-        [FEATURE_FLAGS.meb1995Reroute]: true,
-      },
-    };
-
-    const store = createMockStore(state);
 
     const { container } = renderIntroductionPage(store);
 
@@ -109,5 +77,29 @@ describe('<IntroductionPage />', () => {
 
     const ombInfoContainer = container.querySelector('.omb-info--container');
     expect(ombInfoContainer.className).to.include('vads-u-margin-top--4');
+  });
+
+  it('should show warning alert instead of start link when user is a minor', () => {
+    const store = createMockStore({
+      ...defaultState,
+      user: {
+        login: { currentlyLoggedIn: true },
+        profile: { loa: { current: 3 } },
+      },
+      featureToggles: { mebBlockUnder18: true },
+      form: {
+        ...defaultState.form,
+        data: {
+          dob: '2010-01-01',
+        },
+      },
+    });
+
+    const screen = renderIntroductionPage(store);
+    expect(
+      screen.getByText(
+        'You don’t meet the age requirement to access this form online',
+      ),
+    ).to.exist;
   });
 });

@@ -44,9 +44,9 @@ function CustomEmailField(props) {
 }
 
 CustomEmailField.propTypes = {
+  email: PropTypes.string,
   fetchDuplicateContactInfo: PropTypes.func,
   updateGlobalEmail: PropTypes.func,
-  email: PropTypes.string,
 };
 
 const mapStateToProps = state => ({

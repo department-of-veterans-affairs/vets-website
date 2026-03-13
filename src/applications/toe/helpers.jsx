@@ -98,134 +98,7 @@ export const equalsAlphaOnlyIgnoreCase = (a, b) => {
   return transformAlphaOnlyLowercase(a) === transformAlphaOnlyLowercase(b);
 };
 
-export function prefillTransformerV1(pages, formData, metadata, state) {
-  const bankInformation = state.data?.bankInformation || {};
-  const claimant = state.data?.formData?.data?.attributes?.claimant || {};
-  const contactInfo = claimant?.contactInfo || {};
-  const sponsors = state.data?.formData?.attributes?.sponsors;
-  const stateUser = state.user;
-  const vapContactInfo = stateUser.profile?.vapContactInfo || {};
-  const profile = stateUser?.profile;
-
-  let firstName;
-  let middleName;
-  let lastName;
-  let suffix;
-
-  if (profile?.userFullName?.first && profile?.userFullName?.last) {
-    firstName = profile.userFullName.first;
-    middleName = profile.userFullName.middle;
-    lastName = profile.userFullName.last;
-    // suffix = ???
-  } else {
-    firstName = claimant.firstName;
-    middleName = claimant.middleName;
-    lastName = claimant?.lastName;
-    suffix = claimant.suffix;
-  }
-
-  const emailAddress =
-    vapContactInfo.email?.emailAddress ||
-    profile?.email ||
-    contactInfo.emailAddress ||
-    undefined;
-
-  let mobilePhoneNumber;
-  let mobilePhoneIsInternational;
-  const vapMobilePhone = vapContactInfo.mobilePhone || {};
-  if (vapMobilePhone.areaCode && vapMobilePhone.phoneNumber) {
-    mobilePhoneNumber = [
-      vapMobilePhone.areaCode,
-      vapMobilePhone.phoneNumber,
-    ].join();
-    mobilePhoneIsInternational = vapMobilePhone.isInternational;
-  } else {
-    mobilePhoneNumber = contactInfo?.mobilePhoneNumber;
-  }
-
-  let homePhoneNumber;
-  let homePhoneIsInternational;
-  const vapHomePhone = vapContactInfo.homePhone || {};
-  if (vapHomePhone.areaCode && vapHomePhone.phoneNumber) {
-    homePhoneNumber = [vapHomePhone.areaCode, vapHomePhone.phoneNumber].join();
-    homePhoneIsInternational = vapHomePhone.isInternational;
-  } else {
-    homePhoneNumber = contactInfo?.homePhoneNumber;
-  }
-
-  const address = vapContactInfo.mailingAddress?.addressLine1
-    ? vapContactInfo.mailingAddress
-    : contactInfo;
-
-  const newData = {
-    ...formData,
-    sponsors,
-    formId: state.data?.formData?.data?.id,
-    claimantId: claimant.claimantId,
-    [formFields.viewUserFullName]: {
-      [formFields.userFullName]: {
-        first: firstName || undefined,
-        middle: middleName || undefined,
-        last: lastName || undefined,
-      },
-    },
-    dateOfBirth: profile?.dob || claimant?.dateOfBirth,
-    dob: profile?.dob || claimant?.dateOfBirth,
-    [formFields.email]: {
-      email: emailAddress,
-      confirmEmail: emailAddress,
-    },
-    [formFields.viewPhoneNumbers]: {
-      [formFields.mobilePhoneNumber]: {
-        phone: mobilePhoneNumber?.replace(/\D/g, '') || undefined,
-        isInternational: mobilePhoneIsInternational,
-      },
-      [formFields.phoneNumber]: {
-        phone: homePhoneNumber?.replace(/\D/g, '') || undefined,
-        isInternational: homePhoneIsInternational,
-      },
-    },
-    [formFields.bankAccount]: {
-      ...bankInformation,
-      [formFields.routingNumberConfirmation]: bankInformation?.routingNumber,
-      [formFields.accountNumberConfirmation]: bankInformation?.accountNumber,
-    },
-    [formFields.viewMailingAddress]: {
-      [formFields.address]: {
-        street: address?.addressLine1,
-        street2: address?.addressLine2 || undefined,
-        city: address?.city,
-        state: address?.stateCode,
-        postalCode: address?.zipCode || address?.zipcode,
-        country: getSchemaCountryCode(address?.countryCode),
-      },
-      livesOnMilitaryBase:
-        contactInfo?.countryCode !== 'US' &&
-        contactInfo?.addressType === 'MILITARY_OVERSEAS',
-    },
-    [formFields.viewReceiveTextMessages]: {
-      [formFields.receiveTextMessages]: mapNotificationMethod(claimant),
-    },
-  };
-
-  if (suffix) {
-    newData[formFields.viewUserFullName].userFullName.suffix =
-      state?.form?.pages?.applicantInformation?.schema?.properties[
-        formFields.viewUserFullName
-      ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
-        equalsAlphaOnlyIgnoreCase(e, suffix),
-      ) || undefined;
-  }
-
-  return {
-    metadata,
-    formData: newData,
-    pages,
-    state,
-  };
-}
-
-export function prefillTransformerV2(pages, formData, metadata, state) {
+export function prefillTransformer(pages, formData, metadata, state) {
   const bankInformation = state.data?.bankInformation || {};
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const contactInfo = claimant?.contactInfo || {};
@@ -357,22 +230,6 @@ export function prefillTransformerV2(pages, formData, metadata, state) {
   };
 }
 
-export function prefillTransformer(pages, formData, metadata, state) {
-  const featureTogglesLoaded = state.featureToggles?.loading === false;
-  const showInternationalAddressPrefill =
-    state.featureToggles?.showMebInternationalAddressPrefill;
-
-  if (!featureTogglesLoaded) {
-    return {};
-  }
-
-  if (showInternationalAddressPrefill) {
-    return prefillTransformerV2(pages, formData, metadata, state);
-  }
-
-  return prefillTransformerV1(pages, formData, metadata, state);
-}
-
 export function mapSelectedSponsors(sponsors) {
   // Map selected sponsors' IDs
   return (
@@ -455,14 +312,14 @@ export const toSnakeCase = obj => {
   return result;
 };
 
-export const applicantIsaMinor = formData => {
-  if (!formData || !formData?.dob) {
-    return true;
+export const applicantIsAMinor = dob => {
+  if (!dob) {
+    return false;
   }
 
-  const dateParts = formData.dob.split('-');
+  const dateParts = dob.split('-');
   if (!dateParts || dateParts.length !== 3) {
-    return true;
+    return false;
   }
 
   const birthday = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);

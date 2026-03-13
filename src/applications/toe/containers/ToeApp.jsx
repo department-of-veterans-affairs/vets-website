@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import { isArray } from 'lodash';
 import merge from 'lodash/merge';
@@ -28,35 +28,44 @@ function ToeApp({
   getPersonalInformation,
   isLOA3,
   isLoggedIn,
+  isMinor,
   location,
-  meb1995Reroute,
-  mebDpoAddressOptionEnabled,
   mebBankInfoConfirmationField,
+  router,
   setFormData,
   sponsors,
   sponsorsInitial,
   sponsorsSavedState,
   user,
-  showMeb1990ER6MaintenanceMessage,
-  toeHighSchoolInfoChange,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
+  const formDataRef = useRef(formData);
+  formDataRef.current = formData;
 
+  // Sync props into formData
   useEffect(
     () => {
+      const updates = {};
+
       if (
         mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
-      ) {
+      )
+        updates.mebBankInfoConfirmationField = mebBankInfoConfirmationField;
+      if (isLOA3 !== formData.isLOA3) updates.isLOA3 = isLOA3;
+      if (dob !== formData?.dob) updates.dob = dob;
+
+      if (Object.keys(updates).length > 0) {
         setFormData({
           ...formData,
-          mebBankInfoConfirmationField,
+          ...updates,
         });
       }
     },
-    [mebBankInfoConfirmationField, formData, setFormData],
+    [mebBankInfoConfirmationField, isLOA3, dob, formData, setFormData],
   );
 
+  // Fetch personal information (one-time on login)
   useEffect(
     () => {
       if (!user?.login?.currentlyLoggedIn) {
@@ -66,113 +75,67 @@ function ToeApp({
         setFetchedUserInfo(true);
         getPersonalInformation();
       }
+    },
+    [fetchedUserInfo, getPersonalInformation, user?.login?.currentlyLoggedIn],
+  );
+
+  // Sync sponsors from saved state or initial fetch into formData.
+  // Uses formDataRef to read the latest formData without including it
+  // as a dependency — this prevents re-running on every keystroke.
+  useEffect(
+    () => {
+      if (!user?.login?.currentlyLoggedIn) {
+        return;
+      }
 
       if (
         !sponsors?.loadedFromSavedState &&
         isArray(sponsorsSavedState?.sponsors)
       ) {
-        setFormData(mapFormSponsors(formData, sponsorsSavedState));
+        setFormData(mapFormSponsors(formDataRef.current, sponsorsSavedState));
       } else if (
         sponsorsInitial &&
         !sponsors &&
         isArray(sponsorsInitial?.sponsors)
       ) {
-        setFormData(mapFormSponsors(formData, sponsorsInitial));
+        setFormData(mapFormSponsors(formDataRef.current, sponsorsInitial));
       }
     },
     [
-      fetchedUserInfo,
-      getPersonalInformation,
       user?.login?.currentlyLoggedIn,
-      setFormData,
       sponsors,
       sponsorsInitial,
       sponsorsSavedState,
-      formData.sponsors,
+      setFormData,
+      formDataRef,
     ],
   );
 
-  useEffect(
-    () => {
-      if (isLOA3 !== formData.isLOA3) {
-        setFormData({
-          ...formData,
-          isLOA3,
-        });
-      }
-    },
-    [isLOA3],
-  );
+  // Extract nested formData values so the dependency array stays simple
+  // and ESLint can statically verify exhaustive-deps.
+  const mobilePhone = formData?.['view:phoneNumbers']?.mobilePhoneNumber?.phone;
+  const emailAddress = formData?.email?.email;
 
+  // Check for duplicate contact info when phone/email are available
   useEffect(
     () => {
-      if (
-        showMeb1990ER6MaintenanceMessage !==
-        formData.showMeb1990ER6MaintenanceMessage
-      ) {
-        setFormData({
-          ...formData,
-          showMeb1990ER6MaintenanceMessage,
-        });
-      }
-    },
-    [showMeb1990ER6MaintenanceMessage],
-  );
-
-  useEffect(
-    () => {
-      if (meb1995Reroute !== formData.meb1995Reroute) {
-        setFormData({
-          ...formData,
-          meb1995Reroute,
-        });
-      }
-    },
-    [formData, meb1995Reroute, setFormData],
-  );
-
-  useEffect(
-    () => {
-      if (
-        formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
-        formData?.email?.email &&
-        !formData?.duplicateEmail &&
-        !formData?.duplicatePhone
-      ) {
+      if (mobilePhone && emailAddress && (!duplicateEmail || !duplicatePhone)) {
         getDuplicateContactInfo(
-          [{ value: formData?.email?.email, dupe: '' }],
-          [
-            {
-              value: formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
-              dupe: '',
-            },
-          ],
+          [{ value: emailAddress, dupe: '' }],
+          [{ value: mobilePhone, dupe: '' }],
         );
       }
-
-      if (
-        duplicateEmail?.length > 0 &&
-        duplicateEmail !== formData?.duplicateEmail
-      ) {
-        setFormData({
-          ...formData,
-          duplicateEmail,
-        });
-      }
-
-      if (
-        duplicatePhone?.length > 0 &&
-        duplicatePhone !== formData?.duplicatePhone
-      ) {
-        setFormData({
-          ...formData,
-          duplicatePhone,
-        });
-      }
     },
-    [getDuplicateContactInfo, duplicateEmail, duplicatePhone],
+    [
+      getDuplicateContactInfo,
+      mobilePhone,
+      emailAddress,
+      duplicateEmail,
+      duplicatePhone,
+    ],
   );
 
+  // Fetch direct deposit info (one-time after LOA3 confirmed)
   useEffect(
     () => {
       if (!user?.login?.currentlyLoggedIn) {
@@ -193,41 +156,17 @@ function ToeApp({
     ],
   );
 
+  // Block minors from entering the form
   useEffect(
     () => {
-      if (toeHighSchoolInfoChange !== formData.toeHighSchoolInfoChange) {
-        setFormData({
-          ...formData,
-          toeHighSchoolInfoChange,
-        });
+      const { pathname } = location;
+      if (isMinor && pathname !== '/introduction') {
+        router.push('/introduction');
       }
     },
-    [toeHighSchoolInfoChange],
+    [location, isMinor, router],
   );
 
-  useEffect(
-    () => {
-      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
-        setFormData({
-          ...formData,
-          mebDpoAddressOptionEnabled,
-        });
-      }
-    },
-    [mebDpoAddressOptionEnabled],
-  );
-
-  useEffect(
-    () => {
-      if (dob !== formData?.dob) {
-        setFormData({
-          ...formData,
-          dob,
-        });
-      }
-    },
-    [dob, setFormData],
-  );
   return (
     <>
       <div className="row">
@@ -275,17 +214,16 @@ ToeApp.propTypes = {
   getPersonalInformation: PropTypes.func,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
+  isMinor: PropTypes.bool,
   location: PropTypes.object,
-  meb1995Reroute: PropTypes.bool,
   mebBankInfoConfirmationField: PropTypes.bool,
-  mebDpoAddressOptionEnabled: PropTypes.bool,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   setFormData: PropTypes.func,
-  showMeb1990ER6MaintenanceMessage: PropTypes.bool,
-  showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
   sponsorsSavedState: SPONSORS_TYPE,
-  toeHighSchoolInfoChange: PropTypes.bool,
   user: PropTypes.object,
 };
 
@@ -293,8 +231,6 @@ const mapStateToProps = state => {
   const prefillData =
     prefillTransformer(null, null, null, state)?.formData || {};
   const formStateData = state.form?.data || {};
-
-  // Deeply merge form state over prefill data
   const formData = merge({}, prefillData, formStateData);
 
   return {

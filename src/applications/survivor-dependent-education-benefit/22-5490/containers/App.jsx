@@ -24,10 +24,11 @@ function App({
   getDuplicateContactInfo,
   getPersonalInformation,
   isLOA3,
+  isMinor,
   location,
-  mebDpoAddressOptionEnabled,
   mebBankInfoConfirmationField,
-  meb1995InstructionPageUpdateV3,
+  mebBlockUnder18,
+  router,
   setFormData,
   user,
 }) {
@@ -82,28 +83,6 @@ function App({
 
   useEffect(
     () => {
-      if (mebDpoAddressOptionEnabled !== formData.mebDpoAddressOptionEnabled) {
-        setFormData({
-          ...formData,
-          mebDpoAddressOptionEnabled,
-        });
-      }
-    },
-    [mebDpoAddressOptionEnabled, formData, setFormData],
-  );
-
-  useEffect(
-    () => {
-      if (
-        meb1995InstructionPageUpdateV3 !==
-        formData.meb1995InstructionPageUpdateV3
-      ) {
-        setFormData({
-          ...formData,
-          meb1995InstructionPageUpdateV3,
-        });
-      }
-
       if (
         mebBankInfoConfirmationField !== formData.mebBankInfoConfirmationField
       ) {
@@ -112,13 +91,15 @@ function App({
           mebBankInfoConfirmationField,
         });
       }
+
+      if (mebBlockUnder18 !== formData.mebBlockUnder18) {
+        setFormData({
+          ...formData,
+          mebBlockUnder18,
+        });
+      }
     },
-    [
-      meb1995InstructionPageUpdateV3,
-      mebBankInfoConfirmationField,
-      formData,
-      setFormData,
-    ],
+    [mebBankInfoConfirmationField, mebBlockUnder18, formData, setFormData],
   );
 
   useEffect(
@@ -160,6 +141,17 @@ function App({
       }
     },
     [getDuplicateContactInfo, formData?.email, formData?.mobilePhone?.phone],
+  );
+
+  // Block minors from entering the form
+  useEffect(
+    () => {
+      const { pathname } = location;
+      if (isMinor && pathname !== '/introduction') {
+        router.push('/introduction');
+      }
+    },
+    [location, isMinor, router],
   );
 
   return (
@@ -207,10 +199,13 @@ App.propTypes = {
   getDuplicateContactInfo: PropTypes.func,
   getPersonalInformation: PropTypes.func,
   isLOA3: PropTypes.bool,
+  isMinor: PropTypes.bool,
   location: PropTypes.object,
-  meb1995InstructionPageUpdateV3: PropTypes.bool,
   mebBankInfoConfirmationField: PropTypes.bool,
-  mebDpoAddressOptionEnabled: PropTypes.bool,
+  mebBlockUnder18: PropTypes.bool,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   setFormData: PropTypes.func,
   user: PropTypes.object,
 };

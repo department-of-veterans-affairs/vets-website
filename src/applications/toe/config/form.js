@@ -46,7 +46,7 @@ import {
   addWhitespaceOnlyError,
   isOnlyWhitespace,
   prefillTransformer,
-  applicantIsaMinor,
+  applicantIsAMinor,
 } from '../helpers';
 
 import { transformTOEForm } from '../utils/form-submit-transform';
@@ -170,8 +170,8 @@ const formConfig = {
                     return true;
                   }
 
-                  // Use applicantIsaMinor to determine if the alert should be hidden
-                  return !applicantIsaMinor(formData);
+                  // Use applicantIsAMinor to determine if the alert should be hidden
+                  return !applicantIsAMinor(formData.dob);
                 },
               },
             },
@@ -184,7 +184,7 @@ const formConfig = {
                     return true;
                   }
 
-                  return !applicantIsaMinor(formData);
+                  return !applicantIsAMinor(formData.dob);
                 },
               },
               'ui:required': formData => {
@@ -193,7 +193,7 @@ const formConfig = {
                   return false;
                 }
 
-                return applicantIsaMinor(formData);
+                return applicantIsAMinor(formData.dob);
               },
               'ui:validations': [
                 (errors, field) => {
@@ -214,18 +214,15 @@ const formConfig = {
             [formFields.highSchoolDiploma]: {
               'ui:options': {
                 hideIf: formData => {
-                  if (!formData || !formData.toeHighSchoolInfoChange) {
+                  if (!formData) {
                     return true;
                   }
 
-                  return !applicantIsaMinor(formData);
+                  return !applicantIsAMinor(formData.dob);
                 },
               },
               'ui:required': formData => {
-                return (
-                  formData.toeHighSchoolInfoChange &&
-                  applicantIsaMinor(formData)
-                );
+                return applicantIsAMinor(formData.dob);
               },
               'ui:title':
                 'Did you earn a high school diploma or equivalency certificate?',
@@ -234,20 +231,19 @@ const formConfig = {
             [formFields.highSchoolDiplomaDate]: {
               'ui:options': {
                 hideIf: formData => {
-                  if (!formData || !formData.toeHighSchoolInfoChange) {
+                  if (!formData) {
                     return true;
                   }
 
                   return !(
-                    applicantIsaMinor(formData) &&
+                    applicantIsAMinor(formData.dob) &&
                     formData[formFields.highSchoolDiploma] === 'Yes'
                   );
                 },
               },
               'ui:required': formData => {
                 return (
-                  formData.toeHighSchoolInfoChange &&
-                  applicantIsaMinor(formData) &&
+                  applicantIsAMinor(formData.dob) &&
                   formData[formFields.highSchoolDiploma] === 'Yes'
                 );
               },
@@ -414,96 +410,6 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-            },
-          },
-        },
-        highSchool: {
-          title: 'Verify your high school education',
-          path: 'high-school',
-          depends: formData =>
-            applicantIsaMinor(formData) && !formData.toeHighSchoolInfoChange,
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <va-alert
-                    close-btn-aria-label="Close notification"
-                    status="info"
-                    visible
-                  >
-                    <h3 slot="headline">We need additional information</h3>
-                    <div>
-                      Since you are under 18 years old, please include
-                      information about your high school education.
-                    </div>
-                  </va-alert>
-                  <h3>Verify your high school education</h3>
-                </>
-              ),
-            },
-            [formFields.highSchoolDiplomaLegacy]: {
-              'ui:title':
-                'Did you earn a high school diploma or equivalency certificate?',
-              'ui:widget': 'radio',
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [formFields.highSchoolDiplomaLegacy],
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.highSchoolDiplomaLegacy]: {
-                type: 'string',
-                enum: ['Yes', 'No'],
-              },
-            },
-          },
-        },
-        highSchoolGraduationDate: {
-          title: 'Verify your high school graduation date',
-          path: 'high-school-completion',
-          depends: formData =>
-            applicantIsaMinor(formData) &&
-            formData[formFields.highSchoolDiplomaLegacy] === 'Yes' &&
-            !formData.toeHighSchoolInfoChange,
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <va-alert
-                    close-btn-aria-label="Close notification"
-                    status="info"
-                    visible
-                  >
-                    <h3 slot="headline">We need additional information</h3>
-                    <div>
-                      Since you are under 18 years old and indicated that you
-                      earned a high school diploma, please verify your high
-                      school graduation date.
-                    </div>
-                  </va-alert>
-                  <h3>Verify your high school graduation date</h3>
-                </>
-              ),
-            },
-            [formFields.highSchoolDiplomaDateLegacy]: {
-              ...currentOrPastDateUI(
-                'When did you earn your high school diploma or equivalency certificate?',
-              ),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [formFields.highSchoolDiplomaDateLegacy],
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.highSchoolDiplomaDateLegacy]: date,
             },
           },
         },

@@ -5,61 +5,56 @@ import { connect } from 'react-redux';
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { getAppData } from '../selectors';
 import IntroductionLogin from '../components/IntroductionLogin';
 
-export const IntroductionPage = ({
-  isLOA3,
-  isLoggedIn,
-  isPersonalInfoFetchFailed,
-  showMeb5490EMaintenanceAlert,
-  meb1995InstructionPageUpdateV3,
-  route,
-}) => {
+export const IntroductionPage = ({ mebBlockUnder18, route, user }) => {
   return (
     <article className="schemaform-intro">
       <FormTitle
         title="Apply for education benefits as an eligible dependent"
         subTitle="Form 22-5490 (Dependents' Application for VA Education Benefits)"
       />
-      {meb1995InstructionPageUpdateV3 ? (
-        <p>
-          Use VA Form 22-5490 if you are the spouse or dependent of a Veteran
-          and want to apply for education benefits for the first time or make
-          changes to an existing benefit.
-        </p>
-      ) : (
-        <p>
-          Use VA Form 22-5490 if you are a spouse or dependent applying for
-          educational benefits under
-          <strong>
-            {' '}
-            Chapter 35 Survivors' and Dependents' Education Assistance (DEA){' '}
-          </strong>{' '}
-          or <strong>Chapter 33 Fry Scholarship.</strong>
-        </p>
-      )}
-      {meb1995InstructionPageUpdateV3 && (
-        <div>
-          <p>
-            <b>
-              For first time applicants, use the VA Form 22-5490 to apply for
-              the following programs:
-            </b>
-          </p>
-          <ul>
+      <p>
+        Use VA Form 22-5490 if you are the spouse or dependent of a Veteran and
+        want to apply for education benefits for the first time or make changes
+        to an existing benefit.
+      </p>
+      <p>
+        <b>
+          For first time applicants, use VA Form 22-5490 to apply for the
+          following programs:
+        </b>
+      </p>
+      <ul>
+        <li>
+          Chapter 35 Survivors' and Dependents' Educational Assistance (DEA)
+        </li>
+        <li>Chapter 33 Fry Scholarship</li>
+      </ul>
+      <p>
+        <b>
+          If you’ve applied for education benefits before, use VA Form 22-5490
+          to:
+        </b>
+      </p>
+      <ul>
+        {mebBlockUnder18 ? (
+          <>
             <li>
-              Chapter 35 Survivors' and Dependents' Education Assistance (DEA)
+              Make updates to your current benefit and get an updated
+              Certificate of Eligibility (COE)
             </li>
-            <li>Chapter 33 Fry Scholarship</li>
-          </ul>
-          <p>
-            <b>
-              If you’ve applied for benefits before, use the VA Form 22-5490 to:
-            </b>
-          </p>
-          <ul>
+            <li>
+              Apply to switch your existing education benefit and get a new COE
+            </li>
+            <li>
+              Apply as an eligible dependent for education benefits from a
+              different Veteran than you’ve used in the past
+            </li>
+          </>
+        ) : (
+          <>
             <li>
               Update your current benefit and get an updated Certificate of
               Eligibility (COE)
@@ -69,9 +64,9 @@ export const IntroductionPage = ({
               Apply as an eligible dependent for education benefits from a
               different Veteran than you’ve used in the past
             </li>
-          </ul>
-        </div>
-      )}
+          </>
+        )}
+      </ul>
       <va-alert
         close-btn-aria-label="Close notification"
         status="warning"
@@ -81,13 +76,10 @@ export const IntroductionPage = ({
           If you’re a Veteran or service member claiming a benefit based on your
           own service, this may not be the right benefit for you.
         </h2>
-        <a
-          target="_blank"
+        <va-link
           href="https://www.va.gov/education/other-va-education-benefits"
-          rel="noreferrer"
-        >
-          Learn more about other education benefits
-        </a>
+          text="Learn more about other education benefits"
+        />
       </va-alert>
       <h2 className="vads-u-margin-top--0">
         Follow these steps to get started:
@@ -98,6 +90,22 @@ export const IntroductionPage = ({
             <strong> You must be an eligible spouse or dependent </strong> in
             order to receive this benefit.
           </p>
+          {mebBlockUnder18 && (
+            <p>
+              <b>Note:</b> If you are under the age of 18 and applying for
+              benefits for yourself, you must complete a{' '}
+              <va-link
+                href="https://www.vba.va.gov/pubs/forms/vba-22-1990e-are.pdf"
+                text="paper application"
+              />{' '}
+              with your parent, guardian, or custodian and submit through{' '}
+              <va-link
+                href="https://www.va.gov/contact-us/ask-va/introduction"
+                text="Ask VA"
+              />
+              .
+            </p>
+          )}
           <va-additional-info
             trigger="What are the Fry Scholarship (Chapter 33) eligibility requirements?"
             class="vads-u-margin-bottom--2"
@@ -179,8 +187,17 @@ export const IntroductionPage = ({
                 Knowledge of your chosen Veteran or service member’s military
                 service history
               </li>
+              {mebBlockUnder18 && (
+                <>
+                  <li>
+                    Your chosen Veteran or service member’s Social Security
+                    number or VA file number
+                  </li>
+                  <li>Your chosen Veteran or service member’s date of birth</li>
+                </>
+              )}
               <li>Your current address and contact information</li>
-              <li>Bank account direct deposit information</li>
+              <li>Your bank account direct deposit information</li>
             </ul>
           </div>
         </va-process-list-item>
@@ -189,41 +206,35 @@ export const IntroductionPage = ({
             We’ll take you through each step of the process. It should take
             about 15 minutes.
           </p>
+          <va-additional-info trigger="What happens after I apply?">
+            <p>
+              After you apply, you may get an automatic decision. If we approve
+              your application, you’ll be able to download your Certificate of
+              Eligibility (or award letter) right away. If we deny your
+              application, you can download your denial letter. We’ll also mail
+              you a copy of your decision letter.
+            </p>
+            <p>
+              <strong>Note:</strong> In some cases, we may need more time to
+              make a decision. If you don’t get an automatic decision right
+              after you apply, you’ll receive a decision letter in the mail in
+              about 30 days. And we’ll contact you if we need more information.
+            </p>
+          </va-additional-info>
         </va-process-list-item>
       </va-process-list>
-      <va-additional-info trigger="What happens after I apply?">
-        <p>
-          After you apply, you may get an automatic decision. If we approve your
-          application, you’ll be able to download your Certificate of
-          Eligibility (or award letter) right away. If we deny your application,
-          you can download your denial letter. We’ll also mail you a copy of
-          your decision letter.
-        </p>
-        <br />
-        <p className="vads-u-margin-bottom--0">
-          <strong>Note:</strong> In some cases, we may need more time to make a
-          decision. If you don’t get an automatic decision right after you
-          apply, you’ll receive a decision letter in the mail in about 30 days.
-          And we’ll contact you if we need more information.
-        </p>
-      </va-additional-info>
       <IntroductionLogin route={route} />
-      {isLoggedIn &&
-      isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
-      showMeb5490EMaintenanceAlert === false && // Ensure the mainenance flag is not on.
-        isLOA3 && (
-          <SaveInProgressIntro
-            headingLevel={2}
-            prefillEnabled={route.formConfig.prefillEnabled}
-            messages={route.formConfig.savedFormMessages}
-            pageList={route.pageList}
-            startText="Start your benefits application"
-          >
-            Please complete the 22-5490 form to apply for DEPENDENTS&#39;
-            APPLICATION FOR VA EDUCATION BENEFITS .
-          </SaveInProgressIntro>
-        )}
-      <p />
+      <div
+        className={`omb-info--container vads-u-padding--0 vads-u-margin-top--${
+          user?.login?.currentlyLoggedIn ? '4' : '2p5'
+        }`}
+      >
+        <va-omb-info
+          res-burden="25"
+          omb-number="2900-0098"
+          exp-date="01/31/2028"
+        />
+      </div>
     </article>
   );
 };
@@ -236,21 +247,15 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
-  isLOA3: PropTypes.bool,
-  isLoggedIn: PropTypes.bool,
-  isPersonalInfoFetchFailed: PropTypes.bool,
-  meb1995InstructionPageUpdateV3: PropTypes.bool,
-  showMeb5490EMaintenanceAlert: PropTypes.bool,
+  mebBlockUnder18: PropTypes.bool,
+  showMeb5490MaintenanceAlert: PropTypes.bool,
+  user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
   isPersonalInfoFetchFailed: state.data?.isPersonalInfoFetchFailed || false,
-  showMeb5490EMaintenanceAlert:
-    state.featureToggles?.showMeb5490EMaintenanceAlert,
-  meb1995InstructionPageUpdateV3:
-    state?.featureToggles?.meb1995InstructionPageUpdateV3,
 });
 
 export default connect(mapStateToProps)(IntroductionPage);
