@@ -103,12 +103,7 @@ export const SearchForm = props => {
 
   const handleClearInput = () => {
     props.clearSearchText();
-    setDraftFormState(prev => ({
-      ...prev,
-      searchString: '',
-      locationChanged: true,
-      isValid: false,
-    }));
+    updateDraftState({ searchString: '' });
     if (locationInputFieldRef.current) {
       locationInputFieldRef.current.value = '';
     }

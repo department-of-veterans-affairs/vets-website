@@ -1,5 +1,4 @@
 import React from 'react';
-import { negate } from 'lodash';
 import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 
 import { UploadDescription } from '../content/fileUploadDescriptions';
@@ -11,8 +10,6 @@ const { attachments } = full526EZSchema.properties;
 
 const shouldShowSelfAssessmentAlert = formData =>
   isBDD(formData) && !formData.disability526NewBddShaEnforcementWorkflowEnabled;
-
-const shouldNotShowSelfAssessmentAlert = negate(shouldShowSelfAssessmentAlert);
 
 export const uiSchema = {
   // A separate view is added for the title because the file upload component co-opts the ui:title for the
@@ -27,7 +24,7 @@ export const uiSchema = {
   'view:selfAssessmentAlert': {
     'ui:title': selfAssessmentAlert,
     'ui:options': {
-      hideIf: shouldNotShowSelfAssessmentAlert,
+      hideIf: formData => !shouldShowSelfAssessmentAlert(formData),
     },
   },
   additionalDocuments: {

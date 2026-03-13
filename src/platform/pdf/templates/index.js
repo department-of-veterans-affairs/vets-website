@@ -20,6 +20,10 @@ templates.veteranStatusNew = () => {
   return require('./veteran_status_new');
 };
 
+templates.veteranStatusSharedService = () => {
+  return require('./veteran_status_shared_service');
+};
+
 templates.selfEnteredInfo = () => {
   return require('./self_entered_info');
 };

@@ -13,7 +13,7 @@ import {
 
 export const isHealthAndHealthConnect = (apiResult, query) => {
   return !!(
-    query?.facilityType === 'health' &&
+    query?.facilityType === LocationType.HEALTH &&
     apiResult?.attributes?.phone?.healthConnect
   );
 };
@@ -24,10 +24,10 @@ export const ResultMapper = (result, searchQuery, index, isMobile = false) => {
   const showHealthConnectNumber = isHealthAndHealthConnect(result, searchQuery);
 
   switch (searchQuery.facilityType) {
-    case 'health':
-    case 'cemetery':
-    case 'benefits':
-    case 'vet_center':
+    case LocationType.HEALTH:
+    case LocationType.CEMETERY:
+    case LocationType.BENEFITS:
+    case LocationType.VET_CENTER:
       return (
         <VaFacilityResult
           index={index}
@@ -36,10 +36,10 @@ export const ResultMapper = (result, searchQuery, index, isMobile = false) => {
           location={result}
           query={searchQuery}
           showHealthConnectNumber={showHealthConnectNumber}
-          isCemetery={searchQuery.facilityType === 'cemetery'}
+          isCemetery={searchQuery.facilityType === LocationType.CEMETERY}
         />
       );
-    case 'provider':
+    case LocationType.CC_PROVIDER:
       // Support non va urgent care search through ccp option
       if (searchQuery.serviceType === CLINIC_URGENTCARE_SERVICE) {
         return (
@@ -82,7 +82,7 @@ export const ResultMapper = (result, searchQuery, index, isMobile = false) => {
           query={searchQuery}
         />
       );
-    case 'pharmacy':
+    case LocationType.URGENT_CARE_PHARMACIES:
       return (
         <PharmacyResult
           isMobile={isMobile}
@@ -91,7 +91,7 @@ export const ResultMapper = (result, searchQuery, index, isMobile = false) => {
           query={searchQuery}
         />
       );
-    case 'emergency_care':
+    case LocationType.EMERGENCY_CARE:
       if (result.type === LocationType.CC_PROVIDER) {
         return (
           <EmergencyCareResult
@@ -113,7 +113,7 @@ export const ResultMapper = (result, searchQuery, index, isMobile = false) => {
           isCemetery={false}
         />
       );
-    case 'urgent_care':
+    case LocationType.URGENT_CARE:
       if (result.type === LocationType.CC_PROVIDER) {
         return (
           <UrgentCareResult

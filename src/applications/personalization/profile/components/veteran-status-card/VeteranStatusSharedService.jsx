@@ -94,7 +94,6 @@ const VeteranStatusSharedService = ({
       fullName: formattedFullName,
       totalDisabilityRating: disabilityRating,
       edipi: cardEdipi,
-      useSharedService: true,
       image: {
         title: 'VA logo',
         url: '/img/design/logo/logo-black-and-white.png',
@@ -120,7 +119,7 @@ const VeteranStatusSharedService = ({
   const createPdf = async () => {
     try {
       await generatePdf(
-        'veteranStatusNew',
+        'veteranStatusSharedService',
         'Veteran status card',
         pdfData,
         !isMobile,

@@ -18,7 +18,9 @@ describe('Secure Messaging Reply Axe Check', () => {
     PatientInboxPage.loadInboxMessages();
     PatientMessageDetailsPage.loadSingleThread(updatedSingleThreadResponse);
     PatientReplyPage.clickReplyButton(updatedSingleThreadResponse);
-    PatientInterstitialPage.getContinueButton().click();
+    PatientInterstitialPage.getContinueButton()
+      .should('be.visible')
+      .click();
 
     cy.intercept(
       'GET',

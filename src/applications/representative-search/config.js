@@ -58,46 +58,19 @@ export const setRepSearchEndpointsFromFlag = enabled => {
   }
 };
 
-export const formatReportBody = newReport => {
-  const reportRequestBody = {
-    representative_id: newReport.representativeId,
-    flags: [],
-  };
-
-  for (const [flag_type, flagged_value] of Object.entries(newReport.reports)) {
-    if (flagged_value !== null) {
-      reportRequestBody.flags.push({
-        // convert 'phone' to snakecase 'phone_number' before pushing
-        flag_type: flag_type === 'phone' ? 'phone_number' : flag_type,
-        flagged_value,
-      });
-    }
-  }
-
-  return reportRequestBody;
-};
-
 /**
  * Build requestUrl and settings for api calls
  *  * @param endpoint {String} eg '/vso_accredited_representatives'
- *  * @param method {String} 'GET' or 'POST' (optional - defaults to 'GET')
- *  * @param requestBody {String} optional
  * @returns {requestUrl, apiSettings}
  */
-export const getApi = (endpoint, method = 'GET', requestBody) => {
+export const getApi = endpoint => {
   const requestUrl = `${baseUrl}${endpoint}`;
 
   const csrfToken = localStorage.getItem('csrfToken');
 
-  let formattedReportBody;
-
-  if (method === 'POST') {
-    formattedReportBody = formatReportBody(requestBody);
-  }
-
   const apiSettings = {
     mode: 'cors',
-    method,
+    method: 'GET',
 
     headers: {
       'X-Key-Inflection': 'camel',
@@ -110,7 +83,6 @@ export const getApi = (endpoint, method = 'GET', requestBody) => {
       // undefined for all requests that use this config.
       'Source-App-Name': manifest.entryName,
     },
-    body: JSON.stringify(formattedReportBody) || null,
   };
 
   return { requestUrl, apiSettings };

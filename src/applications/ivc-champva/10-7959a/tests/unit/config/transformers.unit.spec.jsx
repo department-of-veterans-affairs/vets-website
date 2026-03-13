@@ -93,6 +93,20 @@ describe('Submit transformer', () => {
       });
     });
 
+    it('should fire duty to assist event when claim is resubmission and no claim docs are available', () => {
+      submitForm({
+        overrides: {
+          claimStatus: 'resubmission',
+          pdiOrClaimNumber: ID_NUMBER_OPTIONS[0],
+          'view:champvaEnableClaimResubmitQuestion': true,
+          'view:hasClaimDocs': false,
+        },
+      });
+      sinon.assert.calledWithExactly(recordEventStub.firstCall, {
+        event: '10-7959a_duty_to_assist',
+      });
+    });
+
     it('should not fire recordEvent when disableAnalytics is true', () => {
       submitForm({ overrides: { claimStatus: 'new' }, disableAnalytics: true });
       sinon.assert.notCalled(recordEventStub);
