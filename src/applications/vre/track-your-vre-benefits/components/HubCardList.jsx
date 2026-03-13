@@ -11,7 +11,7 @@ const programOverviewCard = {
 };
 
 const orientationCard = {
-  title: 'Explore VR&E Support-and-Services tracks',
+  title: 'Explore VR&E support-and-services tracks',
   body:
     'We offer 5 support-and-services tracks to help you get education, training, career planning, and live independently. Explore the different tracks and take charge of your future.',
   href:
@@ -30,7 +30,7 @@ const getCareerPlanningCard = step => {
   }
 
   return {
-    title: 'Explore Career Planning tools and resources',
+    title: 'Explore career planning tools and resources',
     body,
     href: '/career-planning',
     useRouter: true,

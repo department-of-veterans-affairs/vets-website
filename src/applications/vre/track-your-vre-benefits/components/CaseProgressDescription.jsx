@@ -109,7 +109,7 @@ const CaseProgressDescription = ({
                     <VaLink
                       className=" vads-u-font-weight--bold"
                       href="https://www.va.gov/careers-employment/vocational-rehabilitation/programs"
-                      text="Explore VR&E Support-and-Services tracks"
+                      text="Explore VR&E support-and-services tracks"
                     />
 
                     <p className="va-nav-linkslist-description">

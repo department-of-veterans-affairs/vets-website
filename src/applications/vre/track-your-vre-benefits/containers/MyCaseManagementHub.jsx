@@ -15,13 +15,13 @@ import CaseProgressBar from '../components/CaseProgressBar';
 import { getCurrentStepFromStateList } from '../helpers';
 
 const stepLabels = [
-  'Application Received',
-  'Eligibility Determination',
-  'Orientation Video',
-  'Initial Evaluation Counselor Meeting',
-  'Entitlement Determination date',
-  'Rehabilitation Plan or Career Track',
-  'Benefits Initiated',
+  'Application received',
+  'Eligibility determination',
+  'Orientation video',
+  'Initial evaluation counselor meeting',
+  'Entitlement determination date',
+  'Rehabilitation plan or career track',
+  'Benefits initiated',
 ];
 
 const pageHeading = 'Your VR&E benefit status';
