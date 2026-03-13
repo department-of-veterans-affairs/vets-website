@@ -6,6 +6,7 @@ import {
   isAuthenticatedWithSSOe,
   signInServiceName,
 } from 'platform/user/authentication/selectors';
+import { isProfileLoading } from 'platform/user/selectors';
 import { logoutUrl } from 'platform/user/authentication/utilities';
 import { logoutUrlSiS, logoutEvent } from 'platform/utilities/oauth/utilities';
 import recordEvent from 'platform/monitoring/record-event';
@@ -22,7 +23,7 @@ const recordDependentsEvent = recordNavUserEvent('dependents');
 const recordLettersEvent = recordNavUserEvent('letters');
 
 export function PersonalizationDropdown(props) {
-  const { isSSOe, csp } = props;
+  const { isSSOe, csp, isProfileLoading: profileLoading } = props;
 
   const createSignout = useCallback(
     () => (
@@ -38,12 +39,18 @@ export function PersonalizationDropdown(props) {
 
   return (
     <ul>
-      <li>
-        <a href="/my-va/" onClick={recordMyVaEvent}>
-          My VA
-        </a>
-      </li>
-      <MyHealthLink recordNavUserEvent={recordNavUserEvent} isSSOe={isSSOe} />
+      {!profileLoading && (
+        <li>
+          <a href="/my-va/" onClick={recordMyVaEvent}>
+            My VA
+          </a>
+        </li>
+      )}
+      <MyHealthLink
+        recordNavUserEvent={recordNavUserEvent}
+        isSSOe={isSSOe}
+        isProfileLoading={profileLoading}
+      />
       <li>
         <a href="/profile" onClick={recordProfileEvent}>
           Profile
@@ -69,12 +76,14 @@ export function PersonalizationDropdown(props) {
 
 PersonalizationDropdown.propTypes = {
   csp: PropTypes.oneOf(['idme', 'logingov', 'mhv']),
+  isProfileLoading: PropTypes.bool,
   isSSOe: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   isSSOe: isAuthenticatedWithSSOe(state),
   csp: signInServiceName(state),
+  isProfileLoading: isProfileLoading(state),
 });
 
 export default connect(mapStateToProps)(PersonalizationDropdown);

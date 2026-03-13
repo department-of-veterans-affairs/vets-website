@@ -33,4 +33,18 @@ describe('MyHealthLink', () => {
     expect(recordNavUserEventSpy.calledOnce).to.be.true;
     expect(recordNavUserEventSpy.firstCall.args[0]).to.eql('my-healthevet');
   });
+
+  it('renders nothing while the profile is loading', () => {
+    const mockStore = store();
+    const recordNavUserEventSpy = sinon.spy();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <MyHealthLink
+          recordNavUserEvent={recordNavUserEventSpy}
+          isProfileLoading
+        />
+      </Provider>,
+    );
+    expect($('.my-health-link', container)).to.be.null;
+  });
 });

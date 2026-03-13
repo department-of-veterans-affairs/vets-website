@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import * as actions from 'platform/user/profile/actions'; // Replace with actual path
+import * as actions from 'platform/user/profile/actions';
+import { UPDATE_LOGGEDIN_STATUS } from 'platform/user/authentication/actions';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 
 describe('profile actions', () => {
@@ -73,6 +74,66 @@ describe('profile actions', () => {
       'api-status': 'failed',
       'error-key': 'API Error',
     });
+  });
+});
+
+describe('initializeProfile', () => {
+  let dispatch;
+
+  beforeEach(() => {
+    dispatch = sinon.spy();
+  });
+
+  it('dispatches updateLoggedInStatus(true) before profileLoadingFinished on success', async () => {
+    await actions.initializeProfile()(dispatch);
+
+    const callTypes = dispatch.args.map(([arg]) => arg?.type).filter(Boolean);
+    const loginIdx = callTypes.indexOf(UPDATE_LOGGEDIN_STATUS);
+    const finishedIdx = callTypes.indexOf(actions.PROFILE_LOADING_FINISHED);
+
+    expect(loginIdx).to.be.at.least(0);
+    expect(finishedIdx).to.be.at.least(0);
+    expect(loginIdx).to.be.lessThan(
+      finishedIdx,
+      'updateLoggedInStatus must fire before profileLoadingFinished so the post-auth nav gate has a window to activate',
+    );
+  });
+
+  it('passes value:true to updateLoggedInStatus on success', async () => {
+    await actions.initializeProfile()(dispatch);
+
+    const loginCall = dispatch.args.find(
+      ([arg]) => arg?.type === UPDATE_LOGGEDIN_STATUS,
+    );
+    expect(loginCall[0].value).to.be.true;
+  });
+
+  it('dispatches updateLoggedInStatus(false) on a non-network fetch error', async () => {
+    // Make dispatch throw a non-TypeError when called with the refreshProfile thunk
+    dispatch = sinon.stub().callsFake(arg => {
+      if (typeof arg === 'function') throw new Error('server error');
+    });
+
+    await actions.initializeProfile()(dispatch);
+
+    const logoutCall = dispatch.args.find(
+      ([arg]) => arg?.type === UPDATE_LOGGEDIN_STATUS,
+    );
+    expect(logoutCall[0].value).to.be.false;
+  });
+
+  it('dispatches profileError instead of logging out on a network-cancelled fetch', async () => {
+    dispatch = sinon.stub().callsFake(arg => {
+      if (typeof arg === 'function') {
+        throw new TypeError('Failed to fetch');
+      }
+    });
+
+    await actions.initializeProfile()(dispatch);
+
+    const callTypes = dispatch.args.map(([arg]) => arg?.type).filter(Boolean);
+    expect(callTypes).to.include(actions.PROFILE_ERROR);
+    expect(callTypes).not.to.include(UPDATE_LOGGEDIN_STATUS);
   });
 });
 

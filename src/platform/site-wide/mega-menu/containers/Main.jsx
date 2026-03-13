@@ -9,7 +9,7 @@ import MY_HEALTH_LINK from '../constants/MY_HEALTH_LINK';
 import MegaMenu from '../components/MegaMenu';
 import authenticatedUserLinkData from '../mega-menu-link-data-for-authenticated-users';
 import recordEvent from '../../../monitoring/record-event';
-import { isLoggedIn } from '../../../user/selectors';
+import { isLoggedIn, isProfileLoading } from '../../../user/selectors';
 import {
   toggleMobileDisplayHidden,
   togglePanelOpen,
@@ -177,8 +177,9 @@ Main.propTypes = {
   ),
 };
 
-const mapStateToProps = (state, ownProps) => {
+export const mapStateToProps = (state, ownProps) => {
   const loggedIn = isLoggedIn(state);
+  const profileLoading = isProfileLoading(state);
 
   // Derive the default mega menu links (both auth + unauth).
   const defaultLinks = ownProps?.megaMenuData ? [...ownProps.megaMenuData] : [];
@@ -187,11 +188,11 @@ const mapStateToProps = (state, ownProps) => {
   const featureToggles = toggleValues(state);
   const featureToggleMhvHeaderLinks = featureToggles.mhvHeaderLinks;
 
-  if (loggedIn && !featureToggleMhvHeaderLinks) {
+  if (loggedIn && !profileLoading && !featureToggleMhvHeaderLinks) {
     defaultLinks.push(MY_VA_LINK, MY_HEALTH_LINK);
   }
 
-  if (featureToggleMhvHeaderLinks) {
+  if (featureToggleMhvHeaderLinks && !profileLoading) {
     defaultLinks.push(MY_VA_LINK, MY_HEALTH_LINK);
   }
 

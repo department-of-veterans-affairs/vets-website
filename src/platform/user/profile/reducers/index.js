@@ -80,8 +80,13 @@ function profileInformation(state = initialState, action) {
     }
 
     case PROFILE_LOADING_FINISHED:
-    case UPDATE_LOGGEDIN_STATUS:
       return set('loading', false, state);
+
+    case UPDATE_LOGGEDIN_STATUS:
+      // When logging out (value: false), clear loading immediately.
+      // When logging in (value: true), loading is cleared separately by
+      // PROFILE_LOADING_FINISHED so the post-auth nav gate has a chance to activate.
+      return action.value ? state : set('loading', false, state);
 
     case FETCHING_MHV_ACCOUNT:
       return set('mhvAccount.loading', true, state);

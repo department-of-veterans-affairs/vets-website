@@ -206,11 +206,11 @@ describe('Mega Menu', () => {
 
         // cy.get('[data-e2e-id="my-va-3"]');
         // Authenticated links should not appear.
-        cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
+        cy.get('[data-e2e-id="my-healthe-vet-4"]').should('not.exist');
       }
     });
 
-    it.skip('looks as expected authenticated - C12294', () => {
+    it('looks as expected authenticated - C12294', () => {
       // Login as the mock user.
       cy.login(mockUser);
 
@@ -223,9 +223,25 @@ describe('Mega Menu', () => {
       // Test the menu sections.
       testDesktopMenuSections();
 
-      // Authenticated links should appear.
-      cy.get('[data-e2e-id="my-va-3"]');
-      cy.get('[data-e2e-id="my-health-4"]');
+      // Authenticated links appear only once profile has loaded.
+      cy.get('[data-e2e-id="my-va-3"]').should('exist');
+      cy.get('[data-e2e-id="my-healthe-vet-4"]').should('exist');
+    });
+
+    it('does not show My VA or My HealtheVet while the profile is loading - post-auth gate', () => {
+      // Use localStorage directly instead of cy.login() to avoid its competing
+      // /v0/user stub, which would resolve before our blocking intercept can hold.
+      window.localStorage.setItem('hasSession', 'true');
+
+      cy.intercept('GET', '/v0/user', () => new Promise(() => {})).as(
+        'pendingProfile',
+      );
+
+      cy.visit(testUrl);
+      cy.injectAxeThenAxeCheck();
+
+      cy.get('[data-e2e-id="my-va-3"]').should('not.exist');
+      cy.get('[data-e2e-id="my-healthe-vet-4"]').should('not.exist');
     });
   });
 
@@ -245,7 +261,7 @@ describe('Mega Menu', () => {
 
         cy.get('[data-e2e-id="my-va-3"]');
         // Authenticated links should not appear.
-        cy.get('[data-e2e-id="my-health-4"]').should('not.exist');
+        cy.get('[data-e2e-id="my-healthe-vet-4"]').should('not.exist');
       }
     });
 
@@ -261,7 +277,7 @@ describe('Mega Menu', () => {
 
       // Authenticated links should appear.
       cy.get('[data-e2e-id="my-va-3"]');
-      cy.get('[data-e2e-id="my-health-4"]');
+      cy.get('[data-e2e-id="my-healthe-vet-4"]');
     });
 
     it.skip('traps focus inside mega menu when opened - C12297', () => {

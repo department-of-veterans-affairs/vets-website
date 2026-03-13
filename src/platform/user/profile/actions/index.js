@@ -111,6 +111,7 @@ export function initializeProfile() {
     try {
       await dispatch(refreshProfile());
       dispatch(updateLoggedInStatus(true));
+      dispatch(profileLoadingFinished());
     } catch (error) {
       /* If the fetch fails due to the browser cancelling the request due to a navigation event short circuit it to prevent terminating session */
       if (

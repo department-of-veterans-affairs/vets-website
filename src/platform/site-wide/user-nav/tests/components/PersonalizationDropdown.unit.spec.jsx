@@ -126,6 +126,46 @@ describe('<PersonalizationDropdown>', () => {
     wrapper.unmount();
   });
 
+  it('hides My VA link while the profile is loading', () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <PersonalizationDropdown isProfileLoading />
+      </Provider>,
+    );
+    expect(wrapper.find('a[href="/my-va/"]')).to.have.lengthOf(0);
+    wrapper.unmount();
+  });
+
+  it('hides My HealtheVet link while the profile is loading', () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <PersonalizationDropdown isProfileLoading />
+      </Provider>,
+    );
+    expect(wrapper.find('.my-health-link')).to.have.lengthOf(0);
+    wrapper.unmount();
+  });
+
+  it('shows My VA link once the profile has loaded', () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <PersonalizationDropdown isProfileLoading={false} />
+      </Provider>,
+    );
+    expect(wrapper.find('a[href="/my-va/"]')).to.have.lengthOf(1);
+    wrapper.unmount();
+  });
+
+  it('shows My HealtheVet link once the profile has loaded', () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <PersonalizationDropdown isProfileLoading={false} />
+      </Provider>,
+    );
+    expect(wrapper.find('.my-health-link')).to.have.lengthOf(1);
+    wrapper.unmount();
+  });
+
   it('should use the logoutUrl if using SSOe', () => {
     const wrapper = mount(
       <Provider store={store}>
