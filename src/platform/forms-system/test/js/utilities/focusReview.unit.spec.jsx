@@ -102,6 +102,7 @@ describe('focusReview', () => {
         'test',
         '#test',
         [...FOCUSABLE_ELEMENTS, ...focusableWebComponentList].join(','),
+        { focusNativeFormInput: true },
       ]);
     });
   });
