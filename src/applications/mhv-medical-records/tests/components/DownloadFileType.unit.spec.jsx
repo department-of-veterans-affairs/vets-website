@@ -282,13 +282,11 @@ describe('DownloadFileType — AAL logging', () => {
     expect(postCreateAALStub.calledWithMatch({ status: 0 })).to.be.true;
   });
 
-  // This test verifies the double-click prevention mechanism by checking that:
-  // 1. The button gets disabled immediately after clicking
-  // 2. The aria-busy attribute is set for screen readers
+  // This test verifies the double-click prevention mechanism.
   // Note: Testing that makePdf is only called once is flaky due to module caching
   // issues with stubbing (same issue affects the AAL logging tests above).
   // The early return guard `if (isGenerating) return;` in generatePdf and generateTxt
-  // provides the actual double-click prevention, and the disabled button state
+  // provides the actual double-click prevention, and the loading va-button attribute
   // tested here ensures the UI properly indicates this to users.
   it('disables download button during PDF generation to prevent double-clicks (PDF)', async () => {
     // Make makePdf return a promise that doesn't resolve immediately
@@ -296,22 +294,30 @@ describe('DownloadFileType — AAL logging', () => {
     makePdfStub.returns(new Promise(() => {})); // Never resolves
 
     const screen = renderWithFormat('pdf');
+
+    // Wait for the component to be fully ready with fileType set from Redux
+    // The useEffect should have synced fileTypeFilter to local fileType state
+    // Check that the PDF radio option is checked (indicates fileType is set)
+    await waitFor(() => {
+      const pdfOption = screen.container.querySelector(
+        'va-radio-option[value="pdf"]',
+      );
+      expect(pdfOption).to.exist;
+      expect(pdfOption.getAttribute('checked')).to.equal('true');
+    });
+
     const btn = await screen.findByTestId('download-report-button');
 
-    // Button should be enabled initially
-    expect(btn.textContent).to.contain('Download report');
-    expect(btn).to.not.have.attr('disabled');
-    expect(btn).to.not.have.attr('aria-disabled');
-    expect(btn).to.not.have.attr('aria-busy');
+    // va-button should not be loading initially
+    expect(btn).to.have.attr('text', 'Download report');
+    expect(btn).to.have.attr('loading', 'false');
 
     // Click the button
     await userEvent.click(btn);
 
-    // Button should now be disabled with aria attributes
+    // va-button should now have loading attribute set to true, which disables it and shows the loading state
     await waitFor(() => {
-      expect(btn).to.have.attr('disabled');
-      expect(btn).to.have.attr('aria-disabled', 'true');
-      expect(btn).to.have.attr('aria-busy', 'true');
+      expect(btn).to.have.attr('loading', 'true');
     });
   });
 
@@ -336,6 +342,17 @@ describe('DownloadFileType — AAL logging', () => {
     makePdfStub.returns(new Promise(() => {})); // Never resolves
 
     const screen = renderWithFormat('pdf');
+
+    // Wait for the component to be fully ready with fileType set from Redux
+    // Check that the PDF radio option is checked (indicates fileType is set)
+    await waitFor(() => {
+      const pdfOption = screen.container.querySelector(
+        'va-radio-option[value="pdf"]',
+      );
+      expect(pdfOption).to.exist;
+      expect(pdfOption.getAttribute('checked')).to.equal('true');
+    });
+
     const btn = await screen.findByTestId('download-report-button');
 
     // Loading indicator should not exist initially
