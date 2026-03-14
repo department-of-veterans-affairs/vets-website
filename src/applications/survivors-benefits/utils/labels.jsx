@@ -90,6 +90,18 @@ export const careTypeLabels = {
   IN_HOME_CARE_ATTENDANT: 'In-home care attendant',
 };
 
+export const allCareTypeLabels = {
+  NURSING_HOME: 'Nursing home',
+  CARE_FACILITY: 'Residential care facility',
+  ADULT_DAYCARE: 'Adult daycare',
+  IN_HOME_CARE_ATTENDANT: 'In-home care attendant',
+};
+
+export const getCareTypeLabels = formData =>
+  formData?.survivorsBenefitsForm2025VersionEnabled
+    ? allCareTypeLabels
+    : careTypeLabels;
+
 export const frequencyLabels = {
   MONTHLY: 'Once a month',
   ANNUALLY: 'Once a year',

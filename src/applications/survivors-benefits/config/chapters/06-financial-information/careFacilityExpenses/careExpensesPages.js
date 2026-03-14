@@ -20,7 +20,8 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import { customTextSchema } from '../../../definitions';
 import {
   careRecipientLabels,
-  careTypeLabels,
+  allCareTypeLabels,
+  getCareTypeLabels,
   careFrequencyLabels,
 } from '../../../../utils/labels';
 import { transformDate } from '../../05-claim-information/helpers';
@@ -196,13 +197,16 @@ const typeOfCarePage = {
     ...arrayBuilderItemSubsequentPageTitleUI('Type of care'),
     careType: radioUI({
       title: 'Select the type of care.',
-      labels: careTypeLabels,
+      labels: allCareTypeLabels,
+      updateSchema: (formData, schema, uiSchema, index, path, fullData) => ({
+        enum: Object.keys(getCareTypeLabels(fullData)),
+      }),
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      careType: radioSchema(Object.keys(careTypeLabels)),
+      careType: radioSchema(Object.keys(allCareTypeLabels)),
     },
     required: ['careType'],
   },

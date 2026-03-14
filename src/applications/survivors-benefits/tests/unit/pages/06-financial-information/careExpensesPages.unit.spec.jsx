@@ -18,6 +18,62 @@ import {
 const arrayPath = 'careExpenses';
 
 describe('Care Expenses Pages', () => {
+  describe('typeOfCarePage with feature toggle', () => {
+    it('renders default care type options when toggle is disabled', () => {
+      const { careTypePage } = careExpensesPages;
+      const formData = {};
+      const form = render(
+        <DefinitionTester
+          arrayPath={arrayPath}
+          schema={careTypePage.schema}
+          uiSchema={careTypePage.uiSchema}
+          pagePerItemIndex={0}
+          data={{
+            survivorsBenefitsForm2025VersionEnabled: false,
+            [arrayPath]: [formData],
+          }}
+        />,
+      );
+      const formDOM = getFormDOM(form);
+      const vaRadioOptions = $$('va-radio-option', formDOM);
+      expect(vaRadioOptions.length).to.equal(2);
+      expect(vaRadioOptions[0].getAttribute('label')).to.equal(
+        'Residential care facility',
+      );
+      expect(vaRadioOptions[1].getAttribute('label')).to.equal(
+        'In-home care attendant',
+      );
+    });
+
+    it('renders 2025 care type options when toggle is enabled', () => {
+      const { careTypePage } = careExpensesPages;
+      const formData = {};
+      const form = render(
+        <DefinitionTester
+          arrayPath={arrayPath}
+          schema={careTypePage.schema}
+          uiSchema={careTypePage.uiSchema}
+          pagePerItemIndex={0}
+          data={{
+            survivorsBenefitsForm2025VersionEnabled: true,
+            [arrayPath]: [formData],
+          }}
+        />,
+      );
+      const formDOM = getFormDOM(form);
+      const vaRadioOptions = $$('va-radio-option', formDOM);
+      expect(vaRadioOptions.length).to.equal(4);
+      expect(vaRadioOptions[0].getAttribute('label')).to.equal('Nursing home');
+      expect(vaRadioOptions[1].getAttribute('label')).to.equal(
+        'Residential care facility',
+      );
+      expect(vaRadioOptions[2].getAttribute('label')).to.equal('Adult daycare');
+      expect(vaRadioOptions[3].getAttribute('label')).to.equal(
+        'In-home care attendant',
+      );
+    });
+  });
+
   it('renders the care expenses page intro', async () => {
     const { careExpensesIntro } = careExpensesPages;
 
