@@ -3,11 +3,13 @@ import { checkPortalRequirements } from '../helpers';
 
 describe('checkPortalRequirements', () => {
   const buildUserAttributes = ({
+    isCernerPatient = true,
     vaPatient = true,
     userFacilityReadyForInfoAlert = false,
     userAtPretransitionedOhFacility = false,
   } = {}) => ({
     vaProfile: {
+      isCernerPatient,
       vaPatient,
       ohMigrationInfo: {
         userFacilityReadyForInfoAlert,
@@ -17,11 +19,12 @@ describe('checkPortalRequirements', () => {
   });
 
   describe('needsPortalNotice', () => {
-    it('returns true when provisioned, vaPatient, and userFacilityReadyForInfoAlert', () => {
+    it('returns true when provisioned, vaPatient, isCernerPatient, and userFacilityReadyForInfoAlert', () => {
       const result = checkPortalRequirements({
         isPortalNoticeInterstitialEnabled: true,
         provisioned: true,
         userAttributes: buildUserAttributes({
+          isCernerPatient: true,
           vaPatient: true,
           userFacilityReadyForInfoAlert: true,
         }),
@@ -34,6 +37,7 @@ describe('checkPortalRequirements', () => {
         isPortalNoticeInterstitialEnabled: true,
         provisioned: false,
         userAttributes: buildUserAttributes({
+          isCernerPatient: true,
           vaPatient: true,
           userFacilityReadyForInfoAlert: true,
         }),
@@ -46,7 +50,21 @@ describe('checkPortalRequirements', () => {
         isPortalNoticeInterstitialEnabled: true,
         provisioned: true,
         userAttributes: buildUserAttributes({
+          isCernerPatient: true,
           vaPatient: false,
+          userFacilityReadyForInfoAlert: true,
+        }),
+      });
+      expect(result.needsPortalNotice).to.be.false;
+    });
+
+    it('returns false when not isCernerPatient', () => {
+      const result = checkPortalRequirements({
+        isPortalNoticeInterstitialEnabled: true,
+        provisioned: true,
+        userAttributes: buildUserAttributes({
+          isCernerPatient: false,
+          vaPatient: true,
           userFacilityReadyForInfoAlert: true,
         }),
       });
@@ -58,6 +76,7 @@ describe('checkPortalRequirements', () => {
         isPortalNoticeInterstitialEnabled: true,
         provisioned: true,
         userAttributes: buildUserAttributes({
+          isCernerPatient: true,
           vaPatient: true,
           userFacilityReadyForInfoAlert: false,
         }),
@@ -70,6 +89,7 @@ describe('checkPortalRequirements', () => {
         isPortalNoticeInterstitialEnabled: false,
         provisioned: true,
         userAttributes: buildUserAttributes({
+          isCernerPatient: true,
           vaPatient: true,
           userFacilityReadyForInfoAlert: true,
         }),
@@ -79,13 +99,27 @@ describe('checkPortalRequirements', () => {
   });
 
   describe('needsMyHealth', () => {
-    it('returns true when toggle enabled, provisioned, vaPatient, and not at pretransitioned OH facility', () => {
+    it('returns true when toggle enabled, provisioned, vaPatient, isCernerPatient, and not at pretransitioned OH facility', () => {
       const result = checkPortalRequirements({
         isPortalNoticeInterstitialEnabled: true,
         provisioned: true,
         userAttributes: buildUserAttributes({
+          isCernerPatient: true,
           vaPatient: true,
           userAtPretransitionedOhFacility: false,
+        }),
+      });
+      expect(result.needsMyHealth).to.be.true;
+    });
+
+    it('returns true when user is not a Cerner patient', () => {
+      const result = checkPortalRequirements({
+        isPortalNoticeInterstitialEnabled: true,
+        provisioned: true,
+        userAttributes: buildUserAttributes({
+          isCernerPatient: false,
+          vaPatient: true,
+          userAtPretransitionedOhFacility: true,
         }),
       });
       expect(result.needsMyHealth).to.be.true;
@@ -96,6 +130,7 @@ describe('checkPortalRequirements', () => {
         isPortalNoticeInterstitialEnabled: true,
         provisioned: true,
         userAttributes: buildUserAttributes({
+          isCernerPatient: true,
           vaPatient: true,
           userAtPretransitionedOhFacility: true,
         }),
@@ -108,6 +143,7 @@ describe('checkPortalRequirements', () => {
         isPortalNoticeInterstitialEnabled: false,
         provisioned: true,
         userAttributes: buildUserAttributes({
+          isCernerPatient: true,
           vaPatient: true,
           userAtPretransitionedOhFacility: false,
         }),
@@ -120,6 +156,7 @@ describe('checkPortalRequirements', () => {
         isPortalNoticeInterstitialEnabled: true,
         provisioned: false,
         userAttributes: buildUserAttributes({
+          isCernerPatient: true,
           vaPatient: true,
           userAtPretransitionedOhFacility: false,
         }),
@@ -132,6 +169,7 @@ describe('checkPortalRequirements', () => {
         isPortalNoticeInterstitialEnabled: true,
         provisioned: true,
         userAttributes: buildUserAttributes({
+          isCernerPatient: true,
           vaPatient: false,
           userAtPretransitionedOhFacility: false,
         }),
@@ -155,7 +193,9 @@ describe('checkPortalRequirements', () => {
       const result = checkPortalRequirements({
         isPortalNoticeInterstitialEnabled: true,
         provisioned: true,
-        userAttributes: { vaProfile: { vaPatient: true } },
+        userAttributes: {
+          vaProfile: { isCernerPatient: true, vaPatient: true },
+        },
       });
       expect(result.needsPortalNotice).to.be.false;
       expect(result.needsMyHealth).to.be.true;

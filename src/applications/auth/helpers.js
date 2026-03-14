@@ -127,7 +127,8 @@ export const checkPortalRequirements = ({
   userAttributes,
   provisioned,
 }) => {
-  const { vaPatient = false } = userAttributes?.vaProfile || {};
+  const { isCernerPatient = false, vaPatient = false } =
+    userAttributes?.vaProfile || {};
   const {
     userFacilityReadyForInfoAlert = false,
     userAtPretransitionedOhFacility = false,
@@ -137,8 +138,12 @@ export const checkPortalRequirements = ({
     isPortalNoticeInterstitialEnabled && provisioned && vaPatient;
 
   return {
-    needsPortalNotice: redirectElligible && userFacilityReadyForInfoAlert,
-    needsMyHealth: redirectElligible && !userAtPretransitionedOhFacility,
+    needsPortalNotice:
+      redirectElligible && isCernerPatient && userFacilityReadyForInfoAlert,
+    needsMyHealth:
+      redirectElligible &&
+      ((isCernerPatient && !userAtPretransitionedOhFacility) ||
+        !isCernerPatient),
   };
 };
 
