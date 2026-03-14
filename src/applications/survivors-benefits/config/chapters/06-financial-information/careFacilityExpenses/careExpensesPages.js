@@ -24,6 +24,7 @@ import {
   careFrequencyLabels,
 } from '../../../../utils/labels';
 import { transformDate } from '../../05-claim-information/helpers';
+import { formatCurrency } from '../../../../utils/helpers';
 
 function introDescription() {
   return (
@@ -142,17 +143,37 @@ export const options = {
         />
       </div>
     ),
-    getItemName: item => item?.provider || 'Care provider',
+    getItemName: (item, index) =>
+      `Expense ${index + 1}: ${item?.provider || 'Care provider'}`,
     cardDescription: item => {
-      if (!item?.careDateRange) {
-        return 'Care dates not provided';
+      const hasStartDate = !!item?.careDateRange?.from;
+      const hasEndDate = !!item?.careDateRange?.to;
+      let dateLabel = null;
+
+      if (hasStartDate && hasEndDate) {
+        dateLabel = `${transformDate(
+          item.careDateRange.from,
+        )} - ${transformDate(item.careDateRange.to)}`;
+      } else if (hasStartDate) {
+        dateLabel = transformDate(item.careDateRange.from);
       }
-      if (item?.careDateRange?.from && item?.careDateRange?.to) {
-        return `${transformDate(item.careDateRange.from)} - ${transformDate(
-          item.careDateRange.to,
-        )}`;
-      }
-      return transformDate(item.careDateRange.from);
+
+      const frequencyLabel = careFrequencyLabels[(item?.paymentFrequency)];
+      const amountLabel = formatCurrency(item?.paymentAmount);
+
+      return (
+        <div>
+          {dateLabel && (
+            <span className="vads-u-display--block">{dateLabel}</span>
+          )}
+          {frequencyLabel && (
+            <span className="vads-u-display--block">{frequencyLabel}</span>
+          )}
+          {amountLabel && (
+            <span className="vads-u-display--block">{amountLabel}</span>
+          )}
+        </div>
+      );
     },
     summaryTitle: 'Review your care expenses',
     yesNoBlankReviewQuestion: 'Do you have another care expense to add?',

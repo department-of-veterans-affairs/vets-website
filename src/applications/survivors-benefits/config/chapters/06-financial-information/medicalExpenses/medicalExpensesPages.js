@@ -19,6 +19,7 @@ import {
 } from '../../../../utils/labels';
 import { transformDate } from '../../05-claim-information/helpers';
 import { customTextSchema } from '../../../definitions';
+import { formatCurrency } from '../../../../utils/helpers';
 
 function introDescription() {
   return (
@@ -70,8 +71,8 @@ function introDescription() {
 /** @type {ArrayBuilderOptions} */
 export const options = {
   arrayPath: 'medicalExpenses',
-  nounSingular: 'medical expense',
-  nounPlural: 'medical expenses',
+  nounSingular: 'expense',
+  nounPlural: 'expenses',
   required: false,
   maxItems: 6,
   isItemIncomplete: item =>
@@ -113,7 +114,8 @@ export const options = {
         />
       </div>
     ),
-    getItemName: item => item?.paymentRecipient || 'Medical expense',
+    getItemName: (item, index) =>
+      `Expense ${index + 1}: ${item?.provider || 'No provider name'}`,
     cardDescription: item => (
       <div>
         <span className="vads-u-display--block">
@@ -122,6 +124,9 @@ export const options = {
         <span className="vads-u-display--block">
           {frequencyLabels[(item?.paymentFrequency)] ||
             'Frequency not provided'}
+        </span>
+        <span className="vads-u-display--block">
+          {formatCurrency(item?.paymentAmount) || 'Amount not provided'}
         </span>
       </div>
     ),
@@ -228,7 +233,7 @@ const purposeDatePage = {
 
 const frequencyCostPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Frequency and cost of care'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Frequency and cost of expense'),
     paymentFrequency: radioUI({
       title: 'How often are the payments?',
       labels: frequencyLabels,
@@ -274,7 +279,7 @@ export const medicalExpensesPages = arrayBuilderPages(options, pageBuilder => ({
     schema: purposeDatePage.schema,
   }),
   medicalFrequencyCostPage: pageBuilder.itemPage({
-    title: 'Frequency and cost of care',
+    title: 'Frequency and cost of expense',
     path: 'financial-information/medical-expenses/:index/frequency-cost',
     uiSchema: frequencyCostPage.uiSchema,
     schema: frequencyCostPage.schema,
