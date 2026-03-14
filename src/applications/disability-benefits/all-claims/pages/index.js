@@ -1,5 +1,6 @@
 import * as evidenceChoiceIntro from './form0781/supportingEvidenceEnhancement/evidenceChoiceIntroPage';
 import * as evidenceChoiceAdditionalDocuments from './form0781/supportingEvidenceEnhancement/evidenceChoiceAdditionalDocumentsPage';
+import * as evidenceChoiceAdditionalDocumentsV1 from './form0781/supportingEvidenceEnhancement/evidenceChoiceAdditionalDocumentsPageV1';
 import * as adaptiveBenefits from './adaptiveBenefits';
 import * as additionalBehaviorChanges from './additionalBehaviorChanges';
 import * as additionalDocuments from './additionalDocuments';
@@ -62,6 +63,7 @@ import * as physicalHealthChanges from './physicalHealthChanges';
 import * as prisonerOfWar from './prisonerOfWar';
 import * as privateMedicalRecords from './privateMedicalRecords';
 import * as privateMedicalRecordsUpload from './form0781/supportingEvidenceEnhancement/privateMedicalRecordsUpload';
+import * as privateMedicalRecordsUploadV1 from './form0781/supportingEvidenceEnhancement/privateMedicalRecordsUploadV1';
 import * as privateMedicalRecordsAttachments from './privateMedicalRecordsAttachments';
 import * as privateMedicalAuthorizeRelease from './privateMedicalAuthorizeRelease';
 import * as privateMedicalRecordsRelease from './privateMedicalRecordsRelease';
@@ -144,6 +146,7 @@ export {
   evidenceTypesBDD,
   evidenceChoiceIntro,
   evidenceChoiceAdditionalDocuments,
+  evidenceChoiceAdditionalDocumentsV1,
   federalOrders,
   finalIncident,
   fullyDevelopedClaim,
@@ -188,6 +191,7 @@ export {
   prisonerOfWar,
   privateMedicalRecords,
   privateMedicalRecordsUpload,
+  privateMedicalRecordsUploadV1,
   privateMedicalRecordsAttachments,
   privateMedicalAuthorizeRelease,
   privateMedicalRecordsRelease,

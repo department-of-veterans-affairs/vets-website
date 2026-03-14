@@ -15,9 +15,8 @@ describe('evidenceChoiceIntroPage', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.supportingEvidence.pages.evidenceChoiceIntro;
-  //   TODO update the variable name once evidence-choice-upload page is created
   const {
-    depends: tempEvidenceChoiceAdditionalDocuments,
+    depends: evidenceChoiceAdditionalDocumentsDepends,
   } = formConfig.chapters.supportingEvidence.pages.evidenceChoiceAdditionalDocuments;
   const summaryOfEvidencePage =
     formConfig.chapters.supportingEvidence.pages.summaryOfEvidence;
@@ -45,7 +44,6 @@ describe('evidenceChoiceIntroPage', () => {
     expect(container.querySelector('va-radio-option[label="No"', container)).to
       .exist;
   });
-  // Testing submission behavior with radio buttons
   it('should error when veteran makes no selection', async () => {
     const onSubmit = sinon.spy();
     const { getByText } = render(
@@ -90,27 +88,28 @@ describe('evidenceChoiceIntroPage', () => {
     expect($('va-radio').error).to.be.null;
   });
 
-  // Testing radio buttons to move between evidence-choice-upload page and summary of evidence page
-  // TODO update test when new evidence-choice-upload page is created
-  it('should show evidence-choice-upload(eventually) page when veteran selects "Yes" and feature flag is enabled', () => {
+  it('should show additional documents page when veteran selects "Yes" and feature flag is enabled', () => {
     const formData = {
       'view:selectableEvidenceTypes': {
         'view:hasOtherEvidence': true,
-      }, // Veteran selected YES
-      //   TODO remove feature toggle when enhancement is fully launched
-      disability526SupportingEvidenceEnhancement: true, // feature toggle ON
+      },
+      // TODO: remove feature toggle when enhancement is fully launched
+      disability526SupportingEvidenceEnhancement: true,
+      disability526SupportingEvidenceFileInputV3: true,
     };
-    expect(tempEvidenceChoiceAdditionalDocuments(formData)).to.be.true;
+    expect(evidenceChoiceAdditionalDocumentsDepends(formData)).to.be.true;
   });
-  it('should not show evidence-choice-upload page when veteran selects "No" and show the summary of evidence page', () => {
+
+  it('should not show additional documents page when veteran selects "No" and show the summary of evidence page', () => {
     const formData = {
       'view:selectableEvidenceTypes': {
         'view:hasOtherEvidence': false,
-      }, // Veteran selected NO
-      //   TODO remove feature toggle when enhancement is fully launched
-      disability526SupportingEvidenceEnhancement: true, // feature toggle ON
+      },
+      // TODO: remove feature toggle when enhancement is fully launched
+      disability526SupportingEvidenceEnhancement: true,
+      disability526SupportingEvidenceFileInputV3: true,
     };
-    expect(tempEvidenceChoiceAdditionalDocuments(formData)).to.be.false;
+    expect(evidenceChoiceAdditionalDocumentsDepends(formData)).to.be.false;
     expect(summaryOfEvidencePage).to.exist;
     expect(summaryOfEvidencePage.path).to.equal('supporting-evidence/summary');
   });
