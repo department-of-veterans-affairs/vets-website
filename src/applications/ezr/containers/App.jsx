@@ -31,6 +31,7 @@ const App = props => {
     isProvidersAndDependentsPrefillEnabled,
     isSpouseConfirmationFlowEnabled,
     ezrServiceHistoryEnabled,
+    ezrUpdatedUploadPatternEnabled,
   } = features;
   const {
     dob: veteranDateOfBirth,
@@ -72,6 +73,7 @@ const App = props => {
           'view:isProvidersAndDependentsPrefillEnabled': !!isProvidersAndDependentsPrefillEnabled,
           'view:isSpouseConfirmationFlowEnabled': !!isSpouseConfirmationFlowEnabled,
           'view:ezrServiceHistoryEnabled': !!ezrServiceHistoryEnabled,
+          'view:ezrUpdatedUploadPatternEnabled': !!ezrUpdatedUploadPatternEnabled,
         };
 
         setFormData({
@@ -133,6 +135,8 @@ const mapStateToProps = state => ({
     isSpouseConfirmationFlowEnabled:
       state.featureToggles.ezrSpouseConfirmationFlowEnabled,
     ezrServiceHistoryEnabled: state.featureToggles.ezrServiceHistoryEnabled,
+    ezrUpdatedUploadPatternEnabled:
+      state.featureToggles.ezrUpdatedUploadPatternEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,
