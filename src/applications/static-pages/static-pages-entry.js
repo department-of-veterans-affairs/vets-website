@@ -42,7 +42,6 @@ import createDisabilityFormWizard from '../disability-benefits/wizard/createWiza
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createEventsPage from './events';
-import createEZRSubmissionOptions from './ezr-submission-options';
 import createFacilityPage from './facilities/createFacilityPage';
 import createFacilityMapSatelliteMainOffice from './facilities/createFacilityMapSatelliteMainOffice';
 import createFacilityPageSatelliteLocations from './facilities/createFacilityPageSatelliteLocations';
@@ -53,7 +52,6 @@ import {
   reducer as findVAFormsReducer,
 } from './find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from './find-forms/download-widget';
-import createHCAPerformanceWarning from './hca-performance-warning';
 import createHomepageEmailSignup from './homepage-email-signup';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
@@ -105,11 +103,6 @@ import createBurialHowDoIApplyWidget from './burial-how-do-i-apply-widget';
 import createPensionApp from './pension-how-do-i-apply-widget';
 import create21P0969Access from './income-and-asset';
 import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEnrollmentWidget';
-
-import create1010DExtendedAccess from './ivc-champva/10-10d-extended/entry';
-import create107959CAccess from './ivc-champva/10-7959c/entry';
-import create107959AAccess from './ivc-champva/10-7959a/entry';
-import create107959F2Access from './ivc-champva/10-7959f-2/entry';
 import create21P8416Access from './medical-expense-report/entry';
 
 import './mhv-signin-cta/sass/mhv-signin-cta.scss';
@@ -205,7 +198,6 @@ createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);
 createAskVAWidget(store, widgetTypes.ASK_VA);
 createEventsPage(store, widgetTypes.EVENTS);
-createEZRSubmissionOptions(store, widgetTypes.EZR_SUBMISSION_OPTIONS);
 createMedicalCopaysCTA(store, widgetTypes.MEDICAL_COPAYS_CTA);
 createModernGetMedicalRecordsPage(
   store,
@@ -239,7 +231,6 @@ createDependentsVerificationHowToVerify(
   widgetTypes.DEPENDENTS_VERIFICATION_HOW_TO_VERIFY,
 );
 createCOEAccess(store, widgetTypes.COE_ACCESS);
-createHCAPerformanceWarning(store, widgetTypes.HCA_PERFORMANCE_WARNING);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 // Second instance is for another widget type on the same page
 createManageVADebtCTA(store, widgetTypes.DISPUTE_DEBT_LINK);
@@ -275,14 +266,8 @@ create400247Access(store, widgetTypes.FORM_400247_CTA);
 createBurialHowDoIApplyWidget(store, widgetTypes.BURIAL_HOW_DO_I_APPLY_WIDGET);
 createVYEEnrollmentWidget(store, widgetTypes.VYE_ENROLLMENT_LOGIN_WIDGET);
 createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
-
-create1010DExtendedAccess(store, widgetTypes.FORM_1010D_EXTENDED);
-create107959CAccess(store, widgetTypes.FORM_107959C);
-create107959AAccess(store, widgetTypes.FORM_107959A);
-create107959F2Access(store, widgetTypes.FORM_107959F2);
 createMhvSigninCallToAction(store, widgetTypes.MHV_SIGNIN_CTA);
 create21P8416Access(store, widgetTypes.MEDICAL_EXPENSE_REPORT);
-
 create21P534ezAccess(store, widgetTypes.SURVIVORS_BENEFITS);
 
 // Create the My VA Login widget only on the homepage.
