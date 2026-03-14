@@ -353,6 +353,7 @@ describe('AuthApp', () => {
                   verified: true,
                 },
                 vaProfile: {
+                  isCernerPatient: true,
                   vaPatient: true,
                   facilities: [
                     {
@@ -418,6 +419,7 @@ describe('AuthApp', () => {
                   verified: true,
                 },
                 vaProfile: {
+                  isCernerPatient: true,
                   vaPatient: true,
                   facilities: [
                     {
