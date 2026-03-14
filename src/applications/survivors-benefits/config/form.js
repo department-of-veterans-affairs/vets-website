@@ -72,6 +72,7 @@ import directDepositAccount from './chapters/07-additional-information/directDep
 import otherPaymentOptions from './chapters/07-additional-information/otherPaymentOptions';
 import supportingDocuments from './chapters/07-additional-information/supportingDocuments';
 import uploadDocuments from './chapters/07-additional-information/uploadDocuments';
+import uploadDocumentsWithCave from './chapters/07-additional-information/uploadDocumentsWithCave';
 import confirmVeteranInfo from './chapters/07-additional-information/confirmVeteranInfo';
 import confirmMilitaryHistory from './chapters/07-additional-information/confirmMilitaryHistory';
 import ArtifactSummaryReview from '../components/ArtifactSummaryReview';
@@ -140,6 +141,7 @@ const formConfig = {
     // Chapter 0 - Required Documents
     requiredDocumentUpload: {
       title: "Veteran's DD214 and death certificate",
+      hideOnReviewPage: true,
       pages: {
         requiredDocuments: {
           title: "Veteran's DD214 and death certificate",
@@ -594,8 +596,16 @@ const formConfig = {
         uploadDocuments: {
           title: 'Upload documents',
           path: 'additional-information/upload-documents',
+          depends: formData => formData?.['view:idpEnabled'] !== true,
           uiSchema: uploadDocuments.uiSchema,
           schema: uploadDocuments.schema,
+        },
+        uploadDocumentsWithCave: {
+          title: 'Upload documents',
+          path: 'additional-information/upload-documents-cave',
+          depends: formData => formData?.['view:idpEnabled'] === true,
+          uiSchema: uploadDocumentsWithCave.uiSchema,
+          schema: uploadDocumentsWithCave.schema,
         },
         confirmVeteranInfo: {
           title: 'Confirm Veteran information',

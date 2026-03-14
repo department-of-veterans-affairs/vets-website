@@ -1,3 +1,6 @@
+// Name suffix values matching the 534EZ form schema enum
+export const NAME_SUFFIXES = ['Jr.', 'Sr.', 'II', 'III', 'IV'];
+
 // Full-form CHARACTER_OF_SERVICE options
 export const CHARACTER_OF_SERVICE_OPTIONS = [
   'Honorable',

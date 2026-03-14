@@ -4,11 +4,10 @@ import {
   fileInputMultipleUI,
   fileInputMultipleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { VaFileInputMultiple } from 'platform/forms-system/src/js/web-component-fields';
 import environment from 'platform/utilities/environment';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import { useSelector } from 'react-redux';
 import { getFormData } from 'platform/forms-system/src/js/state/selectors';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import DualFileUploadField from '../../../components/DualFileUploadField';
 
 const filesUi = fileInputMultipleUI({
@@ -21,16 +20,6 @@ const filesUi = fileInputMultipleUI({
   accept: '.pdf,.jpg,.jpeg',
   formNumber: '21P-534EZ',
 });
-
-const FileUploadField = props => {
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const idpEnabled = useToggleValue(TOGGLE_NAMES.survivorsBenefitsIdp);
-  return idpEnabled ? (
-    <DualFileUploadField {...props} />
-  ) : (
-    <VaFileInputMultiple {...props} />
-  );
-};
 
 /**
  * Shows a va-alert banner when the user tries to continue without uploading
@@ -56,12 +45,12 @@ const NoUploadWarningField = ({ formContext, formData, onChange }) => {
   if (hasFiles) return null;
 
   return (
-    <va-alert status="info" visible>
-      <h3 slot="headline">Attach the Veteran’s DD214 and death certificate</h3>
+    <VaAlert status="warning" visible slim className="vads-u-margin-top--4">
       <p>
+        Attach the Veteran’s DD214 and death certificate. <br />
         Uploading these documents now will help us process your claim faster.
       </p>
-    </va-alert>
+    </VaAlert>
   );
 };
 
@@ -86,18 +75,14 @@ export default {
     },
     files: {
       ...filesUi,
-      'ui:webComponentField': FileUploadField,
+      'ui:webComponentField': DualFileUploadField,
     },
   },
   schema: {
     type: 'object',
     properties: {
-      'view:noUploadWarning': {
-        type: 'object',
-        properties: {},
-      },
       files: fileInputMultipleSchema(),
-      'view:caveProcessing': {
+      'view:noUploadWarning': {
         type: 'object',
         properties: {},
       },

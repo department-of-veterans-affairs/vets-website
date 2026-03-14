@@ -6,7 +6,30 @@ import {
   PAY_GRADE_OPTIONS,
   PAY_GRADE_ABBREV_MAP,
   SEPARATION_CODES,
+  NAME_SUFFIXES,
 } from '../constants';
+
+// ---------------------------------------------------------------------------
+// Name suffix
+// ---------------------------------------------------------------------------
+
+// Keyed by lowercase + no-period for case-insensitive, period-agnostic lookup.
+const NAME_SUFFIX_LOOKUP = new Map(
+  NAME_SUFFIXES.map(s => [s.toLowerCase().replace(/\./g, ''), s]),
+);
+
+// Normalizes a suffix string to the canonical 534EZ enum value.
+// Handles missing periods (Jr → Jr.) and case variations.
+// Returns null for unrecognized values, '' for blank.
+export const normalizeSuffix = v => {
+  if (v == null) return null;
+  if (typeof v === 'string' && v.trim() === '') return '';
+  const key = v
+    .trim()
+    .toLowerCase()
+    .replace(/\./g, '');
+  return NAME_SUFFIX_LOOKUP.get(key) ?? null;
+};
 
 // ---------------------------------------------------------------------------
 // Branch of service
@@ -71,29 +94,43 @@ const normalizeArtifactDate = v => {
 // Parses a full name string into { first, middle, last, suffix }.
 // Word count rules: 2 → first last, 3 → first middle last, 4+ → first middle last suffix.
 // Returns null if the input is blank/missing.
+const toTitleCase = s =>
+  s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : s;
+
 const parseFullName = raw => {
   if (!raw || typeof raw !== 'string') return null;
   const tokens = raw
+    .replace(/,/g, '')
     .trim()
     .split(/\s+/)
     .filter(Boolean);
   if (!tokens.length) return null;
   if (tokens.length === 1)
-    return { first: tokens[0], middle: '', last: '', suffix: '' };
+    return {
+      first: toTitleCase(tokens[0]),
+      middle: '',
+      last: '',
+      suffix: undefined,
+    };
   if (tokens.length === 2)
-    return { first: tokens[0], middle: '', last: tokens[1], suffix: '' };
+    return {
+      first: toTitleCase(tokens[0]),
+      middle: '',
+      last: toTitleCase(tokens[1]),
+      suffix: undefined,
+    };
   if (tokens.length === 3)
     return {
-      first: tokens[0],
-      middle: tokens[1],
-      last: tokens[2],
-      suffix: '',
+      first: toTitleCase(tokens[0]),
+      middle: toTitleCase(tokens[1]),
+      last: toTitleCase(tokens[2]),
+      suffix: undefined,
     };
   return {
-    first: tokens[0],
-    middle: tokens[1],
-    last: tokens[2],
-    suffix: tokens.slice(3).join(' '),
+    first: toTitleCase(tokens[0]),
+    middle: toTitleCase(tokens[1]),
+    last: toTitleCase(tokens[2]),
+    suffix: normalizeSuffix(tokens.slice(3).join(' ')) ?? undefined,
   };
 };
 
