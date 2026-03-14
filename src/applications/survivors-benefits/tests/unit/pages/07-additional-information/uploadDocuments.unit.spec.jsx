@@ -17,6 +17,9 @@ export const getData = ({ loggedIn = true } = {}) => ({
           currentlyLoggedIn: loggedIn,
         },
       },
+      form: {
+        data: {},
+      },
     }),
     subscribe: () => {},
     dispatch: () => {},

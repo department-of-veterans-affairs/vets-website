@@ -399,5 +399,6 @@
       }
     }
   ],
-  "spouseHasAdditionalMarriages": true
+  "spouseHasAdditionalMarriages": true,
+  "view:idpEnabled": false
 }

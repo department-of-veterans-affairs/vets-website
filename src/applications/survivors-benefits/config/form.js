@@ -65,14 +65,23 @@ import homeOwnership from './chapters/06-financial-information/incomeAndAssets/h
 import landLotSize from './chapters/06-financial-information/incomeAndAssets/landLotSize';
 import additionalLandValue from './chapters/06-financial-information/incomeAndAssets/additionalLandValue';
 import marketableLand from './chapters/06-financial-information/incomeAndAssets/marketableLand';
+import requiredDocuments from './chapters/00-required-documents/requiredDocuments';
+import uploadRequiredDocuments from './chapters/00-required-documents/uploadRequiredDocuments';
 import directDeposit from './chapters/07-additional-information/directDeposit';
 import directDepositAccount from './chapters/07-additional-information/directDepositAccount';
 import otherPaymentOptions from './chapters/07-additional-information/otherPaymentOptions';
 import supportingDocuments from './chapters/07-additional-information/supportingDocuments';
 import uploadDocuments from './chapters/07-additional-information/uploadDocuments';
+import uploadDocumentsWithCave from './chapters/07-additional-information/uploadDocumentsWithCave';
+import confirmVeteranInfo from './chapters/07-additional-information/confirmVeteranInfo';
+import confirmMilitaryHistory from './chapters/07-additional-information/confirmMilitaryHistory';
+import ArtifactSummaryReview from '../components/ArtifactSummaryReview';
+import { hasConflicts } from '../cave/utils/conflictDetection';
+import {
+  VETERAN_INFO_FIELDS,
+  MILITARY_HISTORY_FIELDS,
+} from '../cave/fieldMapping';
 import IncorrectForm from '../containers/IncorrectForm';
-// TODO: Will be added after mvp release
-// import reviewDocuments from './chapters/07-additional-information/reviewDocuments';
 import { transform } from './submit-transformer';
 // import prefillTransformer from './prefill-transformer';
 
@@ -128,6 +137,28 @@ const formConfig = {
   errorText: ErrorText,
   showReviewErrors: !environment.isProduction() && !environment.isStaging(),
   chapters: {
+    // TODO: Update chapter numbers
+    // Chapter 0 - Required Documents
+    requiredDocumentUpload: {
+      title: "Veteran's DD214 and death certificate",
+      hideOnReviewPage: true,
+      pages: {
+        requiredDocuments: {
+          title: "Veteran's DD214 and death certificate",
+          path: 'required-documents/overview',
+          depends: formData => formData?.['view:idpEnabled'] === true,
+          uiSchema: requiredDocuments.uiSchema,
+          schema: requiredDocuments.schema,
+        },
+        uploadRequiredDocuments: {
+          title: 'Upload DD214 and death certificate',
+          path: 'required-documents/upload',
+          depends: formData => formData?.['view:idpEnabled'] === true,
+          uiSchema: uploadRequiredDocuments.uiSchema,
+          schema: uploadRequiredDocuments.schema,
+        },
+      },
+    },
     // Chapter 1 - Veteran Information
     veteranInformation: {
       title: 'Veteran’s information',
@@ -565,16 +596,48 @@ const formConfig = {
         uploadDocuments: {
           title: 'Upload documents',
           path: 'additional-information/upload-documents',
+          depends: formData => formData?.['view:idpEnabled'] !== true,
           uiSchema: uploadDocuments.uiSchema,
           schema: uploadDocuments.schema,
         },
-        // TODO: Will be added after mvp release
-        // reviewDocuments: {
-        //   title: 'Review supporting documents',
-        //   path: 'additional-information/review-documents',
-        //   uiSchema: reviewDocuments.uiSchema,
-        //   schema: reviewDocuments.schema,
-        // },
+        uploadDocumentsWithCave: {
+          title: 'Upload documents',
+          path: 'additional-information/upload-documents-cave',
+          depends: formData => formData?.['view:idpEnabled'] === true,
+          uiSchema: uploadDocumentsWithCave.uiSchema,
+          schema: uploadDocumentsWithCave.schema,
+        },
+        confirmVeteranInfo: {
+          title: 'Confirm Veteran information',
+          path: 'additional-information/confirm-veteran-info',
+          depends: formData =>
+            formData?.['view:idpEnabled'] === true &&
+            formData?.files?.some(f => f?.idpArtifacts) &&
+            hasConflicts(formData, VETERAN_INFO_FIELDS),
+          uiSchema: confirmVeteranInfo.uiSchema,
+          schema: confirmVeteranInfo.schema,
+        },
+        confirmMilitaryHistory: {
+          title: 'Confirm military history',
+          path: 'additional-information/confirm-military-history',
+          depends: formData =>
+            formData?.['view:idpEnabled'] === true &&
+            formData?.files?.some(f => f?.idpArtifacts) &&
+            hasConflicts(formData, MILITARY_HISTORY_FIELDS),
+          uiSchema: confirmMilitaryHistory.uiSchema,
+          schema: confirmMilitaryHistory.schema,
+        },
+        artifactReview: {
+          title: 'Review uploaded documents',
+          path: 'additional-information/document-review',
+          depends: formData =>
+            formData?.['view:idpEnabled'] === true &&
+            formData?.files?.some(f => f?.idpArtifacts),
+          CustomPage: ArtifactSummaryReview,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: blankSchema,
+        },
       },
     },
   },
