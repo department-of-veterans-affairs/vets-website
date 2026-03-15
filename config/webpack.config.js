@@ -38,6 +38,21 @@ const generateWebpackDevConfig = require('./webpack.dev.config');
 const getAbsolutePath = relativePath =>
   path.join(__dirname, '../', relativePath);
 
+/**
+ * Generate application version for Datadog tracking
+ * Uses git commit hash from environment to uniquely identify deployments
+ * @returns {string} Version string (e.g., "abc1234" or "local")
+ */
+const getAppVersion = () => {
+  const gitHash = process.env.GIT_REVISION || process.env.DD_GIT_COMMIT || '';
+
+  if (gitHash) {
+    return gitHash.substring(0, 7);
+  }
+
+  return 'local';
+};
+
 const sharedModules = [
   '@department-of-veterans-affairs/platform-polyfills',
   'react',
@@ -510,6 +525,7 @@ module.exports = async (env = {}) => {
         __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
         __REGISTRY__: JSON.stringify(appRegistry),
+        'process.env.APP_VERSION': JSON.stringify(getAppVersion()),
         // This is not a real token below. It is a format-valid placeholder that prevents @mapbox/mapbox-sdk
         // from throwing errors at import time when no real token is available (local dev without .env).
         'process.env.MAPBOX_TOKEN': JSON.stringify(
