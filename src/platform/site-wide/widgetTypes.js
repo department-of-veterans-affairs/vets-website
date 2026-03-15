@@ -95,6 +95,7 @@ export default {
   SUPPLEMENTAL_CLAIM: 'supplemental_claim',
   SURVIVORS_BENEFITS: 'survivors-benefits-21p-534ez',
   THIRD_PARTY_APP_DIRECTORY: 'third-party-app-directory',
+  TRACK_YOUR_VRE_BENEFITS_WIDGET: 'track-your-vre-benefits',
   UNEMPLOYABILITY_COMPENSATION: 'unemployability-compensation',
   VET_CENTER_HOURS: 'vet-center-hours',
   VET_CENTER_HOURS_SATELLITE_LOCATIONS: 'vet-center-hours-satellite-locations',

@@ -28,6 +28,7 @@ export const CTA_WIDGET_TYPES = {
   LETTERS: 'letters',
   MANAGE_VA_DEBT: 'manage-va-debt',
   SCHEDULE_APPOINTMENTS: 'schedule-appointments',
+  TRACK_YOUR_VRE_BENEFITS: 'track-your-vre-benefits',
   UPDATE_HEALTH_BENEFITS_INFO: 'update-health-benefits-info',
   VETERAN_ID_CARD: 'vic',
   VET_TEC: 'vet-tec',
@@ -232,6 +233,18 @@ export const ctaWidgetsLookup = {
     mhvToolName: 'VA Appointments',
     requiredServices: null,
     serviceDescription: 'view, schedule, or cancel your appointment online',
+  },
+  [CTA_WIDGET_TYPES.TRACK_YOUR_VRE_BENEFITS]: {
+    id: CTA_WIDGET_TYPES.TRACK_YOUR_VRE_BENEFITS,
+    deriveToolUrlDetails: () => ({
+      url: '/careers-employment/track-your-vre-benefits/vre-benefit-status',
+      redirect: false,
+    }),
+    hasRequiredMhvAccount: () => false,
+    isHealthTool: false,
+    mhvToolName: null,
+    requiredServices: null,
+    serviceDescription: 'track your VR&E benefits',
   },
   [CTA_WIDGET_TYPES.UPDATE_HEALTH_BENEFITS_INFO]: {
     id: CTA_WIDGET_TYPES.UPDATE_HEALTH_BENEFITS_INFO,

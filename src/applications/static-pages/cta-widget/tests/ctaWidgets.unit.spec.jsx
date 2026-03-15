@@ -134,6 +134,16 @@ describe('ctaWidgetsLookup', () => {
     expect(ctaWidget.hasRequiredMhvAccount('Premium')).to.be.true;
   });
 
+  it('should return the appropriate tool url and correct MHV account info for TRACK_YOUR_VRE_BENEFITS', () => {
+    const ctaWidget =
+      ctaWidgetsLookup[CTA_WIDGET_TYPES.TRACK_YOUR_VRE_BENEFITS];
+    expect(ctaWidget.deriveToolUrlDetails()).to.eql({
+      url: '/careers-employment/track-your-vre-benefits/vre-benefit-status',
+      redirect: false,
+    });
+    expect(ctaWidget.hasRequiredMhvAccount()).to.be.false;
+  });
+
   it('should return the appropriate tool url and correct MHV account info for UPDATE_HEALTH_BENEFITS_INFO', () => {
     const ctaWidget =
       ctaWidgetsLookup[CTA_WIDGET_TYPES.UPDATE_HEALTH_BENEFITS_INFO];

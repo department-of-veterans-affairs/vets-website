@@ -64,6 +64,9 @@ import createOptOutApplicationStatus from '../edu-benefits/components/createOptO
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
+import createTrackYourVreBenefitsWidget, {
+  trackYourVreBenefitsReducer,
+} from '../vre/track-your-vre-benefits/createTrackYourVreBenefitsWidget';
 import createResourcesAndSupportSearchWidget from './widget-creators/resources-and-support-search';
 import createSituationUpdatesBanner from './situation-updates-banner/createSituationUpdatesBanner';
 import createThirdPartyApps, {
@@ -129,6 +132,7 @@ const store = createCommonStore({
   ...facilityReducer,
   ...findVAFormsReducer,
   ...post911GIBillStatusReducer,
+  ...trackYourVreBenefitsReducer,
   ...thirdPartyAppsReducer,
   ...dependencyVerificationReducer,
 });
@@ -200,6 +204,10 @@ createHomepageEmailSignup(store, widgetTypes.HOMEPAGE_EMAIL_SIGNUP);
 createPost911GiBillStatusWidget(
   store,
   widgetTypes.POST_911_GI_BILL_STATUS_WIDGET,
+);
+createTrackYourVreBenefitsWidget(
+  store,
+  widgetTypes.TRACK_YOUR_VRE_BENEFITS_WIDGET,
 );
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);
