@@ -61,7 +61,9 @@ export const uiSchema = {
     'ui:title': '',
     'ui:description': BddEvidenceSubmitLater,
     'ui:options': {
-      hideIf: data => _.get('view:hasEvidence', data, true),
+      hideIf: data =>
+        _.get('view:hasEvidence', data, true) ||
+        data.disability526NewBddShaEnforcementWorkflowEnabled,
     },
   },
 };
