@@ -146,21 +146,21 @@ const PreSubmitInfo = ({
           <li className="vads-u-font-family--sans">
             I understand that if I have eligibility remaining under chapter 30,
             33, or 35 of this title, such entitlement shall be charged at the
-            rate of one month of such entitlement for each month of educational
+            rate of one month of such entitlement for each month of education
             assistance provided under this section. If I am eligible for more
             than one of these education benefits, VA will charge the program
             determined to be most advantageous to me. For example, if I am
             eligible for chapter 30 and chapter 33, VA will charge my benefits
-            under chapter 33 since that pays less in most cases. If you want VA
+            under chapter 30 since that pays less in most cases. If you want VA
             to charge your entitlement under a different benefit, you can write
             to tell us to switch to the program of your choice.
           </li>
           <li className="vads-u-font-family--sans">
-            If I am enrolled in a high technology program of education under
-            this section and do not have remaining entitlement to educational
-            assistance under chapter 30, 33, or 35 of this title, any
-            educational assistance provided to me under this section shall be
-            provided in addition to the entitlement I used previously.
+            If I am enrolled in a VET TEC 2.0 program of education under this
+            section and do not have remaining entitlement to education
+            assistance under chapter 30, 33, or 35 of this title, any education
+            assistance provided to me under this section shall be provided in
+            addition to the entitlement I used previously.
           </li>
         </ul>
         <VaPrivacyAgreement
@@ -212,7 +212,7 @@ const PreSubmitInfo = ({
         <div>
           <p>
             The information you provide in this application will help us
-            determine if you’re eligible for the VET TEC 2.0 Program. We may
+            determine if you are eligible for the VET TEC 2.0 Program. We may
             audit this information to make sure it’s accurate.
           </p>
           <p>

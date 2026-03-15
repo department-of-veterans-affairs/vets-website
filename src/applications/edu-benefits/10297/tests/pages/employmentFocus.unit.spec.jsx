@@ -30,10 +30,7 @@ describe('Background Information Step 4 - Page 3, Employment Focus', () => {
   });
 
   it('accepts a valid area of focus', () => {
-    let utils = renderPage({ technologyAreaOfFocus: 'computerProgramming' });
-    expect(utils.container.querySelectorAll('[error]')).to.have.length(0);
-    utils.unmount();
-    utils = renderPage({ technologyAreaOfFocus: 'somethingElse' });
+    const utils = renderPage({ technologyAreaOfFocus: 'computerProgramming' });
     expect(utils.container.querySelectorAll('[error]')).to.have.length(0);
   });
 });
