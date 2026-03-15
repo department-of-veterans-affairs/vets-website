@@ -91,7 +91,7 @@ const formConfig = {
       fullNamePath: 'view:recipientName',
     },
   },
-  title: 'Verify your marital status for DIC benefits',
+  title: 'Confirm your marital status to keep your DIC benefits',
   subTitle: 'Marital Status Questionnaire (VA Form 21P-0537)',
   customText: {
     appType: 'form',
