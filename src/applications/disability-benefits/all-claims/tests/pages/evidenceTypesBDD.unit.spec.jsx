@@ -116,64 +116,117 @@ describe('evidenceTypes', () => {
     expect($('va-radio').error).to.be.null;
   });
 
-  it('should display alert when BDD SHA enabled and user selects "No, I will submit more information later" and disability526NewBddShaEnforcementWorkflowEnabled is false', () => {
-    const { queryByText, container } = render(
-      <DefaultDefinitionTester
-        data={{
-          disability526NewBddShaEnforcementWorkflowEnabled: false,
-        }}
-      />,
-    );
+  describe('BDD SHA Alert', () => {
+    it('should display when BDD SHA enabled and user selects "No, I will submit more information later" and disability526NewBddShaEnforcementWorkflowEnabled is false', () => {
+      const { queryByText, container } = render(
+        <DefaultDefinitionTester
+          data={{
+            disability526NewBddShaEnforcementWorkflowEnabled: false,
+          }}
+        />,
+      );
 
-    // Ensure mock data does not cause alert to display on initial render
-    expect(
-      queryByText(
-        'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
-      ),
-    ).to.not.exist;
+      // Ensure mock data does not cause alert to display on initial render
+      expect(
+        queryByText(
+          'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
+        ),
+      ).to.not.exist;
 
-    const page = getPageObject(container);
-    page.triggerNoSelection();
+      const page = getPageObject(container);
+      page.triggerNoSelection();
 
-    expect(
-      queryByText(
-        'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
-      ),
-    ).to.exist;
+      expect(
+        queryByText(
+          'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
+        ),
+      ).to.exist;
 
-    // Ensure alert goes away if user changes selection to "Yes"
-    page.triggerYesSelection();
+      // Ensure alert goes away if user changes selection to "Yes"
+      page.triggerYesSelection();
 
-    expect(
-      queryByText(
-        'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
-      ),
-    ).to.not.exist;
+      expect(
+        queryByText(
+          'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
+        ),
+      ).to.not.exist;
+    });
+
+    it('should not display when BDD SHA enabled and user selects "No, I will submit more information later" but disability526NewBddShaEnforcementWorkflowEnabled is true', () => {
+      const { queryByText, container } = render(
+        <DefaultDefinitionTester
+          data={{
+            disability526NewBddShaEnforcementWorkflowEnabled: true,
+          }}
+        />,
+      );
+
+      // Ensure mock data does not cause alert to display on initial render
+      expect(
+        queryByText(
+          'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
+        ),
+      ).to.not.exist;
+
+      const page = getPageObject(container);
+      page.triggerNoSelection(container);
+
+      expect(
+        queryByText(
+          'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
+        ),
+      ).to.not.exist;
+    });
   });
 
-  it('should not display alert when BDD SHA enabled and user selects "No, I will submit more information later" but disability526NewBddShaEnforcementWorkflowEnabled is true', () => {
-    const { queryByText, container } = render(
-      <DefaultDefinitionTester
-        data={{
-          disability526NewBddShaEnforcementWorkflowEnabled: true,
-        }}
-      />,
-    );
+  describe('Evidence Type Help', () => {
+    it('should display if user selects "Yes" and disability526NewBddShaEnforcementWorkflowEnabled is false', () => {
+      const { queryByText, container } = render(
+        <DefaultDefinitionTester
+          data={{
+            disability526NewBddShaEnforcementWorkflowEnabled: false,
+          }}
+        />,
+      );
 
-    // Ensure mock data does not cause alert to display on initial render
-    expect(
-      queryByText(
-        'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
-      ),
-    ).to.not.exist;
+      // Ensure mock data does not cause alert to display on initial render
+      expect(queryByText('Types of evidence')).to.not.exist;
 
-    const page = getPageObject(container);
-    page.triggerNoSelection(container);
+      const page = getPageObject(container);
 
-    expect(
-      queryByText(
-        'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
-      ),
-    ).to.not.exist;
+      page.triggerYesSelection();
+
+      expect(queryByText('Types of evidence')).to.exist;
+
+      // It should disaappear if user changes selection to "No"
+      page.triggerNoSelection();
+
+      expect(queryByText('Types of evidence')).to.not.exist;
+    });
+
+    it('should not display if user selects "Yes" and disability526NewBddShaEnforcementWorkflowEnabled is true', () => {
+      const { queryByText, container } = render(
+        <DefaultDefinitionTester
+          data={{
+            disability526NewBddShaEnforcementWorkflowEnabled: true,
+          }}
+        />,
+      );
+
+      // Ensure mock data does not cause alert to display on initial render
+      expect(queryByText('Types of evidence')).to.not.exist;
+
+      const page = getPageObject(container);
+
+      page.triggerYesSelection();
+
+      // Additional info does not show because feature flag is enabled, even though user selected "Yes"
+      expect(queryByText('Types of evidence')).to.not.exist;
+
+      // It still should not appear if the user selects no.
+      page.triggerNoSelection();
+
+      expect(queryByText('Types of evidence')).to.not.exist;
+    });
   });
 });

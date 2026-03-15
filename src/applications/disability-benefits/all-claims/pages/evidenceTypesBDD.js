@@ -55,6 +55,7 @@ export const uiSchema = {
     'ui:description': evidenceTypeHelp,
     'ui:options': {
       expandUnder: 'view:hasEvidence',
+      hideIf: data => data.disability526NewBddShaEnforcementWorkflowEnabled,
     },
   },
   'view:evidenceSubmitLater': {
