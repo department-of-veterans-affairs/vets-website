@@ -571,32 +571,29 @@ export function mockAppointmentSlotApi({
  * @param {string} arguments.siteId The VistA site id the facility is associated with
  * @param {string} arguments.facilityId The VA facility id to check for eligibility at
  * @param {string} arguments.typeOfCareId The type of care id to check for eligibility for
- * @param {boolean} [arguments.limit=false] Whether the mock should set the user as passing the request limit check
- * @param {boolean} [arguments.requestPastVisits=false] Whether the mock should set the user as passing the past visits check
- *    for requests
- * @param {boolean} [arguments.directPastVisits=false] Whether the mock should set the user as passing the past visits check
- *    for direct scheduling
- * @param {Array<VAOSClinic>} [arguments.clinics=[]] The clinics returned during the eligibility checks
- * @param {boolean} [arguments.pastClinics=false] Whether or not the mock should also mock an appointments fetch with an
- *    past appointment with a clinic matching one passed in the clinics param, so that the user passes the past clinics check
+ * @param {boolean} [arguments.hasFacilityRequestLimitExceeded=false] Flag to toggle appointment limit error.
+ * @param {boolean} [arguments.hasRequestPatientHistoryInsufficientError=false] Flag to toggle past visits error
+ * @param {boolean} [arguments.hasDirectPatientHistoryInsufficientError=false] Flag to toggle past visits error
+ * @param {Array<VAOSClinic>} [arguments.clinics=[]] Clinic used to mock an appointments fetch with an past appointment with
+ * a clinic matching one passed in the clinics param, so that the user passes the past clinics chec
+ * @param {boolean} arguments.hasDirectDisabledError Flag to toggle direct scheduling appointment error
+ * @param {boolean} arguments.requestDisabled Flag to toggle requesting an appointment error
  * }
  */
 export function mockEligibilityFetches({
   facilityId,
   typeOfCareId,
-  limit = false,
-  requestPastVisits = false,
-  requestsDisabled = false,
-  directPastVisits = false,
-  directDisabled = false,
-  matchingClinics = null,
+  hasFacilityRequestLimitExceeded = false,
+  hasRequestPatientHistoryInsufficientError = false,
+  hasRequestDisabledError = false,
+  hasDirectPatientHistoryInsufficientError = false,
+  hasDirectDisabledError = false,
   clinics = [],
-  pastClinics = false,
 }) {
   const directReasons = [];
   const requestReasons = [];
 
-  if (directDisabled) {
+  if (hasDirectDisabledError) {
     directReasons.push({
       coding: [
         {
@@ -606,7 +603,7 @@ export function mockEligibilityFetches({
     });
   }
 
-  if (requestsDisabled) {
+  if (hasRequestDisabledError) {
     requestReasons.push({
       coding: [
         {
@@ -616,7 +613,10 @@ export function mockEligibilityFetches({
     });
   }
 
-  if (!directPastVisits && typeOfCareId !== 'primaryCare') {
+  if (
+    hasDirectPatientHistoryInsufficientError &&
+    typeOfCareId !== 'primaryCare'
+  ) {
     directReasons.push({
       coding: [
         {
@@ -626,7 +626,10 @@ export function mockEligibilityFetches({
     });
   }
 
-  if (!requestPastVisits && typeOfCareId !== 'primaryCare') {
+  if (
+    hasRequestPatientHistoryInsufficientError &&
+    typeOfCareId !== 'primaryCare'
+  ) {
     requestReasons.push({
       coding: [
         {
@@ -636,7 +639,7 @@ export function mockEligibilityFetches({
     });
   }
 
-  if (!limit) {
+  if (hasFacilityRequestLimitExceeded) {
     requestReasons.push({
       coding: [
         {
@@ -654,10 +657,13 @@ export function mockEligibilityFetches({
     ),
     {
       data: {
+        id: facilityId,
         attributes: {
-          eligible: directReasons.length === 0,
+          clinicalServiceId: typeOfCareId,
+          eligible: hasDirectDisabledError || directReasons.length === 0,
           ineligibilityReasons:
             directReasons.length === 0 ? undefined : directReasons,
+          type: 'direct',
         },
       },
     },
@@ -670,10 +676,13 @@ export function mockEligibilityFetches({
     ),
     {
       data: {
+        id: facilityId,
         attributes: {
-          eligible: requestReasons.length === 0,
+          clinicalServiceId: typeOfCareId,
+          eligible: hasRequestDisabledError || requestReasons.length === 0,
           ineligibilityReasons:
             requestReasons.length === 0 ? undefined : requestReasons,
+          type: 'request',
         },
       },
     },
@@ -690,7 +699,7 @@ export function mockEligibilityFetches({
     },
   );
 
-  const pastAppointments = (matchingClinics || clinics).map(clinic => {
+  const pastAppointments = clinics.map(clinic => {
     return new MockAppointmentResponse({
       localStartTime: subDays(new Date(), 1),
     })
@@ -704,7 +713,8 @@ export function mockEligibilityFetches({
       start: range.start,
       end: range.end,
       useRFC3339: false,
-      response: pastClinics ? pastAppointments : [],
+      // response: pastClinics ? pastAppointments : [],
+      response: pastAppointments,
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled', 'checked-in'],
     });
   });

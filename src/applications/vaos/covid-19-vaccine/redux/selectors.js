@@ -12,7 +12,6 @@ import {
   getTimezoneByFacilityId,
   getTimezoneDescByFacilityId,
 } from '../../utils/timezone';
-import { selectFeatureUseVpg } from '../../redux/selectors';
 
 function selectCovid19Vaccine(state) {
   return state.covid19Vaccine;
@@ -114,7 +113,6 @@ export function getFacilityPageInfo(state) {
   const formInfo = getCovid19VaccineFormPageInfo(state, 'vaFacility');
   const data = selectCovid19VaccineFormData(state);
   const newBooking = selectCovid19VaccineNewBooking(state);
-  const featureUseVpg = selectFeatureUseVpg(state);
 
   const {
     facilities,
@@ -128,11 +126,8 @@ export function getFacilityPageInfo(state) {
 
   const supportedFacilities = facilities?.filter(
     facility =>
-      featureUseVpg
-        ? facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]
-            ?.bookedAppointments
-        : facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]?.direct
-            .enabled,
+      facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]
+        ?.bookedAppointments,
   );
 
   return {

@@ -106,8 +106,8 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
         services: [
           new MockServiceConfiguration({
             typeOfCareId: 'primaryCare',
-            limit: true,
-            directPastVisits: true,
+            hasFacilityRequestLimitExceeded: true,
+            hasDirectPatientHistoryInsufficientError: true,
           }),
         ],
       });
@@ -212,14 +212,14 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
-        limit: true,
-        requestPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasRequestPatientHistoryInsufficientError: true,
       });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
-        limit: true,
-        directPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasDirectPatientHistoryInsufficientError: true,
       });
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
@@ -285,14 +285,14 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
-        limit: true,
-        requestPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasRequestPatientHistoryInsufficientError: true,
       });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
-        limit: true,
-        directPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasDirectPatientHistoryInsufficientError: true,
       });
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /primary care/i);
@@ -633,14 +633,14 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
-        limit: true,
-        requestPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasRequestPatientHistoryInsufficientError: true,
       });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
-        limit: true,
-        directPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasDirectPatientHistoryInsufficientError: true,
       });
 
       const store = createTestStore({
@@ -734,14 +734,14 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: TYPE_OF_CARE_IDS.PRIMARY_CARE,
-        limit: true,
-        requestPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasRequestPatientHistoryInsufficientError: true,
       });
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
-        limit: true,
-        directPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasDirectPatientHistoryInsufficientError: true,
       });
       const store = createTestStore({
         ...initialState,
@@ -821,8 +821,8 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
-        limit: true,
-        directPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasDirectPatientHistoryInsufficientError: true,
       });
       mockGetCurrentPosition();
       const store = createTestStore({
@@ -908,8 +908,8 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
-        limit: true,
-        directPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasDirectPatientHistoryInsufficientError: true,
       });
       mockGetCurrentPosition();
       const store = createTestStore({
@@ -1054,8 +1054,8 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
-        limit: true,
-        directPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasDirectPatientHistoryInsufficientError: true,
       });
       mockSchedulingConfigurationsApi({
         response: [
@@ -1119,14 +1119,14 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'optometry',
-        limit: true,
-        directPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasDirectPatientHistoryInsufficientError: true,
       });
       mockEligibilityFetches({
         facilityId: '983GC',
         typeOfCareId: 'ophthalmology',
-        limit: true,
-        directPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasDirectPatientHistoryInsufficientError: true,
       });
       mockSchedulingConfigurationsApi({
         response: [
@@ -1205,20 +1205,20 @@ describe.skip('VAOS Page: VAFacilityPage', () => {
       mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
-        limit: true,
-        directPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasDirectPatientHistoryInsufficientError: true,
       });
       mockEligibilityFetches({
         facilityId: '984',
         typeOfCareId: 'primaryCare',
-        limit: true,
-        directPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasDirectPatientHistoryInsufficientError: true,
       });
       mockEligibilityFetches({
         facilityId: '983GA',
         typeOfCareId: 'primaryCare',
-        limit: true,
-        directPastVisits: true,
+        hasFacilityRequestLimitExceeded: true,
+        hasDirectPatientHistoryInsufficientError: true,
       });
       mockSchedulingConfigurationsApi({
         response: [

@@ -90,10 +90,10 @@ export async function getLocation({ facilityId }) {
  * @param {boolean} params.useVpg Whether to use VPG-specific scheduling configuration
  * @returns {Array<FacilitySettings>} An array of facility settings
  */
-export async function getLocationSettings({ siteIds, useVpg }) {
+export async function getLocationSettings({ siteIds }) {
   try {
     const settings = await getSchedulingConfigurations(siteIds);
-    return transformSettingsV2(settings, useVpg);
+    return transformSettingsV2(settings);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
@@ -112,14 +112,11 @@ export async function getLocationSettings({ siteIds, useVpg }) {
  * @param {Object} params
  * @param {Array<string>} params.siteIds A list of 3 digit site ids to retrieve the settings for
  * @param {boolean} [params.sortByRecentLocations=false] Whether to sort the locations by recent visits
- * @param {boolean} [params.removeFacilityConfigCheck=false] Whether to skip the facility configurations endpoint check and use eligibility from the patient eligibility API SOT only
  * @returns {Array<Location>} An array of Locations with settings included
  */
 export async function getLocationsByTypeOfCareAndSiteIds({
   siteIds,
   sortByRecentLocations = false,
-  removeFacilityConfigCheck = false,
-  useVpg = false,
 }) {
   try {
     let locations = [];
@@ -131,10 +128,8 @@ export async function getLocationsByTypeOfCareAndSiteIds({
       sortByRecentLocations,
     });
 
-    if (!removeFacilityConfigCheck) {
-      const uniqueIds = locations.map(location => location.id);
-      settings = await getLocationSettings({ siteIds: uniqueIds, useVpg });
-    }
+    const uniqueIds = locations.map(location => location.id);
+    settings = await getLocationSettings({ siteIds: uniqueIds });
 
     locations = locations?.map(location =>
       setSupportedSchedulingMethods({
@@ -325,21 +320,15 @@ export function isCernerLocation(locationId, cernerSiteIds = []) {
  * @param {string} typeOfCareId The type of care id to check against
  * @param {Array<string>} [cernerSiteIds=[]] The list of Cerner sites, because Cerner sites
  *   are active for all types of care
- * @param {boolean} [removeFacilityConfigCheck=false] Whether to skip the facility configurations endpoint check and use eligibility from the patient eligibility API SOT only
  * @returns {Boolean} True if the location supports the type of care (or is a Cerner site)
  */
 export function isTypeOfCareSupported(
   location,
   typeOfCareId,
   cernerSiteIds = [],
-  removeFacilityConfigCheck = false,
 ) {
   const setting = location.legacyVAR.settings[typeOfCareId];
   return (
-    removeFacilityConfigCheck ||
-    // Check old format (direct.enabled / request.enabled)
-    setting?.direct?.enabled ||
-    setting?.request?.enabled ||
     // Check VPG format (bookedAppointments / apptRequests)
     setting?.bookedAppointments ||
     setting?.apptRequests ||

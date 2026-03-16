@@ -14,7 +14,7 @@ export default function getEligibilityMessage({
   const requestReason = eligibility.requestReasons[0];
   const directReason = eligibility.directReasons[0];
   const requestDisabled = !eligibility.request;
-
+  // tdw console.log('getEligibilityMessage', eligibility);
   if (
     (requestReason === ELIGIBILITY_REASONS.notSupported &&
       directReason === ELIGIBILITY_REASONS.noRecentVisit) ||

@@ -74,7 +74,7 @@ export function setSupportedSchedulingMethods({ location, settings } = {}) {
   const { id } = location;
 
   const facilitySettings = settings.find(f => f.id === id);
-
+  // tdw console.log('facilitySettings', facilitySettings);
   const { identifier } = location;
   const vhaIdentifier = location.identifier.find(i => i.system === VHA_FHIR_ID);
 
@@ -178,17 +178,12 @@ function getTypeOfCareIdFromV2(id) {
   return allTypesOfCare.find(care => care.idV2 === id)?.id;
 }
 
-export function transformSettingsV2(settings, useVpg = false) {
+export function transformSettingsV2(settings) {
   return settings.map(setting => ({
     ...setting,
-    services: useVpg
-      ? setting.vaServices.map(service => ({
-          ...service,
-          id: getTypeOfCareIdFromV2(service.clinicalServiceId),
-        }))
-      : setting.services.map(service => ({
-          ...service,
-          id: getTypeOfCareIdFromV2(service.id),
-        })),
+    services: setting.vaServices.map(service => ({
+      ...service,
+      id: getTypeOfCareIdFromV2(service.clinicalServiceId),
+    })),
   }));
 }

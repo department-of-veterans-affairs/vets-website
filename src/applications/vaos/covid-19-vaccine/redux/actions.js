@@ -160,7 +160,6 @@ export function openFacilityPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
-          useVpg: featureUseVpg,
         });
       }
 
@@ -177,11 +176,8 @@ export function openFacilityPage() {
       // fetch eligbility data immediately
       const supportedFacilities = facilities?.filter(
         facility =>
-          featureUseVpg
-            ? facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]
-                ?.bookedAppointments
-            : facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]
-                ?.direct.enabled,
+          facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]
+            ?.bookedAppointments,
       );
       const clinicsNeeded = !!facilityId || supportedFacilities?.length === 1;
 
@@ -454,7 +450,6 @@ export function openContactFacilitiesPage() {
       const newBooking = selectCovid19VaccineNewBooking(initialState);
       const siteIds = selectSystemIds(initialState);
       let { facilities } = newBooking;
-      const featureUseVpg = selectFeatureUseVpg(initialState);
 
       dispatch({
         type: FORM_PAGE_CONTACT_FACILITIES_OPEN,
@@ -464,7 +459,6 @@ export function openContactFacilitiesPage() {
       if (!facilities) {
         facilities = await getLocationsByTypeOfCareAndSiteIds({
           siteIds,
-          useVpg: featureUseVpg,
         });
       }
 

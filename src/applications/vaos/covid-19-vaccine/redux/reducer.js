@@ -173,7 +173,7 @@ export default function covid19VaccineReducer(state = initialState, action) {
     }
     case FORM_PAGE_FACILITY_OPEN_SUCCEEDED: {
       let { facilities } = action;
-      const { address, useVpg } = action;
+      const { address } = action;
       const hasResidentialCoordinates =
         !!action.address?.latitude && !!action.address?.longitude;
       let sortMethod = state.newBooking.facilityPageSortMethod;
@@ -206,11 +206,8 @@ export default function covid19VaccineReducer(state = initialState, action) {
 
       const typeOfCareFacilities = facilities.filter(
         facility =>
-          useVpg
-            ? facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]
-                ?.bookedAppointments
-            : facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]
-                ?.direct.enabled,
+          facility.legacyVAR.settings[TYPE_OF_CARE_IDS.COVID_VACCINE_ID]
+            ?.bookedAppointments,
       );
 
       let { data } = state.newBooking;

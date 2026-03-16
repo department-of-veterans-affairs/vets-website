@@ -34,9 +34,7 @@ import TypeOfFacilityPage from './components/TypeOfFacilityPage';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 import useFormUnsavedDataWarning from '../hooks/useFormUnsavedDataWarning';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
-import ScheduleCernerPage from './components/ScheduleCernerPage';
 import UrgentCareInformationPage from './components/UrgentCareInformationPage';
-import { selectFeatureRemoveFacilityConfigCheck } from '../redux/selectors';
 import ScheduleCernerPageV2 from './components/ScheduleCernerPageV2';
 
 export function NewAppointment() {
@@ -45,9 +43,6 @@ export function NewAppointment() {
   const match = useRouteMatch();
   const location = useLocation();
   const pageTitle = 'Schedule an appointment';
-  const featureRemoveFacilityConfigCheck = useSelector(
-    selectFeatureRemoveFacilityConfigCheck,
-  );
 
   useManualScrollRestoration();
 
@@ -124,8 +119,7 @@ export function NewAppointment() {
           <ProviderSelectPage />
         </Route>
         <Route path={`${match.url}/how-to-schedule`}>
-          {featureRemoveFacilityConfigCheck && <ScheduleCernerPageV2 />}
-          {!featureRemoveFacilityConfigCheck && <ScheduleCernerPage />}
+          <ScheduleCernerPageV2 />
         </Route>
         <Route
           path={[

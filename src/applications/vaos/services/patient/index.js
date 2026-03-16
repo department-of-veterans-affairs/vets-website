@@ -123,6 +123,8 @@ async function fetchPatientEligibility({ typeOfCare, location, type = null }) {
 
   const results = await promiseAllFromObject(checks);
   const output = { direct: null, request: null };
+  // console.log('results', results);
+  // console.log('results', results?.request.ineligibilityReasons[0].coding);
 
   if (results.direct instanceof Error) {
     output.direct = new Error('Direct scheduling eligibility check error');
@@ -164,6 +166,7 @@ async function fetchPatientEligibility({ typeOfCare, location, type = null }) {
         ),
     };
   }
+  // console.log('output', output);
 
   return output;
 }
@@ -198,22 +201,6 @@ export async function fetchPatientRelationships(
   } catch (e) {
     return null;
   }
-}
-
-function locationSupportsDirectScheduling(location, typeOfCare) {
-  return (
-    // this check is included due to old two step facilities page
-    location.legacyVAR.directSchedulingSupported ||
-    location.legacyVAR.settings?.[typeOfCare.id]?.direct?.enabled
-  );
-}
-
-function locationSupportsRequests(location, typeOfCare) {
-  return (
-    // this check is included due to old two step facilities page
-    location.legacyVAR.requestSupported ||
-    location.legacyVAR.settings?.[typeOfCare.id]?.request?.enabled
-  );
 }
 
 /**
@@ -326,7 +313,6 @@ function logEligibilityExplanation(
  * @param {boolean} params.directSchedulingEnabled If direct scheduling is currently enabled
  * @param {boolean} [params.featurePastVisitMHFilter=false] whether to use past visits as a filter for scheduling MH appointments
  * @param {boolean} [params.isCerner=false] whether the current site is a Cerner site
- * @param {boolean} [params.removeFacilityConfigCheck=false] whether to skip the facility configurations endpoint check and use eligibility from the patient eligibility API SOT only
  * @returns {FlowEligibilityReturnData} Eligibility results, plus clinics and past appointments
  *   so that they can be cache and reused later
  */
@@ -336,15 +322,9 @@ export async function fetchFlowEligibilityAndClinics({
   directSchedulingEnabled,
   featurePastVisitMHFilter = false,
   isCerner = false,
-  removeFacilityConfigCheck = false,
 }) {
   // Helper to avoid confusion
-  const keepFacilityConfigCheck = !removeFacilityConfigCheck;
   // When the removeFacilityConfigCheck flipper is removed, all directSchedulingAvailable should be changed to directSchedulingEnabled
-  const directSchedulingAvailable =
-    (locationSupportsDirectScheduling(location, typeOfCare) ||
-      removeFacilityConfigCheck) &&
-    directSchedulingEnabled;
 
   const typeOfCareRequiresCheck = typeOfCareRequiresPastHistory(
     typeOfCare.id,
@@ -353,14 +333,12 @@ export async function fetchFlowEligibilityAndClinics({
 
   // When removeFacilityConfigCheck is removed, directTypeOfCareSettings should be removed and not used
   // location contains legacyVAR that contains patientHistoryRequired
-  const directTypeOfCareSettings =
-    location.legacyVAR.settings?.[typeOfCare.id]?.direct;
 
   // First, fetch patient eligibility to determine if we should make additional API calls
   const patientEligibility = await fetchPatientEligibility({
     typeOfCare,
     location,
-    type: !directSchedulingAvailable ? 'request' : null,
+    type: !directSchedulingEnabled ? 'request' : null,
   });
 
   // Only fetch clinics and past appointments if:
@@ -368,9 +346,7 @@ export async function fetchFlowEligibilityAndClinics({
   // 2. Not a Cerner site
   // 3. The API says the patient is eligible for direct scheduling (when removeFacilityConfigCheck is true)
   const shouldFetchClinics =
-    directSchedulingAvailable &&
-    !isCerner &&
-    (!removeFacilityConfigCheck || patientEligibility.direct?.eligible);
+    directSchedulingEnabled && !isCerner && patientEligibility.direct?.eligible;
 
   const additionalApiCalls = {};
 
@@ -407,11 +383,7 @@ export async function fetchFlowEligibilityAndClinics({
   // This is going through all of our request related checks and setting
   // to false if we fail any of them. Order is important here, because the UI
   // will only be able to show one reason, the first one
-  if (
-    (keepFacilityConfigCheck &&
-      !locationSupportsRequests(location, typeOfCare)) ||
-    (removeFacilityConfigCheck && results.patientEligibility.request?.disabled)
-  ) {
+  if (results.patientEligibility.request?.disabled) {
     eligibility.request = false;
     eligibility.requestReasons.push(ELIGIBILITY_REASONS.notSupported);
   } else if (results.patientEligibility.request instanceof Error) {
@@ -452,11 +424,7 @@ export async function fetchFlowEligibilityAndClinics({
   // When removeFacilityConfigCheck removed, first if condition should just be:
   // if (results.patientEligibility.direct?.disabled)
   // Location does not support direct scheduling
-  if (
-    (keepFacilityConfigCheck &&
-      !locationSupportsDirectScheduling(location, typeOfCare)) ||
-    (removeFacilityConfigCheck && results.patientEligibility.direct?.disabled)
-  ) {
+  if (results.patientEligibility.direct?.disabled) {
     eligibility.direct = false;
     eligibility.directReasons.push(ELIGIBILITY_REASONS.notSupported);
   } else if (
@@ -486,12 +454,8 @@ export async function fetchFlowEligibilityAndClinics({
         location?.id,
       );
     }
-    // When removeFacilityConfigCheck is removed, replace the requiresMatchingClinics with
+    // When removeFacilityConfigCheck is removed, replace the typeOfCareRequiresCheck with
     // typeOfCareRequiresCheck since that will be the only relevant condition.
-    const requiresMatchingClinics =
-      (removeFacilityConfigCheck && typeOfCareRequiresCheck) ||
-      (keepFacilityConfigCheck &&
-        directTypeOfCareSettings.patientHistoryRequired);
     const filteredPastAppointments = typeOfCareRequiresCheck
       ? filterPastAppointmentsByTypeOfCare(
           results.pastAppointments,
@@ -500,7 +464,7 @@ export async function fetchFlowEligibilityAndClinics({
       : results.pastAppointments;
     if (
       !isCerner &&
-      requiresMatchingClinics &&
+      typeOfCareRequiresCheck &&
       !hasMatchingClinics(
         results.clinics,
         filteredPastAppointments,
@@ -521,7 +485,11 @@ export async function fetchFlowEligibilityAndClinics({
   }
 
   logEligibilityExplanation(location, typeOfCare, eligibility);
-
+  // tdw - console.log('foo', {
+  //   eligibility,
+  //   clinics: results.clinics,
+  //   pastAppointments: results.pastAppointments,
+  // });
   return {
     eligibility,
     clinics: results.clinics,

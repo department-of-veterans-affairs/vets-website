@@ -20,6 +20,5 @@ module.exports = [
     value: true,
   },
   { name: 'vaOnlineSchedulingAddOhAvs', value: true },
-  { name: 'vaOnlineSchedulingRemoveFacilityConfigCheck', value: true },
   { name: 'vaOnlineSchedulingUseVpg', value: true },
 ];
