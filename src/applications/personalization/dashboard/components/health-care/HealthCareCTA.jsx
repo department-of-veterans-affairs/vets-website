@@ -126,7 +126,7 @@ const HealthCareCTA = ({
               icon="work"
               text={
                 smocEnabled
-                  ? 'Review and file travel claims'
+                  ? 'Review and file travel reimbursement claims'
                   : 'Request travel reimbursement'
               }
               testId="request-travel-reimbursement-link-from-cta"
