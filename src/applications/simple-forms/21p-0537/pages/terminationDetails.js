@@ -6,6 +6,8 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { terminationDateValidation } from '../helpers';
+
 const terminationDateUI = currentOrPastDateUI();
 terminationDateUI['ui:title'] = 'When did your remarriage end?';
 terminationDateUI['ui:required'] = () => true;
@@ -22,6 +24,7 @@ export default {
         required: () => true,
       }),
     },
+    'ui:validations': [terminationDateValidation],
   },
   schema: {
     type: 'object',
