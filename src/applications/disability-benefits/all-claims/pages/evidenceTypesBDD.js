@@ -31,6 +31,14 @@ export const uiSchema = {
     'ui:options': {
       showFieldLabel: true,
       expandUnder: 'view:hasEvidence',
+      updateUiSchema: formData => {
+        if (formData.disability526NewBddShaEnforcementWorkflowEnabled) {
+          return {
+            'view:hasOtherEvidence': { 'ui:title': 'Other evidence' },
+          };
+        }
+        return {};
+      },
     },
     'ui:required': formData => get('view:hasEvidence', formData, false),
     'ui:validations': [
@@ -55,13 +63,16 @@ export const uiSchema = {
     'ui:description': evidenceTypeHelp,
     'ui:options': {
       expandUnder: 'view:hasEvidence',
+      hideIf: data => data.disability526NewBddShaEnforcementWorkflowEnabled,
     },
   },
   'view:evidenceSubmitLater': {
     'ui:title': '',
     'ui:description': BddEvidenceSubmitLater,
     'ui:options': {
-      hideIf: data => _.get('view:hasEvidence', data, true),
+      hideIf: data =>
+        _.get('view:hasEvidence', data, true) ||
+        data.disability526NewBddShaEnforcementWorkflowEnabled,
     },
   },
 };
