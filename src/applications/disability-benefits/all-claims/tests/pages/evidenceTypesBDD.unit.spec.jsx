@@ -22,6 +22,10 @@ function getPageObject(container) {
         detail: { value: 'N' },
       });
     },
+    getOtherEvidenceCheckbox: () =>
+      $$('va-checkbox', container).find(
+        el => el.getAttribute('data-key') === 'view:hasOtherEvidence',
+      ),
   };
 }
 
@@ -176,6 +180,42 @@ describe('evidenceTypes', () => {
           'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
         ),
       ).to.not.exist;
+    });
+  });
+
+  describe('Other Evidence Label', () => {
+    it('should display full SHA label when disability526NewBddShaEnforcementWorkflowEnabled is false', () => {
+      const { container } = render(
+        <DefaultDefinitionTester
+          data={{
+            'view:hasEvidence': true,
+            disability526NewBddShaEnforcementWorkflowEnabled: false,
+          }}
+        />,
+      );
+
+      const page = getPageObject(container);
+      const checkbox = page.getOtherEvidenceCheckbox();
+      expect(checkbox).to.exist;
+      expect(checkbox.getAttribute('label')).to.equal(
+        'Required Separation Health Assessment - Part A Self-Assessment or other documents like your DD Form 214, supporting (lay) statements, or other evidence',
+      );
+    });
+
+    it('should display "Other evidence" label when disability526NewBddShaEnforcementWorkflowEnabled is true', () => {
+      const { container } = render(
+        <DefaultDefinitionTester
+          data={{
+            'view:hasEvidence': true,
+            disability526NewBddShaEnforcementWorkflowEnabled: true,
+          }}
+        />,
+      );
+
+      const page = getPageObject(container);
+      const checkbox = page.getOtherEvidenceCheckbox();
+      expect(checkbox).to.exist;
+      expect(checkbox.getAttribute('label')).to.equal('Other evidence');
     });
   });
 

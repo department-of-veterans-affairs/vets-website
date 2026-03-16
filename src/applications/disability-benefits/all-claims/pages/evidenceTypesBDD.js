@@ -31,6 +31,14 @@ export const uiSchema = {
     'ui:options': {
       showFieldLabel: true,
       expandUnder: 'view:hasEvidence',
+      updateUiSchema: formData => {
+        if (formData.disability526NewBddShaEnforcementWorkflowEnabled) {
+          return {
+            'view:hasOtherEvidence': { 'ui:title': 'Other evidence' },
+          };
+        }
+        return {};
+      },
     },
     'ui:required': formData => get('view:hasEvidence', formData, false),
     'ui:validations': [
