@@ -47,7 +47,6 @@ src/applications/sign-in-health-portal @department-of-veterans-affairs/octo-iden
 src/applications/static-pages/cta-widget @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/terms-of-use @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/verify @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
-src/platform/site-wide/ebenefits/ @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/site-wide/user-nav/containers/AutoSSO.jsx @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/site-wide/user-nav/tests/containers/AutoSSO.unit.spec.jsx @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend # unit tests
 src/platform/user/authentication @department-of-veterans-affairs/octo-identity @department-of-veterans-affairs/va-platform-cop-frontend

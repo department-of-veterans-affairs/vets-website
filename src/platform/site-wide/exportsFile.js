@@ -1,7 +1,5 @@
 import MobileAppCallout from './alerts/MobileAppCallout';
 
-import EbenefitsLink from './ebenefits/containers/EbenefitsLink';
-
 import { toggleValues, isProduction } from './feature-toggles/selectors';
 
 import {
@@ -56,7 +54,6 @@ const { exports: startUserNavWidget } = require('./user-nav');
 
 export {
   MobileAppCallout,
-  EbenefitsLink,
   toggleValues,
   isProduction,
   FETCH_TOGGLE_VALUES_STARTED,

@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
 
-import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
 import { apiRequest as commonApiClient } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { formatDateShort } from 'platform/utilities/date';
@@ -49,15 +48,9 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
 export const recordsNotFound = (
   <div id="records-not-found">
-    <p />
     <va-alert status="warning">
       <h2 slot="headline">We couldn’t find your VA letters or documents</h2>
-      <p>
-        <EbenefitsLink path="ebenefits/download-letters">
-          If you’re a dependent, please go to eBenefits to look for your
-          letters.
-        </EbenefitsLink>
-      </p>
+      <p>If you’re a dependent, please sign in later</p>
     </va-alert>
     <h2>Need help?</h2>
     <hr className="divider" />
