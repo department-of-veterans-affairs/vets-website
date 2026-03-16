@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
+import { externalApplicationsConfig } from '../usip-config';
 import { SERVICE_PROVIDERS } from '../constants';
 
 function signupHandler(loginType, isOAuth) {
@@ -19,6 +20,11 @@ export default function CreateAccountLink({
 }) {
   const [href, setHref] = useState('');
 
+  const appConfig =
+    externalApplicationsConfig[externalApplication] ??
+    externalApplicationsConfig.default;
+  const effectiveUseOAuth = useOAuth && (appConfig?.OAuthEnabled ?? true);
+
   useEffect(
     () => {
       async function generateURL() {
@@ -27,14 +33,14 @@ export default function CreateAccountLink({
           policy,
           isLink: true,
           allowVerification: false,
-          useOAuth,
+          useOAuth: effectiveUseOAuth,
           config: externalApplication,
         });
         setHref(url);
       }
       generateURL();
     },
-    [policy, useOAuth, externalApplication, clientId],
+    [policy, effectiveUseOAuth, externalApplication, clientId],
   );
 
   return (
@@ -42,7 +48,7 @@ export default function CreateAccountLink({
       href={href}
       className={`vads-c-action-link--blue vads-u-padding-y--2p5 vads-u-width--full ${policy}`}
       data-testid={policy}
-      onClick={() => signupHandler(policy, useOAuth)}
+      onClick={() => signupHandler(policy, effectiveUseOAuth)}
     >
       {!children && `Create an account with ${SERVICE_PROVIDERS[policy].label}`}
       {children}
