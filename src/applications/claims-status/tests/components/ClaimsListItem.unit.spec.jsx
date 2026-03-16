@@ -18,7 +18,7 @@ const getStore = (
       // eslint-disable-next-line camelcase
       cst_show_document_upload_status: cstShowDocumentUploadStatus,
       // eslint-disable-next-line camelcase
-      benefits_claims_ivc_champva_provider: champvaProviderEnabled,
+      ivc_champva_cst_integration: champvaProviderEnabled,
     },
   }));
 

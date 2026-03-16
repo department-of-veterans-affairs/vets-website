@@ -161,7 +161,7 @@ export default function ClaimsListItem({ claim }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const cstClaimPhasesEnabled = useToggleValue(TOGGLE_NAMES.cstClaimPhases);
   const champvaProviderEnabled = useToggleValue(
-    TOGGLE_NAMES.benefitsClaimsIvcChampvaProvider,
+    TOGGLE_NAMES.ivcChampvaCstIntegration,
   );
   const showEightPhases = getShowEightPhases(
     claimTypeCode,

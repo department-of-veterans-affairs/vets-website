@@ -109,7 +109,7 @@ describe('<Claim />', () => {
       initialState: {
         featureToggles: {
           // eslint-disable-next-line camelcase
-          benefits_claims_ivc_champva_provider: true,
+          ivc_champva_cst_integration: true,
         },
       },
     });
@@ -140,7 +140,7 @@ describe('<Claim />', () => {
       initialState: {
         featureToggles: {
           // eslint-disable-next-line camelcase
-          benefits_claims_ivc_champva_provider: true,
+          ivc_champva_cst_integration: true,
         },
       },
     });
@@ -163,7 +163,7 @@ describe('<Claim />', () => {
       initialState: {
         featureToggles: {
           // eslint-disable-next-line camelcase
-          benefits_claims_ivc_champva_provider: true,
+          ivc_champva_cst_integration: true,
         },
       },
     });
@@ -194,7 +194,7 @@ describe('<Claim />', () => {
       initialState: {
         featureToggles: {
           // eslint-disable-next-line camelcase
-          benefits_claims_ivc_champva_provider: true,
+          ivc_champva_cst_integration: true,
         },
       },
     });
@@ -217,7 +217,7 @@ describe('<Claim />', () => {
       initialState: {
         featureToggles: {
           // eslint-disable-next-line camelcase
-          benefits_claims_ivc_champva_provider: true,
+          ivc_champva_cst_integration: true,
         },
       },
     });

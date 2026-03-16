@@ -92,7 +92,7 @@ const Claim = ({ claim }) => {
   }
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const champvaProviderEnabled = useToggleValue(
-    TOGGLE_NAMES.benefitsClaimsIvcChampvaProvider,
+    TOGGLE_NAMES.ivcChampvaCstIntegration,
   );
   const { inProgress, claimDate, status } = claimInfo(claim);
   const dateRecd = format(new Date(replace(claimDate)), 'MMMM d, yyyy');
