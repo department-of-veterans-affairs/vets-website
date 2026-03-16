@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
@@ -31,16 +32,119 @@ const claimInfo = claim => {
   };
 };
 
+const CHAMPVA_FORM_TITLE_MAP = {
+  '10-10d': 'Application for CHAMPVA benefits',
+  '10-10d-extended': 'Application for CHAMPVA benefits',
+  '10-7959a': 'CHAMPVA claim',
+  '10-7959c': 'CHAMPVA other health insurance certification',
+  '10-7959f-1': 'Foreign Medical Program registration',
+  '10-7959f-2': 'Foreign Medical Program claim',
+};
+
+const CHAMPVA_FORM_DISPLAY_MAP = {
+  '10-10d': '10-10d',
+  '10-10d-extended': '10-10d',
+  '10-7959a': '10-7959a',
+  '10-7959c': '10-7959c',
+  '10-7959f-1': '10-7959f-1',
+  '10-7959f-2': '10-7959f-2',
+};
+
+const getChampvaStatusLabel = rawStatus => {
+  if (rawStatus === 'COMPLETE') return null;
+  return 'In Progress';
+};
+
+const extractFormId = claim => {
+  const searchSpace = [
+    claim?.attributes?.displayTitle,
+    claim?.attributes?.claimType,
+    claim?.attributes?.claimTypeBase,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  const match = searchSpace.match(
+    /10-10d-extended|10-7959f-1|10-7959f-2|10-7959a|10-7959c|10-10d/,
+  );
+  return match?.[0];
+};
+
+const isChampvaClaim = claim => {
+  const searchSpace = [
+    claim?.attributes?.displayTitle,
+    claim?.attributes?.claimType,
+    claim?.attributes?.claimTypeBase,
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+
+  return searchSpace.includes('champva') || !!extractFormId(claim);
+};
+
 const Claim = ({ claim }) => {
   if (!claim.attributes) {
     throw new TypeError(
       '`claim` prop is malformed; it should have an `attributes` property.',
     );
   }
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const champvaProviderEnabled = useToggleValue(
+    TOGGLE_NAMES.ivcChampvaCstIntegration,
+  );
   const { inProgress, claimDate, status } = claimInfo(claim);
   const dateRecd = format(new Date(replace(claimDate)), 'MMMM d, yyyy');
+  const champvaClaim = isChampvaClaim(claim);
+  const showChampvaCard = champvaProviderEnabled && champvaClaim;
+  const champvaFormId = extractFormId(claim);
+  const champvaTitle = CHAMPVA_FORM_TITLE_MAP[champvaFormId];
+  const champvaDisplayFormId = CHAMPVA_FORM_DISPLAY_MAP[champvaFormId];
+  const champvaStatusLabel = getChampvaStatusLabel(claim.attributes.status);
+  const champvaStepText =
+    claim.attributes.status === 'COMPLETE'
+      ? 'Step 2 of 2: Application decided'
+      : 'Step 1 of 2: Application received';
+  const stepDate = format(
+    new Date(
+      replace(claim.attributes.claimPhaseDates?.phaseChangeDate || claimDate),
+    ),
+    'MMMM d, yyyy',
+  );
 
-  const content = (
+  const content = showChampvaCard ? (
+    <>
+      {champvaStatusLabel && (
+        <span className="usa-label">{champvaStatusLabel}</span>
+      )}
+      <h3 className="vads-u-margin-top--1 vads-u-margin-bottom--0 dd-privacy-mask">
+        {champvaTitle || capitalizeFirstLetter(getClaimType(claim))}
+      </h3>
+      {champvaDisplayFormId && (
+        <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
+          VA Form {champvaDisplayFormId}
+        </p>
+      )}
+      <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
+        Received on {dateRecd}
+      </p>
+      <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
+        {champvaStepText}
+        <br />
+        Moved to this step on {stepDate}
+      </p>
+      <div className="vads-u-margin-top--0p5 vads-u-padding-y--1">
+        <va-link
+          active
+          text="Details"
+          label={`View details for ${champvaTitle || 'CHAMPVA application'}`}
+          href={`/track-claims/your-claims/${claim.id}/status`}
+          onClick={handleViewClaim}
+        />
+      </div>
+    </>
+  ) : (
     <>
       <h3 className="vads-u-margin-top--0 dd-privacy-mask">
         {capitalizeFirstLetter(getClaimType(claim))} claim received:
